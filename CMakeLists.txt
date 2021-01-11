@@ -12,7 +12,7 @@ include_directories(include)
 include_directories(vendor/GLFW/include/)
 
 ### LIBRARY ###
-add_library(Sirius SHARED src/EntryPoint.cpp src/Simulation.cpp include/Simulation.h)
+add_library(Sirius SHARED include/Sirius/EntryPoint.h src/Sirius/Simulation.cpp include/Sirius/Simulation.h include/Sirius.h include/srspch.h include/Sirius/Events/Event.h include/Sirius/Events/KeyEvent.h include/Sirius/Events/ApplicationEvent.h include/Sirius/Events/MouseEvent.h)
 
 find_package(OpenGL REQUIRED)
 set(CMAKE_PREFIX_PATH vendor/GLFW/lib/cmake/glfw3/)
@@ -25,6 +25,8 @@ add_custom_command(
         ${CMAKE_SOURCE_DIR}/vendor/GLFW/bin/
         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
 )
+
+target_precompile_headers(Sirius PUBLIC include/srspch.h)
 
 ### TEST EXECUTABLE ###
 add_executable(Sirius_test test/Test.cpp)

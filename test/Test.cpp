@@ -1,7 +1,17 @@
 
-class Test
+#include "Sirius.h"
+
+class Test: public Sirius::Simulation
 {
     public:
 
-        Test() {}
+        Test()
+        {
+
+        }
 };
+
+Sirius::Simulation* Sirius::createSimulation()
+{
+    return new Test();
+}
