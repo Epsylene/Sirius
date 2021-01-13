@@ -5,6 +5,8 @@
 
 namespace Sirius
 {
+    ////////////////////////////////////////////
+    /// @brief Class to handle mouse move events
     class MouseMovedEvent: public Event
     {
         private:
@@ -13,9 +15,20 @@ namespace Sirius
 
         public:
 
+            /////////////////////////////////
+            /// @brief Default constructor
+            /// @param x The mouse X position
+            /// @param y The mouse Y position
             MouseMovedEvent(float x, float y): mouseX(x), mouseY(y) {}
 
+            ///////////////////////////////////
+            /// @brief Get the mouse X position
+            /// @return The mouse X position
             inline float getX() const { return mouseX; }
+
+            ///////////////////////////////////
+            /// @brief Get the mouse Y position
+            /// @return The mouse Y position
             inline float getY() const { return mouseY; }
 
             EVENT_CLASS_TYPE(MouseMoved);
@@ -29,6 +42,8 @@ namespace Sirius
             }
     };
 
+    //////////////////////////////////////////////
+    /// @brief Class to handle mouse scroll events
     class MouseScrolledEvent: public Event
     {
         private:
@@ -37,10 +52,21 @@ namespace Sirius
 
         public:
 
+            //////////////////////////////////////
+            /// @brief Default constructor
+            /// @param xOffset The scroll X offset
+            /// @param yOffset The scroll Y offset
             MouseScrolledEvent(float xOffset, float yOffset):
                     xOffset(xOffset), yOffset(yOffset) {}
 
+            ///////////////////////////////////
+            /// @brief Get the scroll X offset
+            /// @return The scroll X offset
             inline float getOffsetX() const { return xOffset; }
+
+            ///////////////////////////////////
+            /// @brief Get the scroll Y offset
+            /// @return the scroll Y offset
             inline float getOffsetY() const { return yOffset; }
 
             EVENT_CLASS_TYPE(MouseScrolled);
@@ -54,23 +80,36 @@ namespace Sirius
             }
     };
 
+    ///////////////////////////////////////////
+    /// @brief Interface to mouse button events
     class MouseButtonEvent: public Event
     {
         protected:
 
             int button;
 
+            /////////////////////////////////////////////////////
+            /// @brief Default constructor
+            /// @param button The button that triggered the event
             MouseButtonEvent(int button): button(button) {}
 
         public:
 
+            ////////////////////////////////////////////////////////
+            /// @brief Get the mouse button that triggered the event
+            /// @return The mouse button
             inline int getMouseButton() const { return button; }
     };
 
+    ////////////////////////////////////////////////////
+    /// @brief Class to handle mouse button press events
     class MouseButtonPressedEvent: public MouseButtonEvent
     {
         public:
 
+            //////////////////////////////////////////
+            /// @brief The default constructor
+            /// @param button The pressed mouse button
             MouseButtonPressedEvent(int button):
                     MouseButtonEvent(button) {}
 
@@ -84,10 +123,15 @@ namespace Sirius
             }
     };
 
+    //////////////////////////////////////////////////////
+    /// @brief Class to handle mouse button release events
     class MouseButtonReleasedEvent: public MouseButtonEvent
     {
         public:
 
+            ///////////////////////////////////////////
+            /// @brief The default constructor
+            /// @param button The released mouse button
             MouseButtonReleasedEvent(int button):
                     MouseButtonEvent(button) {}
 

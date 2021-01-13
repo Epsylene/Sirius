@@ -3,21 +3,16 @@
 
 namespace Sirius
 {
-#define BIND_EVENT_FN(x) std::bind(&Simulation::x, this, std::placeholders::_1)
-
     Simulation::Simulation()
     {
         window = std::unique_ptr<Window>(Window::create());
-        window->setEventCallback(BIND_EVENT_FN(onEvent));
+        window->setEventCallback([this](Event& event) { onEvent(event); });
     }
-
-    Simulation::~Simulation()
-    {}
 
     void Simulation::onEvent(Event& event)
     {
         EventDispatcher dispatcher(event);
-        dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(onWindowClose));
+        dispatcher.dispatch<WindowCloseEvent>([this](WindowCloseEvent& event) { return onWindowClose(event); });
 
         std::cout << event << "\n";
     }
@@ -34,6 +29,7 @@ namespace Sirius
         {
             glClearColor(0.28, 0.15, 0.4, 1);
             glClear(GL_COLOR_BUFFER_BIT);
+
             window->onUpdate();
         }
     }

@@ -20,9 +20,6 @@ namespace Sirius
         init(wp);
     }
 
-    WindowsWindow::~WindowsWindow()
-    {}
-
     void WindowsWindow::init(const WindowProps& wp)
     {
         windowData.title = wp.title;
