@@ -155,6 +155,4 @@ namespace Sirius
     {
         return windowData.vSync;
     }
-
-
 }

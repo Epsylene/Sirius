@@ -3,8 +3,12 @@
 
 namespace Sirius
 {
+    Simulation* Simulation::instance = nullptr;
+
     Simulation::Simulation()
     {
+        instance = this;
+
         window = std::unique_ptr<Window>(Window::create());
         window->setEventCallback([this](Event& event) { onEvent(event); });
     }

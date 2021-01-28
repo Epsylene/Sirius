@@ -12,7 +12,7 @@ include_directories(include)
 include_directories(vendor/GLFW/include/)
 
 ### LIBRARY ###
-add_library(Sirius SHARED include/Sirius/EntryPoint.h src/Sirius/Simulation.cpp include/Sirius/Simulation.h include/Sirius.h include/srspch.h include/Sirius/Events/Event.h include/Sirius/Events/KeyEvent.h include/Sirius/Events/ApplicationEvent.h include/Sirius/Events/MouseEvent.h include/Sirius/Window.h src/Sirius/WindowsWindow.cpp include/Sirius/WindowsWindow.h)
+add_library(Sirius SHARED include/Sirius/EntryPoint.h src/Sirius/Simulation.cpp include/Sirius/Simulation.h include/Sirius.h include/srspch.h include/Sirius/Events/Event.h include/Sirius/Events/KeyEvent.h include/Sirius/Events/ApplicationEvent.h include/Sirius/Events/MouseEvent.h include/Sirius/Window.h src/Sirius/WindowsWindow.cpp include/Sirius/WindowsWindow.h include/Sirius/Utilities/Vector2.tpp include/Sirius/Utilities/Vector2.h)
 
 find_package(OpenGL REQUIRED)
 set(CMAKE_PREFIX_PATH vendor/GLFW/lib/cmake/glfw3/)

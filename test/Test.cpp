@@ -7,7 +7,7 @@ class Test: public Sirius::Simulation
 
         Test()
         {
-
+            
         }
 };
 

@@ -9,9 +9,14 @@
 
 namespace Sirius
 {
+    /////////////////////////////////////////
+    /// @brief Application class
+    /// 
     class Simulation
     {
         private:
+
+            static Simulation* instance;
 
             std::unique_ptr<Window> window;
             bool running = true;
@@ -35,10 +40,6 @@ namespace Sirius
 
             ///////////////////////////////////////////////////////////
             /// @brief Main application loop
-            /// @details The onUpdate() function is called in a while
-            ///     loop depending on running, which is set to true
-            ///     by default and false when a WindowCloseEvent is
-            ///     triggered.
             /// @see onUpdate()
             void run();
     };
