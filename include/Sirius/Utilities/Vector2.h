@@ -85,22 +85,76 @@ namespace Sirius
             /// @return The given vector's angle 
             static T getAngle(Vector2<T>& vec);
 
-            Vector2<T>& dot(Vector2<T>& v2);
+            ////////////////////////////////////////////////////
+            /// @brief Dot product with another vector
+            /// 
+            /// @param v2 The vector to do the dot product with
+            /// @return The dot product scalar result
+            T dot(Vector2<T>& v2);
+
+            //////////////////////////////////////////
+            /// @brief Dot product between two vectors
+            /// 
+            /// @param v1 The left operand
+            /// @param v2 The right operand
+            /// @return The dot product scalar result
             static T dot(Vector2<T>& v1, Vector2<T>& v2);
 
             Vector2<T>& operator=(Vector2<T> rhs);
             Vector2<T>& operator+=(const Vector2<T>& rhs);
             Vector2<T>& operator-=(const Vector2<T>& rhs);
-            friend bool operator==(Vector2<T>& lhs, Vector2<T>& rhs);
-            friend bool operator!=(Vector2<T>& rhs, Vector2<T>& lhs);
-            friend Vector2<T> operator+(Vector2<T> lhs, const Vector2<T>& rhs);
-            friend Vector2<T> operator-(Vector2<T> lhs, const Vector2<T>& rhs);
+            Vector2<T>& operator*=(T scalar);
+            // Vector2<T> operator*(T scalar);
+        
+            friend bool operator==(Vector2<T>& lhs, Vector2<T>& rhs)
+            {
+                return (rhs.x == lhs.x) && (rhs.y == lhs.y);
+            }
+
+            friend bool operator!=(Vector2<T>& rhs, Vector2<T>& lhs)
+            {
+                return !(rhs == lhs);
+            }
+
+            friend Vector2<T> operator+(Vector2<T> lhs, const Vector2<T>& rhs)
+            {
+                lhs += rhs;
+
+                lhs.mag = static_cast<float>(std::sqrt(lhs.x * lhs.x + lhs.y * lhs.y));
+                lhs.angle = static_cast<float>(std::atan2(lhs.y, lhs.x));
+
+                return lhs;
+            }
+
+            friend Vector2<T> operator-(Vector2<T> vec)
+            {
+                return { -vec.x, -vec.y };
+            }
+
+            friend Vector2<T> operator-(Vector2<T> lhs, Vector2<T>& rhs)
+            {
+                return lhs + (-rhs);
+            }
+
+            friend Vector2<T> operator*(T scalar, const Vector2<T> vec)
+            {
+                return { vec.x * scalar, vec.y * scalar };
+            }
+
+            friend Vector2<T> operator*(const Vector2<T> vec, T scalar)
+            {
+                return { vec.x * scalar, vec.y * scalar };
+            }
 
             friend std::ostream& operator<<(std::ostream& out, const Vector2<T>& vec)
             {
                 return out << "(" << vec.x << ", " << vec.y << ")";
             }
     };
+
+    using Vector2i = Vector2<int>;
+    using Vector2f = Vector2<float>;
+    using Vector2d = Vector2<double>;
 }
 
 #include "Vector2.tpp"

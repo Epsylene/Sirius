@@ -103,11 +103,9 @@ namespace Sirius
     }
 
     template<typename T>
-    Vector2<T>& Vector2<T>::dot(Vector2<T>& v2)
+    T Vector2<T>::dot(Vector2<T>& v2)
     {
-        x * v2.x + y * v2.y;
-
-        return *this;
+        return x * v2.x + y * v2.y;
     }
 
     template<typename T>
@@ -154,36 +152,20 @@ namespace Sirius
     }
 
     template<typename T>
-    bool operator==(Vector2<T>& rhs, Vector2<T>& lhs)
+    Vector2<T>& Vector2<T>::operator*=(T scalar)
     {
-        return rhs.x == lhs.x && rhs.y == lhs.y;
+        x *= scalar;
+        y *= scalar;
+
+        mag = static_cast<float>(std::sqrt(x * x + y * y));
+        angle = static_cast<float>(std::atan2(y, x));
+
+        return *this;
     }
 
-    template<typename T>
-    bool operator!=(Vector2<T>& rhs, Vector2<T>& lhs)
-    {
-        return !(rhs == lhs);
-    }
-
-    template<typename T>
-    Vector2<T> operator+(Vector2<T> lhs, const Vector2<T>& rhs)
-    {
-        lhs += rhs;
-
-        lhs.mag = static_cast<float>(std::sqrt(lhs.x * lhs.x + lhs.y * lhs.y));
-        lhs.angle = static_cast<float>(std::atan2(lhs.y, lhs.x));
-
-        return lhs;
-    }
-
-    template<typename T>
-    Vector2<T> operator-(Vector2<T> lhs, const Vector2<T>& rhs)
-    {
-        lhs -= rhs;
-
-        lhs.mag = static_cast<float>(std::sqrt(lhs.x * lhs.x + lhs.y * lhs.y));
-        lhs.angle = static_cast<float>(std::atan2(lhs.y, lhs.x));
-
-        return lhs;
-    }
+    // template<typename T>
+    // Vector2<T> Vector2<T>::operator*(T scalar)
+    // {
+    //     return { x * scalar, y * scalar };
+    // }
 }
