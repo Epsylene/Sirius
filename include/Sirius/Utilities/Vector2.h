@@ -29,7 +29,7 @@ namespace Sirius
             /// @brief Vector copy constructor
             /// 
             /// @param vec The vector to be copied
-            Vector2(Vector2<T>& vec);
+            Vector2(const Vector2<T>& vec);
 
             //////////////////////////////////////
             /// @brief Vector move constructor
@@ -100,18 +100,18 @@ namespace Sirius
             /// @return The dot product scalar result
             static T dot(Vector2<T>& v1, Vector2<T>& v2);
 
-            Vector2<T>& operator=(Vector2<T> rhs);
+            Vector2<T>& operator=(const Vector2<T>& rhs);
+            Vector2<T>& operator=(Vector2<T>&& rhs);
             Vector2<T>& operator+=(const Vector2<T>& rhs);
             Vector2<T>& operator-=(const Vector2<T>& rhs);
             Vector2<T>& operator*=(T scalar);
-            // Vector2<T> operator*(T scalar);
         
-            friend bool operator==(Vector2<T>& lhs, Vector2<T>& rhs)
+            friend bool operator==(const Vector2<T>& lhs, const Vector2<T>& rhs)
             {
                 return (rhs.x == lhs.x) && (rhs.y == lhs.y);
             }
 
-            friend bool operator!=(Vector2<T>& rhs, Vector2<T>& lhs)
+            friend bool operator!=(const Vector2<T>& rhs, const Vector2<T>& lhs)
             {
                 return !(rhs == lhs);
             }
@@ -126,7 +126,7 @@ namespace Sirius
                 return lhs;
             }
 
-            friend Vector2<T> operator-(Vector2<T> vec)
+            friend Vector2<T> operator-(const Vector2<T>& vec)
             {
                 return { -vec.x, -vec.y };
             }
@@ -136,12 +136,12 @@ namespace Sirius
                 return lhs + (-rhs);
             }
 
-            friend Vector2<T> operator*(T scalar, const Vector2<T> vec)
+            friend Vector2<T> operator*(T scalar, const Vector2<T>& vec)
             {
                 return { vec.x * scalar, vec.y * scalar };
             }
 
-            friend Vector2<T> operator*(const Vector2<T> vec, T scalar)
+            friend Vector2<T> operator*(const Vector2<T>& vec, T scalar)
             {
                 return { vec.x * scalar, vec.y * scalar };
             }

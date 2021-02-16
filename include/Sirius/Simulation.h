@@ -10,8 +10,9 @@
 namespace Sirius
 {
     /////////////////////////////////////////
-    /// @brief Application class
+    /// @brief Simulation class
     /// 
+    /// This is the main class, where the application loop is 
     class Simulation
     {
         private:
@@ -23,9 +24,15 @@ namespace Sirius
 
         public:
 
-            //////////////////////////////
+            /////////////////////////////////////////
             /// @brief Default constructor
+            ///
+            /// A single window is created, where the
+            /// simulation lives.
             Simulation();
+
+            inline static Simulation& get() { return *instance; }
+            inline Window& getWindow() const { return *window; };
 
             /////////////////////////////////////////
             /// @brief Is called when an event occurs

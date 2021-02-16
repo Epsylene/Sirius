@@ -1,5 +1,5 @@
 
-#include "Sirius/WindowsWindow.h"
+#include "Sirius/Platform/Windows/WindowsWindow.h"
 
 namespace Sirius
 {
@@ -154,5 +154,10 @@ namespace Sirius
     bool WindowsWindow::vSync() const
     {
         return windowData.vSync;
+    }
+
+    void* WindowsWindow::getNativeWindow() const
+    {
+        return window;
     }
 }

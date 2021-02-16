@@ -3,10 +3,10 @@
 
 #include "srspch.h"
 #include "GLFW/glfw3.h"
-#include "Window.h"
-#include "Events/ApplicationEvent.h"
-#include "Events/KeyEvent.h"
-#include "Events/MouseEvent.h"
+#include "Sirius/Window.h"
+#include "Sirius/Events/ApplicationEvent.h"
+#include "Sirius/Events/KeyEvent.h"
+#include "Sirius/Events/MouseEvent.h"
 
 namespace Sirius
 {
@@ -81,8 +81,11 @@ namespace Sirius
 
             /////////////////////////////////////////////
             /// @brief Returns true if v-sync is enabled
-            ///
-            /// @return Is v-sync enabled ?
             bool vSync() const override;
+
+            //////////////////////////////////////////
+            /// @brief Get the system's native windows
+            ///     (OpenGL, DirectX, etc)
+            void* getNativeWindow() const override;
     };
 }

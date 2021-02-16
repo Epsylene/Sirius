@@ -67,9 +67,12 @@ namespace Sirius
 
             /////////////////////////////////////////////
             /// @brief Returns true if v-sync is enabled
-            ///
-            /// @return Is v-sync enabled ?
             virtual bool vSync() const = 0;
+
+            ///////////////////////////////////////////////////
+            /// @brief Get the system's native window (OpenGL,
+            ///     DirectX, etc)
+            virtual void* getNativeWindow() const = 0;
 
             ////////////////////////////////////////////
             /// @brief Create the window

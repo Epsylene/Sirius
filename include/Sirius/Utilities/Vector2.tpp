@@ -19,18 +19,18 @@ namespace Sirius
         this->x = x;
         this->y = y;
 
-        mag = static_cast<float>(std::sqrt(x * x + y * y));
-        angle = static_cast<float>(std::atan2(y, x));
+        mag = static_cast<T>(std::sqrt(x * x + y * y));
+        angle = static_cast<T>(std::atan2(y, x));
     }
 
     template<typename T>
-    Vector2<T>::Vector2(Vector2<T>& vec)
+    Vector2<T>::Vector2(const Vector2<T>& vec)
     {
         x = vec.x;
         y = vec.y;
 
-        mag = static_cast<float>(std::sqrt(x * x + y * y));
-        angle = static_cast<float>(std::atan2(y, x));
+        mag = static_cast<T>(std::sqrt(x * x + y * y));
+        angle = static_cast<T>(std::atan2(y, x));
     }
 
     template<typename T>
@@ -81,13 +81,13 @@ namespace Sirius
     template<typename T>
     T Vector2<T>::getMag() const
     {
-        return static_cast<float>(std::sqrt(x * x + y * y));
+        return static_cast<T>(std::sqrt(x * x + y * y));
     }
 
     template<typename T>
     T Vector2<T>::getMag(Vector2<T>& vec)
     {
-        return static_cast<float>(std::sqrt(vec.x * vec.x + vec.y * vec.y));
+        return static_cast<T>(std::sqrt(vec.x * vec.x + vec.y * vec.y));
     }
 
     template<typename T>
@@ -115,14 +115,31 @@ namespace Sirius
     }
 
     // ---------- OPERATOR OVERLOADS ---------- //
-    
+
     template<typename T>
-    Vector2<T>& Vector2<T>::operator=(Vector2<T> rhs)
+    Vector2<T>& Vector2<T>::operator=(const Vector2<T>& rhs)
     {
-        std::swap(x, rhs.x);
-        std::swap(y, rhs.y);
-        std::swap(mag, rhs.mag);
-        std::swap(angle, rhs.angle);
+        if(*this != rhs)
+        {
+            x = rhs.x;
+            y = rhs.y;
+            mag = rhs.mag;
+            angle = rhs.angle;
+        }
+
+        return *this;
+    }
+
+    template<typename T>
+    Vector2<T>& Vector2<T>::operator=(Vector2<T>&& rhs)
+    {
+        if(*this != rhs)
+        {
+            x = rhs.x;
+            y = rhs.y;
+            mag = rhs.mag;
+            angle = rhs.angle;
+        }
 
         return *this;
     }
@@ -133,8 +150,8 @@ namespace Sirius
         x += rhs.x;
         y += rhs.y;
 
-        mag = static_cast<float>(std::sqrt(x * x + y * y));
-        angle = static_cast<float>(std::atan2(y, x));
+        mag = static_cast<T>(std::sqrt(x * x + y * y));
+        angle = static_cast<T>(std::atan2(y, x));
 
         return *this;
     }
@@ -145,8 +162,8 @@ namespace Sirius
         x -= rhs.x;
         y -= rhs.y;
 
-        mag = static_cast<float>(std::sqrt(x * x + y * y));
-        angle = static_cast<float>(std::atan2(y, x));
+        mag = static_cast<T>(std::sqrt(x * x + y * y));
+        angle = static_cast<T>(std::atan2(y, x));
 
         return *this;
     }
@@ -157,15 +174,9 @@ namespace Sirius
         x *= scalar;
         y *= scalar;
 
-        mag = static_cast<float>(std::sqrt(x * x + y * y));
-        angle = static_cast<float>(std::atan2(y, x));
+        mag = static_cast<T>(std::sqrt(x * x + y * y));
+        angle = static_cast<T>(std::atan2(y, x));
 
         return *this;
     }
-
-    // template<typename T>
-    // Vector2<T> Vector2<T>::operator*(T scalar)
-    // {
-    //     return { x * scalar, y * scalar };
-    // }
 }
