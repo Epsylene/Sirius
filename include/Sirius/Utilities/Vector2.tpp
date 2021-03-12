@@ -85,7 +85,7 @@ namespace Sirius
     }
 
     template<typename T>
-    T Vector2<T>::getMag(Vector2<T>& vec)
+    T Vector2<T>::getMag(const Vector2<T>& vec)
     {
         return static_cast<T>(std::sqrt(vec.x * vec.x + vec.y * vec.y));
     }
@@ -97,9 +97,21 @@ namespace Sirius
     }
 
     template<typename T>
-    T Vector2<T>::getAngle(Vector2<T>& vec)
+    T Vector2<T>::getAngle(const Vector2<T>& vec)
     {
         return std::atan2(vec.y, vec.x);
+    }
+
+    template<typename T>
+    T Vector2<T>::dist(const Vector2<T>& vec) const
+    {
+        return std::abs(vec.getMag() - this->getMag());
+    }
+
+    template<typename T>
+    T Vector2<T>::dist(const Vector2<T>& vec1, const Vector2<T>& vec2)
+    {
+        return std::abs(vec1.getMag() - vec2.getMag());
     }
 
     template<typename T>

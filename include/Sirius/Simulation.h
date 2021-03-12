@@ -31,7 +31,18 @@ namespace Sirius
             /// simulation lives.
             Simulation();
 
+            //////////////////////////////////////////////////
+            /// @brief Simulation getter
+            /// 
+            /// There shall be only one Simulation object per
+            /// application, accessed through this getter.
             inline static Simulation& get() { return *instance; }
+
+            ///////////////////////////////////////////////
+            /// @brief Simulation window getter
+            /// 
+            /// Each simulation shall have only one window,
+            /// which is accessed through this getter.
             inline Window& getWindow() const { return *window; };
 
             /////////////////////////////////////////

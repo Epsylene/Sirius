@@ -1,5 +1,9 @@
 
-#include "Sirius/Platform/Windows/WindowsWindow.h"
+#include "Sirius/Window.h"
+
+#include "Sirius/Events/ApplicationEvent.h"
+#include "Sirius/Events/KeyEvent.h"
+#include "Sirius/Events/MouseEvent.h"
 
 namespace Sirius
 {
@@ -12,22 +16,22 @@ namespace Sirius
 
     Window* Window::create(const WindowProps& props)
     {
-        return new WindowsWindow(props);
+        return new Window(props);
     }
 
-    WindowsWindow::WindowsWindow(const WindowProps& wp)
+    Window::Window(const WindowProps& wp)
     {
         init(wp);
     }
 
-    void WindowsWindow::init(const WindowProps& wp)
+    void Window::init(const WindowProps& wp)
     {
         windowData.title = wp.title;
         windowData.width = wp.width;
         windowData.height = wp.height;
 
         std::cout << "Creating window " << wp.title << " ("
-            << wp.width << "x" << wp.height << ")\n";
+                  << wp.width << "x" << wp.height << ")\n";
 
         if(!glfwInitialized)
         {
@@ -130,18 +134,18 @@ namespace Sirius
         });
     }
 
-    void WindowsWindow::shutdown()
+    void Window::shutdown()
     {
         glfwDestroyWindow(window);
     }
 
-    void WindowsWindow::onUpdate()
+    void Window::onUpdate()
     {
         glfwPollEvents();
         glfwSwapBuffers(window);
     }
 
-    void WindowsWindow::setVSync(bool enabled)
+    void Window::setVSync(bool enabled)
     {
         if(enabled)
             glfwSwapInterval(1);
@@ -151,13 +155,8 @@ namespace Sirius
         windowData.vSync = enabled;
     }
 
-    bool WindowsWindow::vSync() const
+    bool Window::vSync() const
     {
         return windowData.vSync;
-    }
-
-    void* WindowsWindow::getNativeWindow() const
-    {
-        return window;
     }
 }

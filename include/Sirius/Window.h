@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <GLFW/glfw3.h>
+
 #include "srspch.h"
 #include "Sirius/Events/Event.h"
 
@@ -27,23 +29,9 @@ namespace Sirius
     /// @brief Window interface
     class Window
     {
-        public:
+        private:
 
-            /////////////////////////////////////////////////
-            /// @brief Function called on the window's update
-            virtual void onUpdate() = 0;
-
-            /////////////////////////////////
-            /// @brief Get the window's width
-            ///
-            /// @return The window's width
-            virtual unsigned int getWidth() const = 0;
-
-            //////////////////////////////////
-            /// @brief Get the window's height
-            ///
-            /// @return The window's height
-            virtual unsigned int getHeight() const = 0;
+            GLFWwindow* window;
 
             ////////////////////////////////////////////////////
             /// @brief Event callback function
@@ -52,27 +40,37 @@ namespace Sirius
             /// reference, like an onEvent() function.
             using EventCallbackFn = std::function<void(Event&)>;
 
+            ////////////////////////////////////////////
+            /// @brief Struct holding the window's data
+            struct WindowData
+            {
+                std::string title;
+                unsigned int width, height;
+                bool vSync;
+
+                EventCallbackFn eventCallback;
+            };
+
+            WindowData windowData;
+
+            ////////////////////////////////////////////
+            /// @brief Function that creates the window
+            ///
+            /// @param wp The window properties
+             void init(const WindowProps& wp);
+
             ///////////////////////////////////////////////
-            /// @brief Set the event callback
+            /// @brief Function that terminates the window
+             void shutdown();
+
+        public:
+
+            //////////////////////////////////////////
+            /// @brief The default constructor
             ///
-            /// @param callback The event callback function
-            /// @see EventCallbackFn
-            virtual void setEventCallback(const EventCallbackFn& callback) = 0;
-
-            ///////////////////////////////////////////////////
-            /// @brief Set the v-sync
-            ///
-            /// @param enabled True to enable, false to disable
-            virtual void setVSync(bool enabled) = 0;
-
-            /////////////////////////////////////////////
-            /// @brief Returns true if v-sync is enabled
-            virtual bool vSync() const = 0;
-
-            ///////////////////////////////////////////////////
-            /// @brief Get the system's native window (OpenGL,
-            ///     DirectX, etc)
-            virtual void* getNativeWindow() const = 0;
+            /// @param wp The window properties object
+            /// @see WindowProps class, Window interface
+            Window(const WindowProps& wp);
 
             ////////////////////////////////////////////
             /// @brief Create the window
@@ -80,5 +78,42 @@ namespace Sirius
             /// @param props The window properties
             /// @return A pointer to the created window
             static Window* create(const WindowProps& props = WindowProps());
+
+            //////////////////////////////
+            /// @brief Get the GLFW window
+            void* getNativeWindow() const { return window; }
+
+            /////////////////////////////////////////////////
+            /// @brief Function called on the window's update
+            void onUpdate();
+
+            /////////////////////////////////
+            /// @brief Get the window's width
+            ///
+            /// @return The window's width
+            inline unsigned int getWidth() const { return windowData.width; }
+
+            //////////////////////////////////
+            /// @brief Get the window's height
+            ///
+            /// @return The window's height
+            inline unsigned int getHeight() const { return windowData.height; }
+
+            ///////////////////////////////////////////////
+            /// @brief Set the event callback
+            ///
+            /// @param callback The event callback function
+            /// @see EventCallbackFn
+            inline void setEventCallback(const EventCallbackFn& callback) { windowData.eventCallback = callback; }
+
+            ///////////////////////////////////////////////////
+            /// @brief Set the v-sync
+            ///
+            /// @param enabled True to enable, false to disable
+            void setVSync(bool enabled);
+
+            /////////////////////////////////////////////
+            /// @brief Returns true if v-sync is enabled
+            bool vSync() const;
     };
 }

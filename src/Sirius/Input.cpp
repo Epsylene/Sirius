@@ -1,11 +1,14 @@
 
-#include "Sirius/Platform/Windows/WindowsInput.h"
+#include <GLFW/glfw3.h>
+
+#include "Sirius/Input.h"
+#include "Sirius/Simulation.h"
 
 namespace Sirius
 {
-    Input* Input::instance = new WindowsInput();
+    Input* Input::instance = new Input();
 
-    bool WindowsInput::isKeyPressed(int keyCode)
+    bool Input::isKeyPressed(int keyCode)
     {
         auto window = static_cast<GLFWwindow*>(Simulation::get().getWindow().getNativeWindow());
         auto state = glfwGetKey(window, keyCode);
@@ -13,7 +16,7 @@ namespace Sirius
         return state == GLFW_PRESS || state == GLFW_REPEAT;
     }
 
-    bool WindowsInput::isMouseButtonPressed(int button)
+    bool Input::isMouseButtonPressed(int button)
     {
         auto window = static_cast<GLFWwindow*>(Simulation::get().getWindow().getNativeWindow());
         auto state = glfwGetMouseButton(window, button);
@@ -21,7 +24,7 @@ namespace Sirius
         return state == GLFW_PRESS;
     }
 
-    float WindowsInput::getMouseX()
+    float Input::getMouseX()
     {
         auto window = static_cast<GLFWwindow*>(Simulation::get().getWindow().getNativeWindow());
         double xPos, yPos;
@@ -30,7 +33,7 @@ namespace Sirius
         return (float)xPos;
     }
 
-    float WindowsInput::getMouseY()
+    float Input::getMouseY()
     {
         auto window = static_cast<GLFWwindow*>(Simulation::get().getWindow().getNativeWindow());
         double xPos, yPos;
@@ -39,7 +42,7 @@ namespace Sirius
         return (float)yPos;
     }
 
-    std::pair<float, float> WindowsInput::getMousePos()
+    std::pair<float, float> Input::getMousePos()
     {
         auto window = static_cast<GLFWwindow*>(Simulation::get().getWindow().getNativeWindow());
         double xPos, yPos;

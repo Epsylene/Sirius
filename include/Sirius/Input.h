@@ -5,16 +5,37 @@
 
 namespace Sirius
 {
+    ////////////////////////////////////////////////
+    /// @brief Input class
+    /// 
+    /// This class handles all key and mouse inputs;
+    /// however, it is not an event system class.
     class Input
     {
         public:
 
             static Input* instance;
 
-            virtual bool isKeyPressed(int keyCode) = 0;
-            virtual bool isMouseButtonPressed(int button) = 0;
-            virtual float getMouseX() = 0;
-            virtual float getMouseY() = 0;
-            virtual std::pair<float, float> getMousePos() = 0;
+            ///////////////////////////////
+            /// @brief Is the key pressed ?
+            static bool isKeyPressed(int keyCode);
+
+            ////////////////////////////////////////
+            /// @brief Is the mouse button pressed ?
+            static bool isMouseButtonPressed(int button);
+
+            ///////////////////////////////////
+            /// @brief Get the mouse X position
+            static float getMouseX();
+
+            ///////////////////////////////////
+            /// @brief Get the mouse Y position
+            static float getMouseY();
+
+            //////////////////////////////////////////////////
+            /// @brief Get the mouse position
+            ///
+            /// Position is returned as an std::pair of floats
+            static std::pair<float, float> getMousePos();
     };
 }

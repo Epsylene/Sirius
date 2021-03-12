@@ -74,16 +74,18 @@ namespace Sirius
 
             ///////////////////////////////////////////////////////////////
             /// @brief Default constructor
-            /// @details The constructor will take in a reference
-            ///     to an event object, so functions like dispatch
-            ///     are able to use it. For example, an EventDispatcher
-            ///     object could be created in an onEvent(Event& event)
-            ///     function taking in the incoming events. The EventDispatcher
-            ///     object would take the event parameter of the function
-            ///     in its constructor, and then call dispatch with a
-            ///     WindowCloseEvent template argument. Thus, when a
-            ///     WindowCloseEvent is triggered, the dispatch() function
-            ///     will run the function provided as a parameter.
+            ///
+            /// The constructor will take in a reference to an event
+            ///  object, so functions like dispatch are able to use it.
+            ///  For example, an EventDispatcher object could be created
+            ///  in an onEvent(Event& event) function taking in the
+            ///  incoming events. The EventDispatcher object would take
+            ///  the event parameter of the function in its constructor,
+            ///  and then call dispatch with a WindowCloseEvent template
+            ///  argument. Thus, when a WindowCloseEvent is triggered,
+            ///  the dispatch() function will run the function provided
+            ///  as a parameter.
+            ///
             /// @param event The event object reference
             /// @see dispatch()
             EventDispatcher(Event& event): event(event) {}

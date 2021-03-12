@@ -1,6 +1,9 @@
 
 #include "Sirius/Simulation.h"
 
+#include "Sirius/Input.h"
+#include "Sirius/Window.h"
+
 namespace Sirius
 {
     Simulation* Simulation::instance = nullptr;

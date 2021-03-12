@@ -70,7 +70,7 @@ namespace Sirius
             /// 
             /// @param vec The vector from which to get the magnitude
             /// @return The given vector's magnitude
-            static T getMag(Vector2<T>& vec);
+            static T getMag(const Vector2<T>& vec);
 
             ///////////////////////////////
             /// @brief Get the vector angle
@@ -83,7 +83,18 @@ namespace Sirius
             /// 
             /// @param The vector from which to get the angle 
             /// @return The given vector's angle 
-            static T getAngle(Vector2<T>& vec);
+            static T getAngle(const Vector2<T>& vec);
+
+            /////////////////////////////////////////////////////////
+            /// @brief Distance between the object and another vector
+            /// 
+            /// @param vec The other vector
+            /// @return T The distance
+            T dist(const Vector2<T>& vec) const;
+
+            ///////////////////////////////////////
+            /// @brief Distance between two vectors
+            static T dist(const Vector2<T>& vec1, const Vector2<T>& vec2);
 
             ////////////////////////////////////////////////////
             /// @brief Dot product with another vector
