@@ -1,6 +1,4 @@
 
-#include <GLFW/glfw3.h>
-
 #include "Sirius/Input.h"
 #include "Sirius/Simulation.h"
 

@@ -4,7 +4,9 @@
 #include <GLFW/glfw3.h>
 
 #include "srspch.h"
+
 #include "Sirius/Events/Event.h"
+#include "Sirius/Renderer/RenderContext.h"
 
 namespace Sirius
 {
@@ -32,6 +34,7 @@ namespace Sirius
         private:
 
             GLFWwindow* window;
+            RenderContext* context;
 
             ////////////////////////////////////////////////////
             /// @brief Event callback function

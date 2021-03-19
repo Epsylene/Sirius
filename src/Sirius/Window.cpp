@@ -44,8 +44,12 @@ namespace Sirius
         }
 
         window = glfwCreateWindow((int)wp.width, (int)wp.height, wp.title.c_str(), nullptr, nullptr);
-        glfwMakeContextCurrent(window);
+
+        context = new RenderContext(window);
+        context->init();
+
         glfwSetWindowUserPointer(window, &windowData);
+
         setVSync(true);
 
         glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
@@ -142,7 +146,7 @@ namespace Sirius
     void Window::onUpdate()
     {
         glfwPollEvents();
-        glfwSwapBuffers(window);
+        context->swapBuffers();
     }
 
     void Window::setVSync(bool enabled)

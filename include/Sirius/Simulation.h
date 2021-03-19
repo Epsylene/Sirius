@@ -2,14 +2,19 @@
 #pragma once
 
 #include "srspch.h"
-#include "GLFW/glfw3.h"
+
 #include "Window.h"
 #include "Events/Event.h"
 #include "Events/ApplicationEvent.h"
 
+#include "Renderer/Buffer.h"
+#include "Renderer/Shader.h"
+
+#include <glad/glad.h>
+
 namespace Sirius
 {
-    /////////////////////////////////////////
+    /////////////////////////////////////////////////////////
     /// @brief Simulation class
     /// 
     /// This is the main class, where the application loop is 
@@ -21,6 +26,11 @@ namespace Sirius
 
             std::unique_ptr<Window> window;
             bool running = true;
+
+            unsigned int vertexArray;
+            std::unique_ptr<Shader> shader;
+            std::unique_ptr<VertexBuffer> vertexBuffer;
+            std::unique_ptr<IndexBuffer> indexBuffer;
 
         public:
 
