@@ -8,6 +8,7 @@
 #include "Events/ApplicationEvent.h"
 
 #include "Renderer/Buffer.h"
+#include "Renderer/VertexArray.h"
 #include "Renderer/Shader.h"
 
 #include <glad/glad.h>
@@ -27,10 +28,10 @@ namespace Sirius
             std::unique_ptr<Window> window;
             bool running = true;
 
-            unsigned int vertexArray;
-            std::unique_ptr<Shader> shader;
-            std::unique_ptr<VertexBuffer> vertexBuffer;
-            std::unique_ptr<IndexBuffer> indexBuffer;
+            std::shared_ptr<Shader> shader;
+            std::shared_ptr<VertexBuffer> vertexBuffer;
+            std::shared_ptr<IndexBuffer> indexBuffer;
+            std::shared_ptr<VertexArray> vertexArray;
 
         public:
 

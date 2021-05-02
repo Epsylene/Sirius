@@ -14,23 +14,25 @@ namespace Sirius
         window = std::unique_ptr<Window>(Window::create());
         window->setEventCallback([this](Event& event) { onEvent(event); });
 
-        glGenVertexArrays(1, &vertexArray);
-        glBindVertexArray(vertexArray);
-
         float vertices[3 * 3] = {
                 -0.5f, -0.5f, 0.0f,
-                0.5f, -0.5f, 0.0f,
-                0.0f,  0.5f, 0.0f
+                 0.5f, -0.5f, 0.0f,
+                 0.0f,  0.5f, 0.0f
         };
 
-        vertexBuffer = std::make_unique<VertexBuffer>(vertices, sizeof(vertices));
+        vertexBuffer = std::make_shared<VertexBuffer>(vertices, sizeof(vertices));
 
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+        BufferLayout layout {
+                { ShaderDataType::Float3, "position" }
+        };
+
+        vertexBuffer->setLayout(layout);
+        vertexArray = std::make_shared<VertexArray>();
+        vertexArray->addVertexBuffer(vertexBuffer);
 
         unsigned int indices[3] = {0, 1, 2};
-        indexBuffer = std::make_unique<IndexBuffer>(indices, std::size(indices));
+        indexBuffer = std::make_shared<IndexBuffer>(indices, std::size(indices));
+        vertexArray->setIndexBuffer(indexBuffer);
 
         std::string vertexSrc = R"(
             #version 330 core
@@ -59,7 +61,7 @@ namespace Sirius
             }
         )";
 
-        shader = std::make_unique<Shader>(vertexSrc, fragmentSrc);
+        shader = std::make_shared<Shader>(vertexSrc, fragmentSrc);
     }
 
     void Simulation::onEvent(Event& event)
@@ -84,7 +86,7 @@ namespace Sirius
             glClear(GL_COLOR_BUFFER_BIT);
 
             shader->bind();
-            glBindVertexArray(vertexArray);
+            vertexArray->bind();
             glDrawElements(GL_TRIANGLES, indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
 
             window->onUpdate();

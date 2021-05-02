@@ -43,12 +43,10 @@ namespace Sirius
 
             /////////////////////////////////////
             /// @brief Get an object's event type
-            /// @return The object's event type
             virtual EventType getEventType() const = 0;
 
-            /////////////////////////////////////
+            /////////////////////////////
             /// @brief Get the event name
-            /// @return The event name
             virtual const char* getEventName() const = 0;
 
             ////////////////////////////////////////////////////////

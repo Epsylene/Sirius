@@ -1,0 +1,59 @@
+
+#include "Sirius/Renderer/VertexArray.h"
+
+#include <glad/glad.h>
+
+namespace Sirius
+{
+    VertexArray::VertexArray()
+    {
+        glCreateVertexArrays(1, &rendererId);
+    }
+
+    VertexArray::~VertexArray()
+    {}
+
+    void VertexArray::bind() const
+    {
+        glBindVertexArray(rendererId);
+    }
+
+    void VertexArray::unbind() const
+    {
+        glBindVertexArray(0);
+    }
+
+    void VertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer)
+    {
+        glBindVertexArray(rendererId);
+        vertexBuffer->bind();
+
+        //@todo: assert "Vertex buffer has no layout"
+
+        // For each element in the layout, enable the vertex attribute
+        // array at the element's index and give it the data it wants
+        uint32_t index = 0;
+        const auto& layout = vertexBuffer->getLayout();
+        for (const auto& element: layout)
+        {
+            glEnableVertexAttribArray(index);
+            glVertexAttribPointer(index,
+                                  element.count(),
+                                  shaderTypeToGLType(element.type),
+                                  element.normalized ? GL_TRUE : GL_FALSE,
+                                  layout.getStride(),
+                                  (const void*)element.offset);
+            index++;
+        }
+
+        vertexBuffers.push_back(vertexBuffer);
+    }
+
+    void VertexArray::setIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer)
+    {
+        glBindVertexArray(rendererId);
+        indexBuffer->bind();
+
+        this->indexBuffer = indexBuffer;
+    }
+}
