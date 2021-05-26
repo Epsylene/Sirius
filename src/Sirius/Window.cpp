@@ -1,9 +1,12 @@
 
+#include "Sirius/Core.h"
 #include "Sirius/Window.h"
 
 #include "Sirius/Events/ApplicationEvent.h"
 #include "Sirius/Events/KeyEvent.h"
 #include "Sirius/Events/MouseEvent.h"
+
+#include "Sirius/Log.h"
 
 namespace Sirius
 {
@@ -11,7 +14,7 @@ namespace Sirius
 
     static void glfwErrorCallback(int error, const char* description)
     {
-        std::cout << "GLFW error (" << error << "): " << description;
+        SRS_CORE_ERROR("GLFW error ({0}): {1}", error, description);
     }
 
     Window* Window::create(const WindowProps& props)
@@ -21,36 +24,34 @@ namespace Sirius
 
     Window::Window(const WindowProps& wp)
     {
-        init(wp);
-    }
+        // Window properties setup
 
-    void Window::init(const WindowProps& wp)
-    {
         windowData.title = wp.title;
         windowData.width = wp.width;
         windowData.height = wp.height;
 
-        std::cout << "Creating window " << wp.title << " ("
-                  << wp.width << "x" << wp.height << ")\n";
+        SRS_CORE_INFO("Creating window {0} ({1}x{2})", wp.title, wp.width, wp.height);
+
+        // GLFW initialization check
 
         if(!glfwInitialized)
         {
-            int success = glfwInit();
-            if(!success)
-                std::cout << "Could not initialize GLFW !\n";
+            SRS_CORE_ASSERT(glfwInit(), "Could not initialize GLFW !");
 
             glfwSetErrorCallback(glfwErrorCallback);
             glfwInitialized = true;
         }
 
-        window = glfwCreateWindow((int)wp.width, (int)wp.height, wp.title.c_str(), nullptr, nullptr);
+        // Window and render context creation
 
+        window = glfwCreateWindow((int)wp.width, (int)wp.height, wp.title.c_str(), nullptr, nullptr);
         context = new RenderContext(window);
-        context->init();
 
         glfwSetWindowUserPointer(window, &windowData);
 
         setVSync(true);
+
+        // GLFW window callback functions setup
 
         glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
         {

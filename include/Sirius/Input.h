@@ -9,7 +9,9 @@ namespace Sirius
     /// @brief Input class
     /// 
     /// This class handles all key and mouse inputs;
-    /// however, it is not an event system class.
+    /// however, it is not an event system class. Rather,
+    /// it provides functions to retrieve information
+    /// about the input event.
     class Input
     {
         public:

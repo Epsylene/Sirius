@@ -97,7 +97,6 @@ namespace Sirius
 
             ////////////////////////////////////////////////////////
             /// @brief Get the mouse button that triggered the event
-            /// @return The mouse button
             inline int getMouseButton() const { return button; }
     };
 
@@ -108,7 +107,7 @@ namespace Sirius
         public:
 
             //////////////////////////////////////////
-            /// @brief The default constructor
+            /// @brief Constructor
             /// @param button The pressed mouse button
             MouseButtonPressedEvent(int button):
                     MouseButtonEvent(button) {}
@@ -130,7 +129,7 @@ namespace Sirius
         public:
 
             ///////////////////////////////////////////
-            /// @brief The default constructor
+            /// @brief Constructor
             /// @param button The released mouse button
             MouseButtonReleasedEvent(int button):
                     MouseButtonEvent(button) {}

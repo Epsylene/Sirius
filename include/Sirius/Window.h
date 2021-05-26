@@ -56,15 +56,9 @@ namespace Sirius
 
             WindowData windowData;
 
-            ////////////////////////////////////////////
-            /// @brief Function that creates the window
-            ///
-            /// @param wp The window properties
-             void init(const WindowProps& wp);
-
             ///////////////////////////////////////////////
             /// @brief Function that terminates the window
-             void shutdown();
+            void shutdown();
 
         public:
 

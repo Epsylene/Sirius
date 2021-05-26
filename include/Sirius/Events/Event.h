@@ -31,6 +31,12 @@ namespace Sirius
                                virtual EventType getEventType() const override { return getStaticType(); } \
                                virtual const char* getEventName() const override { return #type; }
 
+    //////////////////////////////////////////////////////////
+    /// @brief Event parent class
+    ///
+    /// Each event class stems from this abstract class, which
+    /// defines functions to retrieve the name and the type of
+    /// the event.
     class Event
     {
             friend class EventDispatcher;
@@ -61,6 +67,14 @@ namespace Sirius
             virtual std::string toString() const { return getEventName(); }
     };
 
+    /////////////////////////////////////////
+    /// @brief Event dispatcher class
+    ///
+    /// Takes in events and provides a dispatch() function to
+    /// do trigger a function when a certain event type is
+    /// encountered.
+    ///
+    /// @see dispatch()
     class EventDispatcher
     {
         private:

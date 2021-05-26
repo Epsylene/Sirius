@@ -10,6 +10,8 @@ namespace Sirius
 {
     //////////////////////////////////////////////
     /// @brief Rendering context abstraction class
+    ///
+    /// This class handles
     class RenderContext
     {
         private:
@@ -23,10 +25,6 @@ namespace Sirius
             /// 
             /// @param window The window on which to render
             RenderContext(GLFWwindow* window);
-
-            ///////////////////////////////////////////
-            /// @brief Initialize the rendering context
-            void init();
 
             /////////////////////////////////////////
             /// @brief Swap the GPU buffers

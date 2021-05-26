@@ -1,15 +1,16 @@
 
 #include "Sirius/Simulation.h"
 
-#include <memory>
-
 namespace Sirius
 {
     Simulation* Simulation::instance = nullptr;
 
     Simulation::Simulation()
     {
+        SRS_CORE_ASSERT(!instance, "Application already exists")
         instance = this;
+
+        Log::init();
 
         window = std::unique_ptr<Window>(Window::create());
         window->setEventCallback([this](Event& event) { onEvent(event); });
@@ -68,8 +69,6 @@ namespace Sirius
     {
         EventDispatcher dispatcher(event);
         dispatcher.dispatch<WindowCloseEvent>([this](WindowCloseEvent& event) { return onWindowClose(event); });
-
-        std::cout << event << "\n";
     }
 
     bool Simulation::onWindowClose(WindowCloseEvent& event)

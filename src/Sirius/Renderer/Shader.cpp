@@ -1,6 +1,8 @@
 
 #include "Sirius/Renderer/Shader.h"
 
+#include "Sirius/Core.h"
+
 namespace Sirius
 {
     Shader::Shader(const std::string& vertexSrc, const std::string& fragmentSrc)
@@ -26,6 +28,9 @@ namespace Sirius
             std::vector<char> infoLog(maxLength);
             glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
             glDeleteShader(vertexShader);
+
+            SRS_CORE_ERROR("{0}", infoLog.data());
+            SRS_CORE_ASSERT(false, "Vertex shader compilation failure !")
 
             return;
         }
@@ -74,6 +79,9 @@ namespace Sirius
             glDeleteProgram(rendererId);
             glDeleteShader(vertexShader);
             glDeleteShader(fragmentShader);
+
+            SRS_CORE_ERROR("{0}", infoLog.data());
+            SRS_CORE_ASSERT(false, "Shader link failure !")
 
             return;
         }

@@ -11,3 +11,5 @@
 
 #include <string>
 #include <sstream>
+
+#include "Sirius/Log.h"

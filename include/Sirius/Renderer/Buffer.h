@@ -2,6 +2,7 @@
 #pragma once
 
 #include "srspch.h"
+#include "Sirius/Core.h"
 
 #include <glad/glad.h>
 
@@ -36,10 +37,12 @@ namespace Sirius
             case ShaderDataType::Int2: return 4 * 2;
             case ShaderDataType::Int3: return 4 * 3;
             case ShaderDataType::Int4: return 4 * 4;
+
+            case ShaderDataType::None: break;
         }
 
-        //@todo: assert, "Unknown data type"
-        return 0;
+        SRS_CORE_ASSERT(false, "Unknown shader data type.")
+        return -1;
     }
 
     static GLenum shaderTypeToGLType(ShaderDataType type)
@@ -55,10 +58,12 @@ namespace Sirius
             case ShaderDataType::Int2: return GL_INT;
             case ShaderDataType::Int3: return GL_INT;
             case ShaderDataType::Int4: return GL_INT;
+
+            case ShaderDataType::None: break;
         }
 
-        //@todo: assert "Unknown data type"
-        return 0;
+        SRS_CORE_ASSERT(false, "Unknown shader data type.")
+        return -1;
     }
 
     //////////////////////////////////////////////////////////
@@ -106,9 +111,12 @@ namespace Sirius
                 case ShaderDataType::Int2: return 2;
                 case ShaderDataType::Int3: return 3;
                 case ShaderDataType::Int4: return 4;
+
+                case ShaderDataType::None: break;
             }
 
-            //@todo: assert "Unknown data type"
+            SRS_CORE_ASSERT(false, "Unknown shader data type.")
+            return -1;
         }
     };
 

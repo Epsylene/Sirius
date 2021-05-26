@@ -2,6 +2,7 @@
 #pragma once
 
 #include "srspch.h"
+#include "Core.h"
 
 #include "Window.h"
 #include "Events/Event.h"
@@ -45,20 +46,19 @@ namespace Sirius
             //////////////////////////////////////////////////
             /// @brief Simulation getter
             /// 
-            /// There shall be only one Simulation object per
-            /// application, accessed through this getter.
+            /// There is only one Simulation object per
+            /// application, accessed with this getter.
             inline static Simulation& get() { return *instance; }
 
             ///////////////////////////////////////////////
             /// @brief Simulation window getter
             /// 
-            /// Each simulation shall have only one window,
-            /// which is accessed through this getter.
+            /// Each simulation has a single window,
+            /// which is accessed with this getter.
             inline Window& getWindow() const { return *window; };
 
             /////////////////////////////////////////
             /// @brief Is called when an event occurs
-            /// @param event The event that occured
             void onEvent(Event& event);
 
             /////////////////////////////////////////////////////////

@@ -28,7 +28,7 @@ namespace Sirius
         glBindVertexArray(rendererId);
         vertexBuffer->bind();
 
-        //@todo: assert "Vertex buffer has no layout"
+        SRS_CORE_ASSERT(!vertexBuffer->getLayout().getElements().empty(), "Vertex buffer has no layout.")
 
         // For each element in the layout, enable the vertex attribute
         // array at the element's index and give it the data it wants
