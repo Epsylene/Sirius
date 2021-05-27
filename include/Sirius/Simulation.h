@@ -7,6 +7,7 @@
 #include "Window.h"
 #include "Events/Event.h"
 #include "Events/ApplicationEvent.h"
+#include "LayerStack.h"
 
 #include "Renderer/Buffer.h"
 #include "Renderer/VertexArray.h"
@@ -28,6 +29,7 @@ namespace Sirius
 
             std::unique_ptr<Window> window;
             bool running = true;
+            LayerStack layerStack;
 
             std::shared_ptr<Shader> shader;
             std::shared_ptr<VertexBuffer> vertexBuffer;
@@ -55,11 +57,24 @@ namespace Sirius
             /// 
             /// Each simulation has a single window,
             /// which is accessed with this getter.
+            ///
+            /// @see Window class
             inline Window& getWindow() const { return *window; };
 
             /////////////////////////////////////////
             /// @brief Is called when an event occurs
+            /// @see Event class
             void onEvent(Event& event);
+
+            ///////////////////////////////////
+            /// @brief Push a new window layer
+            /// @see Layer class
+            void pushLayer(Layer* layer);
+
+            ////////////////////////////////////
+            /// @brief Push a new window overlay
+            /// @see Layer class
+            void pushOverlay(Layer* overlay);
 
             /////////////////////////////////////////////////////////
             /// @brief Is called when a WindowCloseEvent is triggered

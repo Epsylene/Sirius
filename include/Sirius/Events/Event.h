@@ -41,11 +41,9 @@ namespace Sirius
     {
             friend class EventDispatcher;
 
-        protected:
+        public:
 
             bool handled = false;
-
-        public:
 
             /////////////////////////////////////
             /// @brief Get an object's event type

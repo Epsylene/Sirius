@@ -65,10 +65,30 @@ namespace Sirius
         shader = std::make_shared<Shader>(vertexSrc, fragmentSrc);
     }
 
+    void Simulation::pushLayer(Layer* layer)
+    {
+        layerStack.pushLayer(layer);
+        layer->onAttach();
+    }
+
+    void Simulation::pushOverlay(Layer* overlay)
+    {
+        layerStack.pushOverlay(overlay);
+        overlay->onAttach();
+    }
+
     void Simulation::onEvent(Event& event)
     {
         EventDispatcher dispatcher(event);
         dispatcher.dispatch<WindowCloseEvent>([this](WindowCloseEvent& event) { return onWindowClose(event); });
+
+        for (auto it = layerStack.end(); it != layerStack.begin();)
+        {
+            (*--it)->onEvent(event);
+
+            if(event.handled)
+                break;
+        }
     }
 
     bool Simulation::onWindowClose(WindowCloseEvent& event)
@@ -87,6 +107,9 @@ namespace Sirius
             shader->bind();
             vertexArray->bind();
             glDrawElements(GL_TRIANGLES, indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
+
+            for (Layer* layer: layerStack)
+                layer->onUpdate();
 
             window->onUpdate();
         }
