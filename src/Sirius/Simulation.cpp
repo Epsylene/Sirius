@@ -15,6 +15,9 @@ namespace Sirius
         window = std::unique_ptr<Window>(Window::create());
         window->setEventCallback([this](Event& event) { onEvent(event); });
 
+        imGuiLayer = new ImGuiLayer();
+        pushOverlay(imGuiLayer);
+
         float vertices[3 * 3] = {
                 -0.5f, -0.5f, 0.0f,
                  0.5f, -0.5f, 0.0f,
@@ -108,9 +111,17 @@ namespace Sirius
             vertexArray->bind();
             glDrawElements(GL_TRIANGLES, indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
 
+            // Update the layers
             for (Layer* layer: layerStack)
                 layer->onUpdate();
 
+            // Run ImGui and its callbacks
+            imGuiLayer->begin();
+            for (Layer* layer: layerStack)
+                layer->onImGuiRender();
+            imGuiLayer->end();
+
+            // Update the window
             window->onUpdate();
         }
     }

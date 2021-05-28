@@ -11,7 +11,8 @@ namespace Sirius
     /// @brief Window layer class
     ///
     /// Provides functions to update a layer and set an event
-    /// callback upon attaching, detaching and triggering an event.
+    /// callback upon attaching and detaching the layer, triggering
+    /// an event and rendering the ImGui overlays.
     ///
     /// @see LayerStack
     class Layer
@@ -36,6 +37,10 @@ namespace Sirius
             ////////////////////////////
             /// @brief Update the layer.
             virtual void onUpdate() {}
+
+            /////////////////////////////////////////////
+            /// @brief Function callback on ImGui render.
+            virtual void onImGuiRender() {}
 
             ///////////////////////////////////
             /// @brief Event function callback.

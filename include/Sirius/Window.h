@@ -78,7 +78,7 @@ namespace Sirius
 
             //////////////////////////////
             /// @brief Get the GLFW window
-            void* getNativeWindow() const { return window; }
+            inline GLFWwindow* getNativeWindow() const { return window; }
 
             /////////////////////////////////////////////////
             /// @brief Function called on the window's update

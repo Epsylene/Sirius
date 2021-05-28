@@ -9,6 +9,8 @@
 #include "Events/ApplicationEvent.h"
 #include "LayerStack.h"
 
+#include "ImGui/ImGuiLayer.h"
+
 #include "Renderer/Buffer.h"
 #include "Renderer/VertexArray.h"
 #include "Renderer/Shader.h"
@@ -17,6 +19,8 @@
 
 namespace Sirius
 {
+    class ImGuiLayer;
+
     /////////////////////////////////////////////////////////
     /// @brief Simulation class
     /// 
@@ -30,6 +34,7 @@ namespace Sirius
             std::unique_ptr<Window> window;
             bool running = true;
             LayerStack layerStack;
+            ImGuiLayer* imGuiLayer;
 
             std::shared_ptr<Shader> shader;
             std::shared_ptr<VertexBuffer> vertexBuffer;
