@@ -15,9 +15,10 @@ include_directories(vendor/spdlog/include/)
 include_directories(vendor/imgui/)
 include_directories(vendor/glfw/include/)
 include_directories(vendor/glad/include/)
+include_directories(vendor/glm/glm)
 
 ### LIBRARY ###
-add_library(Sirius SHARED include/Sirius/EntryPoint.h src/Sirius/Simulation.cpp include/Sirius/Simulation.h include/Sirius.h include/srspch.h include/Sirius/Events/Event.h include/Sirius/Events/KeyEvent.h include/Sirius/Events/ApplicationEvent.h include/Sirius/Events/MouseEvent.h include/Sirius/Window.h include/Sirius/Utilities/Vector2.tpp include/Sirius/Utilities/Vector2.h include/Sirius/Input.h src/Sirius/Input.cpp src/Sirius/Window.cpp src/Sirius/Renderer/Buffer.cpp include/Sirius/Renderer/Buffer.h include/Sirius/Renderer/Shader.h src/Sirius/Renderer/Shader.cpp include/Sirius/Renderer/RenderContext.h src/Sirius/Renderer/RenderContext.cpp src/Sirius/Renderer/VertexArray.cpp include/Sirius/Renderer/VertexArray.h src/Sirius/Log.cpp include/Sirius/Log.h include/Sirius/Core.h src/Sirius/Layer.cpp include/Sirius/Layer.h src/Sirius/LayerStack.cpp include/Sirius/LayerStack.h src/Sirius/ImGui/ImGuiLayer.cpp include/Sirius/ImGui/ImGuiLayer.h vendor/imgui/backends/imgui_impl_glfw.cpp vendor/imgui/backends/imgui_impl_glfw.h vendor/imgui/backends/imgui_impl_opengl3.cpp vendor/imgui/backends/imgui_impl_opengl3.h)
+add_library(Sirius SHARED include/Sirius/EntryPoint.h src/Sirius/Simulation.cpp include/Sirius/Simulation.h include/Sirius.h include/srspch.h include/Sirius/Events/Event.h include/Sirius/Events/KeyEvent.h include/Sirius/Events/ApplicationEvent.h include/Sirius/Events/MouseEvent.h include/Sirius/Window.h include/Sirius/Utilities/Vector2.tpp include/Sirius/Utilities/Vector2.h include/Sirius/Input.h src/Sirius/Input.cpp src/Sirius/Window.cpp src/Sirius/Renderer/Buffer.cpp include/Sirius/Renderer/Buffer.h include/Sirius/Renderer/Shader.h src/Sirius/Renderer/Shader.cpp include/Sirius/Renderer/RenderContext.h src/Sirius/Renderer/RenderContext.cpp src/Sirius/Renderer/VertexArray.cpp include/Sirius/Renderer/VertexArray.h src/Sirius/Log.cpp include/Sirius/Log.h include/Sirius/Core.h src/Sirius/Layer.cpp include/Sirius/Layer.h src/Sirius/LayerStack.cpp include/Sirius/LayerStack.h src/Sirius/ImGui/ImGuiLayer.cpp include/Sirius/ImGui/ImGuiLayer.h vendor/imgui/backends/imgui_impl_glfw.cpp vendor/imgui/backends/imgui_impl_glfw.h vendor/imgui/backends/imgui_impl_opengl3.cpp vendor/imgui/backends/imgui_impl_opengl3.h src/Sirius/Renderer/Renderer.cpp include/Sirius/Renderer/Renderer.h src/Sirius/Renderer/RenderCommand.cpp include/Sirius/Renderer/RenderCommand.h)
 
 # spdlog #
 set(CMAKE_PREFIX_PATH vendor/spdlog/lib/cmake/spdlog/)
@@ -37,6 +38,11 @@ target_link_libraries(Sirius PUBLIC opengl32 glfw)
 # glad #
 add_library(glad STATIC vendor/glad/src/glad.c vendor/glad/include/glad/glad.h vendor/glad/include/KHR/khrplatform.h)
 target_link_libraries(Sirius PUBLIC glad)
+
+# glm #
+set(CMAKE_PREFIX_PATH vendor/glm/cmake/glm/)
+find_package(glm CONFIG)
+target_link_libraries(Sirius PUBLIC glm::glm)
 
 add_custom_command(
         TARGET Sirius POST_BUILD

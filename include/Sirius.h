@@ -5,7 +5,18 @@
 //  applications only.
 
 #include "Sirius/Simulation.h"
-#include "Sirius/Utilities/Vector2.h"
+#include "Sirius/Log.h"
+
+#include "Sirius/Layer.h"
+#include "Sirius/ImGui/ImGuiLayer.h"
+
+// -------------- Renderer ---------------- //
+#include "Sirius/Renderer/Buffer.h"
+#include "Sirius/Renderer/VertexArray.h"
+#include "Sirius/Renderer/Shader.h"
+#include "Sirius/Renderer/RenderCommand.h"
+#include "Sirius/Renderer/Renderer.h"
+// ---------------------------------------- //
 
 //////// ENTRY POINT /////////
 #include "Sirius/EntryPoint.h"

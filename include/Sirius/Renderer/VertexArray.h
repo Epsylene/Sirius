@@ -26,7 +26,7 @@ namespace Sirius
             /// @brief Bind the vertex array
             virtual void bind() const;
 
-            ////////////////////////////////
+            //////////////////////////////////
             /// @brief Unbind the vertex array
             virtual void unbind() const;
 
