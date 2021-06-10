@@ -62,12 +62,12 @@ namespace Sirius
             ///////////////////////////////////
             /// @brief Get the scroll X offset
             /// @return The scroll X offset
-            inline float getOffsetX() const { return xOffset; }
+            inline float getXOffset() const { return xOffset; }
 
             ///////////////////////////////////
             /// @brief Get the scroll Y offset
             /// @return the scroll Y offset
-            inline float getOffsetY() const { return yOffset; }
+            inline float getYOffset() const { return yOffset; }
 
             EVENT_CLASS_TYPE(MouseScrolled);
 

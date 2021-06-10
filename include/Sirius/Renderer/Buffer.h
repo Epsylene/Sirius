@@ -2,7 +2,7 @@
 #pragma once
 
 #include "srspch.h"
-#include "Sirius/Core.h"
+#include "Sirius/Core/Core.h"
 
 #include <glad/glad.h>
 
@@ -191,18 +191,18 @@ namespace Sirius
         public:
 
             ///////////////////////////////////////////////////////////
-            /// @brief Main constructor
+            /// @brief Creates a vertex buffer
             ///
             /// The vertex buffer are created and bound to OpenGL, with
             /// usage set to `GL_STATIC_DRAW` (modified once, drawn
             /// multiple times).
             ///
-            /// @param vertices The vertices array
+            /// @param vertices The vertices' array
             /// @param size The array size in bytes (`sizeof()`)
             VertexBuffer(float* vertices, size_t size);
 
             /////////////////////////////////////////
-            /// @brief Vertex Buffer destructor
+            /// @brief VertexBuffer destructor
             /// 
             /// Deletes the vertex buffers. 
             virtual ~VertexBuffer();

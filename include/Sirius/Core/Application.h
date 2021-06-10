@@ -5,17 +5,19 @@
 #include "Core.h"
 
 #include "Window.h"
-#include "Events/Event.h"
-#include "Events/ApplicationEvent.h"
+#include "Sirius/Events/Event.h"
+#include "Sirius/Events/ApplicationEvent.h"
+
+#include "Timestep.h"
+
 #include "LayerStack.h"
+#include "Sirius/ImGui/ImGuiLayer.h"
 
-#include "ImGui/ImGuiLayer.h"
-
-#include "Renderer/Buffer.h"
-#include "Renderer/VertexArray.h"
-#include "Renderer/Shader.h"
-#include "Renderer/Renderer.h"
-#include "Renderer/RenderCommand.h"
+#include "Sirius/Renderer/Buffer.h"
+#include "Sirius/Renderer/VertexArray.h"
+#include "Sirius/Renderer/Shader.h"
+#include "Sirius/Renderer/Renderer.h"
+#include "Sirius/Renderer/RenderCommand.h"
 
 #include <glad/glad.h>
 
@@ -23,25 +25,22 @@ namespace Sirius
 {
     class ImGuiLayer;
 
-    /////////////////////////////////////////////////////////
-    /// @brief Simulation class
+    //////////////////////////////////////////////////////////////////
+    /// @brief Application class
     /// 
-    /// This is the main class, where the application loop is 
-    class Simulation
+    /// This is the main class, where the application loop is located.
+    class Application
     {
         private:
 
-            static Simulation* instance;
+            static Application* instance;
 
             std::unique_ptr<Window> window;
             bool running = true;
+            float lastFrameTime = 0.f;
+
             LayerStack layerStack;
             ImGuiLayer* imGuiLayer;
-
-            std::shared_ptr<Shader> shader;
-            std::shared_ptr<VertexBuffer> vertexBuffer;
-            std::shared_ptr<IndexBuffer> indexBuffer;
-            std::shared_ptr<VertexArray> vertexArray;
 
         public:
 
@@ -50,17 +49,17 @@ namespace Sirius
             ///
             /// A single window is created, where the
             /// simulation lives.
-            Simulation();
+            Application();
 
             //////////////////////////////////////////////////
-            /// @brief Simulation getter
+            /// @brief Application getter
             /// 
-            /// There is only one Simulation object per
+            /// There is only one Application object per
             /// application, accessed with this getter.
-            inline static Simulation& get() { return *instance; }
+            inline static Application& get() { return *instance; }
 
             ///////////////////////////////////////////////
-            /// @brief Simulation window getter
+            /// @brief Application window getter
             /// 
             /// Each simulation has a single window,
             /// which is accessed with this getter.
@@ -95,5 +94,5 @@ namespace Sirius
             void run();
     };
 
-    Simulation* createSimulation();
+    Application* createSimulation();
 }

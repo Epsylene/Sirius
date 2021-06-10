@@ -28,7 +28,7 @@ namespace Sirius
             style.Colors[ImGuiCol_WindowBg].w = 1.0f;
         }
 
-        Simulation& app = Simulation::get();
+        Application& app = Application::get();
         GLFWwindow* window = app.getWindow().getNativeWindow();
 
         ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -42,7 +42,7 @@ namespace Sirius
         ImGui::DestroyContext();
     }
 
-    void ImGuiLayer::onUpdate()
+    void ImGuiLayer::onUpdate(Timestep dt)
     {
 
     }
@@ -57,7 +57,7 @@ namespace Sirius
     void ImGuiLayer::end()
     {
         ImGuiIO& io = ImGui::GetIO();
-        Simulation& app = Simulation::get();
+        Application& app = Application::get();
         io.DisplaySize = ImVec2(app.getWindow().getWidth(), app.getWindow().getHeight());
 
         ImGui::Render();
@@ -73,8 +73,5 @@ namespace Sirius
     }
 
     void ImGuiLayer::onImGuiRender()
-    {
-        static bool show = true;
-        ImGui::ShowDemoWindow(&show);
-    }
+    {}
 }

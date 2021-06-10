@@ -3,9 +3,11 @@
 
 #include "srspch.h"
 
+#include <glm/glm.hpp>
+
 namespace Sirius
 {
-    ////////////////////////////////////////////////
+    /////////////////////////////////////////////////////
     /// @brief Input class
     /// 
     /// This class handles all key and mouse inputs;
@@ -38,6 +40,6 @@ namespace Sirius
             /// @brief Get the mouse position
             ///
             /// Position is returned as an std::pair of floats
-            static std::pair<float, float> getMousePos();
+            static glm::vec2 getMousePos();
     };
 }

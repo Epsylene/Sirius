@@ -1,11 +1,11 @@
 
-#include "Sirius/Simulation.h"
+#include "Sirius/Core/Application.h"
 
 namespace Sirius
 {
-    Simulation* Simulation::instance = nullptr;
+    Application* Application::instance = nullptr;
 
-    Simulation::Simulation()
+    Application::Application()
     {
         SRS_CORE_ASSERT(!instance, "Application already exists")
         instance = this;
@@ -19,19 +19,19 @@ namespace Sirius
         pushOverlay(imGuiLayer);
     }
 
-    void Simulation::pushLayer(Layer* layer)
+    void Application::pushLayer(Layer* layer)
     {
         layerStack.pushLayer(layer);
         layer->onAttach();
     }
 
-    void Simulation::pushOverlay(Layer* overlay)
+    void Application::pushOverlay(Layer* overlay)
     {
         layerStack.pushOverlay(overlay);
         overlay->onAttach();
     }
 
-    void Simulation::onEvent(Event& event)
+    void Application::onEvent(Event& event)
     {
         EventDispatcher dispatcher(event);
         dispatcher.dispatch<WindowCloseEvent>([this](WindowCloseEvent& event) { return onWindowClose(event); });
@@ -45,13 +45,13 @@ namespace Sirius
         }
     }
 
-    bool Simulation::onWindowClose(WindowCloseEvent& event)
+    bool Application::onWindowClose(WindowCloseEvent& event)
     {
         running = false;
         return true;
     }
 
-    void Simulation::run()
+    void Application::run()
     {
         while(running)
         {
@@ -59,9 +59,13 @@ namespace Sirius
             RenderCommand::setClearColor({0.12, 0.12, 0.12, 1});
             RenderCommand::clear();
 
+            auto time = (float)glfwGetTime();
+            Timestep dt = time - lastFrameTime;
+            lastFrameTime = time;
+            
             // Update the layers
             for (Layer* layer: layerStack)
-                layer->onUpdate();
+                layer->onUpdate(dt);
 
             // Run ImGui and its callbacks
             imGuiLayer->begin();
@@ -70,7 +74,7 @@ namespace Sirius
             imGuiLayer->end();
 
             // Update the window
-            window->onUpdate();
+            window->onUpdate(dt);
         }
     }
 }

@@ -1,9 +1,10 @@
 
 #pragma once
 
+#include <Sirius/Core/Timestep.h>
 #include "srspch.h"
 
-#include "Events/Event.h"
+#include "Sirius/Events/Event.h"
 
 namespace Sirius
 {
@@ -36,7 +37,8 @@ namespace Sirius
 
             ////////////////////////////
             /// @brief Update the layer.
-            virtual void onUpdate() {}
+            virtual void onUpdate(Timestep dt)
+            {}
 
             /////////////////////////////////////////////
             /// @brief Function callback on ImGui render.

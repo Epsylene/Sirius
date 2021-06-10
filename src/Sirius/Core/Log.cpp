@@ -1,5 +1,5 @@
 
-#include "Sirius/Log.h"
+#include "Sirius/Core/Log.h"
 
 namespace Sirius
 {

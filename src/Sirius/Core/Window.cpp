@@ -1,12 +1,12 @@
 
-#include "Sirius/Core.h"
-#include "Sirius/Window.h"
+#include "Sirius/Core/Core.h"
+#include "Sirius/Core/Window.h"
 
 #include "Sirius/Events/ApplicationEvent.h"
 #include "Sirius/Events/KeyEvent.h"
 #include "Sirius/Events/MouseEvent.h"
 
-#include "Sirius/Log.h"
+#include "Sirius/Core/Log.h"
 
 namespace Sirius
 {
@@ -144,7 +144,7 @@ namespace Sirius
         glfwDestroyWindow(window);
     }
 
-    void Window::onUpdate()
+    void Window::onUpdate(Timestep dt)
     {
         glfwPollEvents();
         context->swapBuffers();

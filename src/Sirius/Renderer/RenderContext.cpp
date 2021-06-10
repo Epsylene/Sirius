@@ -1,6 +1,6 @@
 
 #include "Sirius/Renderer/RenderContext.h"
-#include "Sirius/Core.h"
+#include "Sirius/Core/Core.h"
 
 namespace Sirius
 {
@@ -8,9 +8,11 @@ namespace Sirius
     {
         SRS_CORE_ASSERT(window, "Window handle is null !")
 
+        // Bind the window to GLFW
         glfwMakeContextCurrent(window);
-        int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
+        // Binds GLAD to GLFW's OpenGL context
+        int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
         SRS_CORE_ASSERT(status, "Failed to initialize GLAD.");
 
         SRS_CORE_INFO("OpenGL info:");

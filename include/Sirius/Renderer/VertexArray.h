@@ -19,8 +19,9 @@ namespace Sirius
 
         public:
 
+            //////////////////////////////////////////
+            /// @brief Creates an OpenGL vertex array.
             VertexArray();
-            virtual ~VertexArray();
 
             ////////////////////////////////
             /// @brief Bind the vertex array

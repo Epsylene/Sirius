@@ -8,10 +8,11 @@
 
 namespace Sirius
 {
-    //////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
     /// @brief Rendering context abstraction class
     ///
-    /// This class handles
+    /// This class serves to set up the OpenGL rendering
+    /// context (the window on which to render, for example).
     class RenderContext
     {
         private:
@@ -20,8 +21,11 @@ namespace Sirius
 
         public:
 
-            ///////////////////////////////////////////////
-            /// @brief Main constructor
+            //////////////////////////////////////////////////////
+            /// @brief Sets up the OpenGL's context
+            ///
+            /// The passed window and GLAD are bound to GLFW,
+            /// then some graphic driver's information is printed.
             /// 
             /// @param window The window on which to render
             RenderContext(GLFWwindow* window);

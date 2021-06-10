@@ -30,7 +30,7 @@ namespace Sirius
             //////////////////////////////////////////
             /// @brief Get the resized window's height
             /// @return The window resize height
-            inline unsigned int getHeigth() const { return height; }
+            inline unsigned int getHeight() const { return height; }
 
             EVENT_CLASS_TYPE(WindowResize);
 

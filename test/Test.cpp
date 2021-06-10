@@ -1,6 +1,8 @@
 
 #include "Sirius.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 class ExampleLayer: public Sirius::Layer
 {
     private:
@@ -8,14 +10,17 @@ class ExampleLayer: public Sirius::Layer
         std::shared_ptr<Sirius::Shader> shader;
         std::shared_ptr<Sirius::VertexArray> vertexArray;
 
+        Sirius::CameraController3D controller;
+
     public:
 
         ExampleLayer(): Layer("Example")
         {
-            float vertices[3 * 3] = {
+            float vertices[3 * 4] = {
                     -0.5f, -0.5f, 0.0f,
-                    0.5f, -0.5f, 0.0f,
-                    0.0f,  0.5f, 0.0f
+                    -0.5f,  0.5f, 0.0f,
+                     0.5f,  0.5f, 0.0f,
+                     0.5f, -0.5f, 0.0f
             };
 
             auto vertexBuffer = std::make_shared<Sirius::VertexBuffer>(vertices, sizeof(vertices));
@@ -28,7 +33,7 @@ class ExampleLayer: public Sirius::Layer
             vertexArray = std::make_shared<Sirius::VertexArray>();
             vertexArray->addVertexBuffer(vertexBuffer);
 
-            unsigned int indices[3] = {0, 1, 2};
+            unsigned int indices[6] = {0, 1, 2, 2, 3, 0};
             auto indexBuffer = std::make_shared<Sirius::IndexBuffer>(indices, std::size(indices));
             vertexArray->setIndexBuffer(indexBuffer);
 
@@ -39,10 +44,13 @@ class ExampleLayer: public Sirius::Layer
 
                 out vec3 vPos;
 
+                uniform mat4 viewProj;
+                uniform mat4 transform;
+
                 void main()
                 {
                     vPos = position;
-                    gl_Position = vec4(position, 1.0);
+                    gl_Position = viewProj * transform * vec4(position, 1.0);
                 }
             )";
 
@@ -62,18 +70,25 @@ class ExampleLayer: public Sirius::Layer
             shader = std::make_shared<Sirius::Shader>(vertexSrc, fragmentSrc);
         }
 
-        void onUpdate() override
+        void onUpdate(Sirius::Timestep dt) override
         {
-            Sirius::Renderer::beginScene();
-            Sirius::Renderer::submit(shader, vertexArray);
+            Sirius::Renderer::beginScene(controller.getCamera());
+
+            controller.onUpdate(dt);
+            Sirius::Renderer::submit(shader, vertexArray, glm::mat4(glm::scale(glm::mat4(1.f), glm::vec3(1.f))));
+
             Sirius::Renderer::endScene();
         }
 
         void onImGuiRender() override {}
-        void onEvent(Sirius::Event& event) override {}
+
+        void onEvent(Sirius::Event& event) override
+        {
+            controller.onEvent(event);
+        }
 };
 
-class Test: public Sirius::Simulation
+class Test: public Sirius::Application
 {
     public:
 
@@ -83,7 +98,7 @@ class Test: public Sirius::Simulation
         }
 };
 
-Sirius::Simulation* Sirius::createSimulation()
+Sirius::Application* Sirius::createSimulation()
 {
     return new Test();
 }

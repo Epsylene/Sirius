@@ -10,9 +10,6 @@ namespace Sirius
         glCreateVertexArrays(1, &rendererId);
     }
 
-    VertexArray::~VertexArray()
-    {}
-
     void VertexArray::bind() const
     {
         glBindVertexArray(rendererId);

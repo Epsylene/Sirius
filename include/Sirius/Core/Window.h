@@ -2,6 +2,7 @@
 #pragma once
 
 #include <GLFW/glfw3.h>
+#include <Sirius/Core/Timestep.h>
 
 #include "srspch.h"
 
@@ -82,7 +83,7 @@ namespace Sirius
 
             /////////////////////////////////////////////////
             /// @brief Function called on the window's update
-            void onUpdate();
+            void onUpdate(Timestep dt);
 
             /////////////////////////////////
             /// @brief Get the window's width

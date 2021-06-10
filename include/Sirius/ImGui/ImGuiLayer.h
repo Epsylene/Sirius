@@ -7,15 +7,15 @@
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 
-#include "Sirius/Layer.h"
-#include "Sirius/Simulation.h"
+#include "Sirius/Core/Layer.h"
+#include "Sirius/Core/Application.h"
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
 namespace Sirius
 {
-    class Simulation;
+    class Application;
 
     class ImGuiLayer: public Layer
     {
@@ -29,7 +29,7 @@ namespace Sirius
 
             void onAttach() override;
             void onDetach() override;
-            void onUpdate() override;
+            void onUpdate(Timestep dt) override;
 
             void onImGuiRender() override;
 
