@@ -7,10 +7,10 @@ class ExampleLayer: public Sirius::Layer
 {
     private:
 
-        std::shared_ptr<Sirius::Shader> shader;
+        Sirius::ShaderLibrary shaderLib;
         std::shared_ptr<Sirius::VertexArray> vertexArray;
 
-        Sirius::CameraController3D controller;
+        Sirius::CameraController2D controller;
 
     public:
 
@@ -37,37 +37,8 @@ class ExampleLayer: public Sirius::Layer
             auto indexBuffer = std::make_shared<Sirius::IndexBuffer>(indices, std::size(indices));
             vertexArray->setIndexBuffer(indexBuffer);
 
-            std::string vertexSrc = R"(
-                #version 330 core
-
-                layout(location = 0) in vec3 position;
-
-                out vec3 vPos;
-
-                uniform mat4 viewProj;
-                uniform mat4 transform;
-
-                void main()
-                {
-                    vPos = position;
-                    gl_Position = viewProj * transform * vec4(position, 1.0);
-                }
-            )";
-
-            std::string fragmentSrc = R"(
-                #version 330 core
-
-                layout(location = 0) out vec4 color;
-
-                in vec3 vPos;
-
-                void main()
-                {
-                    color = vec4(vPos + 0.5, 1.0);
-                }
-            )";
-
-            shader = std::make_shared<Sirius::Shader>(vertexSrc, fragmentSrc);
+            shaderLib.load("../../test/assets/shaders/rainbow.glsl");
+            shaderLib.load("../../test/assets/shaders/blue.glsl");
         }
 
         void onUpdate(Sirius::Timestep dt) override
@@ -75,7 +46,11 @@ class ExampleLayer: public Sirius::Layer
             Sirius::Renderer::beginScene(controller.getCamera());
 
             controller.onUpdate(dt);
-            Sirius::Renderer::submit(shader, vertexArray, glm::mat4(glm::scale(glm::mat4(1.f), glm::vec3(1.f))));
+
+            auto rainbowShader = shaderLib.get("rainbow");
+            auto blueShader = shaderLib.get("blue");
+
+            Sirius::Renderer::submit(rainbowShader, vertexArray, glm::mat4(glm::scale(glm::mat4(1.f), glm::vec3(1.f))));
 
             Sirius::Renderer::endScene();
         }

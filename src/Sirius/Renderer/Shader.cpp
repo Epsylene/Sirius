@@ -2,70 +2,145 @@
 #include "Sirius/Renderer/Shader.h"
 
 #include <glm/gtc/type_ptr.hpp>
+#include <fstream>
 
 #include "Sirius/Core/Core.h"
 
 namespace Sirius
 {
-    Shader::Shader(const std::string& vertexSrc, const std::string& fragmentSrc)
+    static GLenum shaderTypeFromString(const std::string& type)
     {
-        //------- Vertex shader -------//
+        if(type == "vertex") return GL_VERTEX_SHADER;
+        if(type == "fragment" || type == "pixel") return GL_FRAGMENT_SHADER;
 
-        // Create the shader, send to OpenGL and compile it
-        unsigned vertexShader = glCreateShader(GL_VERTEX_SHADER);
+        SRS_CORE_ASSERT(false, "Unknown shader type !");
+    }
 
-        const char* source = vertexSrc.c_str();
-        glShaderSource(vertexShader, 1, &source, nullptr);
+    Shader::Shader(const std::string& filepath)
+    {
+        // Read the source file, extract the shader sources and compile them
+        std::string source = readFile(filepath);
+        auto shaderSources = preprocess(source);
+        compile(shaderSources);
 
-        glCompileShader(vertexShader);
-        int isCompiled = 0;
-        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled);
+        // Extract the shader's name from the file's name
+        auto lastSlash = filepath.find_last_of("/\\");
+        lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
+        auto lastDot = filepath.rfind('.');
+        auto count = lastDot == std::string::npos ? filepath.size() - lastSlash : lastDot - lastSlash;
 
-        // Check whether compilation was succesful or not
-        if(isCompiled == GL_FALSE)
+        this->name = filepath.substr(lastSlash, count);
+    }
+
+    Shader::Shader(const std::string& name, const std::string& vertexSrc,
+                   const std::string& fragmentSrc): name(name)
+    {
+        // Compile the shaders from their sources
+        std::unordered_map<GLenum, std::string> sources;
+        sources[GL_VERTEX_SHADER] = vertexSrc;
+        sources[GL_FRAGMENT_SHADER] = fragmentSrc;
+        compile(sources);
+    }
+
+    Shader::~Shader()
+    {
+        glDeleteProgram(rendererId);
+    }
+
+    std::string Shader::readFile(const std::string& filepath)
+    {
+        std::string result;
+        std::ifstream file(filepath);
+
+        if(file)
         {
-            int maxLength = 0;
-            glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
+            // Make 'result' the size of the file string
+            file.seekg(0, std::ios::end);
+            result.resize(file.tellg());
 
-            std::vector<char> infoLog(maxLength);
-            glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
-            glDeleteShader(vertexShader);
+            // Read the file from the beggining to result.size()
+            // (that is, entirely) and place it in 'result'.
+            file.seekg(0, std::ios::beg);
+            file.read(&result[0], result.size());
 
-            SRS_CORE_ERROR("{0}", infoLog.data());
-            SRS_CORE_ASSERT(false, "Vertex shader compilation failure !")
-
-            return;
+            file.close();
+        }
+        else
+        {
+            Log::coreError("Could not open file '{0}'", filepath);
         }
 
-        //------- Fragment shader -------//
+        return result;
+    }
 
-        unsigned fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    std::unordered_map<GLenum, std::string> Shader::preprocess(const std::string& source)
+    {
+        std::unordered_map<GLenum, std::string> shaderSources;
 
-        source = fragmentSrc.c_str();
-        glShaderSource(fragmentShader, 1, &source, nullptr);
-        glCompileShader(fragmentShader);
+        const char* token = "#type";
+        size_t tokenLength = strlen(token);
+        size_t pos = source.find(token);
 
-        glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
-        if (isCompiled == GL_FALSE)
+        while (pos != std::string::npos)
         {
-            int maxLength = 0;
-            glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
+            // Place the cursor at the "vertex" or "fragment" word
+            size_t begin = pos + tokenLength + 1;
+            size_t eol = source.find_first_of("\r\n", pos);
+            SRS_CORE_ASSERT(eol != std::string::npos, "Error");
+            std::string type = source.substr(begin, eol - begin);
+            SRS_CORE_ASSERT(shaderTypeFromString(type), "Invalid shader type specified.");
 
-            std::vector<char> infoLog(maxLength);
-            glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
-
-            glDeleteShader(fragmentShader);
-            glDeleteShader(vertexShader);
-
-            return;
+            // Add to the unordered map the [shader type] source at
+            // [type]
+            size_t typePos = source.find_first_not_of("\r\n", eol);
+            pos = source.find(token, typePos);
+            shaderSources[shaderTypeFromString(type)] = source.substr(typePos, pos - (typePos == std::string::npos ? source.size() - 1 : typePos));
         }
 
+        return shaderSources;
+    }
+
+    void Shader::compile(const std::unordered_map<GLenum, std::string>& shaderSources)
+    {
         rendererId = glCreateProgram();
 
-        // Attach the shaders and link the program
-        glAttachShader(rendererId, vertexShader);
-        glAttachShader(rendererId, fragmentShader);
+        SRS_CORE_ASSERT(shaderSources.size() <= 2, "Too many shaders.");
+        std::array<GLenum, 2> glShaderIDs {};
 
+        // Compile the shaders
+        int shaderIndex = 0;
+        for (auto&[type, source]: shaderSources)
+        {
+            GLuint shader = glCreateShader(type);
+            const char* source_c_str = source.c_str();
+
+            glShaderSource(shader, 1, &source_c_str, nullptr);
+            glCompileShader(shader);
+
+            // Check if the compilation fails
+            int isCompiled = 0;
+            glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
+
+            if(isCompiled == GL_FALSE)
+            {
+                int maxLength = 0;
+                glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
+
+                std::vector<char> infoLog(maxLength);
+                glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
+
+                glDeleteShader(shader);
+
+                Log::coreError("{0}", infoLog.data());
+                SRS_CORE_ASSERT(false, "Vertex shader compilation failure !");
+                return;
+            }
+
+            glAttachShader(rendererId, shader);
+            glShaderIDs[shaderIndex++] = shader;
+        }
+
+        // Link our rendererId
         glLinkProgram(rendererId);
 
         int isLinked = 0;
@@ -79,23 +154,25 @@ namespace Sirius
             glGetProgramInfoLog(rendererId, maxLength, &maxLength, &infoLog[0]);
 
             glDeleteProgram(rendererId);
-            glDeleteShader(vertexShader);
-            glDeleteShader(fragmentShader);
 
-            SRS_CORE_ERROR("{0}", infoLog.data());
-            SRS_CORE_ASSERT(false, "Shader link failure !")
+            for (auto& id: glShaderIDs)
+                glDeleteShader(id);
 
+            Log::coreError("{0}", infoLog.data());
+            SRS_CORE_ASSERT(false, "OpenGLShader link failure !");
             return;
         }
 
-        // Always detach shaders after a successful link.
-        glDetachShader(rendererId, vertexShader);
-        glDetachShader(rendererId, fragmentShader);
+        for (auto& id: glShaderIDs)
+        {
+            // Always detach the shaders after a succesful linkage
+            glDetachShader(rendererId, id);
+        }
     }
 
-    Shader::~Shader()
+    const std::string& Shader::getName()
     {
-        glDeleteProgram(rendererId);
+        return name;
     }
 
     void Shader::bind() const
@@ -144,5 +221,43 @@ namespace Sirius
     {
         GLint location = glGetUniformLocation(rendererId, name.c_str());
         glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+    }
+
+    void ShaderLibrary::add(const std::shared_ptr<Shader>& shader)
+    {
+        auto& name = shader->getName();
+
+        SRS_CORE_ASSERT(shaders.find(name) == shaders.end(), "Shader already exists !");
+        shaders[name] = shader;
+    }
+
+    void ShaderLibrary::add(const std::string& name,
+                            const std::shared_ptr<Shader>& shader)
+    {
+        SRS_CORE_ASSERT(shaders.find(name) == shaders.end(), "Shader already exists !");
+        shaders[name] = shader;
+    }
+
+    std::shared_ptr<Shader> ShaderLibrary::load(const std::string& filepath)
+    {
+        auto shader = std::make_shared<Shader>(filepath);
+        add(shader);
+
+        return shader;
+    }
+
+    std::shared_ptr<Shader>
+    ShaderLibrary::load(const std::string& name, const std::string& filepath)
+    {
+        auto shader = std::make_shared<Shader>(filepath);
+        add(name, shader);
+
+        return shader;
+    }
+
+    std::shared_ptr<Shader>& ShaderLibrary::get(const std::string& name)
+    {
+        SRS_CORE_ASSERT(shaders.find(name) != shaders.end(), "Shader not found !");
+        return shaders[name];
     }
 }

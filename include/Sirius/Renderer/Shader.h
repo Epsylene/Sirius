@@ -15,19 +15,45 @@ namespace Sirius
         private:
 
             uint32_t rendererId;
+            std::string name;
+
+            ///////////////////////////////////////////////////
+            /// @brief Reads the file in *filepath* and returns
+            ///     the result
+            std::string readFile(const std::string& filepath);
+
+            /////////////////////////////////////////////////////////
+            /// @brief Extracts the shaders sources from the file and
+            ///     puts them in an unordered map, which is returned
+            std::unordered_map<GLenum, std::string> preprocess(const std::string& source);
+
+            ////////////////////////////////////
+            /// @brief Compile the map's shaders
+            void compile(const std::unordered_map<GLenum, std::string>& shaderSources);
 
         public:
 
-            //////////////////////////////////////////////////
-            /// @brief Main constructor
+            ///////////////////////////////////////////////////////////
+            /// @brief Create a shader from the GLSL file at *filepath*
+            explicit Shader(const std::string& filepath);
+
+            ////////////////////////////////////////////////////////////
+            /// @brief Create a shader from a vertex and fragment source
             /// 
             /// @param vertexSrc Vertex shader source code
             /// @param fragmentSrc Fragment shader source code
-            Shader(const std::string& vertexSrc, const std::string& fragmentSrc);
+            Shader(const std::string& name, const std::string& vertexSrc,
+                   const std::string& fragmentSrc);
             
-            ////////////////////////////
+            ////////////////////////////////////////////
             /// @brief Shader destructor
+            ///
+            /// Calls glDeleteProgram() on 'rendererID`.
             virtual ~Shader();
+
+            ////////////////////////////////
+            /// @brief Get the shader's name
+            const std::string& getName();
 
             //////////////////////////////////
             /// @brief Bind the shader program
@@ -60,5 +86,35 @@ namespace Sirius
             /////////////////////////////////////////////////////////////////////
             /// @brief Upload a 4-dimensional float matrix uniform to the shader.
             void uploadUniformMat4(const std::string& name, const glm::mat4& matrix);
+    };
+
+    class ShaderLibrary
+    {
+        private:
+
+            std::unordered_map<std::string, std::shared_ptr<Shader>> shaders;
+
+        public:
+
+            //////////////////////////////////////
+            /// @brief Add a shader to the library
+            void add(const std::shared_ptr<Shader>& shader);
+
+            ///////////////////////////////////////////////////////
+            /// @brief Add shader with a custom name to the library
+            void add(const std::string& name, const std::shared_ptr<Shader>& shader);
+
+            /////////////////////////////////////////////////////////////////
+            /// @brief Create and add a shader from *filepath* to the library
+            std::shared_ptr<Shader> load(const std::string& filepath);
+
+            ////////////////////////////////////////////////////////////////
+            /// @brief Create and add a shader from *filepath* with a custom
+            ///     name to the library
+            std::shared_ptr<Shader> load(const std::string& name, const std::string& filepath);
+
+            ///////////////////////////////////
+            /// @brief Get the shader at *name*
+            std::shared_ptr<Shader>& get(const std::string& name);
     };
 }
