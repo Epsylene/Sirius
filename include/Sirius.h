@@ -20,6 +20,7 @@
 #include "Sirius/Renderer/Buffer.h"
 #include "Sirius/Renderer/VertexArray.h"
 #include "Sirius/Renderer/Shader.h"
+#include "Sirius/Renderer/Texture.h"
 
 #include "Sirius/Renderer/Camera.h"
 #include "Sirius/Renderer/CameraController.h"

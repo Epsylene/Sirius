@@ -1,8 +1,6 @@
 
 #include "Sirius/Renderer/VertexArray.h"
 
-#include <glad/glad.h>
-
 namespace Sirius
 {
     VertexArray::VertexArray()

@@ -15,6 +15,8 @@ namespace Sirius
         window = std::unique_ptr<Window>(Window::create());
         window->setEventCallback([this](Event& event) { onEvent(event); });
 
+        RenderCommand::init();
+
         imGuiLayer = new ImGuiLayer();
         pushOverlay(imGuiLayer);
     }
@@ -56,7 +58,6 @@ namespace Sirius
         while(running)
         {
             // Clear the window
-            RenderCommand::setClearColor({0.12, 0.12, 0.12, 1});
             RenderCommand::clear();
 
             auto time = (float)glfwGetTime();

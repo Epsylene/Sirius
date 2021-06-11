@@ -17,6 +17,10 @@ namespace Sirius
     {
         public:
 
+            ////////////////////////////////////
+            /// @brief Run init render commands
+            static void init();
+
             ///////////////////////////
             /// @brief Clear the window
             static void clear();

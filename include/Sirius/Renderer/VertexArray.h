@@ -33,13 +33,14 @@ namespace Sirius
 
             //////////////////////////////////////////////////////
             /// @brief Add a vertex buffer
-            /// @param vertexBuffer A pointer to the vertex buffer
+            /// @param vertexBuffer A pointer to a vertex buffer
             virtual void addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer);
 
             ///////////////////////////////////////////////////
             /// @brief Set the index buffer
-            /// @param indexBuffer A pointer to an index buffer
-            virtual void setIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer);
+            /// @param indexBuffer A pointer to the index buffer
+            virtual void setIndexBuffer(
+                    const std::shared_ptr<IndexBuffer>& indexBuffer);
 
             /////////////////////////////////
             /// @brief Get the vertex buffers
