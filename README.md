@@ -1,4 +1,4 @@
-#Sirius
+# Sirius
 ## Introduction
 
 *Sirius* is a general-purpose, 
@@ -59,8 +59,9 @@ You have :
   compiler the makefiles are going to be 
   generated (on Windows, if you are using
   MinGW or MinGW-w64, use "MinGW Makefiles";
-  if you are using Visual Studio, search for 
-  your version's CMake generator)
+  if you are using Visual Studio, you can search for 
+  your version's CMake generator, but it should be the
+  one chosen by default)
   
 * LIBRARY_PATH : the path where you want
   to install the library. Make sure it 
