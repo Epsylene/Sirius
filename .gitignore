@@ -4,4 +4,3 @@ cmake-build-release
 .vscode
 build
 bin
-vendor

@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include "srspch.h"
+
 #include "VertexArray.h"
 #include "Shader.h"
 

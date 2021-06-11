@@ -1,12 +1,32 @@
+
+# ----------------------------------------------------
+# Start Sirius project
+# ----------------------------------------------------
+
 cmake_minimum_required(VERSION 3.17)
-project(Sirius)
+project(Sirius VERSION 0.1)
 
-set(CMAKE_CXX_STANDARD 17)
-
+# Bin directory #
 file(MAKE_DIRECTORY bin/${CMAKE_BUILD_TYPE}/)
-
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})
+
+# ----------------------------------------------------
+# Compiler and build configuration
+# ----------------------------------------------------
+
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose Release or Debug" FORCE)
+endif()
+
+if(NOT CMAKE_CXX_STANDARD)
+    set(CMAKE_CXX_STANDARD 17)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
+
+# ----------------------------------------------------
+# Sirius include directories and definitions
+# ----------------------------------------------------
 
 add_definitions(-DGLFW_INCLUDE_NONE)
 
@@ -15,8 +35,12 @@ include_directories(vendor/spdlog/include/)
 include_directories(vendor/imgui/)
 include_directories(vendor/glfw/include/)
 include_directories(vendor/glad/include/)
-include_directories(vendor/glm/glm)
+include_directories(vendor/glm)
 include_directories(vendor/stb_image)
+
+# ----------------------------------------------------
+# Sirius library and dependencies
+# ----------------------------------------------------
 
 ### LIBRARY ###
 add_library(Sirius SHARED include/Sirius/Core/EntryPoint.h src/Sirius/Core/Application.cpp include/Sirius/Core/Application.h include/Sirius.h include/srspch.h include/Sirius/Events/Event.h include/Sirius/Events/KeyEvent.h include/Sirius/Events/ApplicationEvent.h include/Sirius/Events/MouseEvent.h include/Sirius/Core/Window.h include/Sirius/Core/Input.h src/Sirius/Core/Input.cpp src/Sirius/Core/Window.cpp src/Sirius/Renderer/Buffer.cpp include/Sirius/Renderer/Buffer.h include/Sirius/Renderer/Shader.h src/Sirius/Renderer/Shader.cpp include/Sirius/Renderer/RenderContext.h src/Sirius/Renderer/RenderContext.cpp src/Sirius/Renderer/VertexArray.cpp include/Sirius/Renderer/VertexArray.h src/Sirius/Core/Log.cpp include/Sirius/Core/Log.h include/Sirius/Core/Core.h src/Sirius/Core/Layer.cpp include/Sirius/Core/Layer.h src/Sirius/Core/LayerStack.cpp include/Sirius/Core/LayerStack.h src/Sirius/ImGui/ImGuiLayer.cpp include/Sirius/ImGui/ImGuiLayer.h vendor/imgui/backends/imgui_impl_glfw.cpp vendor/imgui/backends/imgui_impl_glfw.h vendor/imgui/backends/imgui_impl_opengl3.cpp vendor/imgui/backends/imgui_impl_opengl3.h src/Sirius/Renderer/Renderer.cpp include/Sirius/Renderer/Renderer.h src/Sirius/Renderer/RenderCommand.cpp include/Sirius/Renderer/RenderCommand.h src/Sirius/Renderer/Camera.cpp include/Sirius/Renderer/Camera.h include/Sirius/Core/KeyCodes.h include/Sirius/Core/MouseButtonCodes.h include/Sirius/Core/Timestep.h src/Sirius/Renderer/CameraController.cpp include/Sirius/Renderer/CameraController.h src/Sirius/Renderer/Texture.cpp include/Sirius/Renderer/Texture.h)
@@ -49,6 +73,8 @@ target_link_libraries(Sirius PUBLIC glm::glm)
 add_library(stb_image STATIC vendor/stb_image/stb_image.h vendor/stb_image/stb_image.cpp)
 target_link_libraries(Sirius PUBLIC stb_image)
 
+# Copy GLFW's DLL to the bin directory (next to the
+#   Sirius_test executable)
 add_custom_command(
         TARGET Sirius POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -56,8 +82,20 @@ add_custom_command(
         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
 )
 
+# Precompiled headers
 target_precompile_headers(Sirius PUBLIC include/srspch.h)
 
-### TEST EXECUTABLE ###
+# ----------------------------------------------------
+# Install Sirius and its dependencies
+# ----------------------------------------------------
+
+install(TARGETS Sirius DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+install(DIRECTORY include DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(DIRECTORY vendor DESTINATION ${CMAKE_INSTALL_PREFIX})
+
+# ----------------------------------------------------
+# Sirius test executable
+# ----------------------------------------------------
+
 add_executable(Sirius_test test/Test.cpp)
 target_link_libraries(Sirius_test Sirius -static-libgcc -static-libstdc++)
