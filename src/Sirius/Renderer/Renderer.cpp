@@ -11,17 +11,20 @@ namespace Sirius
     }
 
     void Renderer::endScene()
-    {
+    {}
 
+    void Renderer::onWindowResize(uint32_t width, uint32_t height)
+    {
+        RenderCommand::setViewport(0, 0, width, height);
     }
 
-    void Renderer::submit(std::shared_ptr<Shader>& shader,
-                          std::shared_ptr<VertexArray>& vertexArray,
+    void Renderer::submit(const std::shared_ptr<Shader>& shader,
+                          const std::shared_ptr<VertexArray>& vertexArray,
                           const glm::mat4& transform)
     {
         shader->bind();
-        shader->uploadUniformMat4("viewProj", sceneData->viewProjMatrix);
-        shader->uploadUniformMat4("transform", transform);
+        shader->uploadUniformMat4("u_viewProj", sceneData->viewProjMatrix);
+        shader->uploadUniformMat4("u_transform", transform);
 
         vertexArray->bind();
         RenderCommand::drawIndexed(vertexArray);

@@ -37,6 +37,7 @@ namespace Sirius
     {
         EventDispatcher dispatcher(event);
         dispatcher.dispatch<WindowCloseEvent>([this](WindowCloseEvent& event) { return onWindowClose(event); });
+        dispatcher.dispatch<WindowResizeEvent>([this](WindowResizeEvent& event) { return onWindowResize(event); });
 
         for (auto it = layerStack.end(); it != layerStack.begin();)
         {
@@ -53,6 +54,19 @@ namespace Sirius
         return true;
     }
 
+    bool Application::onWindowResize(WindowResizeEvent& event)
+    {
+        if(event.getWidth() == 0 || event.getHeight() == 0)
+        {
+            minimized = true;
+            return false;
+        }
+        minimized = false;
+
+        Renderer::onWindowResize(event.getWidth(), event.getHeight());
+        return false;
+    }
+
     void Application::run()
     {
         while(running)
@@ -65,8 +79,11 @@ namespace Sirius
             lastFrameTime = time;
             
             // Update the layers
-            for (Layer* layer: layerStack)
-                layer->onUpdate(dt);
+            if(!minimized)
+            {
+                for (Layer* layer: layerStack)
+                    layer->onUpdate(dt);
+            }
 
             // Run ImGui and its callbacks
             imGuiLayer->begin();

@@ -70,8 +70,6 @@ namespace Sirius
 
             /////////////////////////////////
             /// @brief Window resize callback
-            ///
-            /// @todo sluggish and doesn't work really well
             virtual bool onWindowResized(WindowResizeEvent& event) override;
 
         public:
@@ -121,8 +119,6 @@ namespace Sirius
 
             /////////////////////////////////
             /// @brief Window resize callback
-            ///
-            /// @todo sluggish and doesn't work really well
             virtual bool onWindowResized(WindowResizeEvent& event) override;
 
         public:

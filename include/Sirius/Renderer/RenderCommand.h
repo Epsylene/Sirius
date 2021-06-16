@@ -29,6 +29,8 @@ namespace Sirius
             /// @brief Set the window clear color
             static void setClearColor(const glm::vec4& color);
 
+            static void setViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height);
+
             ////////////////////////////////
             /// @brief Draw the vertex array
             static void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray);

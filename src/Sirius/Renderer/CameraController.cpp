@@ -88,7 +88,7 @@ namespace Sirius
             std::dynamic_pointer_cast<Camera2D>(camera)->setRotation(rotation);
         }
 
-        std::dynamic_pointer_cast<Camera2D>(camera)->setPosition(pos);
+        camera->setPosition(pos);
         movSpeed = 3.f / zoom;
     }
 

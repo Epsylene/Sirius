@@ -36,7 +36,7 @@ namespace Sirius
             static Application* instance;
 
             std::unique_ptr<Window> window;
-            bool running = true;
+            bool running = true, minimized = false;
             float lastFrameTime = 0.f;
 
             LayerStack layerStack;
@@ -82,11 +82,15 @@ namespace Sirius
             /// @see Layer class
             void pushOverlay(Layer* overlay);
 
-            /////////////////////////////////////////////////////////
-            /// @brief Is called when a WindowCloseEvent is triggered
-            /// @param event The WindowCloseEvent
+            //////////////////////////////////////////////
+            /// @brief Is called when the window is closed
             /// @return True
             bool onWindowClose(WindowCloseEvent& event);
+
+            ///////////////////////////////////////////////
+            /// @brief Is called when the window is resized
+            /// @return False
+            bool onWindowResize(WindowResizeEvent& event);
 
             ///////////////////////////////////////////////////////////
             /// @brief Main application loop

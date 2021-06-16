@@ -65,7 +65,7 @@ namespace Sirius
             virtual std::string toString() const { return getEventName(); }
     };
 
-    /////////////////////////////////////////
+    /////////////////////////////////////////////////////////
     /// @brief Event dispatcher class
     ///
     /// Takes in events and provides a dispatch() function to

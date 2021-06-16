@@ -33,15 +33,18 @@ namespace Sirius
             /// @brief End the rendered scene
             static void endScene();
 
-            ////////////////////////////////////////////////
+            static void onWindowResize(uint32_t width, uint32_t height);
+
+            ////////////////////////////////////////////////////////
             /// @brief Submit an object to be rendered
             ///
             /// @param shader The object's shader
             /// @param vertexArray The object's vertex array
+            /// @param transform The transform applied to the object
             ///
             /// @see Shader and VertexArray classes
-            static void submit(std::shared_ptr<Shader>& shader,
-                               std::shared_ptr<VertexArray>& vertexArray,
+            static void submit(const std::shared_ptr<Shader>& shader,
+                               const std::shared_ptr<VertexArray>& vertexArray,
                                const glm::mat4& transform);
     };
 }

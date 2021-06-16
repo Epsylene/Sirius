@@ -62,12 +62,14 @@ namespace Sirius
 
             ///////////////////////////////////////////////////
             /// @brief Calculates the view-projection matrix of
-            ///     the 2D camera2D
+            ///     the 2D camera
             ///
             /// The view matrix is a composed of a rotation matrix
             /// around `direction` and a `pos` translation matrix;
             /// the projection matrix is a glm::ortho() with the
             /// arguments from the constructor.
+            ///
+            /// @see Camera2D constructor
             virtual void calculateViewProjMatrix() override;
 
         public:
@@ -116,6 +118,14 @@ namespace Sirius
     {
         protected:
 
+            ////////////////////////////////////////////////////////////////////////////////
+            /// @brief 	Calculates the view-projection matrix of the 3D camera.
+            ///
+            /// The view matrix is a `glm::lookAt()` with `pos` as eye, `pos + direction`
+            /// as center and `up` as... up. The projection matrix is a `glm::perspective()`
+            /// that takes the arguments from the constructor.
+            ///
+            /// @see Camera3D constructor
             virtual void calculateViewProjMatrix() override;
 
         public:

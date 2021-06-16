@@ -29,8 +29,8 @@ class ExampleLayer: public Sirius::Layer
             auto vertexBuffer = std::make_shared<Sirius::VertexBuffer>(vertices, sizeof(vertices));
 
             Sirius::BufferLayout layout {
-                    { Sirius::ShaderDataType::Float3, "position" },
-                    { Sirius::ShaderDataType::Float2, "texCoord" }
+                    { Sirius::ShaderDataType::Float3, "a_position" },
+                    { Sirius::ShaderDataType::Float2, "a_texCoord" }
             };
 
             vertexBuffer->setLayout(layout);
@@ -40,7 +40,6 @@ class ExampleLayer: public Sirius::Layer
             auto indexBuffer = std::make_shared<Sirius::IndexBuffer>(indices, std::size(indices));
             vertexArray->setIndexBuffer(indexBuffer);
 
-            shaderLib.load("../../test/assets/shaders/rainbow.glsl");
             shaderLib.load("../../test/assets/shaders/blue.glsl");
             shaderLib.load("../../test/assets/shaders/texture.glsl");
 

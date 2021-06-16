@@ -2,18 +2,18 @@
 #type vertex
 #version 330 core
 
-layout(location = 0) in vec3 position;
-layout(location = 1) in vec2 texCoord;
+layout(location = 0) in vec3 a_position;
+layout(location = 1) in vec2 a_texCoord;
 
-uniform mat4 viewProj;
-uniform mat4 transform;
+uniform mat4 u_viewProj;
+uniform mat4 u_transform;
 
 out vec2 v_texCoord;
 
 void main()
 {
-    v_texCoord = texCoord;
-    gl_Position = viewProj * transform * vec4(position, 1.0);
+    v_texCoord = a_texCoord;
+    gl_Position = u_viewProj * u_transform * vec4(a_position, 1.0);
 }
 
 #type fragment

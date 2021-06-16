@@ -50,7 +50,7 @@ namespace Sirius
     std::string Shader::readFile(const std::string& filepath)
     {
         std::string result;
-        std::ifstream file(filepath);
+        std::ifstream file(filepath, std::ios::binary);
 
         if(file)
         {
@@ -132,7 +132,7 @@ namespace Sirius
                 glDeleteShader(shader);
 
                 Log::coreError("{0}", infoLog.data());
-                SRS_CORE_ASSERT(false, "Vertex shader compilation failure !");
+                Log::coreError("{0} shader compilation failure !", type);
                 return;
             }
 
@@ -159,7 +159,8 @@ namespace Sirius
                 glDeleteShader(id);
 
             Log::coreError("{0}", infoLog.data());
-            SRS_CORE_ASSERT(false, "OpenGLShader link failure !");
+            Log::coreError("OpenGLShader link failure !");
+
             return;
         }
 
@@ -227,14 +228,18 @@ namespace Sirius
     {
         auto& name = shader->getName();
 
-        SRS_CORE_ASSERT(shaders.find(name) == shaders.end(), "Shader already exists !");
+        if(shaders.find(name) != shaders.end())
+            Log::coreError("Shader '{0}' already exists !", name);
+
         shaders[name] = shader;
     }
 
     void ShaderLibrary::add(const std::string& name,
                             const std::shared_ptr<Shader>& shader)
     {
-        SRS_CORE_ASSERT(shaders.find(name) == shaders.end(), "Shader already exists !");
+        if(shaders.find(name) != shaders.end())
+            Log::coreError("Shader '{0}' already exists !", name);
+
         shaders[name] = shader;
     }
 
@@ -257,7 +262,9 @@ namespace Sirius
 
     std::shared_ptr<Shader>& ShaderLibrary::get(const std::string& name)
     {
-        SRS_CORE_ASSERT(shaders.find(name) != shaders.end(), "Shader not found !");
+        if(shaders.find(name) == shaders.end())
+            Log::coreError("Shader '{0}' not found !", name);
+
         return shaders[name];
     }
 }

@@ -2,20 +2,20 @@
 #type vertex
 #version 330 core
 
-layout(location = 0) in vec3 position;
-layout(location = 1) in vec4 color;
+layout(location = 0) in vec3 a_position;
+layout(location = 1) in vec4 a_color;
 
-uniform mat4 viewProj;
-uniform mat4 transform;
+uniform mat4 u_viewProj;
+uniform mat4 u_transform;
 
-out vec3 vPos;
-out vec4 vColor;
+out vec3 v_pos;
+out vec4 v_color;
 
 void main()
 {
-    vPos = position;
-    vColor = color;
-    gl_Position = viewProj * transform * vec4(position, 1.0);
+    v_pos = a_position;
+    v_color = a_color;
+    gl_Position = u_viewProj * u_transform * vec4(a_position, 1.0);
 }
 
 
@@ -24,7 +24,7 @@ void main()
 
 layout(location = 0) out vec4 color;
 
-in vec3 vPos;
+in vec3 v_pos;
 
 void main()
 {
