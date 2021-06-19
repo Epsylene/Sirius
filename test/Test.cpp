@@ -2,6 +2,8 @@
 #include "Sirius.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include "Sirius/Math/Vector/Vector.h"
+#include "Sirius/Math/Matrix/Matrix.h"
 
 class ExampleLayer: public Sirius::Layer
 {
@@ -45,6 +47,10 @@ class ExampleLayer: public Sirius::Layer
 
             shaderLib.get("texture")->bind();
             shaderLib.get("texture")->uploadUniformFloat("u_texture", 0);
+
+            Sirius::Vector4f vec {1.5f};
+            Sirius::Matrix4f mat {vec, vec * 2.f, vec * 0.1f, vec * 1.5f};
+            Sirius::Log::trace(mat);
         }
 
         void onUpdate(Sirius::Timestep dt) override
@@ -54,7 +60,6 @@ class ExampleLayer: public Sirius::Layer
 
             controller.onUpdate(dt);
 
-            auto rainbowShader = shaderLib.get("rainbow");
             auto blueShader = shaderLib.get("blue");
             auto texShader = shaderLib.get("texture");
 

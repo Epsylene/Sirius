@@ -1,0 +1,142 @@
+
+#include "Vector4.h"
+
+#include <spdlog/fmt/bundled/format.h>
+
+namespace Sirius
+{
+    template<typename T>
+    constexpr Vector<4, T>::Vector(T scalar): x(scalar), y(scalar), z(scalar), w(scalar)
+    {}
+
+    template<typename T>
+    constexpr Vector<4, T>::Vector(T x, T y, T z, T w): x(x), y(y), z(z), w(w)
+    {}
+
+    template<typename T>
+    template<typename U>
+    constexpr Vector<4, T>& Vector<4, T>::operator=(const Vector<4, U>& vec)
+    {
+        this->x = static_cast<T>(vec.x);
+        this->y = static_cast<T>(vec.y);
+        this->z = static_cast<T>(vec.z);
+        this->w = static_cast<T>(vec.w);
+
+        return *this;
+    }
+
+    template<typename T>
+    T Vector<4, T>::operator[](unsigned int index)
+    {
+        switch (index)
+        {
+            default: return;
+            case 0: return x;
+            case 1: return y;
+            case 2: return z;
+            case 3: return w;
+        }
+    }
+
+    template<typename T>
+    const T Vector<4, T>::operator[](unsigned int index) const
+    {
+        switch (index)
+        {
+            default:
+            case 0: return x;
+            case 1: return y;
+            case 2: return z;
+            case 3: return w;
+        }
+    }
+
+    template<typename T>
+    constexpr Vector<4, T>& Vector<4, T>::operator+=(const Vector<4, T>& vec)
+    {
+        x += vec.x;
+        y += vec.y;
+        z += vec.z;
+        w += vec.w;
+
+        return *this;
+    }
+
+    template<typename T>
+    constexpr Vector<4, T>& Vector<4, T>::operator-=(const Vector<4, T>& vec)
+    {
+        x -= vec.x;
+        y -= vec.y;
+        z -= vec.z;
+        w -= vec.w;
+
+        return *this;
+    }
+
+    template<typename T>
+    constexpr Vector<4, T>& Vector<4, T>::operator*=(T scalar)
+    {
+        x *= scalar;
+        y *= scalar;
+        z *= scalar;
+        w *= scalar;
+
+        return *this;
+    }
+
+    template<typename T>
+    constexpr Vector<4, T>& Vector<4, T>::operator/=(T scalar)
+    {
+        x /= scalar;
+        y /= scalar;
+        z /= scalar;
+        w /= scalar;
+
+        return *this;
+    }
+
+    template<typename T>
+    constexpr Vector<4, T> operator+(const Vector<4, T>& v1, const Vector<4, T>& v2)
+    {
+        return Vector<4, T>(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w + v2.w);
+    }
+
+    template<typename T>
+    constexpr Vector<4, T> operator-(const Vector<4, T>& v1, const Vector<4, T>& v2)
+    {
+        return Vector<4, T>(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w);
+    }
+
+    template<typename T>
+    constexpr Vector<4, T> operator*(const Vector<4, T>& vec, T scalar)
+    {
+        return Vector<4, T>(vec.x * scalar, vec.y * scalar, vec.z * scalar, vec.w * scalar);
+    }
+
+    template<typename T>
+    constexpr Vector<4, T> operator/(const Vector<4, T>& vec, T scalar)
+    {
+        return Vector<4, T>(vec.x / scalar, vec.y / scalar, vec.z / scalar, vec.w / scalar);
+    }
+}
+
+template <typename T>
+struct fmt::formatter<Sirius::Vector<4, T>>
+{
+    constexpr auto parse(format_parse_context& ctx)
+    {
+        return ctx.end();
+    }
+
+    template <typename Context>
+    auto format(const Sirius::Vector<4, T>& vec, Context& ctx)
+    {
+        return format_to(ctx.out(), "({}, {}, {}, {})", vec.x, vec.y, vec.z, vec.w);
+    }
+};
+
+template<typename T>
+std::ostream& operator<<(std::ostream& out, const Sirius::Vector<4, T>& vec)
+{
+    return out << "(" << vec.x << ", " << vec.y << ", " << vec.z << ", " << vec.w << ")";
+}

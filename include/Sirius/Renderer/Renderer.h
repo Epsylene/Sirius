@@ -33,6 +33,14 @@ namespace Sirius
             /// @brief End the rendered scene
             static void endScene();
 
+            ////////////////////////////////////////////////////
+            /// @brief Window resize renderer callback
+            ///
+            /// The renderer viewport's width and height are set
+            /// to match the resized window's.
+            ///
+            /// @param width The resized window's width
+            /// @param height The resized window's height
             static void onWindowResize(uint32_t width, uint32_t height);
 
             ////////////////////////////////////////////////////////
