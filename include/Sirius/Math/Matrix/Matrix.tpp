@@ -128,9 +128,10 @@ struct fmt::formatter<Sirius::Matrix<dim, T>>
     }
 
     template <typename Context>
+    requires std::is_integral_v<T>
     auto format(const Sirius::Matrix<dim, T>& mat, Context& ctx)
     {
-        std::string formatStr = "\n[" + std::to_string(mat[0][0]);
+        std::string formatStr = "\n\t[" + std::to_string(mat[0][0]);
 
         for (int j = 1; j < dim; ++j)
         {
@@ -141,7 +142,7 @@ struct fmt::formatter<Sirius::Matrix<dim, T>>
 
         for (int i = 1; i < dim; ++i)
         {
-            formatStr += "\n[" + std::to_string(mat[0][i]);
+            formatStr += "\n\t[" + std::to_string(mat[0][i]);
 
             for (int j = 1; j < dim; ++j)
             {
@@ -158,5 +159,24 @@ struct fmt::formatter<Sirius::Matrix<dim, T>>
 template<unsigned dim, typename T>
 std::ostream& operator<<(std::ostream& out, const Sirius::Matrix<dim, T>& mat)
 {
+    out << "\n\t[" << mat[0][0];
 
+    for (int j = 1; j < dim; ++j)
+    {
+        out << " " << mat[j][0];
+    }
+
+    out << "]";
+
+    for (int i = 1; i < dim; ++i)
+    {
+        out << "\n\t[" << mat[0][i];
+
+        for (int j = 1; j < dim; ++j)
+        {
+            out << " " << mat[j][i];
+        }
+
+        out << "]";
+    }
 }

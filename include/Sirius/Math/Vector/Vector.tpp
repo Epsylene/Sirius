@@ -111,22 +111,6 @@ struct fmt::formatter<Sirius::Vector<dim, T>>
     }
 
     template <typename Context>
-    requires std::floating_point<T>
-    auto format(const Sirius::Vector<dim, T>& vec, Context& ctx)
-    {
-        std::string vec0 = std::to_string(vec[0]);
-        std::string formatStr = "(" + vec0.erase(vec0.find_last_not_of('0') + 1);
-
-        for (int i = 1; i < dim; ++i)
-        {
-            std::string veci = std::to_string(vec[i]);
-            formatStr += ", " + veci.erase(veci.find_last_not_of('0') + 1);
-        }
-
-        return format_to(ctx.out(), formatStr + ")");
-    }
-
-    template <typename Context>
     requires std::integral<T>
     auto format(const Sirius::Vector<dim, T>& vec, Context& ctx)
     {

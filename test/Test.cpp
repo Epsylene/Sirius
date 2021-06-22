@@ -48,8 +48,8 @@ class ExampleLayer: public Sirius::Layer
             shaderLib.get("texture")->bind();
             shaderLib.get("texture")->uploadUniformFloat("u_texture", 0);
 
-            Sirius::Vector<5, int> vec {100};
-            Sirius::Matrix<5, int> mat {vec, vec};
+            Sirius::Vector<5, float> vec {1.5f};
+            Sirius::Matrix<5, float> mat {vec, vec};
             Sirius::Log::trace(mat);
         }
 
