@@ -3,42 +3,42 @@
 
 namespace Sirius
 {
-    ////////////////////////////////////////
-    /// @brief Sirius vector class
-    ///
-    /// @tparam dim The vector dimension
-    /// @tparam T The vector elements types
-    template<unsigned dim, typename T> struct Vector;
-
     template<typename T>
-    struct Vector<3, T>
+    struct Vector3
     {
         T x, y, z;
 
-        constexpr Vector() = default;
-        constexpr explicit Vector(T scalar);
-        constexpr Vector(T x, T y, T z);
-        constexpr Vector(const Vector& vec) = default;
-        constexpr Vector(Vector&& vec) noexcept = default;
+        constexpr Vector3() = default;
+        constexpr explicit Vector3(T scalar);
+        constexpr Vector3(T x, T y, T z);
+        constexpr Vector3(const Vector3& vec) = default;
+        constexpr Vector3(Vector3&& vec) noexcept = default;
 
-        constexpr Vector<3, T>& operator=(const Vector<3, T>& vec) = default;
-        template<typename U> constexpr Vector<3, T>& operator=(const Vector<3, U>& vec);
+        constexpr Vector3<T>& operator=(const Vector3<T>& vec) = default;
+        template<typename U> constexpr Vector3<T>& operator=(const Vector3<U>& vec);
 
         T operator[](unsigned index);
         const T operator[](unsigned index) const;
 
-        constexpr Vector<3, T>& operator+=(const Vector<3, T>& vec);
-        constexpr Vector<3, T>& operator-=(const Vector<3, T>& vec);
-        constexpr Vector<3, T>& operator*=(T scalar);
-        constexpr Vector<3, T>& operator/=(T scalar);
+        constexpr Vector3<T>& operator+=(const Vector3<T>& vec);
+        constexpr Vector3<T>& operator-=(const Vector3<T>& vec);
+        constexpr Vector3<T>& operator*=(T scalar);
+        constexpr Vector3<T>& operator/=(T scalar);
+
+        bool operator==(const Vector3<T>& rhs) const;
+        bool operator!=(const Vector3<T>& rhs) const;
+
+        constexpr operator Vector<3, T>() const;
     };
 
-    template<typename T> constexpr Vector<3, T> operator+(const Vector<3, T>& v1, const Vector<3, T>& v3);
-    template<typename T> constexpr Vector<3, T> operator-(const Vector<3, T>& v1, const Vector<3, T>& v3);
-    template<typename T> constexpr Vector<3, T> operator*(const Vector<3, T>& vec, T scalar);
-    template<typename T> constexpr Vector<3, T> operator/(const Vector<3, T>& vec, T scalar);
+    template<typename T> constexpr Vector3<T> operator+(const Vector3<T>& v1, const Vector3<T>& v3);
+    template<typename T> constexpr Vector3<T> operator-(const Vector3<T>& v1, const Vector3<T>& v3);
+    template<typename T> constexpr Vector3<T> operator*(const Vector3<T>& vec, T scalar);
+    template<typename T> constexpr Vector3<T> operator/(const Vector3<T>& vec, T scalar);
 
-    using Vector3i = Vector<3, int>;
-    using Vector3f = Vector<3, float>;
-    using Vector3d = Vector<3, double>;
+    using Vector33i = Vector3<int>;
+    using Vector33f = Vector3<float>;
+    using Vector33d = Vector3<double>;
 }
+
+#include "Vector3.tpp"

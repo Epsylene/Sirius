@@ -3,44 +3,42 @@
 
 namespace Sirius
 {
-    ////////////////////////////////////////
-    /// @brief Sirius vector class
-    ///
-    /// @tparam dim The vector dimension
-    /// @tparam T The vector elements types
-    template<unsigned dim, typename T> struct Vector;
-
     template<typename T>
-    struct Vector<2, T>
+    struct Vector2
     {
-            T x, y;
+        T x, y;
 
-            constexpr Vector() = default;
-            constexpr explicit Vector(T scalar);
-            constexpr Vector(T x, T y);
-            constexpr Vector(const Vector& vec) = default;
-            constexpr Vector(Vector&& vec) noexcept = default;
+        constexpr Vector2() = default;
+        constexpr explicit Vector2(T scalar);
+        constexpr Vector2(T x, T y);
+        constexpr Vector2(const Vector2& vec) = default;
+        constexpr Vector2(Vector2&& vec) noexcept = default;
 
-            constexpr Vector<2, T>& operator=(const Vector<2, T>& vec) = default;
-            template<typename U> constexpr Vector<2, T>& operator=(const Vector<2, U>& vec);
+        constexpr Vector2<T>& operator=(const Vector2<T>& vec) = default;
+        template<typename U> constexpr Vector2<T>& operator=(const Vector2<U>& vec);
 
-            T operator[](unsigned index);
-            const T operator[](unsigned index) const;
+        constexpr T operator[](unsigned index);
+        constexpr T operator[](unsigned index) const;
 
-            constexpr Vector<2, T>& operator+=(const Vector<2, T>& vec);
-            constexpr Vector<2, T>& operator-=(const Vector<2, T>& vec);
-            constexpr Vector<2, T>& operator*=(T scalar);
-            constexpr Vector<2, T>& operator/=(T scalar);
+        constexpr Vector2<T>& operator+=(const Vector2<T>& vec);
+        constexpr Vector2<T>& operator-=(const Vector2<T>& vec);
+        constexpr Vector2<T>& operator*=(T scalar);
+        constexpr Vector2<T>& operator/=(T scalar);
+
+        bool operator==(const Vector2<T>& rhs) const;
+        bool operator!=(const Vector2<T>& rhs) const;
+
+        constexpr operator Vector<2, T>() const;
     };
 
-    template<typename T> constexpr Vector<2, T> operator+(const Vector<2, T>& v1, const Vector<2, T>& v2);
-    template<typename T> constexpr Vector<2, T> operator-(const Vector<2, T>& v1, const Vector<2, T>& v2);
-    template<typename T> constexpr Vector<2, T> operator*(const Vector<2, T>& vec, T scalar);
-    template<typename T> constexpr Vector<2, T> operator/(const Vector<2, T>& vec, T scalar);
+    template<typename T> constexpr Vector2<T> operator+(const Vector2<T>& v1, const Vector2<T>& v2);
+    template<typename T> constexpr Vector2<T> operator-(const Vector2<T>& v1, const Vector2<T>& v2);
+    template<typename T> constexpr Vector2<T> operator*(const Vector2<T>& vec, T scalar);
+    template<typename T> constexpr Vector2<T> operator/(const Vector2<T>& vec, T scalar);
 
-    using Vector2i = Vector<2, int>;
-    using Vector2f = Vector<2, float>;
-    using Vector2d = Vector<2, double>;
+    using Vector2i = Vector2<int>;
+    using Vector2f = Vector2<float>;
+    using Vector2d = Vector2<double>;
 }
 
 #include "Vector2.tpp"
