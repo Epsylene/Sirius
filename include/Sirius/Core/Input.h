@@ -3,7 +3,7 @@
 
 #include "srspch.h"
 
-#include <glm/glm.hpp>
+#include "Sirius/Math/Vector/Vector.h"
 
 namespace Sirius
 {
@@ -40,6 +40,6 @@ namespace Sirius
             /// @brief Get the mouse position
             ///
             /// Position is returned as an std::pair of floats
-            static glm::vec2 getMousePos();
+            static Vec2 getMousePos();
     };
 }

@@ -16,6 +16,8 @@
 #include "Sirius/Core/KeyCodes.h"
 #include "Sirius/Core/MouseButtonCodes.h"
 
+#include "Sirius/Math/Math.h"
+
 // -------------- Renderer ---------------- //
 #include "Sirius/Renderer/Buffer.h"
 #include "Sirius/Renderer/VertexArray.h"
@@ -28,7 +30,3 @@
 #include "Sirius/Renderer/RenderCommand.h"
 #include "Sirius/Renderer/Renderer.h"
 // ---------------------------------------- //
-
-//////// ENTRY POINT /////////
-#include "Sirius/Core/EntryPoint.h"
-//////////////////////////////

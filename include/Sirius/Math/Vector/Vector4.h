@@ -3,7 +3,7 @@
 
 namespace Sirius
 {
-    template<typename T>
+    template<typename T> requires std::is_scalar_v<T>
     struct Vector4
     {
         T x, y, z, w;
@@ -25,6 +25,8 @@ namespace Sirius
         constexpr Vector4<T>& operator*=(T scalar);
         constexpr Vector4<T>& operator/=(T scalar);
 
+        constexpr Vector4<T> operator-();
+
         bool operator==(const Vector4<T>& rhs) const;
         bool operator!=(const Vector4<T>& rhs) const;
 
@@ -34,11 +36,15 @@ namespace Sirius
     template<typename T> constexpr Vector4<T> operator+(const Vector4<T>& v1, const Vector4<T>& v2);
     template<typename T> constexpr Vector4<T> operator-(const Vector4<T>& v1, const Vector4<T>& v2);
     template<typename T> constexpr Vector4<T> operator*(const Vector4<T>& vec, T scalar);
+    template<typename T> constexpr Vector4<T> operator*(const Vector4<T>& v1, const Vector4<T>& v2);
+    template<typename T> constexpr Vector4<T> operator*(const Vector<4, T>& v1, const Vector4<T>& v2);
     template<typename T> constexpr Vector4<T> operator/(const Vector4<T>& vec, T scalar);
 
     using Vector4i = Vector4<int>;
     using Vector4f = Vector4<float>;
     using Vector4d = Vector4<double>;
+
+    using Vec4 = Vector4f;
 }
 
 #include "Vector4.tpp"

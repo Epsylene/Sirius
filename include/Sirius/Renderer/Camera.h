@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <glm/glm.hpp>
+#include "Sirius/Math/Math.h"
 
 namespace Sirius
 {
@@ -15,41 +15,41 @@ namespace Sirius
     {
         protected:
 
-            glm::mat4 projMatrix;
-            glm::mat4 viewMatrix;
-            glm::mat4 viewProjMatrix;
+            Mat4 projMatrix;
+            Mat4 viewMatrix;
+            Mat4 viewProjMatrix;
 
-            glm::vec3 pos, direction, up;
+            Vec3 pos, direction, up;
             float pitch = 0.f, yaw = -90.f, roll = 0.f;
 
             virtual void calculateViewProjMatrix() = 0;
 
         public:
 
-            /////////////////////////////////////////////
+            /////////////////////////////////////////////////
             /// @brief Constructs a generic camera object
             ///     at (0, 0, 1), pointing towards (0, 0, -1)
             ///     and with up vector (0, 1, 0)
             Camera();
 
-            ////////////////////////////////////
+            //////////////////////////////////////
             /// @brief Set the camera2D's position
-            virtual void setPosition(const glm::vec3& pos);
+            virtual void setPosition(const Vec3& pos);
 
-            ////////////////////////////////////
+            //////////////////////////////////////
             /// @brief Get the camera2D's position
-            virtual const glm::vec3& getPosition() const;
+            virtual const Vec3& getPosition() const;
 
-            ///////////////////////////////////////////////////
+            /////////////////////////////////////////////////////
             /// @brief Get the camera2D's normal direction vector
-            virtual const glm::vec3& getDirection() const;
+            virtual const Vec3& getDirection() const;
 
             ////////////////////////////////////////////////
             /// @brief Get the OpenGL view-projection matrix
-            virtual const glm::mat4& getViewProjMatrix() const;
+            virtual const Mat4& getViewProjMatrix() const;
     };
 
-    //////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////
     /// @brief Orthographic 2D camera object class
     ///
     /// This camera is intended to be used only for 2D rendering
@@ -60,16 +60,16 @@ namespace Sirius
     {
         protected:
 
-            ///////////////////////////////////////////////////
+            //////////////////////////////////////////////////////
             /// @brief Calculates the view-projection matrix of
             ///     the 2D camera
             ///
             /// The view matrix is a composed of a rotation matrix
             /// around `direction` and a `pos` translation matrix;
-            /// the projection matrix is a glm::ortho() with the
+            /// the projection matrix is a `Sirius::ortho()` with the
             /// arguments from the constructor.
             ///
-            /// @see Camera2D constructor
+            /// @see Camera2D constructor, `Sirius::ortho()`
             virtual void calculateViewProjMatrix() override;
 
         public:
@@ -81,7 +81,7 @@ namespace Sirius
             ///     and 1)
             Camera2D();
 
-            ////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////
             /// @brief Constructs an orthographic 2D camera2D pointing
             ///     towards -Z with the provided arguments
             ///
@@ -91,7 +91,7 @@ namespace Sirius
             /// @param top Top plane distance
             Camera2D(float left, float right, float bottom, float top);
 
-            /////////////////////////////////////////
+            ///////////////////////////////////////////////////////
             /// @brief Set the 2D camera2D's rotation
             ///
             /// @param rotation Rotation in the 2D plane the camera
@@ -121,23 +121,23 @@ namespace Sirius
             ////////////////////////////////////////////////////////////////////////////////
             /// @brief 	Calculates the view-projection matrix of the 3D camera.
             ///
-            /// The view matrix is a `glm::lookAt()` with `pos` as eye, `pos + direction`
-            /// as center and `up` as... up. The projection matrix is a `glm::perspective()`
+            /// The view matrix is a `Sirius::lookAt()` with `pos` as eye, `pos + direction`
+            /// as center and `up` as... up. The projection matrix is a `Sirius::perspective()`
             /// that takes the arguments from the constructor.
             ///
-            /// @see Camera3D constructor
+            /// @see Camera3D constructor, `Sirius::lookAt()`, `Sirius::perspective()`
             virtual void calculateViewProjMatrix() override;
 
         public:
 
-            ////////////////////////////////////////////////////////
-            /// @brief Constructs a default perspective camera2D
+            //////////////////////////////////////////////////////
+            /// @brief Constructs a default perspective 3D camera
             ///     (90º FOV, 16/9 aspect ratio, distances to near
             ///     and far planes set to 0.1 and a 100).
             Camera3D();
 
             /////////////////////////////////////////////////////////////////////////
-            /// @brief Constructs a perspective camera2D with the given parameters
+            /// @brief Constructs a perspective 3D camera with the given parameters
             ///
             /// @param fov Field of view, that is, the angle the camera2D "sees" of
             ///     the world; a FOV of 90º means that the righmost and leftmost
@@ -147,8 +147,8 @@ namespace Sirius
             /// @param far Far plane distance
             Camera3D(float fov, float aspect, float near, float far);
 
-            //////////////////////////////////////////////////////
-            /// @brief Set the camera2D's rotation in Euler angles
+            ////////////////////////////////////////////////////
+            /// @brief Set the camera's rotation in Euler angles
             ///
             /// @param pitch Rotation around the right vector
             /// @param yaw Rotation around the up vector
@@ -156,7 +156,7 @@ namespace Sirius
             virtual void setRotation(float pitch, float yaw, float roll);
 
             /////////////////////////////////////////////////////////////////////////
-            /// @brief Set the camera2D's projection matrix arguments
+            /// @brief Set the camera's projection matrix arguments
             ///
             /// @param fov Field of view, that is, the angle the camera2D "sees" of
             ///     the world; a FOV of 90º means that the righmost and leftmost

@@ -1,9 +1,9 @@
 
 #include <Sirius.h>
+#include <Sirius/Core/EntryPoint.h>
 
 #include <glm/gtc/matrix_transform.hpp>
-#include <Sirius/Math/Vector/Vector.h>
-#include <Sirius/Math/Matrix/Matrix.h>
+#include <glm/gtx/rotate_vector.hpp>
 
 class ExampleLayer: public Sirius::Layer
 {
@@ -47,10 +47,6 @@ class ExampleLayer: public Sirius::Layer
 
             shaderLib.get("texture")->bind();
             shaderLib.get("texture")->uploadUniformFloat("u_texture", 0);
-
-            Sirius::Vector<5, float> vec {1.5f};
-            Sirius::Matrix<5, float> mat {vec, vec};
-            Sirius::Log::trace(mat);
         }
 
         void onUpdate(Sirius::Timestep dt) override
@@ -65,7 +61,7 @@ class ExampleLayer: public Sirius::Layer
 
             texture.bind();
 
-            Sirius::Renderer::submit(texShader, vertexArray, glm::scale(glm::mat4(1.f), glm::vec3(1.f)));
+            Sirius::Renderer::submit(texShader, vertexArray);
 
             Sirius::Renderer::endScene();
         }

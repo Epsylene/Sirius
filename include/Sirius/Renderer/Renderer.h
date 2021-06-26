@@ -18,7 +18,7 @@ namespace Sirius
 
             struct SceneData
             {
-                glm::mat4 viewProjMatrix;
+                Mat4 viewProjMatrix;
             };
 
             static std::unique_ptr<SceneData> sceneData;
@@ -53,6 +53,6 @@ namespace Sirius
             /// @see Shader and VertexArray classes
             static void submit(const std::shared_ptr<Shader>& shader,
                                const std::shared_ptr<VertexArray>& vertexArray,
-                               const glm::mat4& transform);
+                               const Mat4& transform = identity<4>());
     };
 }

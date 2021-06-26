@@ -2,7 +2,7 @@
 #include "Sirius/Renderer/Shader.h"
 
 #include <glm/gtc/type_ptr.hpp>
-#include <fstream>
+#include <Sirius/Math/Matrix/Matrix4.h>
 
 #include "Sirius/Core/Core.h"
 
@@ -199,29 +199,29 @@ namespace Sirius
     }
 
     void Shader::uploadUniformFloat2(const std::string& name,
-                                           const glm::vec2& val)
+                                     const Vec2& val)
     {
         GLint location = glGetUniformLocation(rendererId, name.c_str());
         glUniform2f(location, val.x, val.y);
     }
 
     void Shader::uploadUniformFloat3(const std::string& name,
-                                           const glm::vec3& val)
+                                     const Vec3& val)
     {
         GLint location = glGetUniformLocation(rendererId, name.c_str());
         glUniform3f(location, val.x, val.y, val.z);
     }
 
-    void Shader::uploadUniformFloat4(const std::string& name, const glm::vec4& val)
+    void Shader::uploadUniformFloat4(const std::string& name, const Vec4& val)
     {
         GLint location = glGetUniformLocation(rendererId, name.c_str());
         glUniform4f(location, val.x, val.y, val.z, val.w);
     }
 
-    void Shader::uploadUniformMat4(const std::string& name, const glm::mat4& matrix)
+    void Shader::uploadUniformMat4(const std::string& name, const Mat4& matrix)
     {
         GLint location = glGetUniformLocation(rendererId, name.c_str());
-        glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+        glUniformMatrix4fv(location, 1, GL_FALSE, value_ptr(matrix));
     }
 
     void ShaderLibrary::add(const std::shared_ptr<Shader>& shader)

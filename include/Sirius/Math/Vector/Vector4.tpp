@@ -3,15 +3,15 @@
 
 namespace Sirius
 {
-    template<typename T>
+    template<typename T> requires std::is_scalar_v<T>
     constexpr Vector4<T>::Vector4(T scalar): x(scalar), y(scalar), z(scalar), w(scalar)
     {}
 
-    template<typename T>
+    template<typename T> requires std::is_scalar_v<T>
     constexpr Vector4<T>::Vector4(T x, T y, T z, T w): x(x), y(y), z(z), w(w)
     {}
 
-    template<typename T>
+    template<typename T> requires std::is_scalar_v<T>
     template<typename U>
     constexpr Vector4<T>& Vector4<T>::operator=(const Vector4<U>& vec)
     {
@@ -23,7 +23,7 @@ namespace Sirius
         return *this;
     }
 
-    template<typename T>
+    template<typename T> requires std::is_scalar_v<T>
     T Vector4<T>::operator[](unsigned int index)
     {
         switch (index)
@@ -36,7 +36,7 @@ namespace Sirius
         }
     }
 
-    template<typename T>
+    template<typename T> requires std::is_scalar_v<T>
     const T Vector4<T>::operator[](unsigned int index) const
     {
         switch (index)
@@ -49,7 +49,7 @@ namespace Sirius
         }
     }
 
-    template<typename T>
+    template<typename T> requires std::is_scalar_v<T>
     constexpr Vector4<T>& Vector4<T>::operator+=(const Vector4<T>& vec)
     {
         x += vec.x;
@@ -60,7 +60,7 @@ namespace Sirius
         return *this;
     }
 
-    template<typename T>
+    template<typename T> requires std::is_scalar_v<T>
     constexpr Vector4<T>& Vector4<T>::operator-=(const Vector4<T>& vec)
     {
         x -= vec.x;
@@ -71,7 +71,7 @@ namespace Sirius
         return *this;
     }
 
-    template<typename T>
+    template<typename T> requires std::is_scalar_v<T>
     constexpr Vector4<T>& Vector4<T>::operator*=(T scalar)
     {
         x *= scalar;
@@ -82,7 +82,7 @@ namespace Sirius
         return *this;
     }
 
-    template<typename T>
+    template<typename T> requires std::is_scalar_v<T>
     constexpr Vector4<T>& Vector4<T>::operator/=(T scalar)
     {
         x /= scalar;
@@ -93,7 +93,7 @@ namespace Sirius
         return *this;
     }
 
-    template<typename T>
+    template<typename T> requires std::is_scalar_v<T>
     bool Vector4<T>::operator==(const Vector4<T>& rhs) const
     {
         return x == rhs.x &&
@@ -102,34 +102,51 @@ namespace Sirius
                w == rhs.w;
     }
 
-    template<typename T>
+    template<typename T> requires std::is_scalar_v<T>
     bool Vector4<T>::operator!=(const Vector4<T>& rhs) const
     {
         return !(rhs == *this);
     }
 
-    template<typename T>
+    template<typename T> requires std::is_scalar_v<T>
     constexpr Vector4<T>::operator Vector<4, T>() const
     {
         return Vector<4, T>(x, y, z, w);
     }
 
+    template<typename T> requires std::is_scalar_v<T>
+    constexpr Vector4<T> Vector4<T>::operator-()
+    {
+        return {x ? -x : 0, y ? -y : 0, z ? -z : 0, w ? -w : 0};
+    }
+
     template<typename T>
     constexpr Vector4<T> operator+(const Vector4<T>& v1, const Vector4<T>& v2)
     {
-        return Vector4<T>(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w + v2.w);
+        return { v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w + v2.w };
     }
 
     template<typename T>
     constexpr Vector4<T> operator-(const Vector4<T>& v1, const Vector4<T>& v2)
     {
-        return Vector4<T>(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w);
+        return { v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w };
     }
 
     template<typename T>
     constexpr Vector4<T> operator*(const Vector4<T>& vec, T scalar)
     {
-        return Vector4<T>(vec.x * scalar, vec.y * scalar, vec.z * scalar, vec.w * scalar);
+        return { vec.x * scalar, vec.y * scalar, vec.z * scalar, vec.w * scalar };
+    }
+
+    template<typename T>
+    constexpr Vector4<T> operator*(const Vector4<T>& v1, const Vector4<T>& v2)
+    {
+        return { v1.x * v2.x, v1.y * v2.y, v1.z * v2.z, v1.w * v2.w };
+    }
+
+    template<typename T> constexpr Vector4<T> operator*(const Vector<4, T>& v1, const Vector4<T>& v2)
+    {
+        return { v1[0] * v2.x, v1[1] * v2.y, v1[2] * v2.z, v1[3] * v2.w };
     }
 
     template<typename T>

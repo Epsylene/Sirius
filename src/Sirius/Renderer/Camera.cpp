@@ -11,24 +11,24 @@ namespace Sirius
     Camera::Camera(): pos(0.f, 0.f, 1.f), direction(0.f, 0.f, -1.f), up(0.f, 1.f, 0.f)
     {}
 
-    void Camera::setPosition(const glm::vec3& pos)
+    void Camera::setPosition(const Vec3& pos)
     {
         this->pos = pos;
 
         calculateViewProjMatrix();
     }
 
-    const glm::vec3& Camera::getPosition() const
+    const Vec3& Camera::getPosition() const
     {
         return pos;
     }
 
-    const glm::vec3& Camera::getDirection() const
+    const Vec3& Camera::getDirection() const
     {
         return direction;
     }
 
-    const glm::mat4& Camera::getViewProjMatrix() const
+    const Mat4& Camera::getViewProjMatrix() const
     {
         return viewProjMatrix;
     }
@@ -42,8 +42,9 @@ namespace Sirius
     {
         this->direction = direction;
 
-        projMatrix = glm::ortho(left, right, bottom, top);
-        viewMatrix = glm::mat4(1.f);
+        projMatrix = ortho(left, right, bottom, top);
+        viewMatrix = identity<4>();
+
         viewProjMatrix = projMatrix * viewMatrix;
     }
 
@@ -56,7 +57,7 @@ namespace Sirius
 
     void Camera2D::setProjection(float left, float right, float bottom, float top)
     {
-        projMatrix = glm::ortho(left, right, bottom, top);
+        projMatrix = ortho(left, right, bottom, top);
 
         calculateViewProjMatrix();
     }
@@ -65,16 +66,15 @@ namespace Sirius
     {
         // Rotates a point by 'rotation' around an axis, then translates
         //  it by 'pos'.
-        glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos)
-                              * glm::rotate(glm::mat4(1.0f), roll, direction);
+        Mat4 transform = translate(pos) * rotate(direction, roll);
 
         // The world orientation is the inverse of the cameraController's.
         // Note that the resulting matrix is the same as a glm::lookAt()
         // with pos as eye vector, pos + direction as center, and up as
         // (you guessed it) up vector, with the latter being rotated by
         // roll.
-        viewMatrix = glm::inverse(transform);
-        viewProjMatrix = projMatrix * viewMatrix;
+
+        viewProjMatrix = projMatrix * inverse(transform);
     }
 
     //-------------------------- 3D CAMERA --------------------------//
@@ -84,7 +84,8 @@ namespace Sirius
 
     Camera3D::Camera3D(float fov, float aspect, float near, float far)
     {
-        projMatrix = glm::perspective(fov, aspect, near, far);
+        projMatrix = perspective(fov, aspect, near, far);
+//        viewMatrix = identity<4>();
 
         viewProjMatrix = projMatrix * viewMatrix;
     }
@@ -100,7 +101,7 @@ namespace Sirius
 
     void Camera3D::setProjection(float fov, float aspect, float near, float far)
     {
-        projMatrix = glm::perspective(fov, aspect, near, far);
+        projMatrix = perspective(fov, aspect, near, far);
 
         calculateViewProjMatrix();
     }
@@ -111,15 +112,15 @@ namespace Sirius
         direction = { std::cos(glm::radians(yaw)) * std::cos(glm::radians(pitch)),
                       std::sin(glm::radians(pitch)),
                       std::sin(glm::radians(yaw)) * std::cos(glm::radians(pitch)) };
-        direction = glm::normalize(direction);
+        direction = normalize(direction);
 
         // The camera2D's up vector
-        up = glm::rotate({0.f, 1.f, 0.f}, roll, direction);
+        up = rotate({0.f, 1.f, 0.f}, direction, roll);
 
         // The lookAt() function builds a view matrix that looks
         // from a position (pos) to a certain point (pos + direction)
         // in a space whose up-pointing vector is 'up'.
-        viewMatrix = glm::lookAt(pos, pos + direction, up);
+        viewMatrix = lookAt(pos, pos + direction, up);
         viewProjMatrix = projMatrix * viewMatrix;
     }
 }

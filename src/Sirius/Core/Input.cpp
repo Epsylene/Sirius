@@ -40,7 +40,7 @@ namespace Sirius
         return (float)yPos;
     }
 
-    glm::vec2 Input::getMousePos()
+    Vec2 Input::getMousePos()
     {
         auto window = Application::get().getWindow().getNativeWindow();
         double xPos, yPos;

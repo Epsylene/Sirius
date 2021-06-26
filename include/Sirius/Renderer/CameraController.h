@@ -24,7 +24,7 @@ namespace Sirius
 
             std::shared_ptr<Camera> camera;
 
-            glm::vec3 pos = {0.f, 0.f, 1.f};
+            Vec3 pos = {0.f, 0.f, 1.f};
             float movSpeed = 5.f;
 
             float aspect;
@@ -105,7 +105,7 @@ namespace Sirius
     {
         private:
 
-            glm::vec2 lastMousePos;
+            Vec2 lastMousePos;
 
             float fov, sensitivity = 20.f, rollSpeed = 5.f;
             float pitch = 0.f, yaw = -90.f, roll = 0.f;

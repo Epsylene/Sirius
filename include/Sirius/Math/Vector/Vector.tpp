@@ -22,7 +22,7 @@ namespace Sirius
     }
 
     template<unsigned dim, typename T> requires std::is_scalar_v<T>
-    template<typename U>
+    template<typename U> requires std::is_convertible_v<U, T>
     constexpr Vector<dim, T>& Vector<dim, T>::operator=(const Vector<dim, U>& vec)
     {
         for (int i = 0; i < dim; ++i)
@@ -32,13 +32,13 @@ namespace Sirius
     }
 
     template<unsigned dim, typename T> requires std::is_scalar_v<T>
-    constexpr T Vector<dim, T>::operator[](unsigned index)
+    constexpr T& Vector<dim, T>::operator[](unsigned index)
     {
         return vals[index];
     }
 
     template<unsigned dim, typename T> requires std::is_scalar_v<T>
-    constexpr T Vector<dim, T>::operator[](unsigned index) const
+    constexpr const T& Vector<dim, T>::operator[](unsigned index) const
     {
         return vals[index];
     }
@@ -100,6 +100,82 @@ namespace Sirius
     {
         return !(*this == rhs);
     }
+
+    template<unsigned int dim, typename T> requires std::is_scalar_v<T>
+    constexpr Vector<dim, T>& Vector<dim, T>::operator-()
+    {
+        for (int i = 0; i < dim; ++i)
+        {
+            vals[i] = vals[i] ? -vals[i] : 0;
+        }
+
+        return *this;
+    }
+
+    template<unsigned dim, typename T>
+    constexpr Vector<dim, T> operator+(const Vector<dim, T>& v1, const Vector<dim, T>& v2)
+    {
+        Vector<dim, T> result;
+
+        for (int i = 0; i < dim; ++i)
+        {
+            result[i] = v1[i] + v2[i];
+        }
+
+        return result;
+    }
+
+    template<unsigned dim, typename T>
+    constexpr Vector<dim, T> operator-(const Vector<dim, T>& v1, const Vector<dim, T>& v2)
+    {
+        Vector<dim, T> result;
+
+        for (int i = 0; i < dim; ++i)
+        {
+            result[i] = v1[i] - v2[i];
+        }
+
+        return result;
+    }
+
+    template<unsigned dim, typename T>
+    constexpr Vector<dim, T> operator*(const Vector<dim, T>& vec, T scalar)
+    {
+        Vector<dim, T> result;
+
+        for (int i = 0; i < dim; ++i)
+        {
+            result[i] = vec[i] * scalar;
+        }
+
+        return result;
+    }
+
+    template<unsigned dim, typename T>
+    constexpr Vector<dim, T> operator*(const Vector<dim, T>& v1, const Vector<dim, T>& v2)
+    {
+        Vector<dim, T> result;
+
+        for (int i = 0; i < dim; ++i)
+        {
+            result[i] = v1[i] * v2[i];
+        }
+
+        return result;
+    }
+
+    template<unsigned dim, typename T>
+    constexpr Vector<dim, T> operator/(const Vector<dim, T>& vec, T scalar)
+    {
+        Vector<dim, T> result;
+
+        for (int i = 0; i < dim; ++i)
+        {
+            result[i] = vec[i] / scalar;
+        }
+
+        return result;
+    }
 }
 
 template <unsigned dim, typename T>
@@ -111,7 +187,6 @@ struct fmt::formatter<Sirius::Vector<dim, T>>
     }
 
     template <typename Context>
-    requires std::integral<T>
     auto format(const Sirius::Vector<dim, T>& vec, Context& ctx)
     {
         std::string formatStr = "(" + std::to_string(vec[0]);

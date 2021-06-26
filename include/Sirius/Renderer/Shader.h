@@ -2,7 +2,9 @@
 #pragma once
 
 #include <glad/glad.h>
-#include <glm/glm.hpp>
+
+#include "Sirius/Math/Vector/Vector.h"
+#include "Sirius/Math/Matrix/Matrix.h"
 
 #include "srspch.h"
 
@@ -73,19 +75,19 @@ namespace Sirius
 
             /////////////////////////////////////////////////////////////////////
             /// @brief Upload a 2-dimensional float vector uniform to the shader.
-            void uploadUniformFloat2(const std::string& name, const glm::vec2& val);
+            void uploadUniformFloat2(const std::string& name, const Vec2& val);
 
             /////////////////////////////////////////////////////////////////////
             /// @brief Upload a 3-dimensional float vector uniform to the shader.
-            void uploadUniformFloat3(const std::string& name, const glm::vec3& val);
+            void uploadUniformFloat3(const std::string& name, const Vec3& val);
 
             /////////////////////////////////////////////////////////////////////
             /// @brief Upload a 4-dimensional float vector uniform to the shader.
-            void uploadUniformFloat4(const std::string& name, const glm::vec4& val);
+            void uploadUniformFloat4(const std::string& name, const Vec4& val);
 
             /////////////////////////////////////////////////////////////////////
             /// @brief Upload a 4-dimensional float matrix uniform to the shader.
-            void uploadUniformMat4(const std::string& name, const glm::mat4& matrix);
+            void uploadUniformMat4(const std::string& name, const Mat4& matrix);
     };
 
     class ShaderLibrary

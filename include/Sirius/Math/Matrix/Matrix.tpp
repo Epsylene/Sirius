@@ -3,32 +3,70 @@
 
 namespace Sirius
 {
-    template<unsigned int dim, typename T>
+    template<unsigned int dim, typename T> requires std::is_scalar_v<T>
+    constexpr Matrix<dim, T>::Matrix(T val)
+    {
+        for (int i = 0; i < dim; ++i)
+        {
+            for (int j = 0; j < dim; ++j)
+            {
+                columns[i][j] = val;
+            }
+        }
+    }
+
+    template<unsigned int dim, typename T> requires std::is_scalar_v<T>
     template<typename T1, typename... Ts> requires std::is_convertible_v<T1, Vector<dim, T>>
     constexpr Matrix<dim, T>::Matrix(const T1& c1, const Ts&... cs)
     {
         columns = { c1, cs... };
     }
 
-    template<unsigned int dim, typename T>
+    template<unsigned int dim, typename T> requires std::is_scalar_v<T>
     template<typename T1, typename... Ts> requires std::is_convertible_v<T1, T>
     constexpr Matrix<dim, T>::Matrix(T1 val, Ts... vals)
     {
-        std::array<T, dim> scalars = { val, vals...};
+        std::array<T, dim * dim> scalars = { val, vals...};
         Vector <dim, T> column = {};
 
         for (int i = 0; i < dim; ++i)
         {
             for (int j = 0; j < dim; ++j)
             {
-                column[j] = scalars[j];
+                column[j] = scalars[i + j * dim];
             }
 
             columns[i] = column;
         }
     }
 
-    template<unsigned dim, typename T>
+    template<unsigned dim, typename T> requires std::is_scalar_v<T>
+    template<unsigned dim2> requires (dim2 < dim)
+    constexpr Matrix<dim, T>::Matrix(const Matrix<dim2, T>& mat)
+    {
+        for (int i = 0; i < dim2; ++i)
+        {
+            for (int j = 0; j < dim2; ++j)
+            {
+                columns[i][j] = mat[i][j];
+            }
+        }
+    }
+
+    template<unsigned dim, typename T> requires std::is_scalar_v<T>
+    template<unsigned dim2> requires (dim2 > dim)
+    constexpr Matrix<dim, T>::Matrix(const Matrix<dim2, T>& mat)
+    {
+        for (int i = 0; i < dim; ++i)
+        {
+            for (int j = 0; j < dim; ++j)
+            {
+                columns[i][j] = mat[i][j];
+            }
+        }
+    }
+
+    template<unsigned dim, typename T> requires std::is_scalar_v<T>
     template<typename U>
     constexpr Matrix<dim, T>& Matrix<dim, T>::operator=(const Matrix<dim, U>& mat)
     {
@@ -38,19 +76,19 @@ namespace Sirius
         }
     }
 
-    template<unsigned dim, typename T>
+    template<unsigned dim, typename T> requires std::is_scalar_v<T>
     Vector<dim, T>& Matrix<dim, T>::operator[](unsigned int column)
     {
         return columns[column];
     }
 
-    template<unsigned dim, typename T>
+    template<unsigned dim, typename T> requires std::is_scalar_v<T>
     const Vector<dim, T>& Matrix<dim, T>::operator[](unsigned int column) const
     {
         return columns[column];
     }
 
-    template<unsigned dim, typename T>
+    template<unsigned dim, typename T> requires std::is_scalar_v<T>
     constexpr Matrix<dim, T>& Matrix<dim, T>::operator+=(const Matrix<dim, T>& mat)
     {
         for (int i = 0; i < dim; ++i)
@@ -61,7 +99,7 @@ namespace Sirius
         return *this;
     }
 
-    template<unsigned dim, typename T>
+    template<unsigned dim, typename T> requires std::is_scalar_v<T>
     constexpr Matrix<dim, T>& Matrix<dim, T>::operator-=(const Matrix<dim, T>& mat)
     {
         for (int i = 0; i < dim; ++i)
@@ -72,7 +110,7 @@ namespace Sirius
         return *this;
     }
 
-    template<unsigned dim, typename T>
+    template<unsigned dim, typename T> requires std::is_scalar_v<T>
     constexpr Matrix<dim, T>& Matrix<dim, T>::operator*=(T scalar)
     {
         for (int i = 0; i < dim; ++i)
@@ -83,13 +121,13 @@ namespace Sirius
         return *this;
     }
 
-    template<unsigned dim, typename T>
+    template<unsigned dim, typename T> requires std::is_scalar_v<T>
     constexpr Matrix<dim, T>& Matrix<dim, T>::operator*=(const Matrix<dim, T>& mat)
     {
         return (*this = *this * mat);
     }
 
-    template<unsigned dim, typename T>
+    template<unsigned dim, typename T> requires std::is_scalar_v<T>
     constexpr Matrix<dim, T>& Matrix<dim, T>::operator/=(T scalar)
     {
         for (int i = 0; i < dim; ++i)
@@ -100,7 +138,7 @@ namespace Sirius
         return *this;
     }
 
-    template<unsigned int dim, typename T>
+    template<unsigned int dim, typename T> requires std::is_scalar_v<T>
     bool Matrix<dim, T>::operator==(const Matrix <dim, T>& rhs) const
     {
         for (int i = 0; i < dim; ++i)
@@ -112,10 +150,48 @@ namespace Sirius
         return true;
     }
 
-    template<unsigned int dim, typename T>
+    template<unsigned int dim, typename T> requires std::is_scalar_v<T>
     bool Matrix<dim, T>::operator!=(const Matrix <dim, T>& rhs) const
     {
         return !(*this == rhs);
+    }
+
+    template<unsigned int dim, typename T> requires std::is_scalar_v<T>
+    constexpr Matrix <dim, T> Matrix<dim, T>::operator-()
+    {
+        Matrix<dim, T> result;
+
+        for (int i = 0; i < dim; ++i)
+        {
+            for (int j = 0; j < dim; ++j)
+            {
+                result[i][j] = -columns[i][j];
+            }
+        }
+
+        return result;
+    }
+
+    template<unsigned dim, typename T>
+    constexpr Vector<dim, T> operator*(const Matrix<dim, T>& mat, const Vector<dim, T>& vec)
+    {
+        Vector<dim, T> result;
+
+        for (int i = 0; i < dim; ++i)
+        {
+            for (int j = 0; j < dim; ++j)
+            {
+                result[i] += mat[j][i] * result[j];
+            }
+        }
+
+        return result;
+    }
+
+    template<unsigned dim, typename T>
+    const T* value_ptr(const Matrix<dim, T>& mat)
+    {
+        return &(mat[0][0]);
     }
 }
 
@@ -128,7 +204,6 @@ struct fmt::formatter<Sirius::Matrix<dim, T>>
     }
 
     template <typename Context>
-    requires std::is_integral_v<T>
     auto format(const Sirius::Matrix<dim, T>& mat, Context& ctx)
     {
         std::string formatStr = "\n\t[" + std::to_string(mat[0][0]);

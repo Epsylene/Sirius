@@ -125,18 +125,18 @@ namespace Sirius
 
     void CameraController3D::onUpdate(Timestep dt)
     {
-        glm::vec3 dir = std::dynamic_pointer_cast<Camera3D>(camera)->getDirection();
-        glm::vec3 up {0, 1, 0};
+        Vec3 dir = std::dynamic_pointer_cast<Camera3D>(camera)->getDirection();
+        Vec3 up {0, 1, 0};
 
         // Move around
         if(Input::isKeyPressed(SRS_KEY_W))
             pos += dir * movSpeed * (float)dt;
         if(Input::isKeyPressed(SRS_KEY_A))
-            pos -= glm::normalize(glm::cross(dir, up)) * movSpeed * (float)dt;
+            pos -= normalize(cross(dir, up)) * movSpeed * (float)dt;
         if(Input::isKeyPressed(SRS_KEY_S))
             pos -= dir * movSpeed * (float)dt;
         if(Input::isKeyPressed(SRS_KEY_D))
-            pos += glm::normalize(glm::cross(dir, up)) * movSpeed * (float)dt;
+            pos += normalize(cross(dir, up)) * movSpeed * (float)dt;
 
         // Move up and down
         if(Input::isKeyPressed(SRS_KEY_R))

@@ -20,7 +20,7 @@ namespace Sirius
 
     void Renderer::submit(const std::shared_ptr<Shader>& shader,
                           const std::shared_ptr<VertexArray>& vertexArray,
-                          const glm::mat4& transform)
+                          const Mat4& transform)
     {
         shader->bind();
         shader->uploadUniformMat4("u_viewProj", sceneData->viewProjMatrix);

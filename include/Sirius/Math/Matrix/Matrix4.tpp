@@ -22,15 +22,6 @@ namespace Sirius
     }
 
     template<typename T>
-    constexpr Vector<4, T> operator*(const Matrix<4, T>& mat, const Vector<4, T>& vec)
-    {
-        return Vector<4, T>(mat[0][0] * vec.x + mat[1][0] * vec.y + mat[2][0] * vec.z, + mat[3][0] * vec.z,
-                            mat[0][1] * vec.x + mat[1][1] * vec.y + mat[2][1] * vec.z, + mat[3][1] * vec.z,
-                            mat[0][2] * vec.x + mat[1][2] * vec.y + mat[2][2] * vec.z, + mat[3][2] * vec.z,
-                            mat[0][3] * vec.x + mat[1][3] * vec.y + mat[2][3] * vec.z, + mat[3][3] * vec.z);
-    }
-
-    template<typename T>
     constexpr Matrix<4, T> operator*(const Matrix<4, T>& mat1, const Matrix<4, T>& mat2)
     {
         const Vector<4, T> a0 = mat1[0], a1 = mat1[1], a2 = mat1[2], a3 = mat1[3];
@@ -41,6 +32,15 @@ namespace Sirius
             a0 * b1[0] + a1 * b1[1] + a2 * b1[2] + a3 * b1[3],
             a0 * b2[0] + a1 * b2[1] + a2 * b2[2] + a3 * b2[3],
             a0 * b3[0] + a1 * b3[1] + a2 * b3[2] + a3 * b3[3] };
+    }
+
+    template<typename T>
+    constexpr Vector4<T> operator*(const Matrix<4, T>& mat, const Vector4<T>& vec)
+    {
+        return Vector4<T>(mat[0][0] * vec.x + mat[1][0] * vec.y + mat[2][0] * vec.z, + mat[3][0] * vec.z,
+                          mat[0][1] * vec.x + mat[1][1] * vec.y + mat[2][1] * vec.z, + mat[3][1] * vec.z,
+                          mat[0][2] * vec.x + mat[1][2] * vec.y + mat[2][2] * vec.z, + mat[3][2] * vec.z,
+                          mat[0][3] * vec.x + mat[1][3] * vec.y + mat[2][3] * vec.z, + mat[3][3] * vec.z);
     }
 }
 

@@ -23,19 +23,28 @@ namespace Sirius
             constexpr Vector(Vector&& vec) noexcept = default;
 
             constexpr Vector<dim, T>& operator=(const Vector<dim, T>& vec) = default;
-            template<typename U> constexpr Vector<dim, T>& operator=(const Vector<dim, U>& vec);
+            template<typename U> requires std::is_convertible_v<U, T>
+            constexpr Vector<dim, T>& operator=(const Vector<dim, U>& vec);
 
-            constexpr T operator[](unsigned index);
-            constexpr T operator[](unsigned index) const;
+            constexpr T& operator[](unsigned index);
+            constexpr const T& operator[](unsigned index) const;
 
             constexpr Vector<dim, T>& operator+=(const Vector<dim, T>& vec);
             constexpr Vector<dim, T>& operator-=(const Vector<dim, T>& vec);
             constexpr Vector<dim, T>& operator*=(T scalar);
             constexpr Vector<dim, T>& operator/=(T scalar);
 
+            constexpr Vector<dim, T>& operator-();
+
             bool operator==(const Vector<dim, T>& rhs) const;
             bool operator!=(const Vector<dim, T>& rhs) const;
     };
+
+    template<unsigned dim, typename T> constexpr Vector<dim, T> operator+(const Vector<dim, T>& v1, const Vector<dim, T>& v2);
+    template<unsigned dim, typename T> constexpr Vector<dim, T> operator-(const Vector<dim, T>& v1, const Vector<dim, T>& v2);
+    template<unsigned dim, typename T> constexpr Vector<dim, T> operator*(const Vector<dim, T>& vec, T scalar);
+    template<unsigned dim, typename T> constexpr Vector<dim, T> operator*(const Vector<dim, T>& v1, const Vector<dim, T>& v2);
+    template<unsigned dim, typename T> constexpr Vector<dim, T> operator/(const Vector<dim, T>& vec, T scalar);
 }
 
 #include "Vector.tpp"
