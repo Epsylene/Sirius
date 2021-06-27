@@ -27,7 +27,7 @@ namespace Sirius
     template<typename T>
     constexpr Matrix<4, T> perspective(T fov, T aspect, T near, T far)
     {
-        T const tanHalfFov = std::tan(fov / static_cast<T>(2));
+        T const tanHalfFov = std::tan(radians(fov) / static_cast<T>(2));
 
         Matrix<4, T> result { identity<4>() };
         result[0][0] = static_cast<T>(1) / (aspect * tanHalfFov);
