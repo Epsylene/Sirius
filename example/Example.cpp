@@ -2,9 +2,6 @@
 #include <Sirius.h>
 #include <Sirius/Core/EntryPoint.h>
 
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/rotate_vector.hpp>
-
 class ExampleLayer: public Sirius::Layer
 {
     private:
@@ -13,11 +10,11 @@ class ExampleLayer: public Sirius::Layer
         std::shared_ptr<Sirius::VertexArray> vertexArray;
         Sirius::Texture2D texture;
 
-        Sirius::CameraController2D controller;
+        Sirius::CameraController3D controller;
 
     public:
 
-        ExampleLayer(): Layer("Example"), texture("../../test/assets/textures/sirius.jpg")
+        ExampleLayer(): Layer("Example"), texture("../../example/assets/textures/sirius.jpg")
         {
             vertexArray = std::make_shared<Sirius::VertexArray>();
 
@@ -42,8 +39,8 @@ class ExampleLayer: public Sirius::Layer
             auto indexBuffer = std::make_shared<Sirius::IndexBuffer>(indices, std::size(indices));
             vertexArray->setIndexBuffer(indexBuffer);
 
-            shaderLib.load("../../test/assets/shaders/blue.glsl");
-            shaderLib.load("../../test/assets/shaders/texture.glsl");
+            shaderLib.load("../../example/assets/shaders/blue.glsl");
+            shaderLib.load("../../example/assets/shaders/texture.glsl");
 
             shaderLib.get("texture")->bind();
             shaderLib.get("texture")->uploadUniformFloat("u_texture", 0);

@@ -104,8 +104,8 @@ it looks like this :
 
 ```cmake
 link_directories(build)
-add_executable(test main.cpp)
-target_link_libraries(test PUBLIC Sirius)
+add_executable(example main.cpp)
+target_link_libraries(example PUBLIC Sirius)
 ```
 
 Finally, go to *"Sirius/lib"* and *"Sirius/vendor/glfw/bin"*, grab

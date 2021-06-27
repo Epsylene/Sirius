@@ -72,6 +72,12 @@ namespace Sirius
         return result;
     }
 
+    template<typename T> requires std::is_scalar_v<T>
+    constexpr Matrix<4, T> scale(T factor)
+    {
+        return scale(Vector3<T>(factor));
+    }
+
     template<typename T>
     constexpr Matrix<4, T> lookAt(const Vector3<T>& eye, const Vector3<T>& center, const Vector3<T>& up)
     {

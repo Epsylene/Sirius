@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include "functions.h"
+
 #include "Vector/Vector.h"
 #include "Vector/transforms.h"
 

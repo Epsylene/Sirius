@@ -85,7 +85,6 @@ namespace Sirius
     Camera3D::Camera3D(float fov, float aspect, float near, float far)
     {
         projMatrix = perspective(fov, aspect, near, far);
-//        viewMatrix = identity<4>();
 
         viewProjMatrix = projMatrix * viewMatrix;
     }

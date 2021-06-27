@@ -109,8 +109,10 @@ namespace Sirius
     bool CameraController3D::onMouseScrolled(MouseScrolledEvent& event)
     {
         zoom -= event.getYOffset() * 0.1f;
-        zoom = std::max(zoom, 0.1f);
+        zoom = std::clamp(zoom, 0.1f, 2.f);
         std::dynamic_pointer_cast<Camera3D>(camera)->setProjection(zoom * fov, aspect, 0.1f, 100.f);
+
+        Sirius::Log::trace(zoom);
 
         return false;
     }
@@ -171,5 +173,6 @@ namespace Sirius
         lastMousePos = Input::getMousePos();
 
         std::dynamic_pointer_cast<Camera3D>(camera)->setPosition(pos);
+        std::dynamic_pointer_cast<Camera3D>(camera)->setProjection(zoom * fov, aspect, 0.1f, 100.f);
     }
 }
