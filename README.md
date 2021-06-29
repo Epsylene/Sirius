@@ -22,7 +22,7 @@ when writing a library. Make sure to go check it !
 ### Getting started
 
 The library is untested on any development
-environment other than Windows with MinGW-w64. C++17
+environment other than Windows with MinGW-w64. C++20
 support is required.
 
 ### Building from sources
@@ -103,9 +103,9 @@ Change the `add_executable()` part so
 it looks like this :
 
 ```cmake
-link_directories(build)
-add_executable(example main.cpp)
-target_link_libraries(example PUBLIC Sirius)
+link_directories(${CMAKE_SOURCE_DIR}/build)
+add_executable(test app.cpp)
+target_link_libraries(test PUBLIC Sirius)
 ```
 
 Finally, go to *"Sirius/lib"* and *"Sirius/vendor/glfw/bin"*, grab

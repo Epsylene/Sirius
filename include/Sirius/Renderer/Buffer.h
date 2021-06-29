@@ -71,7 +71,7 @@ namespace Sirius
     ///
     /// This is a helper class, used to build the BufferLayout
     /// objects. Each BufferElement represents a group of tightly
-    /// packed, same-type data in the vertex buffer (for example,
+    /// packed, same-type data in the vertex buffer (for app,
     /// a group of four floats or one of three integers).
     ///
     /// @see BufferLayout
@@ -127,7 +127,7 @@ namespace Sirius
     /// in a simple and easy-to-understand fashion, asking to provide
     /// an initializer list of BufferElement objects, which comprise
     /// a ShaderDataType and a string with the name of the element
-    /// group (for example, "position" or "color").
+    /// group (for app, "position" or "color").
     ///
     /// @see BufferElement, ShaderDataType
     class BufferLayout

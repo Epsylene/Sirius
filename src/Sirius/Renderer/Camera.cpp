@@ -1,9 +1,6 @@
 
 #include "Sirius/Renderer/Camera.h"
 
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/rotate_vector.hpp>
-
 namespace Sirius
 {
     //--------------------------- CAMERA ---------------------------//
@@ -108,9 +105,9 @@ namespace Sirius
     void Camera3D::calculateViewProjMatrix()
     {
         // The camera2D's direction
-        direction = { std::cos(glm::radians(yaw)) * std::cos(glm::radians(pitch)),
-                      std::sin(glm::radians(pitch)),
-                      std::sin(glm::radians(yaw)) * std::cos(glm::radians(pitch)) };
+        direction = { std::cos(radians(yaw)) * std::cos(radians(pitch)),
+                      std::sin(radians(pitch)),
+                      std::sin(radians(yaw)) * std::cos(radians(pitch)) };
         direction = normalize(direction);
 
         // The camera2D's up vector

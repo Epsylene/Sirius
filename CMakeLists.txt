@@ -25,20 +25,6 @@ if(NOT CMAKE_CXX_STANDARD)
 endif()
 
 # ----------------------------------------------------
-# Sirius include directories and definitions
-# ----------------------------------------------------
-
-add_definitions(-DGLFW_INCLUDE_NONE)
-
-include_directories(include)
-include_directories(vendor/spdlog/include/)
-include_directories(vendor/imgui/)
-include_directories(vendor/glfw/include/)
-include_directories(vendor/glad/include/)
-include_directories(vendor/glm)
-include_directories(vendor/stb_image)
-
-# ----------------------------------------------------
 # Sirius library and dependencies
 # ----------------------------------------------------
 
@@ -86,6 +72,20 @@ add_custom_command(
 target_precompile_headers(Sirius PUBLIC include/srspch.h)
 
 # ----------------------------------------------------
+# Sirius include directories and definitions
+# ----------------------------------------------------
+
+add_definitions(-DGLFW_INCLUDE_NONE)
+
+include_directories(include)
+include_directories(vendor/spdlog/include/)
+include_directories(vendor/imgui/)
+include_directories(vendor/glfw/include/)
+include_directories(vendor/glad/include/)
+include_directories(vendor/glm)
+include_directories(vendor/stb_image)
+
+# ----------------------------------------------------
 # Install Sirius and its dependencies
 # ----------------------------------------------------
 
@@ -94,8 +94,8 @@ install(DIRECTORY include DESTINATION ${CMAKE_INSTALL_PREFIX})
 install(DIRECTORY vendor DESTINATION ${CMAKE_INSTALL_PREFIX})
 
 # ----------------------------------------------------
-# Sirius example executable
+# Sirius app executable
 # ----------------------------------------------------
 
-add_executable(Sirius_example example/Example.cpp)
-target_link_libraries(Sirius_example Sirius -static-libgcc -static-libstdc++)
+add_executable(Sirius_app app/app.cpp)
+target_link_libraries(Sirius_app Sirius -static-libgcc -static-libstdc++)

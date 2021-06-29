@@ -14,7 +14,7 @@ class ExampleLayer: public Sirius::Layer
 
     public:
 
-        ExampleLayer(): Layer("Example"), texture("../../example/assets/textures/sirius.jpg")
+        ExampleLayer(): Layer("Example"), texture("../../app/assets/textures/sirius.jpg")
         {
             vertexArray = std::make_shared<Sirius::VertexArray>();
 
@@ -39,8 +39,8 @@ class ExampleLayer: public Sirius::Layer
             auto indexBuffer = std::make_shared<Sirius::IndexBuffer>(indices, std::size(indices));
             vertexArray->setIndexBuffer(indexBuffer);
 
-            shaderLib.load("../../example/assets/shaders/blue.glsl");
-            shaderLib.load("../../example/assets/shaders/texture.glsl");
+            shaderLib.load("../../app/assets/shaders/blue.glsl");
+            shaderLib.load("../../app/assets/shaders/texture.glsl");
 
             shaderLib.get("texture")->bind();
             shaderLib.get("texture")->uploadUniformFloat("u_texture", 0);

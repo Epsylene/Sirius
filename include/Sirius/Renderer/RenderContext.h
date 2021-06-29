@@ -12,7 +12,7 @@ namespace Sirius
     /// @brief Rendering context abstraction class
     ///
     /// This class serves to set up the OpenGL rendering
-    /// context (the window on which to render, for example).
+    /// context (the window on which to render, for app).
     class RenderContext
     {
         private:
