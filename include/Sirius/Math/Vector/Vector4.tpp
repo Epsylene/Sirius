@@ -154,6 +154,12 @@ namespace Sirius
     {
         return Vector<4, T>(vec.x / scalar, vec.y / scalar, vec.z / scalar, vec.w / scalar);
     }
+
+    template<typename T>
+    const T* value_ptr(const Vector<4, T>& vec)
+    {
+        return &(vec.x);
+    }
 }
 
 template <typename T>

@@ -111,6 +111,10 @@ namespace Sirius
     /// This is only provided for the sake of convenience,
     /// in dot product functions and the like.
     template<unsigned dim, typename T> constexpr Vector<dim, T> operator*(const Vector<dim, T>& v1, const Vector<dim, T>& v2);
+
+    /////////////////////////////////////////////
+    /// @brief Vector coefficients values pointer
+    template<unsigned dim, typename T> const T* value_ptr(const Vector<dim, T>& vec);
 }
 
 #include "Vector.tpp"

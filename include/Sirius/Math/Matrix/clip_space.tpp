@@ -48,7 +48,7 @@ namespace Sirius
     template<typename T>
     constexpr Matrix<4, T> perspective_planes(T left, T right, T bottom, T top, T near, T far)
     {
-        Matrix<4, T> result;
+        Matrix<4, T> result {};
         result[0][0] = static_cast<T>(2) * near / (right - left);
         result[3][0] = (right + left) / (right - left);
         result[1][1] = static_cast<T>(2) * near / (top - bottom);

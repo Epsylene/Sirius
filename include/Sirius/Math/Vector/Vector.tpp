@@ -130,7 +130,7 @@ namespace Sirius
     template<unsigned dim, typename T>
     constexpr Vector<dim, T> operator+(const Vector<dim, T>& v1, const Vector<dim, T>& v2)
     {
-        Vector<dim, T> result;
+        Vector<dim, T> result {};
 
         for (int i = 0; i < dim; ++i)
         {
@@ -143,7 +143,7 @@ namespace Sirius
     template<unsigned dim, typename T>
     constexpr Vector<dim, T> operator-(const Vector<dim, T>& v1, const Vector<dim, T>& v2)
     {
-        Vector<dim, T> result;
+        Vector<dim, T> result {};
 
         for (int i = 0; i < dim; ++i)
         {
@@ -156,7 +156,7 @@ namespace Sirius
     template<unsigned dim, typename T>
     constexpr Vector<dim, T> operator*(const Vector<dim, T>& vec, T scalar)
     {
-        Vector<dim, T> result;
+        Vector<dim, T> result {};
 
         for (int i = 0; i < dim; ++i)
         {
@@ -167,9 +167,22 @@ namespace Sirius
     }
 
     template<unsigned dim, typename T>
+    constexpr Vector<dim, T> operator/(const Vector<dim, T>& vec, T scalar)
+    {
+        Vector<dim, T> result {};
+
+        for (int i = 0; i < dim; ++i)
+        {
+            result[i] = vec[i] / scalar;
+        }
+
+        return result;
+    }
+
+    template<unsigned dim, typename T>
     constexpr Vector<dim, T> operator*(const Vector<dim, T>& v1, const Vector<dim, T>& v2)
     {
-        Vector<dim, T> result;
+        Vector<dim, T> result {};
 
         for (int i = 0; i < dim; ++i)
         {
@@ -180,16 +193,9 @@ namespace Sirius
     }
 
     template<unsigned dim, typename T>
-    constexpr Vector<dim, T> operator/(const Vector<dim, T>& vec, T scalar)
+    const T* value_ptr(const Vector<dim, T>& vec)
     {
-        Vector<dim, T> result;
-
-        for (int i = 0; i < dim; ++i)
-        {
-            result[i] = vec[i] / scalar;
-        }
-
-        return result;
+        return &(vec[0]);
     }
 }
 

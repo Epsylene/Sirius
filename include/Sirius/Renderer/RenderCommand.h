@@ -39,6 +39,6 @@ namespace Sirius
 
             ////////////////////////////////
             /// @brief Draw the vertex array
-            static void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray);
+            static void drawIndexed(const Ref<VertexArray>& vertexArray);
     };
 }

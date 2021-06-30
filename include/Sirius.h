@@ -29,4 +29,5 @@
 
 #include "Sirius/Renderer/RenderCommand.h"
 #include "Sirius/Renderer/Renderer.h"
+#include "Sirius/Renderer/Renderer2D.h"
 // ---------------------------------------- //

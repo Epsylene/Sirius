@@ -18,7 +18,7 @@ namespace Sirius
         glBindVertexArray(0);
     }
 
-    void VertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer)
+    void VertexArray::addVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
     {
         glBindVertexArray(rendererId);
         vertexBuffer->bind();
@@ -44,7 +44,7 @@ namespace Sirius
         vertexBuffers.push_back(vertexBuffer);
     }
 
-    void VertexArray::setIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer)
+    void VertexArray::setIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
     {
         glBindVertexArray(rendererId);
         indexBuffer->bind();

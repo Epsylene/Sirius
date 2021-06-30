@@ -8,7 +8,7 @@ namespace Sirius
     template<unsigned dim, typename T>
     constexpr Matrix<dim, T> identity()
     {
-        Matrix<dim, T> result;
+        Matrix<dim, T> result {};
 
         for (int i = 0; i < dim; ++i)
         {
@@ -51,7 +51,7 @@ namespace Sirius
         rotate[2][1] = temp[2] * n_axis[1] - s * n_axis[0];
         rotate[2][2] = c + temp[2] * n_axis[2];
 
-        Matrix<4, T> result;
+        Matrix<4, T> result {};
         result[0] = Vector<4, T>(rotate[0][0], rotate[0][1], rotate[0][2], static_cast<T>(0));
         result[1] = Vector<4, T>(rotate[1][0], rotate[1][1], rotate[1][2], static_cast<T>(0));
         result[2] = Vector<4, T>(rotate[2][0], rotate[2][1], rotate[2][2], static_cast<T>(0));
@@ -63,7 +63,7 @@ namespace Sirius
     template<typename T>
     constexpr Matrix<4, T> scale(const Vector<3, T>& direction)
     {
-        Matrix<4, T> result;
+        Matrix<4, T> result {};
         result[0][0] = direction[0];
         result[1][1] = direction[1];
         result[2][2] = direction[2];

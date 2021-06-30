@@ -15,7 +15,7 @@ namespace Sirius
         window = std::unique_ptr<Window>(Window::create());
         window->setEventCallback([this](Event& event) { onEvent(event); });
 
-        RenderCommand::init();
+        Renderer::init();
 
         imGuiLayer = new ImGuiLayer();
         pushOverlay(imGuiLayer);

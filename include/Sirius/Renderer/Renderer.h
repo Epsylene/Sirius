@@ -5,13 +5,14 @@
 
 #include "VertexArray.h"
 #include "Shader.h"
+#include "RenderCommand.h"
 
 #include "Camera.h"
 
-#include "RenderCommand.h"
-
 namespace Sirius
 {
+    ////////////////////////////////
+    /// @brief Global renderer class
     class Renderer
     {
         private:
@@ -25,7 +26,11 @@ namespace Sirius
 
         public:
 
-            /////////////////////////////////////////////////////////////
+            /////////////////////////////////////////
+            /// @brief Initialize the global renderer
+            static void init();
+
+            ///////////////////////////////////////////////////////////////
             /// @brief Set up the rendered scene with a particular camera2D
             static void beginScene(Camera& camera);
 
@@ -51,8 +56,8 @@ namespace Sirius
             /// @param transform The transform applied to the object
             ///
             /// @see Shader and VertexArray classes
-            static void submit(const std::shared_ptr<Shader>& shader,
-                               const std::shared_ptr<VertexArray>& vertexArray,
+            static void submit(const Ref<Shader>& shader,
+                               const Ref<VertexArray>& vertexArray,
                                const Mat4& transform = identity<4>());
     };
 }

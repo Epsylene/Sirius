@@ -221,7 +221,7 @@ namespace Sirius
         glUniformMatrix4fv(location, 1, GL_FALSE, value_ptr(matrix));
     }
 
-    void ShaderLibrary::add(const std::shared_ptr<Shader>& shader)
+    void ShaderLibrary::add(const Ref<Shader>& shader)
     {
         auto& name = shader->getName();
 
@@ -232,7 +232,7 @@ namespace Sirius
     }
 
     void ShaderLibrary::add(const std::string& name,
-                            const std::shared_ptr<Shader>& shader)
+                            const Ref<Shader>& shader)
     {
         if(shaders.find(name) != shaders.end())
             Log::coreError("Shader '{0}' already exists !", name);
@@ -240,7 +240,7 @@ namespace Sirius
         shaders[name] = shader;
     }
 
-    std::shared_ptr<Shader> ShaderLibrary::load(const std::string& filepath)
+    Ref<Shader> ShaderLibrary::load(const std::string& filepath)
     {
         auto shader = std::make_shared<Shader>(filepath);
         add(shader);
@@ -248,7 +248,7 @@ namespace Sirius
         return shader;
     }
 
-    std::shared_ptr<Shader>
+    Ref<Shader>
     ShaderLibrary::load(const std::string& name, const std::string& filepath)
     {
         auto shader = std::make_shared<Shader>(filepath);
@@ -257,7 +257,7 @@ namespace Sirius
         return shader;
     }
 
-    std::shared_ptr<Shader>& ShaderLibrary::get(const std::string& name)
+    Ref<Shader>& ShaderLibrary::get(const std::string& name)
     {
         if(shaders.find(name) == shaders.end())
             Log::coreError("Shader '{0}' not found !", name);

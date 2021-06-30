@@ -14,8 +14,8 @@ namespace Sirius
         private:
 
             uint32_t rendererId;
-            std::vector<std::shared_ptr<VertexBuffer>> vertexBuffers;
-            std::shared_ptr<IndexBuffer> indexBuffer;
+            std::vector<Ref<VertexBuffer>> vertexBuffers;
+            Ref<IndexBuffer> indexBuffer;
 
         public:
 
@@ -34,20 +34,20 @@ namespace Sirius
             //////////////////////////////////////////////////////
             /// @brief Add a vertex buffer
             /// @param vertexBuffer A pointer to a vertex buffer
-            virtual void addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer);
+            virtual void addVertexBuffer(const Ref<VertexBuffer>& vertexBuffer);
 
             ///////////////////////////////////////////////////
             /// @brief Set the index buffer
             /// @param indexBuffer A pointer to the index buffer
             virtual void setIndexBuffer(
-                    const std::shared_ptr<IndexBuffer>& indexBuffer);
+                    const Ref<IndexBuffer>& indexBuffer);
 
             /////////////////////////////////
             /// @brief Get the vertex buffers
-            virtual const std::vector<std::shared_ptr<VertexBuffer>>& getVertexBuffers() const { return vertexBuffers; }
+            virtual const std::vector<Ref<VertexBuffer>>& getVertexBuffers() const { return vertexBuffers; }
 
             ///////////////////////////////
             /// @brief Get the index buffer
-            virtual const std::shared_ptr<IndexBuffer>& getIndexBuffer() const { return indexBuffer; }
+            virtual const Ref<IndexBuffer>& getIndexBuffer() const { return indexBuffer; }
     };
 }

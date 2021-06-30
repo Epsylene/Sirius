@@ -113,25 +113,25 @@ namespace Sirius
     template<typename T> requires std::is_scalar_v<T>
     constexpr Vector<3, T> Vector<3, T>::operator-()
     {
-        return {x ? -x : 0, y ? -y : 0, z ? -z : 0};
+        return { x ? -x : 0, y ? -y : 0, z ? -z : 0 };
     }
 
     template<typename T>
     constexpr Vector<3, T> operator+(const Vector<3, T>& v1, const Vector<3, T>& v2)
     {
-        return Vector<3, T>(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
+        return { v1.x + v2.x, v1.y + v2.y, v1.z + v2.z };
     }
 
     template<typename T>
     constexpr Vector<3, T> operator-(const Vector<3, T>& v1, const Vector<3, T>& v2)
     {
-        return Vector<3, T>(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+        return { v1.x - v2.x, v1.y - v2.y, v1.z - v2.z };
     }
 
     template<typename T>
     constexpr Vector<3, T> operator*(const Vector<3, T>& vec, T scalar)
     {
-        return Vector<3, T>(vec.x * scalar, vec.y * scalar, vec.z * scalar);
+        return { vec.x * scalar, vec.y * scalar, vec.z * scalar };
     }
 
     template<typename T>
@@ -143,7 +143,12 @@ namespace Sirius
     template<typename T>
     constexpr Vector<3, T> operator/(const Vector<3, T>& vec, T scalar)
     {
-        return Vector<3, T>(vec.x / scalar, vec.y / scalar, vec.z / scalar);
+        return { vec.x / scalar, vec.y / scalar, vec.z / scalar };
+    }
+
+    template<typename T> const T* value_ptr(const Vector<3, T>& vec)
+    {
+        return &(vec.x);
     }
 }
 

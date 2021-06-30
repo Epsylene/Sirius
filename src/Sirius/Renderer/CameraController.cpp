@@ -16,11 +16,6 @@ namespace Sirius
         eventDispatcher.dispatch<WindowResizeEvent>([this](WindowResizeEvent& event) { return onWindowResized(event); });
     }
 
-    Camera& CameraController::getCamera()
-    {
-        return *camera;
-    }
-
     // --------------------- CAMERA CONTROLLER 2D --------------------- //
 
     CameraController2D::CameraController2D(): CameraController2D(16.f/9.f, false)
@@ -90,6 +85,11 @@ namespace Sirius
 
         camera->setPosition(pos);
         movSpeed = 3.f / zoom;
+    }
+
+    Camera2D& CameraController2D::getCamera()
+    {
+        return *camera;
     }
 
     // --------------------- CAMERA CONTROLLER 3D --------------------- //
@@ -174,5 +174,10 @@ namespace Sirius
 
         std::dynamic_pointer_cast<Camera3D>(camera)->setPosition(pos);
         std::dynamic_pointer_cast<Camera3D>(camera)->setProjection(zoom * fov, aspect, 0.1f, 100.f);
+    }
+
+    Camera3D& CameraController3D::getCamera()
+    {
+        return *camera;
     }
 }

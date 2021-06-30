@@ -28,7 +28,7 @@ namespace Sirius
         glViewport(x, y, width, height);
     }
 
-    void RenderCommand::drawIndexed(const std::shared_ptr<VertexArray>& vertexArray)
+    void RenderCommand::drawIndexed(const Ref<VertexArray>& vertexArray)
     {
         glDrawElements(GL_TRIANGLES,
                        vertexArray->getIndexBuffer()->getCount(),

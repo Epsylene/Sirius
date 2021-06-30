@@ -159,7 +159,7 @@ namespace Sirius
     template<unsigned int dim, typename T> requires std::is_scalar_v<T>
     constexpr Matrix <dim, T> Matrix<dim, T>::operator-()
     {
-        Matrix<dim, T> result;
+        Matrix<dim, T> result {};
 
         for (int i = 0; i < dim; ++i)
         {
@@ -175,7 +175,7 @@ namespace Sirius
     template<unsigned dim, typename T>
     constexpr Vector<dim, T> operator*(const Matrix<dim, T>& mat, const Vector<dim, T>& vec)
     {
-        Vector<dim, T> result;
+        Vector<dim, T> result {};
 
         for (int i = 0; i < dim; ++i)
         {

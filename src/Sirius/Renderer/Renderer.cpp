@@ -1,9 +1,17 @@
 
 #include "Sirius/Renderer/Renderer.h"
 
+#include "Sirius/Renderer/Renderer2D.h"
+
 namespace Sirius
 {
     std::unique_ptr<Renderer::SceneData> Renderer::sceneData = std::make_unique<Renderer::SceneData>();
+
+    void Renderer::init()
+    {
+        RenderCommand::init();
+        Renderer2D::init();
+    }
 
     void Renderer::beginScene(Camera& camera)
     {
@@ -18,8 +26,8 @@ namespace Sirius
         RenderCommand::setViewport(0, 0, width, height);
     }
 
-    void Renderer::submit(const std::shared_ptr<Shader>& shader,
-                          const std::shared_ptr<VertexArray>& vertexArray,
+    void Renderer::submit(const Ref<Shader>& shader,
+                          const Ref<VertexArray>& vertexArray,
                           const Mat4& transform)
     {
         shader->bind();

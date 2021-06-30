@@ -94,29 +94,29 @@ namespace Sirius
     {
         private:
 
-            std::unordered_map<std::string, std::shared_ptr<Shader>> shaders;
+            std::unordered_map<std::string, Ref<Shader>> shaders;
 
         public:
 
             //////////////////////////////////////
             /// @brief Add a shader to the library
-            void add(const std::shared_ptr<Shader>& shader);
+            void add(const Ref<Shader>& shader);
 
             ///////////////////////////////////////////////////////
             /// @brief Add shader with a custom name to the library
-            void add(const std::string& name, const std::shared_ptr<Shader>& shader);
+            void add(const std::string& name, const Ref<Shader>& shader);
 
             /////////////////////////////////////////////////////////////////
             /// @brief Create and add a shader from *filepath* to the library
-            std::shared_ptr<Shader> load(const std::string& filepath);
+            Ref<Shader> load(const std::string& filepath);
 
             ////////////////////////////////////////////////////////////////
             /// @brief Create and add a shader from *filepath* with a custom
             ///     name to the library
-            std::shared_ptr<Shader> load(const std::string& name, const std::string& filepath);
+            Ref<Shader> load(const std::string& name, const std::string& filepath);
 
             ///////////////////////////////////
             /// @brief Get the shader at *name*
-            std::shared_ptr<Shader>& get(const std::string& name);
+            Ref<Shader>& get(const std::string& name);
     };
 }

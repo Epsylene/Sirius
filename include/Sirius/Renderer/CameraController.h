@@ -22,8 +22,6 @@ namespace Sirius
     {
         protected:
 
-            std::shared_ptr<Camera> camera;
-
             Vec3 pos = {0.f, 0.f, 1.f};
             float movSpeed = 5.f;
 
@@ -43,10 +41,6 @@ namespace Sirius
             /// The events that are dispatched are mouse scrolls
             /// and windows resizes.
             virtual void onEvent(Event& event);
-
-            //////////////////////////////////////
-            /// @brief Get the controller's camera
-            virtual Camera& getCamera();
     };
 
     ///////////////////////////////////////////////////
@@ -57,6 +51,8 @@ namespace Sirius
     class CameraController2D: public CameraController
     {
         private:
+
+            Ref<Camera2D> camera;
 
             bool enableRotation;
             float rotation = 0.f, rotSpeed = 5.f;
@@ -94,6 +90,10 @@ namespace Sirius
             /// The inputs (WASD to move, Q and E to rotate left
             /// and right, X to reset the rotation) are set here.
             virtual void onUpdate(Timestep dt) override;
+
+            ////////////////////////////
+            /// @brief Get the 2D camera
+            virtual Camera2D& getCamera();
     };
 
     //////////////////////////////////////////////////////
@@ -104,6 +104,8 @@ namespace Sirius
     class CameraController3D: public CameraController
     {
         private:
+
+            Ref<Camera3D> camera;
 
             Vec2 lastMousePos;
 
@@ -145,5 +147,9 @@ namespace Sirius
             /// mouse cursor to look around, Q and E to roll left and
             /// right, X to reset the rolling rotation) are set here.
             virtual void onUpdate(Timestep dt) override;
+
+            ////////////////////////////
+            /// @brief Get the 3D camera
+            virtual Camera3D& getCamera();
     };
 }
