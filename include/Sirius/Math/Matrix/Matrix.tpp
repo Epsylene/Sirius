@@ -67,7 +67,7 @@ namespace Sirius
     }
 
     template<unsigned dim, typename T> requires std::is_scalar_v<T>
-    template<typename U>
+    template<typename U> requires std::is_convertible_v<U, T>
     constexpr Matrix<dim, T>& Matrix<dim, T>::operator=(const Matrix<dim, U>& mat)
     {
         for (int i = 0; i < dim; ++i)

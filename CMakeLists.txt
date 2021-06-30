@@ -50,11 +50,6 @@ target_link_libraries(Sirius PUBLIC opengl32 glfw)
 add_library(glad STATIC vendor/glad/src/glad.c vendor/glad/include/glad/glad.h vendor/glad/include/KHR/khrplatform.h)
 target_link_libraries(Sirius PUBLIC glad)
 
-# glm #
-set(CMAKE_PREFIX_PATH vendor/glm/cmake/glm/)
-find_package(glm CONFIG)
-target_link_libraries(Sirius PUBLIC glm::glm)
-
 # stb_image #
 add_library(stb_image STATIC vendor/stb_image/stb_image.h vendor/stb_image/stb_image.cpp)
 target_link_libraries(Sirius PUBLIC stb_image)

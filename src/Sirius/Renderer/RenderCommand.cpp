@@ -2,6 +2,7 @@
 #include "Sirius/Renderer/RenderCommand.h"
 
 #include <glad/glad.h>
+#include <Sirius/Math/Vector/Vector4.h>
 
 namespace Sirius
 {
@@ -16,9 +17,9 @@ namespace Sirius
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    void RenderCommand::setClearColor(const glm::vec4& color)
+    void RenderCommand::setClearColor(const Vec4& color)
     {
-        glClearColor(color.r, color.g, color.b, color.a);
+        glClearColor(color.x, color.y, color.z, color.w);
     }
 
     void RenderCommand::setViewport(uint32_t x, uint32_t y, uint32_t width,

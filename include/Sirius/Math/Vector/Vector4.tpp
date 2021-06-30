@@ -94,6 +94,17 @@ namespace Sirius
     }
 
     template<typename T> requires std::is_scalar_v<T>
+    constexpr Vector4<T>& Vector4<T>::operator*=(const Vector4<T>& vec)
+    {
+        x *= vec.x;
+        y *= vec.y;
+        z *= vec.z;
+        w *= vec.w;
+
+        return *this;
+    }
+
+    template<typename T> requires std::is_scalar_v<T>
     bool Vector4<T>::operator==(const Vector4<T>& rhs) const
     {
         return x == rhs.x &&

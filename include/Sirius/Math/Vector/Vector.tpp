@@ -72,6 +72,8 @@ namespace Sirius
         {
             val *= scalar;
         }
+
+        return *this;
     }
 
     template<unsigned dim, typename T> requires std::is_scalar_v<T>
@@ -81,6 +83,19 @@ namespace Sirius
         {
             val /= scalar;
         }
+
+        return *this;
+    }
+
+    template<unsigned dim, typename T> requires std::is_scalar_v<T>
+    constexpr Vector<dim, T>& Vector<dim, T>::operator*=(const Vector<dim, T>& vec)
+    {
+        for (int i = 0; i < dim; i++)
+        {
+            vals[i] *= vec[i];
+        }
+
+        return *this;
     }
 
     template<unsigned dim, typename T> requires std::is_scalar_v<T>
@@ -88,7 +103,7 @@ namespace Sirius
     {
         for (int i = 0; i < dim; ++i)
         {
-            if(vals[i] != rhs.vals[i])
+            if(vals[i] != rhs[i])
                 return false;
         }
 

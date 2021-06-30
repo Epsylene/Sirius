@@ -1,9 +1,8 @@
 
 #pragma once
 
-#include <glm/glm.hpp>
-
 #include "VertexArray.h"
+#include "Sirius/Math/Vector/Vector.h"
 
 namespace Sirius
 {
@@ -27,8 +26,15 @@ namespace Sirius
 
             /////////////////////////////////////
             /// @brief Set the window clear color
-            static void setClearColor(const glm::vec4& color);
+            static void setClearColor(const Vec4& color);
 
+            /////////////////////////////////////////////////////////
+            /// @brief Set the rendering viewport
+            ///
+            /// @param x, y Coordinates of the top-left corner of the
+            ///     rendering viewport
+            /// @param width The rendering viewport's width
+            /// @param height The rendering viewport's height
             static void setViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height);
 
             ////////////////////////////////

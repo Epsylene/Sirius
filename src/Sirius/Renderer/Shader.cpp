@@ -1,9 +1,6 @@
 
 #include "Sirius/Renderer/Shader.h"
 
-#include <glm/gtc/type_ptr.hpp>
-#include <Sirius/Math/Matrix/Matrix4.h>
-
 #include "Sirius/Core/Core.h"
 
 namespace Sirius
