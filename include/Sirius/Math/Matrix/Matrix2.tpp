@@ -18,24 +18,23 @@ namespace Sirius
     template<typename T>
     constexpr Matrix<2, T> operator*(const Matrix<2, T>& mat, T scalar)
     {
-        return Matrix<2, T>(mat[0] * scalar, mat[1] * scalar);
+        return { mat[0] * scalar, mat[1] * scalar };
     }
 
     template<typename T>
     constexpr Matrix<2, T> operator*(const Matrix<2, T>& mat1, const Matrix<2, T>& mat2)
     {
-        return Matrix<2, T>(
-                mat1[0][0] * mat2[0][0] + mat1[1][0] * mat2[0][1],
-                mat1[0][1] * mat2[0][0] + mat1[1][1] * mat2[0][1],
-                mat1[0][0] * mat2[1][0] + mat1[1][0] * mat2[1][1],
-                mat1[0][1] * mat2[1][0] + mat1[1][1] * mat2[1][1]);
+        return { mat1[0][0] * mat2[0][0] + mat1[1][0] * mat2[0][1],
+                 mat1[0][1] * mat2[0][0] + mat1[1][1] * mat2[0][1],
+                 mat1[0][0] * mat2[1][0] + mat1[1][0] * mat2[1][1],
+                 mat1[0][1] * mat2[1][0] + mat1[1][1] * mat2[1][1] };
     }
 
     template<typename T>
-    constexpr Vector2<T> operator*(const Matrix<2, T>& mat, const Vector2<T>& vec)
+    constexpr Vector<2, T> operator*(const Matrix<2, T>& mat, const Vector<2, T>& vec)
     {
-        return Vector2<T>(mat[0][0] * vec.x + mat[1][0] * vec.y,
-                          mat[0][1] * vec.x + mat[1][1] * vec.y);
+        return { mat[0][0] * vec.x + mat[1][0] * vec.y,
+                          mat[0][1] * vec.x + mat[1][1] * vec.y };
     }
 }
 

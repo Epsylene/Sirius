@@ -23,7 +23,7 @@ namespace Sirius
     
     /////////////////////////////////////////////////////
     /// @brief Binary 3-dimensional matrix-vector product
-    template<typename T> constexpr Vector3<T> operator*(const Matrix<3, T>& mat, const Vector3<T>& vec);
+    template<typename T> constexpr Vector<3, T> operator*(const Matrix<3, T>& mat, const Vector<3, T>& vec);
 
     using Matrix3i = Matrix<3, int>;
     using Matrix3f = Matrix<3, float>;

@@ -19,7 +19,7 @@ namespace Sirius
     }
 
     template<typename T>
-    constexpr Matrix<4, T> translate(const Vector3<T>& direction)
+    constexpr Matrix<4, T> translate(const Vector<3, T>& direction)
     {
         Matrix<4, T> result = identity<4, T>();
         result[3][0] = direction.x;
@@ -30,13 +30,13 @@ namespace Sirius
     }
 
     template<typename T>
-    constexpr Matrix<4, T> rotate(const Vector3<T>& axis, T angle)
+    constexpr Matrix<4, T> rotate(const Vector<3, T>& axis, T angle)
     {
         T const c = std::cos(angle);
         T const s = std::sin(angle);
 
-        Vector3<T> n_axis { normalize(axis) };
-        Vector3<T> temp {  n_axis * (static_cast<T>(1) - c) };
+        Vector<3, T> n_axis { normalize(axis) };
+        Vector<3, T> temp {  n_axis * (static_cast<T>(1) - c) };
 
         Matrix<4, T> rotate;
         rotate[0][0] = c + temp[0] * n_axis[0];
@@ -61,7 +61,7 @@ namespace Sirius
     }
 
     template<typename T>
-    constexpr Matrix<4, T> scale(const Vector3<T>& direction)
+    constexpr Matrix<4, T> scale(const Vector<3, T>& direction)
     {
         Matrix<4, T> result;
         result[0][0] = direction[0];
@@ -75,17 +75,17 @@ namespace Sirius
     template<typename T> requires std::is_scalar_v<T>
     constexpr Matrix<4, T> scale(T factor)
     {
-        return scale(Vector3<T>(factor));
+        return scale(Vector<3, T>(factor));
     }
 
     template<typename T>
-    constexpr Matrix<4, T> lookAt(const Vector3<T>& eye, const Vector3<T>& center, const Vector3<T>& up)
+    constexpr Matrix<4, T> lookAt(const Vector<3, T>& eye, const Vector<3, T>& center, const Vector<3, T>& up)
     {
-        Vector3<T> forward { normalize(center - eye) };
-        Vector3<T> right { normalize(cross(forward, up)) };
-        Vector3<T> n_up { cross(right, forward) };
+        Vector<3, T> forward { normalize(center - eye) };
+        Vector<3, T> right { normalize(cross(forward, up)) };
+        Vector<3, T> n_up { cross(right, forward) };
 
-        Matrix<4, T> result {identity<4>()};
+        Matrix<4, T> result { identity<4>() };
         result[0][0] = right.x;
         result[1][0] = right.y;
         result[2][0] = right.z;

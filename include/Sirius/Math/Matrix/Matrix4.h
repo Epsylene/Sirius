@@ -23,7 +23,7 @@ namespace Sirius
     
     /////////////////////////////////////////////////////
     /// @brief Binary 4-dimensional matrix-vector product
-    template<typename T> constexpr Vector4<T> operator*(const Matrix<4, T>& mat, const Vector4<T>& vec);
+    template<typename T> constexpr Vector<4, T> operator*(const Matrix<4, T>& mat, const Vector<4, T>& vec);
 
     using Matrix4i = Matrix<4, int>;
     using Matrix4f = Matrix<4, float>;

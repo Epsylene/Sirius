@@ -34,9 +34,9 @@ namespace Sirius
     }
 
     template<typename T>
-    constexpr Vector3<T> operator*(const Matrix<3, T>& mat, const Vector3<T>& vec)
+    constexpr Vector<3, T> operator*(const Matrix<3, T>& mat, const Vector<3, T>& vec)
     {
-        return Vector3<T>(mat[0][0] * vec.x + mat[1][0] * vec.y + mat[2][0] * vec.z,
+        return Vector<3, T>(mat[0][0] * vec.x + mat[1][0] * vec.y + mat[2][0] * vec.z,
                           mat[0][1] * vec.x + mat[1][1] * vec.y + mat[2][1] * vec.z,
                           mat[0][2] * vec.x + mat[1][2] * vec.y + mat[2][2] * vec.z);
     }

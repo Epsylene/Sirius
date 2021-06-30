@@ -4,16 +4,16 @@
 namespace Sirius
 {
     template<typename T> requires std::is_scalar_v<T>
-    constexpr Vector2<T>::Vector2(T scalar): x(scalar), y(scalar)
+    constexpr Vector<2, T>::Vector(T scalar): x(scalar), y(scalar)
     {}
 
     template<typename T> requires std::is_scalar_v<T>
-    constexpr Vector2<T>::Vector2(T x, T y): x(x), y(y)
+    constexpr Vector<2, T>::Vector(T x, T y): x(x), y(y)
     {}
 
     template<typename T> requires std::is_scalar_v<T>
-    template<typename U>
-    constexpr Vector2<T>& Vector2<T>::operator=(const Vector2<U>& vec)
+    template<typename U> requires std::is_convertible_v<U, T>
+    constexpr Vector<2, T>& Vector<2, T>::operator=(const Vector<2, U>& vec)
     {
         this->x = static_cast<T>(vec.x);
         this->y = static_cast<T>(vec.y);
@@ -22,7 +22,7 @@ namespace Sirius
     }
 
     template<typename T> requires std::is_scalar_v<T>
-    constexpr T Vector2<T>::operator[](unsigned int index)
+    constexpr T& Vector<2, T>::operator[](unsigned int index)
     {
         switch (index)
         {
@@ -33,7 +33,7 @@ namespace Sirius
     }
 
     template<typename T> requires std::is_scalar_v<T>
-    constexpr T Vector2<T>::operator[](unsigned int index) const
+    constexpr const T& Vector<2, T>::operator[](unsigned int index) const
     {
         switch (index)
         {
@@ -44,7 +44,7 @@ namespace Sirius
     }
 
     template<typename T> requires std::is_scalar_v<T>
-    constexpr Vector2<T>& Vector2<T>::operator+=(const Vector2<T>& vec)
+    constexpr Vector<2, T>& Vector<2, T>::operator+=(const Vector<2, T>& vec)
     {
         x += vec.x;
         y += vec.y;
@@ -53,7 +53,7 @@ namespace Sirius
     }
 
     template<typename T> requires std::is_scalar_v<T>
-    constexpr Vector2<T>& Vector2<T>::operator-=(const Vector2<T>& vec)
+    constexpr Vector<2, T>& Vector<2, T>::operator-=(const Vector<2, T>& vec)
     {
         x -= vec.x;
         y -= vec.y;
@@ -62,7 +62,7 @@ namespace Sirius
     }
 
     template<typename T> requires std::is_scalar_v<T>
-    constexpr Vector2<T>& Vector2<T>::operator*=(T scalar)
+    constexpr Vector<2, T>& Vector<2, T>::operator*=(T scalar)
     {
         x *= scalar;
         y *= scalar;
@@ -71,7 +71,7 @@ namespace Sirius
     }
 
     template<typename T> requires std::is_scalar_v<T>
-    constexpr Vector2<T>& Vector2<T>::operator/=(T scalar)
+    constexpr Vector<2, T>& Vector<2, T>::operator/=(T scalar)
     {
         x /= scalar;
         y /= scalar;
@@ -80,7 +80,7 @@ namespace Sirius
     }
 
     template<typename T> requires std::is_scalar_v<T>
-    constexpr Vector2<T>& Vector2<T>::operator*=(const Vector2<T>& vec)
+    constexpr Vector<2, T>& Vector<2, T>::operator*=(const Vector<2, T>& vec)
     {
         x *= vec.x;
         y *= vec.y;
@@ -89,63 +89,57 @@ namespace Sirius
     }
 
     template<typename T> requires std::is_scalar_v<T>
-    bool Vector2<T>::operator==(const Vector2<T>& rhs) const
+    bool Vector<2, T>::operator==(const Vector<2, T>& rhs) const
     {
         return x == rhs.x &&
                y == rhs.y;
     }
 
     template<typename T> requires std::is_scalar_v<T>
-    bool Vector2<T>::operator!=(const Vector2<T>& rhs) const
+    bool Vector<2, T>::operator!=(const Vector<2, T>& rhs) const
     {
         return !(rhs == *this);
     }
 
     template<typename T> requires std::is_scalar_v<T>
-    constexpr Vector2<T>::operator Vector<2, T>() const
-    {
-        return Vector<2, T>(x, y);
-    }
-
-    template<typename T> requires std::is_scalar_v<T>
-    constexpr Vector2<T> Vector2<T>::operator-()
+    constexpr Vector<2, T> Vector<2, T>::operator-()
     {
         return { x ? -x : 0, y ? -y : 0 };
     }
 
     template<typename T>
-    constexpr Vector2<T> operator+(const Vector2<T>& v1, const Vector2<T>& v2)
+    constexpr Vector<2, T> operator+(const Vector<2, T>& v1, const Vector<2, T>& v2)
     {
         return { v1.x + v2.x, v1.y + v2.y };
     }
 
     template<typename T>
-    constexpr Vector2<T> operator-(const Vector2<T>& v1, const Vector2<T>& v2)
+    constexpr Vector<2, T> operator-(const Vector<2, T>& v1, const Vector<2, T>& v2)
     {
         return { v1.x - v2.x, v1.y - v2.y };
     }
 
     template<typename T>
-    constexpr Vector2<T> operator*(const Vector2<T>& vec, T scalar)
+    constexpr Vector<2, T> operator*(const Vector<2, T>& vec, T scalar)
     {
         return { vec.x * scalar, vec.y * scalar };
     }
 
     template<typename T>
-    constexpr Vector2<T> operator*(const Vector2<T>& v1, const Vector2<T>& v2)
+    constexpr Vector<2, T> operator*(const Vector<2, T>& v1, const Vector<2, T>& v2)
     {
         return { v1.x * v2.x, v1.y * v2.y };
     }
 
     template<typename T>
-    constexpr Vector2<T> operator/(const Vector2<T>& vec, T scalar)
+    constexpr Vector<2, T> operator/(const Vector<2, T>& vec, T scalar)
     {
-        return Vector2<T>(vec.x / scalar, vec.y / scalar);
+        return Vector<2, T>(vec.x / scalar, vec.y / scalar);
     }
 }
 
 template <typename T>
-struct fmt::formatter<Sirius::Vector2<T>>
+struct fmt::formatter<Sirius::Vector<2, T>>
 {
     constexpr auto parse(format_parse_context& ctx)
     {
@@ -153,14 +147,14 @@ struct fmt::formatter<Sirius::Vector2<T>>
     }
 
     template <typename Context>
-    auto format(const Sirius::Vector2<T>& vec, Context& ctx)
+    auto format(const Sirius::Vector<2, T>& vec, Context& ctx)
     {
         return format_to(ctx.out(), "({}, {})", vec.x, vec.y);
     }
 };
 
 template<typename T>
-std::ostream& operator<<(std::ostream& out, const Sirius::Vector2<T>& vec)
+std::ostream& operator<<(std::ostream& out, const Sirius::Vector<2, T>& vec)
 {
     return out << "(" << vec.x << ", " << vec.y << ")";
 }

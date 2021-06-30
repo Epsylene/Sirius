@@ -23,7 +23,7 @@ namespace Sirius
     
     /////////////////////////////////////////////////////
     /// @brief Binary 2-dimensional matrix-vector product
-    template<typename T> constexpr Vector2<T> operator*(const Matrix<2, T>& mat, const Vector2<T>& vec);
+    template<typename T> constexpr Vector<2, T> operator*(const Matrix<2, T>& mat, const Vector<2, T>& vec);
 
     using Matrix2i = Matrix<2, int>;
     using Matrix2f = Matrix<2, float>;

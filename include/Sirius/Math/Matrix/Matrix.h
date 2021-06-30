@@ -55,9 +55,10 @@ namespace Sirius
             /// The result matrix takes the coefficients from 0
             /// to dim of the argument matrix, and the rest are 
             /// ignored.
-            template<unsigned dim2> requires (dim2 > dim) constexpr Matrix(const Matrix<dim2, T>& mat);
-            constexpr Matrix(Matrix&& mat) noexcept = default;
+            template<unsigned dim2> requires (dim2 > dim)
+            constexpr Matrix(const Matrix<dim2, T>& mat);
 
+            constexpr Matrix(Matrix&& mat) noexcept = default;
             constexpr Matrix<dim, T>& operator=(const Matrix<dim, T>& mat) = default;
 
             //////////////////////////////////////////////////////////
