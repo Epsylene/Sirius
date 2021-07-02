@@ -1,12 +1,13 @@
 
-#include <Sirius.h>
-#include <Sirius/Core/EntryPoint.h>
+#include <Sirius.hpp>
+#include <Sirius/Core/EntryPoint.hpp>
 
 class ExampleLayer: public Sirius::Layer
 {
     private:
 
         Sirius::Ref<Sirius::Texture2D> texture;
+        Sirius::Color color;
 
         Sirius::CameraController2D controller;
 
@@ -24,12 +25,13 @@ class ExampleLayer: public Sirius::Layer
 
             controller.onUpdate(dt);
 
-            Sirius::Renderer2D::drawQuad({0.f, 0.f}, {1.f, 1.f}, texture);
+            Sirius::Renderer2D::drawQuad({0.f, 0.f}, {1.f, 1.f}, color);
 
             Sirius::Renderer::endScene();
         }
 
-        void onImGuiRender() override {}
+        void onImGuiRender() override
+        {}
 
         void onEvent(Sirius::Event& event) override
         {

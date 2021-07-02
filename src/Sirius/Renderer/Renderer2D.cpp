@@ -1,8 +1,8 @@
 
-#include "Renderer2D.h"
+#include "Sirius/Renderer/Renderer2D.hpp"
 
-#include "Shader.h"
-#include "RenderCommand.h"
+#include "Sirius/Renderer/Shader.hpp"
+#include "Sirius/Renderer/RenderCommand.hpp"
 
 namespace Sirius
 {
@@ -63,13 +63,13 @@ namespace Sirius
     {}
 
     void Renderer2D::drawQuad(const Vec2& pos, const Vec2& size,
-                              const Vec4& color)
+                              const Color& color)
     {
         drawQuad({pos.x, pos.y, 0.f}, size, color);
     }
 
     void Renderer2D::drawQuad(const Vec3& pos, const Vec2& size,
-                              const Vec4& color)
+                              const Color& color)
     {
         data->flatColorShader->bind();
         data->flatColorShader->uploadUniformFloat4("u_color", color);
