@@ -1,7 +1,7 @@
 
-#include "Sirius/Renderer/CameraController.h"
+#include "Sirius/Renderer/CameraController.hpp"
 
-#include "Sirius/Core/Input.h"
+#include "Sirius/Core/Input.hpp"
 #include "Sirius/Core/KeyCodes.h"
 
 namespace Sirius

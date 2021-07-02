@@ -1,6 +1,6 @@
 
-#include "Sirius/Core/Input.h"
-#include "Sirius/Core/Application.h"
+#include "Sirius/Core/Input.hpp"
+#include "Sirius/Core/Application.hpp"
 
 namespace Sirius
 {

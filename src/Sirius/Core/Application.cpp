@@ -1,5 +1,5 @@
 
-#include "Sirius/Core/Application.h"
+#include "Sirius/Core/Application.hpp"
 
 namespace Sirius
 {

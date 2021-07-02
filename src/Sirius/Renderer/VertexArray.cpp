@@ -1,5 +1,5 @@
 
-#include "Sirius/Renderer/VertexArray.h"
+#include "Sirius/Renderer/VertexArray.hpp"
 
 namespace Sirius
 {

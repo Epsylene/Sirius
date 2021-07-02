@@ -1,7 +1,7 @@
 
-#include "transforms.h"
+#include "transforms.hpp"
 
-#include "Sirius/Math/Matrix/Matrix.h"
+#include "Sirius/Math/Matrix/Matrix.hpp"
 
 namespace Sirius
 {

@@ -1,5 +1,5 @@
 
-#include "clip_space.h"
+#include "clip_space.hpp"
 
 namespace Sirius
 {

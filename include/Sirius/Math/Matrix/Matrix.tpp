@@ -1,5 +1,5 @@
 
-#include "Matrix.h"
+#include "Matrix.hpp"
 
 namespace Sirius
 {
@@ -254,4 +254,6 @@ std::ostream& operator<<(std::ostream& out, const Sirius::Matrix<dim, T>& mat)
 
         out << "]";
     }
+
+    return out;
 }

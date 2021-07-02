@@ -1,7 +1,7 @@
 
-#include "Sirius/Renderer/Renderer.h"
+#include "Sirius/Renderer/Renderer.hpp"
 
-#include "Sirius/Renderer/Renderer2D.h"
+#include "Sirius/Renderer/Renderer2D.hpp"
 
 namespace Sirius
 {

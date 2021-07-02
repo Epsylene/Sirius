@@ -1,12 +1,12 @@
 
-#include "Sirius/Core/Core.h"
-#include "Sirius/Core/Window.h"
+#include "Sirius/Core/Core.hpp"
+#include "Sirius/Core/Window.hpp"
 
-#include "Sirius/Events/ApplicationEvent.h"
-#include "Sirius/Events/KeyEvent.h"
-#include "Sirius/Events/MouseEvent.h"
+#include "Sirius/Events/ApplicationEvent.hpp"
+#include "Sirius/Events/KeyEvent.hpp"
+#include "Sirius/Events/MouseEvent.hpp"
 
-#include "Sirius/Core/Log.h"
+#include "Sirius/Core/Log.hpp"
 
 namespace Sirius
 {

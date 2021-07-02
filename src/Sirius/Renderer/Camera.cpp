@@ -1,5 +1,5 @@
 
-#include "Sirius/Renderer/Camera.h"
+#include "Sirius/Renderer/Camera.hpp"
 
 namespace Sirius
 {

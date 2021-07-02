@@ -1,7 +1,7 @@
 
-#include "Sirius/Renderer/Texture.h"
+#include "Sirius/Renderer/Texture.hpp"
 
-#include "Sirius/Core/Core.h"
+#include "Sirius/Core/Core.hpp"
 
 #include <stb_image.h>
 #include <glad/glad.h>

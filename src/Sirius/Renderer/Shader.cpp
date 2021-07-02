@@ -1,7 +1,7 @@
 
-#include "Sirius/Renderer/Shader.h"
+#include "Sirius/Renderer/Shader.hpp"
 
-#include "Sirius/Core/Core.h"
+#include "Sirius/Core/Core.hpp"
 
 namespace Sirius
 {

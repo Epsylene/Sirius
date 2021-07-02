@@ -1,6 +1,6 @@
 
-#include "Sirius/Renderer/RenderContext.h"
-#include "Sirius/Core/Core.h"
+#include "Sirius/Renderer/RenderContext.hpp"
+#include "Sirius/Core/Core.hpp"
 
 namespace Sirius
 {

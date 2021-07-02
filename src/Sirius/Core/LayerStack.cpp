@@ -1,5 +1,5 @@
 
-#include "Sirius/Core/LayerStack.h"
+#include "Sirius/Core/LayerStack.hpp"
 
 namespace Sirius
 {

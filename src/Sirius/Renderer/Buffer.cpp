@@ -1,5 +1,5 @@
 
-#include "Sirius/Renderer/Buffer.h"
+#include "Sirius/Renderer/Buffer.hpp"
 
 namespace Sirius
 {

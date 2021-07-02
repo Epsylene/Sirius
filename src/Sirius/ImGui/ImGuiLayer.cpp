@@ -1,5 +1,5 @@
 
-#include "Sirius/ImGui/ImGuiLayer.h"
+#include "Sirius/ImGui/ImGuiLayer.hpp"
 
 namespace Sirius
 {
@@ -73,5 +73,7 @@ namespace Sirius
     }
 
     void ImGuiLayer::onImGuiRender()
-    {}
+    {
+
+    }
 }
