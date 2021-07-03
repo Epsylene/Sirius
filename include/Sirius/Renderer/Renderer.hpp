@@ -26,7 +26,7 @@ namespace Sirius
                 Mat4 viewProjMatrix;
             };
 
-            static std::unique_ptr<SceneData> sceneData;
+            static Scope<SceneData> sceneData;
 
         public:
 

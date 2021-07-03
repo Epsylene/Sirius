@@ -5,7 +5,7 @@
 
 namespace Sirius
 {
-    std::unique_ptr<Renderer::SceneData> Renderer::sceneData = std::make_unique<Renderer::SceneData>();
+    Scope<Renderer::SceneData> Renderer::sceneData = std::make_unique<Renderer::SceneData>();
 
     void Renderer::init()
     {

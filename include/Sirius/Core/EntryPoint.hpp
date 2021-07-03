@@ -3,9 +3,8 @@
 
 int main()
 {
-    auto simulation = Sirius::createSimulation();
-    simulation->run();
-    delete simulation;
+    auto app = Sirius::createApplication();
+    app->run();
 
     return 0;
 }

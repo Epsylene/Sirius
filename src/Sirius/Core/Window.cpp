@@ -17,9 +17,9 @@ namespace Sirius
         SRS_CORE_ERROR("GLFW error ({0}): {1}", error, description);
     }
 
-    Window* Window::create(const WindowProps& props)
+    Scope<Window> Window::create(const WindowProps& props)
     {
-        return new Window(props);
+        return std::make_unique<Window>(props);
     }
 
     Window::Window(const WindowProps& wp)
@@ -30,7 +30,7 @@ namespace Sirius
         windowData.width = wp.width;
         windowData.height = wp.height;
 
-        SRS_CORE_INFO("Creating window {0} ({1}x{2})", wp.title, wp.width, wp.height);
+        Log::coreInfo("Creating window {0} ({1}x{2})", wp.title, wp.width, wp.height);
 
         // GLFW initialization check
 

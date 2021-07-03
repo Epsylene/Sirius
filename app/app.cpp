@@ -25,7 +25,7 @@ class ExampleLayer: public Sirius::Layer
 
             controller.onUpdate(dt);
 
-            Sirius::Renderer2D::drawQuad({0.f, 0.f}, {1.f, 1.f}, color);
+            Sirius::Renderer2D::drawQuad({0.f, 0.f}, {1.f, 1.f}, texture);
 
             Sirius::Renderer::endScene();
         }
@@ -49,7 +49,7 @@ class Test: public Sirius::Application
         }
 };
 
-Sirius::Application* Sirius::createSimulation()
+std::unique_ptr<Sirius::Application> Sirius::createApplication()
 {
-    return new Test();
+    return std::make_unique<Test>();
 }

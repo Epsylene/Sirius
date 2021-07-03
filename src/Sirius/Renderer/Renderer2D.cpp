@@ -13,11 +13,11 @@ namespace Sirius
         Ref<Shader> textureShader;
     };
 
-    static Renderer2DStorage* data;
+    static Scope<Renderer2DStorage> data;
 
     void Renderer2D::init()
     {
-        data = new Renderer2DStorage();
+        data = std::make_unique<Renderer2DStorage>();
 
         data->quadVA = std::make_shared<VertexArray>();
 
@@ -47,7 +47,7 @@ namespace Sirius
 
     void Renderer2D::shutdown()
     {
-        delete data;
+        data.reset();
     }
 
     void Renderer2D::beginScene(const Camera2D& camera)

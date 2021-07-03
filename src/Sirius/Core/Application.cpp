@@ -12,7 +12,7 @@ namespace Sirius
 
         Log::init();
 
-        window = std::unique_ptr<Window>(Window::create());
+        window = Window::create();
         window->setEventCallback([this](Event& event) { onEvent(event); });
 
         Renderer::init();

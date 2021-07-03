@@ -35,7 +35,7 @@ namespace Sirius
 
             static Application* instance;
 
-            std::unique_ptr<Window> window;
+            Scope<Window> window;
             bool running = true, minimized = false;
             float lastFrameTime = 0.f;
 
@@ -98,5 +98,5 @@ namespace Sirius
             void run();
     };
 
-    Application* createSimulation();
+    Scope<Sirius::Application> createApplication();
 }
