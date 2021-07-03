@@ -16,6 +16,15 @@ namespace Sirius
 
             float r, g, b, a;
 
+            static const Color Black;
+            static const Color White;
+            static const Color Red;
+            static const Color Green;
+            static const Color Blue;
+            static const Color Yellow;
+            static const Color Magenta;
+            static const Color Brown;
+
             Color() = default;
 
             ///////////////////////////////////////////////
@@ -35,6 +44,7 @@ namespace Sirius
             Color& operator+=(const Color& color);
             Color& operator-=(const Color& color);
             Color& operator*=(const Color& color);
+            Color& operator*=(float factor);
 
             operator Vec4() const;
     };
@@ -42,4 +52,5 @@ namespace Sirius
     Color operator+(const Color& c1, const Color& c2);
     Color operator-(const Color& c1, const Color& c2);
     Color operator*(const Color& c1, const Color& c2);
+    Color operator*(const Color& color, float factor);
 }

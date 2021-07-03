@@ -32,6 +32,7 @@ namespace Sirius
 
         vertexBuffer->setLayout({
             { ShaderDataType::Float3, "a_position" },
+            { ShaderDataType::Float3, "a_normal" },
             { ShaderDataType::Float2, "a_texCoord" }});
         data->quadVA->addVertexBuffer(vertexBuffer);
 

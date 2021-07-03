@@ -8,6 +8,7 @@ namespace Sirius
 {
     struct Renderer3DStorage
     {
+        Vec3 lightPos;
         Ref<VertexArray> cubeVA;
         Ref<Shader> flatColorShader;
         Ref<Shader> textureShader;
@@ -21,42 +22,43 @@ namespace Sirius
 
         data->cubeVA = std::make_shared<VertexArray>();
 
-        float vertices[5 * 4 * 6] = {
-                -0.5f, -0.5f, -0.5f, 0.f, 0.f,
-                 0.5f, -0.5f, -0.5f, 0.f, 1.f,
-                 0.5f,  0.5f, -0.5f, 1.f, 1.f,
-                -0.5f,  0.5f, -0.5f, 1.f, 0.f,
+        float vertices[8 * 4 * 6] = {
+                -0.5f, -0.5f, -0.5f,   0.f,  0.f, -1.f,   0.f, 0.f,
+                 0.5f, -0.5f, -0.5f,   0.f,  0.f, -1.f,   0.f, 1.f,
+                 0.5f,  0.5f, -0.5f,   0.f,  0.f, -1.f,   1.f, 1.f,
+                -0.5f,  0.5f, -0.5f,   0.f,  0.f, -1.f,   1.f, 0.f,
 
-                -0.5f, -0.5f,  0.5f, 0.f, 0.f,
-                 0.5f, -0.5f,  0.5f, 0.f, 1.f,
-                 0.5f,  0.5f,  0.5f, 1.f, 1.f,
-                -0.5f,  0.5f,  0.5f, 1.f, 0.f,
+                -0.5f, -0.5f,  0.5f,   0.f,  0.f,  1.f,   0.f, 0.f,
+                 0.5f, -0.5f,  0.5f,   0.f,  0.f,  1.f,   0.f, 1.f,
+                 0.5f,  0.5f,  0.5f,   0.f,  0.f,  1.f,   1.f, 1.f,
+                -0.5f,  0.5f,  0.5f,   0.f,  0.f,  1.f,   1.f, 0.f,
 
-                -0.5f,  0.5f,  0.5f, 0.f, 0.f,
-                -0.5f,  0.5f, -0.5f, 0.f, 1.f,
-                -0.5f, -0.5f, -0.5f, 1.f, 1.f,
-                -0.5f, -0.5f,  0.5f, 1.f, 0.f,
+                -0.5f,  0.5f,  0.5f,  -1.f,  0.f,  0.f,   0.f, 0.f,
+                -0.5f,  0.5f, -0.5f,  -1.f,  0.f,  0.f,   0.f, 1.f,
+                -0.5f, -0.5f, -0.5f,  -1.f,  0.f,  0.f,   1.f, 1.f,
+                -0.5f, -0.5f,  0.5f,   1.f,  0.f,  0.f,   1.f, 0.f,
 
-                 0.5f,  0.5f,  0.5f, 0.f, 0.f,
-                 0.5f,  0.5f, -0.5f, 0.f, 1.f,
-                 0.5f, -0.5f, -0.5f, 1.f, 1.f,
-                 0.5f, -0.5f,  0.5f, 1.f, 0.f,
+                 0.5f,  0.5f,  0.5f,   1.f,  0.f,  0.f,   0.f, 0.f,
+                 0.5f,  0.5f, -0.5f,   1.f,  0.f,  0.f,   0.f, 1.f,
+                 0.5f, -0.5f, -0.5f,   1.f,  0.f,  0.f,   1.f, 1.f,
+                 0.5f, -0.5f,  0.5f,   1.f,  0.f,  0.f,   1.f, 0.f,
 
-                -0.5f, -0.5f, -0.5f, 0.f, 0.f,
-                 0.5f, -0.5f, -0.5f, 0.f, 1.f,
-                 0.5f, -0.5f,  0.5f, 1.f, 1.f,
-                -0.5f, -0.5f,  0.5f, 1.f, 0.f,
+                -0.5f, -0.5f, -0.5f,   0.f, -1.f,  0.f,   0.f, 0.f,
+                 0.5f, -0.5f, -0.5f,   0.f, -1.f,  0.f,   0.f, 1.f,
+                 0.5f, -0.5f,  0.5f,   0.f, -1.f,  0.f,   1.f, 1.f,
+                -0.5f, -0.5f,  0.5f,   0.f, -1.f,  0.f,   1.f, 0.f,
 
-                -0.5f,  0.5f, -0.5f, 0.f, 0.f,
-                 0.5f,  0.5f, -0.5f, 0.f, 1.f,
-                 0.5f,  0.5f,  0.5f, 1.f, 1.f,
-                -0.5f,  0.5f,  0.5f, 1.f, 0.f
+                -0.5f,  0.5f, -0.5f,   0.f,  1.f,  0.f,   0.f, 0.f,
+                 0.5f,  0.5f, -0.5f,   0.f,  1.f,  0.f,   0.f, 1.f,
+                 0.5f,  0.5f,  0.5f,   0.f,  1.f,  0.f,   1.f, 1.f,
+                -0.5f,  0.5f,  0.5f,   0.f,  1.f,  0.f,   1.f, 0.f
         };
 
         auto vertexBuffer = std::make_shared<VertexBuffer>(vertices, sizeof(vertices));
 
         vertexBuffer->setLayout({
             { ShaderDataType::Float3, "a_position" },
+            { ShaderDataType::Float3, "a_normal" },
             { ShaderDataType::Float2, "a_texCoord" }});
         data->cubeVA->addVertexBuffer(vertexBuffer);
 
@@ -99,6 +101,7 @@ namespace Sirius
 
         Mat4 transform = translate(pos) * scale({size.x, size.y, size.z});
         data->flatColorShader->uploadUniformMat4("u_transform", transform);
+        data->flatColorShader->uploadUniformFloat3("u_lightPos", data->lightPos);
 
         data->cubeVA->bind();
         RenderCommand::drawIndexed(data->cubeVA);
@@ -115,5 +118,10 @@ namespace Sirius
 
         data->cubeVA->bind();
         RenderCommand::drawIndexed(data->cubeVA);
+    }
+
+    void Renderer3D::setLightSource(Vec3& pos)
+    {
+        data->lightPos = pos;
     }
 }

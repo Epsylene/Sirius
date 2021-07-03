@@ -7,8 +7,9 @@ class ExampleLayer: public Sirius::Layer
     private:
 
         Sirius::Ref<Sirius::Texture2D> texture;
+        Sirius::Vec3 lightPos {1.5f, 0.f, -1.5f};
 
-        Sirius::CameraController3D controller;
+        Sirius::CameraController3D controller {{1.f, 1.f, 1.f}};
 
     public:
 
@@ -24,13 +25,17 @@ class ExampleLayer: public Sirius::Layer
 
             controller.onUpdate(dt);
 
-            Sirius::Renderer3D::drawCube({}, {1.f, 1.f, 1.f}, texture);
+            Sirius::Renderer3D::drawCube({}, {1.f, 1.f, 1.f}, {0.8f, 0.3f, 0.2f});
+            Sirius::Renderer3D::drawCube(lightPos, {1.f, 1.f, 1.f}, texture);
+            Sirius::Renderer3D::setLightSource(lightPos);
 
             Sirius::Renderer3D::endScene();
         }
 
         void onImGuiRender() override
-        {}
+        {
+            ImGui::SliderFloat3("Light position", &lightPos.x, -2.f, 2.f);
+        }
 
         void onEvent(Sirius::Event& event) override
         {

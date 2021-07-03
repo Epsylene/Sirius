@@ -34,7 +34,7 @@ namespace Sirius
         zoom -= event.getYOffset() * 0.1f;
         zoom = std::max(zoom, 0.1f);
         this->zoom = 1.f/zoom;
-        std::dynamic_pointer_cast<Camera2D>(camera)->setProjection(-aspect * zoom, aspect * zoom, -zoom, zoom);
+        camera->setProjection(-aspect * zoom, aspect * zoom, -zoom, zoom);
 
         return false;
     }
@@ -42,7 +42,7 @@ namespace Sirius
     bool CameraController2D::onWindowResized(WindowResizeEvent& event)
     {
         aspect = (float)event.getWidth() / (float)event.getHeight();
-        std::dynamic_pointer_cast<Camera2D>(camera)->setProjection(-aspect * zoom, aspect * zoom, -zoom, zoom);
+        camera->setProjection(-aspect * zoom, aspect * zoom, -zoom, zoom);
 
         return false;
     }
@@ -80,7 +80,7 @@ namespace Sirius
             if(Input::isKeyPressed(SRS_KEY_X))
                 rotation = 0.f;
 
-            std::dynamic_pointer_cast<Camera2D>(camera)->setRotation(rotation);
+            camera->setRotation(rotation);
         }
 
         camera->setPosition(pos);
@@ -97,6 +97,11 @@ namespace Sirius
     CameraController3D::CameraController3D(): CameraController3D(90.f, 16.f/9.f)
     {}
 
+    CameraController3D::CameraController3D(const Vec3& pos): CameraController3D()
+    {
+        this->pos = pos;
+    }
+
     CameraController3D::CameraController3D(float fov, float aspect):
         fov(fov)
     {
@@ -110,7 +115,7 @@ namespace Sirius
     {
         zoom -= event.getYOffset() * 0.1f;
         zoom = std::clamp(zoom, 0.1f, 2.f);
-        std::dynamic_pointer_cast<Camera3D>(camera)->setProjection(zoom * fov, aspect, 0.1f, 100.f);
+        camera->setProjection(zoom * fov, aspect, 0.1f, 100.f);
 
         Sirius::Log::trace(zoom);
 
@@ -120,14 +125,14 @@ namespace Sirius
     bool CameraController3D::onWindowResized(WindowResizeEvent& event)
     {
         aspect = (float)event.getWidth() / (float)event.getHeight();
-        std::dynamic_pointer_cast<Camera3D>(camera)->setProjection(zoom * fov, aspect, 0.1f, 100.f);
+        camera->setProjection(zoom * fov, aspect, 0.1f, 100.f);
 
         return false;
     }
 
     void CameraController3D::onUpdate(Timestep dt)
     {
-        Vec3 dir = std::dynamic_pointer_cast<Camera3D>(camera)->getDirection();
+        Vec3 dir = camera->getDirection();
         Vec3 up {0, 1, 0};
 
         // Move around
@@ -167,13 +172,13 @@ namespace Sirius
 
             pitch = std::clamp(pitch, -89.f, 89.f);
 
-            std::dynamic_pointer_cast<Camera3D>(camera)->setRotation(pitch, yaw, roll);
+            camera->setRotation(pitch, yaw, roll);
         }
 
         lastMousePos = Input::getMousePos();
 
-        std::dynamic_pointer_cast<Camera3D>(camera)->setPosition(pos);
-        std::dynamic_pointer_cast<Camera3D>(camera)->setProjection(zoom * fov, aspect, 0.1f, 100.f);
+        camera->setPosition(pos);
+        camera->setProjection(zoom * fov, aspect, 0.1f, 100.f);
     }
 
     Camera3D& CameraController3D::getCamera()

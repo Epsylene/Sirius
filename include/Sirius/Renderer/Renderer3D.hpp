@@ -48,5 +48,7 @@ namespace Sirius
             /// @param texture The texture to be applied to each
             ///     of the cube's faces
             static void drawCube(const Vec3& pos, const Vec3& size, const Ref <Texture>& texture);
+
+            static void setLightSource(Vec3& pos);
     };
 }
