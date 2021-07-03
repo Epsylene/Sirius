@@ -68,14 +68,7 @@ namespace Sirius
             ///
             /// @param wp The window properties object
             /// @see WindowProps class, Window interface
-            Window(const WindowProps& wp);
-
-            ////////////////////////////////////////////
-            /// @brief Create the window
-            ///
-            /// @param props The window properties
-            /// @return A pointer to the created window
-            static Scope<Window> create(const WindowProps& props = WindowProps());
+            explicit Window(const WindowProps& wp = WindowProps());
 
             //////////////////////////////
             /// @brief Get the GLFW window

@@ -17,11 +17,6 @@ namespace Sirius
         SRS_CORE_ERROR("GLFW error ({0}): {1}", error, description);
     }
 
-    Scope<Window> Window::create(const WindowProps& props)
-    {
-        return std::make_unique<Window>(props);
-    }
-
     Window::Window(const WindowProps& wp)
     {
         // Window properties setup

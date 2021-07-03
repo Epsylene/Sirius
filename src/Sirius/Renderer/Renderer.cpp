@@ -2,6 +2,7 @@
 #include "Sirius/Renderer/Renderer.hpp"
 
 #include "Sirius/Renderer/Renderer2D.hpp"
+#include "Sirius/Renderer/Renderer3D.hpp"
 
 namespace Sirius
 {
@@ -11,6 +12,7 @@ namespace Sirius
     {
         RenderCommand::init();
         Renderer2D::init();
+        Renderer3D::init();
     }
 
     void Renderer::beginScene(Camera& camera)
@@ -33,6 +35,7 @@ namespace Sirius
         shader->bind();
         shader->uploadUniformMat4("u_viewProj", sceneData->viewProjMatrix);
         shader->uploadUniformMat4("u_transform", transform);
+        shader->uploadUniformFloat4("u_color", {1.f, 1.f, 1.f, 1.f});
 
         vertexArray->bind();
         RenderCommand::drawIndexed(vertexArray);

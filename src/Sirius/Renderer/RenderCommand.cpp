@@ -2,13 +2,13 @@
 #include "Sirius/Renderer/RenderCommand.hpp"
 
 #include <glad/glad.h>
-#include <Sirius/Math/Vector/Vector4.hpp>
 
 namespace Sirius
 {
     void RenderCommand::init()
     {
         glEnable(GL_BLEND);
+        glEnable(GL_DEPTH_TEST);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 

@@ -31,4 +31,5 @@
 #include "Sirius/Renderer/RenderCommand.hpp"
 #include "Sirius/Renderer/Renderer.hpp"
 #include "Sirius/Renderer/Renderer2D.hpp"
+#include "Sirius/Renderer/Renderer3D.hpp"
 // ---------------------------------------- //
