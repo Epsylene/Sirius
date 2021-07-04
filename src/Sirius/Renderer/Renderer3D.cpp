@@ -86,6 +86,7 @@ namespace Sirius
     {
         data->flatColorShader->bind();
         data->flatColorShader->uploadUniformMat4("u_viewProj", camera.getViewProjMatrix());
+        data->flatColorShader->uploadUniformFloat3("u_viewDir", camera.getDirection());
 
         data->textureShader->bind();
         data->textureShader->uploadUniformMat4("u_viewProj", camera.getViewProjMatrix());
@@ -101,6 +102,7 @@ namespace Sirius
 
         Mat4 transform = translate(pos) * scale({size.x, size.y, size.z});
         data->flatColorShader->uploadUniformMat4("u_transform", transform);
+        data->flatColorShader->uploadUniformMat4("u_normalMat", transpose(inverse(transform)));
         data->flatColorShader->uploadUniformFloat3("u_lightPos", data->lightPos);
 
         data->cubeVA->bind();
