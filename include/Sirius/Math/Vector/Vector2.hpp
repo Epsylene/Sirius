@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include "Vector.hpp"
+
 namespace Sirius
 {
     /////////////////////////////////////

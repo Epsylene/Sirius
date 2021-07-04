@@ -94,4 +94,26 @@ namespace Sirius
 
         return inverse * oneOverDet;
     }
+
+    template<typename T> constexpr Matrix<2, T> transpose(const Matrix<2, T>& mat)
+    {
+        return { mat[0][0], mat[0][1],
+                 mat[1][0], mat[1][1] };
+    }
+
+    template<typename T> constexpr Matrix<3, T> transpose(const Matrix<3, T>& mat)
+    {
+        return { mat[0][0], mat[0][1], mat[0][2],
+                 mat[1][0], mat[1][1], mat[1][2],
+                 mat[2][0], mat[2][1], mat[2][2] };
+    }
+
+    template<typename T> constexpr Matrix<4, T> transpose(const Matrix<4, T>& mat)
+    {
+        return Matrix<4, T>(
+                 mat[0][0], mat[0][1], mat[0][2], mat[0][3],
+                 mat[1][0], mat[1][1], mat[1][2], mat[1][3],
+                 mat[2][0], mat[2][1], mat[2][2], mat[2][3],
+                 mat[3][0], mat[3][1], mat[3][2], mat[3][3]);
+    }
 }

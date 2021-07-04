@@ -16,17 +16,16 @@ namespace Sirius
     }
 
     template<unsigned int dim, typename T> requires std::is_scalar_v<T>
-    template<typename T1, typename... Ts> requires std::is_convertible_v<T1, Vector<dim, T>>
-    constexpr Matrix<dim, T>::Matrix(const T1& c1, const Ts&... cs)
+    template<typename... Cs> constexpr Matrix<dim, T>::Matrix(const Vector<dim, Cs>&... cs)
     {
-        columns = { c1, cs... };
+        columns = { cs... };
     }
 
     template<unsigned int dim, typename T> requires std::is_scalar_v<T>
-    template<typename T1, typename... Ts> requires std::is_convertible_v<T1, T>
-    constexpr Matrix<dim, T>::Matrix(T1 val, Ts... vals)
+    template<typename... Ts> requires (std::is_convertible_v<Ts, T> && ...)
+    constexpr Matrix<dim, T>::Matrix(Ts... vals)
     {
-        std::array<T, dim * dim> scalars = { val, vals...};
+        std::array<T, dim * dim> scalars = { vals...};
         Vector <dim, T> column = {};
 
         for (int i = 0; i < dim; ++i)
@@ -170,6 +169,30 @@ namespace Sirius
         }
 
         return result;
+    }
+
+    template<unsigned int dim, typename T> requires std::is_scalar_v<T>
+    auto Matrix<dim, T>::begin()
+    {
+        return columns.begin();
+    }
+
+    template<unsigned int dim, typename T> requires std::is_scalar_v<T>
+    const auto Matrix<dim, T>::begin() const
+    {
+        return columns.begin();
+    }
+
+    template<unsigned int dim, typename T> requires std::is_scalar_v<T>
+    auto Matrix<dim, T>::end()
+    {
+        return columns.end();
+    }
+
+    template<unsigned int dim, typename T> requires std::is_scalar_v<T>
+    const auto Matrix<dim, T>::end() const
+    {
+        return columns.end();
     }
 
     template<unsigned dim, typename T>

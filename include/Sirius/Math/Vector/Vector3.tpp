@@ -12,6 +12,11 @@ namespace Sirius
     {}
 
     template<typename T> requires std::is_scalar_v<T>
+    constexpr Vector<3, T>::Vector(const Vector<2, T>& vec):
+        x(vec.x), y(vec.y), z(0)
+    {}
+
+    template<typename T> requires std::is_scalar_v<T>
     template<typename U> requires std::is_convertible_v<U, T>
     constexpr Vector<3, T>& Vector<3, T>::operator=(const Vector<3, U>& vec)
     {

@@ -16,7 +16,7 @@ namespace Sirius
     {
         private:
 
-            std::array<Vector<dim, T>, dim> columns;
+            std::array<Vector<dim, T>, dim> columns {};
 
         public:
 
@@ -30,14 +30,14 @@ namespace Sirius
             //////////////////////////////////////
             /// @brief Construct a matrix with the
             ///     provided column vectors 
-            template<typename T1, typename... Ts> requires std::is_convertible_v<T1, Vector<dim, T>>
-            explicit constexpr Matrix(const T1& c1, const Ts&... cs);
+            template<typename... Cs>
+            explicit constexpr Matrix(const Vector<dim, Cs>&... cs);
 
             ///////////////////////////////////////////////
             /// @brief Construct a matrix with the provided
             ///     scalars as its coefficients
-            template<typename T1, typename... Ts> requires std::is_convertible_v<T1, T>
-            constexpr explicit Matrix(T1 val, Ts... vals);
+            template<typename... Ts> requires (std::is_convertible_v<Ts, T> && ...)
+            constexpr explicit Matrix(Ts... vals);
 
             constexpr Matrix(const Matrix& mat) = default;
 
@@ -109,6 +109,11 @@ namespace Sirius
             /////////////////////////////////////
             /// @brief Matrix difference operator
             bool operator!=(const Matrix<dim, T>& rhs) const;
+
+            auto begin();
+            const auto begin() const;
+            auto end();
+            const auto end() const;
     };
 
     ///////////////////////////////////////

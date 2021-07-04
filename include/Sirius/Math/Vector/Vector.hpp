@@ -28,8 +28,14 @@ namespace Sirius
             /////////////////////////////////////////
             /// @brief Construct a vector from the 
             ///     provided scalar coefficients
-            template<typename... Ts> requires std::is_scalar_v<T>
+            template<typename... Ts> requires (std::is_convertible_v<Ts, T> && ...)
             explicit constexpr Vector(Ts... xs);
+
+            template<unsigned dim2> requires (dim2 > dim)
+            constexpr Vector(const Vector<dim2, T>& vec);
+
+            template<unsigned dim2> requires (dim2 < dim)
+            constexpr Vector(const Vector<dim2, T>& vec);
 
             constexpr Vector(const Vector& vec) = default;
             constexpr Vector(Vector&& vec) noexcept = default;
@@ -105,7 +111,7 @@ namespace Sirius
     /// @brief Binary vector scalar division
     template<unsigned dim, typename T> constexpr Vector<dim, T> operator/(const Vector<dim, T>& vec, T scalar);
 
-    /////////////////////////////////////////////////
+    //////////////////////////////////////////////////////
     /// @brief Binary vector coefficient-wise product
     ///
     /// This is only provided for the sake of convenience,

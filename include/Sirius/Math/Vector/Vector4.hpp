@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include "Vector.hpp"
+
 namespace Sirius
 {
     /////////////////////////////////////////////////
@@ -25,6 +27,9 @@ namespace Sirius
         constexpr Vector(T x, T y, T z, T w);
 
         constexpr Vector(const Vector& vec) = default;
+        constexpr Vector(const Vector<2, T>& vec);
+        constexpr Vector(const Vector<3, T>& vec);
+
         constexpr Vector(Vector&& vec) noexcept = default;
 
         constexpr Vector<4, T>& operator=(const Vector<4, T>& vec) = default;
