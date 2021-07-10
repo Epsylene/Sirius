@@ -1,4 +1,5 @@
 
+#include <Sirius/Renderer/Material.hpp>
 #include "Sirius/Renderer/Renderer3D.hpp"
 
 #include "Sirius/Renderer/RenderCommand.hpp"
@@ -97,8 +98,16 @@ namespace Sirius
 
     void Renderer3D::drawCube(const Vec3& pos, const Vec3& size, const Color& color)
     {
+        drawCube(pos, size, Material(color));
+    }
+
+    void Renderer3D::drawCube(const Vec3& pos, const Vec3& size, const Material& material)
+    {
         data->flatColorShader->bind();
-        data->flatColorShader->uploadUniformFloat4("u_color", color);
+        data->flatColorShader->uploadUniformFloat3("u_ambient", material.ambient);
+        data->flatColorShader->uploadUniformFloat3("u_diffuse", material.diffuse);
+        data->flatColorShader->uploadUniformFloat3("u_specular", material.specular);
+        data->flatColorShader->uploadUniformFloat("u_shininess", material.shininess);
 
         Mat4 transform = translate(pos) * scale({size.x, size.y, size.z});
         data->flatColorShader->uploadUniformMat4("u_transform", transform);

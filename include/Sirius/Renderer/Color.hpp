@@ -37,8 +37,12 @@ namespace Sirius
             Color(const Color& color) = default;
             Color(Color&& color) = default;
 
-            ////////////////////////////////
-            /// @brief Construct an RGB
+            /////////////////////////////////
+            /// @brief Construct an RGB color
+            Color(const Vec3& color);
+
+            //////////////////////////////////
+            /// @brief Construct an RGBA color
             Color(const Vec4& color);
 
             Color& operator+=(const Color& color);
@@ -46,6 +50,7 @@ namespace Sirius
             Color& operator*=(const Color& color);
             Color& operator*=(float factor);
 
+            operator Vec3() const;
             operator Vec4() const;
     };
 

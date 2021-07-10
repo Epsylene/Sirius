@@ -24,6 +24,7 @@
 #include "Sirius/Renderer/Shader.hpp"
 #include "Sirius/Renderer/Texture.hpp"
 #include "Sirius/Renderer/Color.hpp"
+#include "Sirius/Renderer/Material.hpp"
 
 #include "Sirius/Renderer/Camera.hpp"
 #include "Sirius/Renderer/CameraController.hpp"

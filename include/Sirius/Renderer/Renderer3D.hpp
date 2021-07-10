@@ -4,6 +4,7 @@
 #include "Camera.hpp"
 #include "Color.hpp"
 #include "Texture.hpp"
+#include "Material.hpp"
 
 namespace Sirius
 {
@@ -39,6 +40,14 @@ namespace Sirius
             /// @param size The cube's size
             /// @param color The cube's color
             static void drawCube(const Vec3& pos, const Vec3& size, const Color& color);
+
+            //////////////////////////////////////
+            /// @brief Draw a cube with a material
+            ///
+            /// @param pos The cube's position
+            /// @param size The cube's size
+            /// @param material The cube's material
+            static void drawCube(const Vec3& pos, const Vec3& size, const Material& material);
 
             ////////////////////////////////////////////////////
             /// @brief Draw a textured cube

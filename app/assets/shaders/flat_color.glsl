@@ -24,7 +24,11 @@ void main()
 
 layout(location = 0) out vec4 color;
 
-uniform vec4 u_color;
+uniform vec3 u_ambient;
+uniform vec3 u_diffuse;
+uniform vec3 u_specular;
+uniform float u_shininess;
+
 uniform vec3 u_lightPos;
 uniform vec3 u_viewDir;
 
@@ -43,9 +47,9 @@ void main()
     // Ambient light : same everywhere in the universe
     // Diffuse light : depends on the impact of the light on the geometry
     // Specular : depends on the viewer's point of view of the geometry
-    vec4 ambient = vec4(1.0, 1.0, 1.0, 1.0);
-    vec4 diffuse = vec4(diff * vec3(1.0, 1.0, 1.0), 1.0);
-    vec4 specular = vec4(pow(max(dot(u_viewDir, reflectDir), 0), 32) * vec3(1.0, 1.0, 1.0), 1.0);
+    vec4 ambient = vec4(u_ambient * 0.1, 1.0);
+    vec4 diffuse = vec4(diff * u_diffuse, 1.0);
+    vec4 specular = vec4(pow(max(dot(u_viewDir, reflectDir), 0), u_shininess) * u_specular, 1.0);
 
-    color = (ambient * 0.1 + diffuse + specular) * u_color;
+    color = ambient + diffuse + specular;
 }

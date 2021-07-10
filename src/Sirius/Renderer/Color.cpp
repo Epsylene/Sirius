@@ -16,6 +16,10 @@ namespace Sirius
         b(b), a(a)
     {}
 
+    Color::Color(const Vec3& color): r(color.x), g(color.y),
+        b(color.z), a(1.f)
+    {}
+
     Color::Color(const Vec4& color): r(color.x), g(color.y),
         b(color.z), a(color.w)
     {}
@@ -58,6 +62,11 @@ namespace Sirius
         a *= factor;
 
         return *this;
+    }
+
+    Color::operator Vec3() const
+    {
+        return Vec3(r, g, b);
     }
 
     Color::operator Vec4() const
