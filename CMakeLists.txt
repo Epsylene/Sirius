@@ -55,7 +55,7 @@ add_library(stb_image STATIC vendor/stb_image/stb_image.h vendor/stb_image/stb_i
 target_link_libraries(Sirius PUBLIC stb_image)
 
 # standart library #
-target_link_libraries(Sirius PUBLIC -static -static-libgcc -static-libstdc++)
+target_link_libraries(Sirius PUBLIC -Wl,--allow-multiple-definition -static -static-libgcc -static-libstdc++)
 
 # Copy GLFW's DLL to the bin directory (next to the
 #   Sirius_test executable)
