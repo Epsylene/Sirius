@@ -54,6 +54,9 @@ target_link_libraries(Sirius PUBLIC glad)
 add_library(stb_image STATIC vendor/stb_image/stb_image.h vendor/stb_image/stb_image.cpp)
 target_link_libraries(Sirius PUBLIC stb_image)
 
+# standart library #
+target_link_libraries(Sirius PUBLIC -static -static-libgcc -static-libstdc++)
+
 # Copy GLFW's DLL to the bin directory (next to the
 #   Sirius_test executable)
 add_custom_command(
@@ -93,4 +96,4 @@ install(DIRECTORY vendor DESTINATION ${CMAKE_INSTALL_PREFIX})
 # ----------------------------------------------------
 
 add_executable(Sirius_app app/app.cpp)
-target_link_libraries(Sirius_app Sirius -static-libgcc -static-libstdc++)
+target_link_libraries(Sirius_app Sirius)
