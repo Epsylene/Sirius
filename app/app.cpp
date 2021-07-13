@@ -6,8 +6,8 @@ class ExampleLayer: public Sirius::Layer
 {
     private:
 
-        Sirius::Ref<Sirius::Texture2D> texture;
-        Sirius::Light light {{1.5f, 0.f, -1.5f}};
+        Sirius::Ref<Sirius::Texture2D> diffuse, specular;
+        Sirius::Light light {{1.5f, -1.f, 1.5f}};
 
         Sirius::CameraController3D controller {{1.f, 1.f, 1.f}};
 
@@ -15,7 +15,8 @@ class ExampleLayer: public Sirius::Layer
 
         ExampleLayer(): Layer("Example")
         {
-            texture = std::make_shared<Sirius::Texture2D>("../../app/assets/textures/sirius.jpg");
+            diffuse = std::make_shared<Sirius::Texture2D>("../../app/assets/textures/container.png");
+            specular = std::make_shared<Sirius::Texture2D>("../../app/assets/textures/container_specular.png");
         }
 
         void onUpdate(Sirius::Timestep dt) override
@@ -26,8 +27,8 @@ class ExampleLayer: public Sirius::Layer
             controller.onUpdate(dt);
 
             Sirius::Renderer3D::setLightSource(light);
-            Sirius::Renderer3D::drawCube({}, {1.f, 1.f, 1.f}, Sirius::Material({1.f}, {0.8f, 0.3f, 0.2f}, {0.2f}));
-            Sirius::Renderer3D::drawCube(light.pos, {1.f, 1.f, 1.f}, texture);
+            Sirius::Renderer3D::drawCube({}, {1.f, 1.f, 1.f}, {0.8f, 0.3f, 0.2f});
+            Sirius::Renderer3D::drawCube({2.f, -1.f, -1.f}, {1.f, 1.f, 1.f}, Sirius::Material(diffuse, specular, 32.f));
 
             Sirius::Renderer3D::endScene();
         }

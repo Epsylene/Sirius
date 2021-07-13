@@ -117,8 +117,6 @@ namespace Sirius
         zoom = std::clamp(zoom, 0.1f, 2.f);
         camera->setProjection(zoom * fov, aspect, 0.1f, 100.f);
 
-        Sirius::Log::trace(zoom);
-
         return false;
     }
 

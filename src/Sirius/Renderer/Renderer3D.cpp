@@ -6,11 +6,12 @@
 #include "Sirius/Renderer/Material.hpp"
 #include "Sirius/Renderer/Light.h"
 
+#include <stb_image.h>
+
 namespace Sirius
 {
     struct Renderer3DStorage
     {
-        Ref<Light> sceneLight;
         Ref<VertexArray> cubeVA;
         Ref<Shader> flatColorShader;
         Ref<Shader> textureShader;
@@ -75,8 +76,6 @@ namespace Sirius
 
         data->flatColorShader = std::make_shared<Shader>("../../app/assets/shaders/flat_color.glsl");
         data->textureShader = std::make_shared<Shader>("../../app/assets/shaders/texture.glsl");
-        data->textureShader->bind();
-        data->textureShader->uploadUniformInt("u_texture", 0);
     }
 
     void Renderer3D::shutdown()
@@ -92,6 +91,7 @@ namespace Sirius
 
         data->textureShader->bind();
         data->textureShader->uploadUniformMat4("u_viewProj", camera.getViewProjMatrix());
+        data->textureShader->uploadUniformFloat3("u_viewDir", camera.getDirection());
     }
 
     void Renderer3D::endScene()
@@ -99,22 +99,12 @@ namespace Sirius
 
     void Renderer3D::drawCube(const Vec3& pos, const Vec3& size, const Color& color)
     {
-        drawCube(pos, size, Material(color));
-    }
-
-    void Renderer3D::drawCube(const Vec3& pos, const Vec3& size, const Material& material)
-    {
         data->flatColorShader->bind();
 
-        data->flatColorShader->uploadUniformFloat3("u_matAmbient", material.ambient);
-        data->flatColorShader->uploadUniformFloat3("u_matDiffuse", material.diffuse);
-        data->flatColorShader->uploadUniformFloat3("u_matSpecular", material.specular);
-        data->flatColorShader->uploadUniformFloat("u_matShininess", material.shininess);
-
-        data->flatColorShader->uploadUniformFloat3("u_lightAmbient", data->sceneLight->ambient);
-        data->flatColorShader->uploadUniformFloat3("u_lightDiffuse", data->sceneLight->diffuse);
-        data->flatColorShader->uploadUniformFloat3("u_lightSpecular", data->sceneLight->specular);
-        data->flatColorShader->uploadUniformFloat3("u_lightPos", data->sceneLight->pos);
+        data->flatColorShader->uploadUniformFloat3("material.ambient", {1.f, 1.f, 1.f});
+        data->flatColorShader->uploadUniformFloat3("material.diffuse", color);
+        data->flatColorShader->uploadUniformFloat3("material.specular", {1.f, 1.f, 1.f});
+        data->flatColorShader->uploadUniformFloat("material.shininess", 32.f);
 
         Mat4 transform = translate(pos) * scale({size.x, size.y, size.z});
         data->flatColorShader->uploadUniformMat4("u_transform", transform);
@@ -128,10 +118,32 @@ namespace Sirius
     {
         data->textureShader->bind();
 
+        texture->bind(0);
+        data->textureShader->uploadUniformInt("material.diffuse", 0);
+        texture->bind(1);
+        data->textureShader->uploadUniformInt("material.specular", 1);
+        data->textureShader->uploadUniformFloat("material.shininess", 32.f);
+
         Mat4 transform = translate(pos) * scale({size.x, size.y, size.z});
         data->textureShader->uploadUniformMat4("u_transform", transform);
 
-        texture->bind();
+        data->cubeVA->bind();
+        RenderCommand::drawIndexed(data->cubeVA);
+    }
+
+    void Renderer3D::drawCube(const Vec3& pos, const Vec3& size, const Material& material)
+    {
+        data->textureShader->bind();
+
+        material.diffuseMap->bind(0);
+        data->textureShader->uploadUniformInt("material.diffuse", 0);
+        material.specularMap->bind(1);
+        data->textureShader->uploadUniformInt("material.specular", 1);
+        data->textureShader->uploadUniformFloat("material.shininess", material.shininess);
+
+        Mat4 transform = translate(pos) * scale({size.x, size.y, size.z});
+        data->textureShader->uploadUniformMat4("u_transform", transform);
+        data->textureShader->uploadUniformMat4("u_normalMat", transpose(inverse(transform)));
 
         data->cubeVA->bind();
         RenderCommand::drawIndexed(data->cubeVA);
@@ -139,6 +151,16 @@ namespace Sirius
 
     void Renderer3D::setLightSource(const Light& light)
     {
-        data->sceneLight = std::make_shared<Light>(light);
+        data->flatColorShader->bind();
+        data->flatColorShader->uploadUniformFloat3("light.ambient", light.ambient);
+        data->flatColorShader->uploadUniformFloat3("light.diffuse", light.diffuse);
+        data->flatColorShader->uploadUniformFloat3("light.specular", light.specular);
+        data->flatColorShader->uploadUniformFloat3("light.pos", light.pos);
+
+        data->textureShader->bind();
+        data->textureShader->uploadUniformFloat3("light.ambient", light.ambient);
+        data->textureShader->uploadUniformFloat3("light.diffuse", light.diffuse);
+        data->textureShader->uploadUniformFloat3("light.specular", light.specular);
+        data->textureShader->uploadUniformFloat3("light.pos", light.pos);
     }
 }

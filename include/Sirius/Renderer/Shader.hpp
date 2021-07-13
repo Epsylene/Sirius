@@ -5,6 +5,7 @@
 
 #include "Sirius/Math/Vector/Vector.hpp"
 #include "Sirius/Math/Matrix/Matrix.hpp"
+#include "Sirius/Renderer/Texture.hpp"
 
 #include "srspch.hpp"
 
