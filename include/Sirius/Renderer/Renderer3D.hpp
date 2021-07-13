@@ -5,6 +5,7 @@
 #include "Color.hpp"
 #include "Texture.hpp"
 #include "Material.hpp"
+#include "Light.h"
 
 namespace Sirius
 {
@@ -58,6 +59,6 @@ namespace Sirius
             ///     of the cube's faces
             static void drawCube(const Vec3& pos, const Vec3& size, const Ref <Texture>& texture);
 
-            static void setLightSource(Vec3& pos);
+            static void setLightSource(const Sirius::Light& light);
     };
 }

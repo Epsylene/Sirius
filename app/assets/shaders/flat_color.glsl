@@ -24,12 +24,16 @@ void main()
 
 layout(location = 0) out vec4 color;
 
-uniform vec3 u_ambient;
-uniform vec3 u_diffuse;
-uniform vec3 u_specular;
-uniform float u_shininess;
+uniform vec3 u_matAmbient;
+uniform vec3 u_matDiffuse;
+uniform vec3 u_matSpecular;
+uniform float u_matShininess;
 
+uniform vec3 u_lightAmbient;
+uniform vec3 u_lightDiffuse;
+uniform vec3 u_lightSpecular;
 uniform vec3 u_lightPos;
+
 uniform vec3 u_viewDir;
 
 in vec3 v_normal;
@@ -37,19 +41,22 @@ in vec3 v_fragPos;
 
 void main()
 {
+    // Phong reflection model
+
     // Calculate the light direction, the "separation factor"
     // between it and the face's normal, and the reflection
     // vector of the light
     vec3 lightDir = normalize(u_lightPos - v_fragPos);
-    float diff = max(dot(v_normal, lightDir), 0.0);
     vec3 reflectDir = reflect(lightDir, v_normal);
+    float diff = max(dot(v_normal, lightDir), 0.0);
+    float spec = pow(max(dot(u_viewDir, reflectDir), 0), u_matShininess);
 
     // Ambient light : same everywhere in the universe
     // Diffuse light : depends on the impact of the light on the geometry
     // Specular : depends on the viewer's point of view of the geometry
-    vec4 ambient = vec4(u_ambient * 0.1, 1.0);
-    vec4 diffuse = vec4(diff * u_diffuse, 1.0);
-    vec4 specular = vec4(pow(max(dot(u_viewDir, reflectDir), 0), u_shininess) * u_specular, 1.0);
+    vec4 ambient = vec4(0.1 * u_matAmbient * u_lightAmbient, 1.0);
+    vec4 diffuse = vec4(diff * u_matDiffuse * u_lightDiffuse, 1.0);
+    vec4 specular = vec4(spec * u_matSpecular * u_lightSpecular, 1.0);
 
     color = ambient + diffuse + specular;
 }

@@ -27,6 +27,8 @@ namespace Sirius
 
             Color() = default;
 
+            Color(float factor);
+
             ///////////////////////////////////////////////
             /// @brief Constructs an RGBA color
             ///

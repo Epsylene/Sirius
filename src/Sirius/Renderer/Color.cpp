@@ -12,6 +12,9 @@ namespace Sirius
     const Color Color::Magenta {1.f, 0.f, 1.f};
     const Color Color::Brown {1.f, 1.f, 0.f};
 
+    Color::Color(float factor): r(factor), g(factor), b(factor), a(1.f)
+    {}
+
     Color::Color(float r, float g, float b, float a): r(r), g(g),
         b(b), a(a)
     {}

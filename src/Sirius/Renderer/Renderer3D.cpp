@@ -1,15 +1,16 @@
 
-#include <Sirius/Renderer/Material.hpp>
 #include "Sirius/Renderer/Renderer3D.hpp"
 
 #include "Sirius/Renderer/RenderCommand.hpp"
 #include "Sirius/Renderer/Shader.hpp"
+#include "Sirius/Renderer/Material.hpp"
+#include "Sirius/Renderer/Light.h"
 
 namespace Sirius
 {
     struct Renderer3DStorage
     {
-        Vec3 lightPos;
+        Ref<Light> sceneLight;
         Ref<VertexArray> cubeVA;
         Ref<Shader> flatColorShader;
         Ref<Shader> textureShader;
@@ -104,15 +105,20 @@ namespace Sirius
     void Renderer3D::drawCube(const Vec3& pos, const Vec3& size, const Material& material)
     {
         data->flatColorShader->bind();
-        data->flatColorShader->uploadUniformFloat3("u_ambient", material.ambient);
-        data->flatColorShader->uploadUniformFloat3("u_diffuse", material.diffuse);
-        data->flatColorShader->uploadUniformFloat3("u_specular", material.specular);
-        data->flatColorShader->uploadUniformFloat("u_shininess", material.shininess);
+
+        data->flatColorShader->uploadUniformFloat3("u_matAmbient", material.ambient);
+        data->flatColorShader->uploadUniformFloat3("u_matDiffuse", material.diffuse);
+        data->flatColorShader->uploadUniformFloat3("u_matSpecular", material.specular);
+        data->flatColorShader->uploadUniformFloat("u_matShininess", material.shininess);
+
+        data->flatColorShader->uploadUniformFloat3("u_lightAmbient", data->sceneLight->ambient);
+        data->flatColorShader->uploadUniformFloat3("u_lightDiffuse", data->sceneLight->diffuse);
+        data->flatColorShader->uploadUniformFloat3("u_lightSpecular", data->sceneLight->specular);
+        data->flatColorShader->uploadUniformFloat3("u_lightPos", data->sceneLight->pos);
 
         Mat4 transform = translate(pos) * scale({size.x, size.y, size.z});
         data->flatColorShader->uploadUniformMat4("u_transform", transform);
         data->flatColorShader->uploadUniformMat4("u_normalMat", transpose(inverse(transform)));
-        data->flatColorShader->uploadUniformFloat3("u_lightPos", data->lightPos);
 
         data->cubeVA->bind();
         RenderCommand::drawIndexed(data->cubeVA);
@@ -131,8 +137,8 @@ namespace Sirius
         RenderCommand::drawIndexed(data->cubeVA);
     }
 
-    void Renderer3D::setLightSource(Vec3& pos)
+    void Renderer3D::setLightSource(const Light& light)
     {
-        data->lightPos = pos;
+        data->sceneLight = std::make_shared<Light>(light);
     }
 }
