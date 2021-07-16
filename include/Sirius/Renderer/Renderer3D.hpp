@@ -59,6 +59,10 @@ namespace Sirius
             ///     of the cube's faces
             static void drawCube(const Vec3& pos, const Vec3& size, const Ref <Texture>& texture);
 
-            static void setLightSource(const Sirius::Light& light);
+            static void addPointLight(const PointLight& ptLight);
+
+            static void addDirectionalLight(const DirectionalLight& dirLight);
+
+            static void addSpotlight(const Spotlight& spotlight);
     };
 }

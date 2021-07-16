@@ -149,18 +149,41 @@ namespace Sirius
         RenderCommand::drawIndexed(data->cubeVA);
     }
 
-    void Renderer3D::setLightSource(const Light& light)
+    void Renderer3D::addPointLight(const PointLight& ptLight)
     {
         data->flatColorShader->bind();
-        data->flatColorShader->uploadUniformFloat3("light.ambient", light.ambient);
-        data->flatColorShader->uploadUniformFloat3("light.diffuse", light.diffuse);
-        data->flatColorShader->uploadUniformFloat3("light.specular", light.specular);
-        data->flatColorShader->uploadUniformFloat3("light.pos", light.pos);
+        data->flatColorShader->uploadUniformFloat3("light.ambient", ptLight.ambient);
+        data->flatColorShader->uploadUniformFloat3("light.diffuse", ptLight.diffuse);
+        data->flatColorShader->uploadUniformFloat3("light.specular", ptLight.specular);
+        data->flatColorShader->uploadUniformFloat3("light.pos", ptLight.pos);
 
         data->textureShader->bind();
-        data->textureShader->uploadUniformFloat3("light.ambient", light.ambient);
-        data->textureShader->uploadUniformFloat3("light.diffuse", light.diffuse);
-        data->textureShader->uploadUniformFloat3("light.specular", light.specular);
-        data->textureShader->uploadUniformFloat3("light.pos", light.pos);
+        data->textureShader->uploadUniformFloat3("ptLight.ambient", ptLight.ambient);
+        data->textureShader->uploadUniformFloat3("ptLight.diffuse", ptLight.diffuse);
+        data->textureShader->uploadUniformFloat3("ptLight.specular", ptLight.specular);
+        data->textureShader->uploadUniformFloat3("ptLight.pos", ptLight.pos);
+        data->textureShader->uploadUniformFloat("ptLight.attDistance", ptLight.attDistance);
+    }
+
+    void Renderer3D::addDirectionalLight(const DirectionalLight& dirLight)
+    {
+        data->textureShader->bind();
+        data->textureShader->uploadUniformFloat3("dirLight.ambient", dirLight.ambient);
+        data->textureShader->uploadUniformFloat3("dirLight.diffuse", dirLight.diffuse);
+        data->textureShader->uploadUniformFloat3("dirLight.specular", dirLight.specular);
+        data->textureShader->uploadUniformFloat3("dirLight.dir", dirLight.dir);
+    }
+
+    void Renderer3D::addSpotlight(const Spotlight& spotlight)
+    {
+        data->textureShader->bind();
+        data->textureShader->uploadUniformFloat3("spotlight.ambient", spotlight.ambient);
+        data->textureShader->uploadUniformFloat3("spotlight.diffuse", spotlight.diffuse);
+        data->textureShader->uploadUniformFloat3("spotlight.specular", spotlight.specular);
+        data->textureShader->uploadUniformFloat3("spotlight.pos", spotlight.pos);
+        data->textureShader->uploadUniformFloat3("spotlight.dir", spotlight.dir);
+        data->textureShader->uploadUniformFloat("spotlight.attDistance", spotlight.attDistance);
+        data->textureShader->uploadUniformFloat("spotlight.cosInCutoff", std::cos(spotlight.cutoff));
+        data->textureShader->uploadUniformFloat("spotlight.cosOutCutoff", std::cos(spotlight.epsilon + spotlight.cutoff));
     }
 }
