@@ -13,7 +13,7 @@ namespace Sirius
     /// only has color properties.
     struct Light
     {
-        Color ambient, diffuse, specular;
+        Color ambient, diffuse;
 
         ///////////////////////////////////////
         /// @brief Create a generic white light
@@ -34,7 +34,7 @@ namespace Sirius
         /// The diffuse color is the light's color, ambient is
         /// the world's color, and specular the light's color upon
         /// reflection.
-        Light(const Color& ambient, const Color& diffuse, const Color& specular);
+        Light(const Color& ambient, const Color& diffuse);
     };
 
     /////////////////////////////////////////////////////

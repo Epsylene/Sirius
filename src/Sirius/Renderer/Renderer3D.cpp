@@ -3,18 +3,16 @@
 
 #include "Sirius/Renderer/RenderCommand.hpp"
 #include "Sirius/Renderer/Shader.hpp"
-#include "Sirius/Renderer/Material.hpp"
-#include "Sirius/Renderer/Light.h"
-
-#include <stb_image.h>
 
 namespace Sirius
 {
     struct Renderer3DStorage
     {
+        std::vector<PointLight> ptLights;
         Ref<VertexArray> cubeVA;
         Ref<Shader> flatColorShader;
         Ref<Shader> textureShader;
+        Ref<Shader> emissionShader;
     };
 
     static Scope<Renderer3DStorage> data;
@@ -23,6 +21,7 @@ namespace Sirius
     {
         data = std::make_unique<Renderer3DStorage>();
 
+        data->ptLights.reserve(10);
         data->cubeVA = std::make_shared<VertexArray>();
 
         float vertices[8 * 4 * 6] = {
@@ -75,6 +74,7 @@ namespace Sirius
         data->cubeVA->setIndexBuffer(indexBuffer);
 
         data->flatColorShader = std::make_shared<Shader>("../../app/assets/shaders/flat_color.glsl");
+        data->emissionShader = std::make_shared<Shader>("../../app/assets/shaders/emission.glsl");
         data->textureShader = std::make_shared<Shader>("../../app/assets/shaders/texture.glsl");
     }
 
@@ -92,6 +92,9 @@ namespace Sirius
         data->textureShader->bind();
         data->textureShader->uploadUniformMat4("u_viewProj", camera.getViewProjMatrix());
         data->textureShader->uploadUniformFloat3("u_viewDir", camera.getDirection());
+
+        data->emissionShader->bind();
+        data->emissionShader->uploadUniformMat4("u_viewProj", camera.getViewProjMatrix());
     }
 
     void Renderer3D::endScene()
@@ -101,7 +104,6 @@ namespace Sirius
     {
         data->flatColorShader->bind();
 
-        data->flatColorShader->uploadUniformFloat3("material.ambient", {1.f, 1.f, 1.f});
         data->flatColorShader->uploadUniformFloat3("material.diffuse", color);
         data->flatColorShader->uploadUniformFloat3("material.specular", {1.f, 1.f, 1.f});
         data->flatColorShader->uploadUniformFloat("material.shininess", 32.f);
@@ -151,39 +153,75 @@ namespace Sirius
 
     void Renderer3D::addPointLight(const PointLight& ptLight)
     {
+        data->ptLights.push_back(ptLight);
+        auto index = std::to_string(data->ptLights.size() - 1);
+
         data->flatColorShader->bind();
-        data->flatColorShader->uploadUniformFloat3("light.ambient", ptLight.ambient);
-        data->flatColorShader->uploadUniformFloat3("light.diffuse", ptLight.diffuse);
-        data->flatColorShader->uploadUniformFloat3("light.specular", ptLight.specular);
-        data->flatColorShader->uploadUniformFloat3("light.pos", ptLight.pos);
+        data->flatColorShader->uploadUniformFloat3("ptLights[" + index + "].ambient", ptLight.ambient);
+        data->flatColorShader->uploadUniformFloat3("ptLights[" + index + "].diffuse", ptLight.diffuse);
+        data->flatColorShader->uploadUniformFloat3("ptLights[" + index + "].pos", ptLight.pos);
+        data->flatColorShader->uploadUniformFloat("ptLights[" + index + "].attDistance", ptLight.attDistance);
 
         data->textureShader->bind();
-        data->textureShader->uploadUniformFloat3("ptLight.ambient", ptLight.ambient);
-        data->textureShader->uploadUniformFloat3("ptLight.diffuse", ptLight.diffuse);
-        data->textureShader->uploadUniformFloat3("ptLight.specular", ptLight.specular);
-        data->textureShader->uploadUniformFloat3("ptLight.pos", ptLight.pos);
-        data->textureShader->uploadUniformFloat("ptLight.attDistance", ptLight.attDistance);
+        data->textureShader->uploadUniformFloat3("ptLights[" + index + "].ambient", ptLight.ambient);
+        data->textureShader->uploadUniformFloat3("ptLights[" + index + "].diffuse", ptLight.diffuse);
+        data->textureShader->uploadUniformFloat3("ptLights[" + index + "].pos", ptLight.pos);
+        data->textureShader->uploadUniformFloat("ptLights[" + index + "].attDistance", ptLight.attDistance);
     }
 
-    void Renderer3D::addDirectionalLight(const DirectionalLight& dirLight)
+    void Renderer3D::setDirectionalLight(const DirectionalLight& dirLight)
     {
+        data->flatColorShader->bind();
+        data->flatColorShader->uploadUniformFloat3("dirLight.ambient", dirLight.ambient);
+        data->flatColorShader->uploadUniformFloat3("dirLight.diffuse", dirLight.diffuse);
+        data->flatColorShader->uploadUniformFloat3("dirLight.dir", dirLight.dir);
+
         data->textureShader->bind();
         data->textureShader->uploadUniformFloat3("dirLight.ambient", dirLight.ambient);
         data->textureShader->uploadUniformFloat3("dirLight.diffuse", dirLight.diffuse);
-        data->textureShader->uploadUniformFloat3("dirLight.specular", dirLight.specular);
         data->textureShader->uploadUniformFloat3("dirLight.dir", dirLight.dir);
     }
 
-    void Renderer3D::addSpotlight(const Spotlight& spotlight)
+    void Renderer3D::setSpotlight(const Spotlight& spotlight)
     {
+        data->flatColorShader->bind();
+        data->flatColorShader->uploadUniformFloat3("spotlight.ambient", spotlight.ambient);
+        data->flatColorShader->uploadUniformFloat3("spotlight.diffuse", spotlight.diffuse);
+        data->flatColorShader->uploadUniformFloat3("spotlight.pos", spotlight.pos);
+        data->flatColorShader->uploadUniformFloat3("spotlight.dir", spotlight.dir);
+        data->flatColorShader->uploadUniformFloat("spotlight.attDistance", spotlight.attDistance);
+        data->flatColorShader->uploadUniformFloat("spotlight.cosInCutoff", std::cos(spotlight.cutoff));
+        data->flatColorShader->uploadUniformFloat("spotlight.cosOutCutoff", std::cos(spotlight.epsilon + spotlight.cutoff));
+
         data->textureShader->bind();
         data->textureShader->uploadUniformFloat3("spotlight.ambient", spotlight.ambient);
         data->textureShader->uploadUniformFloat3("spotlight.diffuse", spotlight.diffuse);
-        data->textureShader->uploadUniformFloat3("spotlight.specular", spotlight.specular);
         data->textureShader->uploadUniformFloat3("spotlight.pos", spotlight.pos);
         data->textureShader->uploadUniformFloat3("spotlight.dir", spotlight.dir);
         data->textureShader->uploadUniformFloat("spotlight.attDistance", spotlight.attDistance);
         data->textureShader->uploadUniformFloat("spotlight.cosInCutoff", std::cos(spotlight.cutoff));
         data->textureShader->uploadUniformFloat("spotlight.cosOutCutoff", std::cos(spotlight.epsilon + spotlight.cutoff));
+    }
+
+    void Renderer3D::drawEmissionCube(const Vec3& pos)
+    {
+        data->emissionShader->bind();
+
+        Mat4 transform = translate(pos) * scale(0.5f);
+        data->emissionShader->uploadUniformMat4("u_transform", transform);
+
+        data->cubeVA->bind();
+        RenderCommand::drawIndexed(data->cubeVA);
+    }
+
+    void Renderer3D::setPointLight(uint16_t index, const Vec3& pos)
+    {
+        data->ptLights[index].pos = pos;
+
+        data->flatColorShader->bind();
+        data->flatColorShader->uploadUniformFloat3("ptLights[" + std::to_string(index) + "].pos", pos);
+
+        data->textureShader->bind();
+        data->textureShader->uploadUniformFloat3("ptLights[" + std::to_string(index) + "].pos", pos);
     }
 }

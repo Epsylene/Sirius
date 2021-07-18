@@ -5,16 +5,15 @@ namespace Sirius
 {
     ///////////////////////////  LIGHT  ///////////////////////////
 
-    Light::Light(): ambient(1.f, 1.f, 1.f), diffuse(1.f, 1.f, 1.f),
-        specular(1.f, 1.f, 1.f)
+    Light::Light(): ambient(1.f, 1.f, 1.f), diffuse(1.f, 1.f, 1.f)
     {}
 
     Light::Light(const Color& diffuse): ambient(1.f, 1.f, 1.f),
-        diffuse(diffuse), specular(1.f, 1.f, 1.f)
+        diffuse(diffuse)
     {}
 
-    Light::Light(const Color& ambient, const Color& diffuse, const Color& specular):
-        ambient(ambient), diffuse(diffuse), specular(specular)
+    Light::Light(const Color& ambient, const Color& diffuse):
+        ambient(ambient), diffuse(diffuse)
     {}
 
     /////////////////////////// POINT LIGHT  ///////////////////////////

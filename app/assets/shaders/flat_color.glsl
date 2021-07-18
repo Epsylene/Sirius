@@ -27,46 +27,144 @@ layout(location = 0) out vec4 color;
 
 struct Material
 {
-    vec3 ambient;
     vec3 diffuse;
     vec3 specular;
     float shininess;
 };
 
-struct Light
+struct PointLight
 {
     vec3 ambient;
     vec3 diffuse;
-    vec3 specular;
+
     vec3 pos;
+    float attDistance;
+};
+
+struct DirectionalLight
+{
+    vec3 ambient;
+    vec3 diffuse;
+
+    vec3 dir;
+};
+
+struct Spotlight
+{
+    vec3 ambient;
+    vec3 diffuse;
+
+    vec3 pos, dir;
+    float cosInCutoff, cosOutCutoff, attDistance;
 };
 
 uniform Material material;
-uniform Light light;
+uniform PointLight ptLights[10];
+uniform DirectionalLight dirLight;
+uniform Spotlight spotlight;
 
 uniform vec3 u_viewDir;
 
 in vec3 v_normal;
 in vec3 v_fragPos;
 
+vec4 getPointLightColor(Material mat, PointLight ptLight, vec3 viewDir, vec3 normal, vec3 fragPos);
+vec4 getDirectionalLightColor(Material mat, DirectionalLight dirLight, vec3 viewDir, vec3 normal);
+vec4 getSpotlightColor(Material mat, Spotlight spotlight, vec3 viewDir, vec3 normal, vec3 fragPos);
+
 void main()
 {
-    // Phong reflection model
+    vec4 ptLightColor = vec4(0.0);
 
-    // Calculate the light direction, the "separation factor"
-    // between it and the face's normal, and the reflection
-    // vector of the light
-    vec3 lightDir = normalize(light.pos - v_fragPos);
-    vec3 reflectDir = reflect(lightDir, v_normal);
-    float diff = max(dot(v_normal, lightDir), 0.0);
-    float spec = pow(max(dot(u_viewDir, reflectDir), 0), material.shininess);
+    for(int i = 0; i < 10; i++)
+    {
+        ptLightColor += getPointLightColor(material, ptLights[i], u_viewDir, v_normal, v_fragPos);
+    }
 
-    // Ambient light : same everywhere in the universe
-    // Diffuse light : depends on the impact of the light on the geometry
-    // Specular : depends on the viewer's point of view of the geometry
-    vec4 ambient = vec4(0.1 * material.ambient * light.ambient, 1.0);
-    vec4 texture = vec4(diff * material.diffuse * light.diffuse, 1.0);
-    vec4 specular = vec4(spec * material.specular * light.specular, 1.0);
+    vec4 dirLightColor = getDirectionalLightColor(material, dirLight, u_viewDir, v_normal);
+    vec4 spotlightColor = getSpotlightColor(material, spotlight, u_viewDir, v_normal, v_fragPos);
 
-    color = ambient + texture + specular;
+    color = ptLightColor + dirLightColor + spotlightColor;
+}
+
+vec4 getPointLightColor(Material mat, PointLight ptLight, vec3 viewDir, vec3 normal, vec3 fragPos)
+{
+    // Ambient component
+
+    float distance = length(ptLight.pos - fragPos);
+    float kl = -1.0 / (ptLight.attDistance * (ptLight.attDistance - 0.001));
+    float kq = 0.1 / (ptLight.attDistance * ptLight.attDistance * 0.001);
+    float attenuation = 1.0 / (1.0 + distance * kl + distance * distance * kq);
+
+    vec4 ptAmbient = vec4(attenuation * 0.1 * ptLight.ambient * mat.diffuse, 1.0);
+
+    // Diffuse component
+
+    vec3 ptLightDir = normalize(ptLight.pos - fragPos);
+    float ptDiff = max(dot(normal, ptLightDir), 0.0);
+
+    vec4 ptDiffuse = vec4(attenuation * ptDiff * ptLight.diffuse * mat.diffuse , 1.0);
+
+    // Specular component
+
+    vec3 ptReflectDir = reflect(ptLightDir, normal);
+    float ptSpec = pow(max(dot(viewDir, ptReflectDir), 0), material.shininess);
+
+    vec4 ptSpecular = vec4(attenuation * ptSpec * ptLight.diffuse * mat.specular, 1.0);
+
+    return ptAmbient + ptDiffuse + ptSpecular;
+}
+
+vec4 getDirectionalLightColor(Material mat, DirectionalLight dirLight, vec3 viewDir, vec3 normal)
+{
+    // Ambient component
+
+    vec4 dirAmbient = vec4(0.1 * dirLight.ambient * mat.diffuse, 1.0);
+
+    // Diffuse component
+
+    vec3 dirLightDir = normalize(-dirLight.dir);
+    float dirDiff = max(dot(normal, dirLightDir), 0.0);
+
+    vec4 dirDiffuse = vec4(dirDiff * dirLight.diffuse * mat.diffuse, 1.0);
+
+    // Specular component
+
+    vec3 dirReflectDir = reflect(dirLightDir, normal);
+    float dirSpec = pow(max(dot(viewDir, dirReflectDir), 0), material.shininess);
+
+    vec4 dirSpecular = vec4(dirSpec * dirLight.diffuse * mat.specular, 1.0);
+
+    return dirAmbient + dirDiffuse + dirSpecular;
+}
+
+vec4 getSpotlightColor(Material mat, Spotlight spotlight, vec3 viewDir, vec3 normal, vec3 fragPos)
+{
+    // Ambient component
+
+    vec4 spotAmbient = vec4(0.1 * spotlight.ambient * mat.diffuse, 1.0);
+
+    // Diffuse component
+
+    float cosTheta = dot(normalize(spotlight.pos - v_fragPos), normalize(-spotlight.dir));
+    float intensity = clamp((spotlight.cosOutCutoff - cosTheta) / (spotlight.cosOutCutoff - spotlight.cosInCutoff), 0.0, 1.0);
+
+    float distance = length(spotlight.pos - v_fragPos);
+    float kl = -1.0 / (spotlight.attDistance * (spotlight.attDistance - 0.001));
+    float kq = 0.1 / (spotlight.attDistance * spotlight.attDistance * 0.001);
+    float attenuation = 1.0 / (1.0 + distance * kl + distance * distance * kq);
+
+    vec3 spotDir = normalize(spotlight.pos - v_fragPos);
+    float spotDiff = max(dot(normal, spotDir), 0.0);
+
+    vec4 spotDiffuse = vec4(attenuation * intensity * spotDiff * spotlight.diffuse * mat.diffuse, 1.0);
+
+    // Specular component
+
+    vec3 spotReflectDir = reflect(spotDir, normal);
+    float spotSpec = pow(max(dot(viewDir, spotReflectDir), 0), material.shininess);
+
+    vec4 spotSpecular = vec4(attenuation * intensity * spotSpec * spotlight.diffuse * mat.specular, 1.0);
+
+    return spotAmbient + spotDiffuse + spotSpecular;
 }
