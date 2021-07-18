@@ -20,10 +20,7 @@ class ExampleLayer: public Sirius::Layer
             diffuse = std::make_shared<Sirius::Texture2D>("../../app/assets/textures/container.png");
             specular = std::make_shared<Sirius::Texture2D>("../../app/assets/textures/container_specular.png");
 
-            Sirius::Renderer3D::addPointLight(ptLight);
-            Sirius::Renderer3D::addPointLight(Sirius::PointLight({1.f, 1.f, 1.f}, 160.f));
-            Sirius::Renderer3D::addPointLight(Sirius::PointLight({-1.f, 1.f, -1.f}, 60.f));
-//            Sirius::Renderer3D::setSpotlight(spotLight);
+            Sirius::Renderer3D::setSpotlight(spotLight);
         }
 
         void onUpdate(Sirius::Timestep dt) override
@@ -42,18 +39,15 @@ class ExampleLayer: public Sirius::Layer
             }
 
             Sirius::Renderer3D::drawCube({-1.f, 0.f, 0.f}, {1.f, 1.f, 1.f}, {0.5f, 0.8f, 0.2f});
-            Sirius::Renderer3D::drawEmissionCube(ptLight.pos);
-            Sirius::Renderer3D::drawEmissionCube(Sirius::PointLight({1.f, 1.f, 1.f}, 160.f).pos);
-            Sirius::Renderer3D::drawEmissionCube(Sirius::PointLight({-1.f, 1.f, -1.f}, 60.f).pos);
-
-            Sirius::Renderer3D::setPointLight(0, ptLight.pos);
+            Sirius::Renderer3D::drawEmissionCube(ptLight);
+            Sirius::Renderer3D::addPointLight({{2.f, 2.f, -1.f}, 60.f});
 
             Sirius::Renderer3D::endScene();
         }
 
         void onImGuiRender() override
         {
-            ImGui::SliderFloat3("Light position", &ptLight.pos.x, -2.f, 2.f);
+            ImGui::DragFloat3("Light position", &ptLight.pos.x, 0.005f);
         }
 
         void onEvent(Sirius::Event& event) override

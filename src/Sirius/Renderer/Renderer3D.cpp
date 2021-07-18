@@ -8,7 +8,7 @@ namespace Sirius
 {
     struct Renderer3DStorage
     {
-        std::vector<PointLight> ptLights;
+        uint16_t ptLightNb = 0;
         Ref<VertexArray> cubeVA;
         Ref<Shader> flatColorShader;
         Ref<Shader> textureShader;
@@ -21,7 +21,6 @@ namespace Sirius
     {
         data = std::make_unique<Renderer3DStorage>();
 
-        data->ptLights.reserve(10);
         data->cubeVA = std::make_shared<VertexArray>();
 
         float vertices[8 * 4 * 6] = {
@@ -98,7 +97,9 @@ namespace Sirius
     }
 
     void Renderer3D::endScene()
-    {}
+    {
+        data->ptLightNb = 0;
+    }
 
     void Renderer3D::drawCube(const Vec3& pos, const Vec3& size, const Color& color)
     {
@@ -151,24 +152,6 @@ namespace Sirius
         RenderCommand::drawIndexed(data->cubeVA);
     }
 
-    void Renderer3D::addPointLight(const PointLight& ptLight)
-    {
-        data->ptLights.push_back(ptLight);
-        auto index = std::to_string(data->ptLights.size() - 1);
-
-        data->flatColorShader->bind();
-        data->flatColorShader->uploadUniformFloat3("ptLights[" + index + "].ambient", ptLight.ambient);
-        data->flatColorShader->uploadUniformFloat3("ptLights[" + index + "].diffuse", ptLight.diffuse);
-        data->flatColorShader->uploadUniformFloat3("ptLights[" + index + "].pos", ptLight.pos);
-        data->flatColorShader->uploadUniformFloat("ptLights[" + index + "].attDistance", ptLight.attDistance);
-
-        data->textureShader->bind();
-        data->textureShader->uploadUniformFloat3("ptLights[" + index + "].ambient", ptLight.ambient);
-        data->textureShader->uploadUniformFloat3("ptLights[" + index + "].diffuse", ptLight.diffuse);
-        data->textureShader->uploadUniformFloat3("ptLights[" + index + "].pos", ptLight.pos);
-        data->textureShader->uploadUniformFloat("ptLights[" + index + "].attDistance", ptLight.attDistance);
-    }
-
     void Renderer3D::setDirectionalLight(const DirectionalLight& dirLight)
     {
         data->flatColorShader->bind();
@@ -203,25 +186,66 @@ namespace Sirius
         data->textureShader->uploadUniformFloat("spotlight.cosOutCutoff", std::cos(spotlight.epsilon + spotlight.cutoff));
     }
 
-    void Renderer3D::drawEmissionCube(const Vec3& pos)
+    void Renderer3D::drawEmissionCube(const PointLight& light)
     {
-        data->emissionShader->bind();
+        if(data->ptLightNb < 10)
+        {
+            auto index = std::to_string(data->ptLightNb++);
 
-        Mat4 transform = translate(pos) * scale(0.5f);
-        data->emissionShader->uploadUniformMat4("u_transform", transform);
+            data->flatColorShader->bind();
+            data->flatColorShader->uploadUniformFloat3("ptLights[" + index + "].ambient", light.ambient);
+            data->flatColorShader->uploadUniformFloat3("ptLights[" + index + "].diffuse", light.diffuse);
+            data->flatColorShader->uploadUniformFloat3("ptLights[" + index + "].pos", light.pos);
+            data->flatColorShader->uploadUniformFloat("ptLights[" + index + "].attDistance", light.attDistance);
 
-        data->cubeVA->bind();
-        RenderCommand::drawIndexed(data->cubeVA);
+            data->textureShader->bind();
+            data->textureShader->uploadUniformFloat3("ptLights[" + index + "].ambient", light.ambient);
+            data->textureShader->uploadUniformFloat3("ptLights[" + index + "].diffuse", light.diffuse);
+            data->textureShader->uploadUniformFloat3("ptLights[" + index + "].pos", light.pos);
+            data->textureShader->uploadUniformFloat("ptLights[" + index + "].attDistance", light.attDistance);
+
+            data->emissionShader->bind();
+            data->emissionShader->uploadUniformFloat3("u_color", light.diffuse);
+
+            Mat4 transform = translate(light.pos) * scale(0.5f);
+            data->emissionShader->uploadUniformMat4("u_transform", transform);
+
+            data->cubeVA->bind();
+            RenderCommand::drawIndexed(data->cubeVA);
+        }
+        else
+        {
+            SRS_CORE_ASSERT(false, "There can only be up to 10 point lights in a scene.");
+        }
     }
 
-    void Renderer3D::setPointLight(uint16_t index, const Vec3& pos)
+    void Renderer3D::addPointLight(const PointLight& ptLight)
     {
-        data->ptLights[index].pos = pos;
+        if(data->ptLightNb < 10)
+        {
+            auto index = std::to_string(data->ptLightNb++);
 
-        data->flatColorShader->bind();
-        data->flatColorShader->uploadUniformFloat3("ptLights[" + std::to_string(index) + "].pos", pos);
+            data->flatColorShader->bind();
+            data->flatColorShader->uploadUniformFloat3("ptLights[" + index + "].ambient", ptLight.ambient);
+            data->flatColorShader->uploadUniformFloat3("ptLights[" + index + "].diffuse", ptLight.diffuse);
+            data->flatColorShader->uploadUniformFloat3("ptLights[" + index + "].pos", ptLight.pos);
+            data->flatColorShader->uploadUniformFloat("ptLights[" + index + "].attDistance", ptLight.attDistance);
 
-        data->textureShader->bind();
-        data->textureShader->uploadUniformFloat3("ptLights[" + std::to_string(index) + "].pos", pos);
+            data->textureShader->bind();
+            data->textureShader->uploadUniformFloat3("ptLights[" + index + "].ambient", ptLight.ambient);
+            data->textureShader->uploadUniformFloat3("ptLights[" + index + "].diffuse", ptLight.diffuse);
+            data->textureShader->uploadUniformFloat3("ptLights[" + index + "].pos", ptLight.pos);
+            data->textureShader->uploadUniformFloat("ptLights[" + index + "].attDistance", ptLight.attDistance);
+
+            data->emissionShader->bind();
+            data->emissionShader->uploadUniformFloat3("u_color", ptLight.diffuse);
+
+            Mat4 transform = translate(ptLight.pos) * scale(0.5f);
+            data->emissionShader->uploadUniformMat4("u_transform", transform);
+        }
+        else
+        {
+            SRS_CORE_ASSERT(false, "There can only be up to 10 point lights in a scene.");
+        }
     }
 }
