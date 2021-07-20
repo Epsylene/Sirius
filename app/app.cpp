@@ -2,6 +2,8 @@
 #include <Sirius.hpp>
 #include <Sirius/Core/EntryPoint.hpp>
 
+#include <assimp/camera.h>
+
 class ExampleLayer: public Sirius::Layer
 {
     private:
@@ -62,7 +64,7 @@ class Test: public Sirius::Application
 
         Test()
         {
-            pushLayer(new ExampleLayer());
+            pushLayer(std::make_shared<ExampleLayer>());
         }
 };
 

@@ -40,7 +40,7 @@ namespace Sirius
             float lastFrameTime = 0.f;
 
             LayerStack layerStack;
-            ImGuiLayer* imGuiLayer;
+            Ref<ImGuiLayer> imGuiLayer;
 
         public:
 
@@ -75,12 +75,12 @@ namespace Sirius
             ///////////////////////////////////
             /// @brief Push a new window layer
             /// @see Layer class
-            void pushLayer(Layer* layer);
+            void pushLayer(Ref<Layer> layer);
 
             ////////////////////////////////////
             /// @brief Push a new window overlay
             /// @see Layer class
-            void pushOverlay(Layer* overlay);
+            void pushOverlay(Ref<Layer> overlay);
 
             //////////////////////////////////////////////
             /// @brief Is called when the window is closed

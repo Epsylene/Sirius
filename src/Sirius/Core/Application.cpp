@@ -17,17 +17,17 @@ namespace Sirius
 
         Renderer::init();
 
-        imGuiLayer = new ImGuiLayer();
+        imGuiLayer = std::make_shared<ImGuiLayer>();
         pushOverlay(imGuiLayer);
     }
 
-    void Application::pushLayer(Layer* layer)
+    void Application::pushLayer(Ref<Layer> layer)
     {
         layerStack.pushLayer(layer);
         layer->onAttach();
     }
 
-    void Application::pushOverlay(Layer* overlay)
+    void Application::pushOverlay(Ref<Layer> overlay)
     {
         layerStack.pushOverlay(overlay);
         overlay->onAttach();
@@ -81,13 +81,13 @@ namespace Sirius
             // Update the layers
             if(!minimized)
             {
-                for (Layer* layer: layerStack)
+                for (const auto& layer: layerStack)
                     layer->onUpdate(dt);
             }
 
             // Run ImGui and its callbacks
             imGuiLayer->begin();
-            for (Layer* layer: layerStack)
+            for (const auto& layer: layerStack)
                 layer->onImGuiRender();
             imGuiLayer->end();
 

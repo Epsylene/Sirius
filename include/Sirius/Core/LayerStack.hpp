@@ -24,36 +24,33 @@ namespace Sirius
             //  to be comprised of layers and half of overlays. It
             //  is to handle the first half that we provide a
             //  'layerTop' iterator.
-            std::vector<Layer*> layers;
+            std::vector<Ref<Layer>> layers;
             unsigned int layerTopIndex = 0;
 
         public:
 
-            LayerStack();
-            virtual ~LayerStack();
-
             ///////////////////////////////
             /// @brief Push a window layer.
             /// @see Layer class
-            void pushLayer(Layer* layer);
+            void pushLayer(Ref<Layer> layer);
 
             //////////////////////////////
             /// @brief Pop a window layer.
             /// @see Layer class
-            void popLayer(Layer* layer);
+            void popLayer(Ref<Layer> layer);
 
             ///////////////////////////////
             /// @brief Push a window layer.
             /// @see Layer class
-            void pushOverlay(Layer* overlay);
+            void pushOverlay(Ref<Layer> overlay);
 
             ////////////////////////////////
             /// @brief Pop a window overlay.
             /// @see Layer class
-            void popOverlay(Layer* overlay);
+            void popOverlay(Ref<Layer> overlay);
 
-            //Allow iterating through the Layer* vector.
-            std::vector<Layer*>::iterator begin() { return layers.begin(); }
-            std::vector<Layer*>::iterator end() { return layers.end(); }
+            //Allow iterating through the Scope<Layer> vector.
+            std::vector<Ref<Layer>>::iterator begin() { return layers.begin(); }
+            std::vector<Ref<Layer>>::iterator end() { return layers.end(); }
     };
 }
