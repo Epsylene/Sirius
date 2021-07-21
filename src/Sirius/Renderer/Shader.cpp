@@ -1,8 +1,6 @@
 
 #include "Sirius/Renderer/Shader.hpp"
 
-#include "Sirius/Core/Core.hpp"
-
 namespace Sirius
 {
     static GLenum shaderTypeFromString(const std::string& type)

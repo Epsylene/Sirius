@@ -24,8 +24,9 @@ namespace Sirius
 
         public:
 
-            Layer(const std::string& name = "Layer");
-            virtual ~Layer();
+            ///////////////////////////////////////
+            /// @brief Create a layer called `name`
+            explicit Layer(const std::string& name = "Layer");
 
             ////////////////////////////////////
             /// @brief Attach function callback.
@@ -37,8 +38,7 @@ namespace Sirius
 
             ////////////////////////////
             /// @brief Update the layer.
-            virtual void onUpdate(Timestep dt)
-            {}
+            virtual void onUpdate(Timestep dt) {}
 
             /////////////////////////////////////////////
             /// @brief Function callback on ImGui render.
@@ -50,6 +50,6 @@ namespace Sirius
 
             //////////////////////////////
             /// @brief Get the layer name.
-            inline const std::string& getName() const { return debugName; }
+            const std::string& getName() const { return debugName; }
     };
 }

@@ -2,10 +2,10 @@
 #pragma once
 
 #include <GLFW/glfw3.h>
-#include <Sirius/Core/Timestep.hpp>
 
 #include "srspch.hpp"
 
+#include "Sirius/Core/Timestep.hpp"
 #include "Sirius/Events/Event.hpp"
 #include "Sirius/Renderer/RenderContext.hpp"
 
@@ -24,7 +24,7 @@ namespace Sirius
         /// @param title The window's title
         /// @param width The window's width
         /// @param height The window's height
-        WindowProps(const std::string& title = "Sirius Engine", unsigned int width = 1024, unsigned int height = 576):
+        explicit WindowProps(const std::string& title = "Sirius Engine", unsigned int width = 1024, unsigned int height = 576):
             title(title), width(width), height(height) {}
     };
 

@@ -40,8 +40,8 @@ namespace Sirius
         auto indexBuffer = std::make_shared<IndexBuffer>(indices, std::size(indices));
         data->quadVA->setIndexBuffer(indexBuffer);
 
-        data->flatColorShader = std::make_shared<Shader>("../../app/assets/shaders/flat_color.glsl");
-        data->textureShader = std::make_shared<Shader>("../../app/assets/shaders/texture.glsl");
+        data->flatColorShader = std::make_shared<Shader>("../../app/res/shaders/flat_color.glsl");
+        data->textureShader = std::make_shared<Shader>("../../app/res/shaders/texture.glsl");
         data->textureShader->bind();
         data->textureShader->uploadUniformInt("u_texture", 0);
     }

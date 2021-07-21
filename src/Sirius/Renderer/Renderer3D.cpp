@@ -72,9 +72,9 @@ namespace Sirius
         auto indexBuffer = std::make_shared<IndexBuffer>(indices, std::size(indices));
         data->cubeVA->setIndexBuffer(indexBuffer);
 
-        data->flatColorShader = std::make_shared<Shader>("../../app/assets/shaders/flat_color.glsl");
-        data->emissionShader = std::make_shared<Shader>("../../app/assets/shaders/emission.glsl");
-        data->textureShader = std::make_shared<Shader>("../../app/assets/shaders/texture.glsl");
+        data->flatColorShader = std::make_shared<Shader>("../../app/res/shaders/flat_color.glsl");
+        data->emissionShader = std::make_shared<Shader>("../../app/res/shaders/emission.glsl");
+        data->textureShader = std::make_shared<Shader>("../../app/res/shaders/texture.glsl");
     }
 
     void Renderer3D::shutdown()
