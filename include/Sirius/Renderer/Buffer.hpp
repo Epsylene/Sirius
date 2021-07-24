@@ -3,6 +3,7 @@
 
 #include "srspch.hpp"
 #include "Sirius/Core/Core.hpp"
+#include "Sirius/Math/Vector/Vector.hpp"
 
 #include <glad/glad.h>
 
@@ -179,32 +180,49 @@ namespace Sirius
             std::vector<BufferElement>::const_iterator end() const { return elements.end(); }
     };
 
+    struct Vertex
+    {
+        Vec3 pos, normal, texCoords;
+    };
+
     ///////////////////////////////////////////
     /// @brief Vertex buffers abstraction class
     class VertexBuffer
     {
         private:
 
-            uint32_t rendererId;
+            uint32_t bufferID;
             BufferLayout layout;
 
         public:
 
             ///////////////////////////////////////////////////////////
-            /// @brief Creates a vertex buffer
+            /// @brief Creates a vertex buffer from an array of floats
             ///
-            /// The vertex buffer are created and bound to OpenGL, with
+            /// The vertex buffer is created and bound to OpenGL, with
             /// usage set to `GL_STATIC_DRAW` (modified once, drawn
             /// multiple times).
             ///
-            /// @param vertices The vertices' array
+            /// @param vertices The array of vertices
             /// @param size The array size in bytes (`sizeof()`)
             VertexBuffer(float* vertices, size_t size);
 
-            /////////////////////////////////////////
+            ///////////////////////////////////////////////////////////
+            /// @brief Create a vertex buffer from an array of vertices
+            ///
+            /// The vertex buffer is created and bound to OpenGL, with
+            /// usage set to `GL_STATIC_DRAW` (modified once, drawn
+            /// multiple times). Its layout is set to [pos, normal,
+            /// texCoords].
+            ///
+            /// @param vertices The array of vertices
+            /// @see Vertex struct
+            explicit VertexBuffer(const std::vector<Vertex>& vertices);
+
+            ////////////////////////////////////////////
             /// @brief VertexBuffer destructor
             /// 
-            /// Deletes the vertex buffers. 
+            /// Calls glDelete() over the vertex buffer.
             virtual ~VertexBuffer();
 
             /////////////////////////////////
@@ -232,7 +250,7 @@ namespace Sirius
     {
         private:
 
-            uint32_t rendererId;
+            uint32_t idxBufferID;
             uint32_t count;
 
         public:
@@ -246,7 +264,7 @@ namespace Sirius
             ///
             /// @param indices The vertex indices array
             /// @param count The array number of elements
-            IndexBuffer(uint32_t* indices, size_t count);
+            IndexBuffer(const uint32_t* indices, size_t count);
 
             //////////////////////////////////
             /// @brief Index Buffer destructor

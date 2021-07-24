@@ -5,20 +5,27 @@ namespace Sirius
 {
     VertexArray::VertexArray()
     {
-        glCreateVertexArrays(1, &rendererId);
+        glCreateVertexArrays(1, &vtxArrID);
     }
 
     VertexArray::VertexArray(const Ref<VertexBuffer>& vb, const Ref<IndexBuffer>& ib)
     {
-        glCreateVertexArrays(1, &rendererId);
+        glCreateVertexArrays(1, &vtxArrID);
 
         addVertexBuffer(vb);
         setIndexBuffer(ib);
     }
 
+    VertexArray::VertexArray(const std::vector<Vertex>& vertices,
+                             const std::vector<uint32_t> indices)
+    {
+        glCreateVertexArrays(1, &vtxArrID);
+
+    }
+
     void VertexArray::bind() const
     {
-        glBindVertexArray(rendererId);
+        glBindVertexArray(vtxArrID);
     }
 
     void VertexArray::unbind() const
@@ -28,16 +35,15 @@ namespace Sirius
 
     void VertexArray::addVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
     {
-        glBindVertexArray(rendererId);
+        glBindVertexArray(vtxArrID);
         vertexBuffer->bind();
 
         SRS_CORE_ASSERT(!vertexBuffer->getLayout().getElements().empty(), "Vertex buffer has no layout.")
 
         // For each element in the layout, enable the vertex attribute
         // array at the element's index and give it the data it wants
-        uint32_t index = 0;
         const auto& layout = vertexBuffer->getLayout();
-        for (const auto& element: layout)
+        for (uint32_t index = 0; const auto& element: layout)
         {
             glEnableVertexAttribArray(index);
             glVertexAttribPointer(index,
@@ -54,7 +60,7 @@ namespace Sirius
 
     void VertexArray::setIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
     {
-        glBindVertexArray(rendererId);
+        glBindVertexArray(vtxArrID);
         indexBuffer->bind();
 
         this->indexBuffer = indexBuffer;
