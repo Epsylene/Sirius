@@ -6,6 +6,7 @@
 #include "Texture.hpp"
 #include "Material.hpp"
 #include "Light.h"
+#include "Mesh.h"
 
 namespace Sirius
 {
@@ -60,6 +61,8 @@ namespace Sirius
             static void drawCube(const Vec3& pos, const Vec3& size, const Ref <Texture>& texture);
 
             static void drawEmissionCube(const PointLight& light);
+
+            static void drawMesh(const Mesh& mesh, const Vec3& pos, const Vec3& size);
 
             static void addPointLight(const PointLight& ptLight);
 

@@ -13,7 +13,7 @@ namespace Sirius
     {
         private:
 
-            uint32_t rendererId;
+            uint32_t vtxArrID;
             std::vector<Ref<VertexBuffer>> vertexBuffers;
             Ref<IndexBuffer> indexBuffer;
 
@@ -31,21 +31,7 @@ namespace Sirius
             /// @param ib The index buffer
             VertexArray(const Ref<VertexBuffer>& vb, const Ref<IndexBuffer>& ib);
 
-            //////////////////////////////////////////////
-            /// @brief
-            /// @param vertices
-            /// @param layout
-            /// @param indices
-            template<unsigned long long s1, unsigned long long s2>
-            VertexArray(std::array<float, s1> vertices, const BufferLayout& layout, std::array<uint32_t, s2> indices)
-            {
-                auto vb = std::make_shared<VertexBuffer>(vertices.data(), sizeof(vertices));
-                vb->setLayout(layout);
-                addVertexBuffer(vb);
-
-                auto ib = std::make_shared<IndexBuffer>(indices.data(), std::size(indices));
-                setIndexBuffer(ib);
-            }
+            VertexArray(const std::vector<Vertex>& vertices, const std::vector<uint32_t> indices);
 
             ////////////////////////////////
             /// @brief Bind the vertex array

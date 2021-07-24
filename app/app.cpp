@@ -19,8 +19,8 @@ class ExampleLayer: public Sirius::Layer
 
         ExampleLayer(): Layer("Example")
         {
-            diffuse = std::make_shared<Sirius::Texture2D>("../../app/res/textures/container.png");
-            specular = std::make_shared<Sirius::Texture2D>("../../app/res/textures/container_specular.png");
+            diffuse = std::make_shared<Sirius::Texture2D>("../../app/res/textures/container.png", Sirius::TextureType::Diffuse);
+            specular = std::make_shared<Sirius::Texture2D>("../../app/res/textures/container_specular.png", Sirius::TextureType::Specular);
 
             Sirius::Renderer3D::setSpotlight(spotLight);
         }

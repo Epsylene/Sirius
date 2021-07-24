@@ -4,6 +4,8 @@
 #include "Sirius/Renderer/RenderCommand.hpp"
 #include "Sirius/Renderer/Shader.hpp"
 
+#include "srspch.hpp"
+
 namespace Sirius
 {
     struct Renderer3DStorage
@@ -150,6 +152,26 @@ namespace Sirius
 
         data->cubeVA->bind();
         RenderCommand::drawIndexed(data->cubeVA);
+    }
+
+    void Renderer3D::drawMesh(const Mesh& mesh, const Vec3& pos, const Vec3& size)
+    {
+        data->textureShader->bind();
+
+        auto diffuse = std::ranges::find_if(mesh.textures, [](const Texture2D& x) { return x.getType() == TextureType::Diffuse; });
+        diffuse->bind(0);
+        data->textureShader->uploadUniformInt("material.diffuse", 0);
+        auto specular = std::ranges::find_if(mesh.textures, [](const Texture2D& x) { return x.getType() == TextureType::Specular; });
+        specular->bind(1);
+        data->textureShader->uploadUniformInt("material.specular", 1);
+        data->textureShader->uploadUniformFloat("material.shininess", 32.f);
+
+        Mat4 transform = translate(pos) * scale({size.x, size.y, size.z});
+        data->textureShader->uploadUniformMat4("u_transform", transform);
+        data->textureShader->uploadUniformMat4("u_normalMat", transpose(inverse(transform)));
+
+        mesh.vertexArray->bind();
+        RenderCommand::drawIndexed(mesh.vertexArray);
     }
 
     void Renderer3D::setDirectionalLight(const DirectionalLight& dirLight)

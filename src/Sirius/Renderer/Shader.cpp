@@ -39,7 +39,7 @@ namespace Sirius
 
     Shader::~Shader()
     {
-        glDeleteProgram(rendererId);
+        glDeleteProgram(shaderID);
     }
 
     std::string Shader::readFile(const std::string& filepath)
@@ -97,7 +97,7 @@ namespace Sirius
 
     void Shader::compile(const std::unordered_map<GLenum, std::string>& shaderSources)
     {
-        rendererId = glCreateProgram();
+        shaderID = glCreateProgram();
 
         SRS_CORE_ASSERT(shaderSources.size() <= 2, "Too many shaders.");
         std::array<GLenum, 2> glShaderIDs {};
@@ -131,24 +131,24 @@ namespace Sirius
                 return;
             }
 
-            glAttachShader(rendererId, shader);
+            glAttachShader(shaderID, shader);
             glShaderIDs[shaderIndex++] = shader;
         }
 
-        // Link our rendererId
-        glLinkProgram(rendererId);
+        // Link our bufferID
+        glLinkProgram(shaderID);
 
         int isLinked = 0;
-        glGetProgramiv(rendererId, GL_LINK_STATUS, (int *)&isLinked);
+        glGetProgramiv(shaderID, GL_LINK_STATUS, (int *)&isLinked);
         if (isLinked == GL_FALSE)
         {
             int maxLength = 0;
-            glGetProgramiv(rendererId, GL_INFO_LOG_LENGTH, &maxLength);
+            glGetProgramiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength);
 
             std::vector<char> infoLog(maxLength);
-            glGetProgramInfoLog(rendererId, maxLength, &maxLength, &infoLog[0]);
+            glGetProgramInfoLog(shaderID, maxLength, &maxLength, &infoLog[0]);
 
-            glDeleteProgram(rendererId);
+            glDeleteProgram(shaderID);
 
             for (auto& id: glShaderIDs)
                 glDeleteShader(id);
@@ -162,7 +162,7 @@ namespace Sirius
         for (auto& id: glShaderIDs)
         {
             // Always detach the shaders after a succesful linkage
-            glDetachShader(rendererId, id);
+            glDetachShader(shaderID, id);
         }
     }
 
@@ -173,7 +173,7 @@ namespace Sirius
 
     void Shader::bind() const
     {
-        glUseProgram(rendererId);
+        glUseProgram(shaderID);
     }
 
     void Shader::unbind() const
@@ -183,39 +183,39 @@ namespace Sirius
 
     void Shader::uploadUniformInt(const std::string& name, int val)
     {
-        GLint location = glGetUniformLocation(rendererId, name.c_str());
+        GLint location = glGetUniformLocation(shaderID, name.c_str());
         glUniform1i(location, val);
     }
 
     void Shader::uploadUniformFloat(const std::string& name, float val)
     {
-        GLint location = glGetUniformLocation(rendererId, name.c_str());
+        GLint location = glGetUniformLocation(shaderID, name.c_str());
         glUniform1f(location, val);
     }
 
     void Shader::uploadUniformFloat2(const std::string& name,
                                      const Vec2& val)
     {
-        GLint location = glGetUniformLocation(rendererId, name.c_str());
+        GLint location = glGetUniformLocation(shaderID, name.c_str());
         glUniform2f(location, val.x, val.y);
     }
 
     void Shader::uploadUniformFloat3(const std::string& name,
                                      const Vec3& val)
     {
-        GLint location = glGetUniformLocation(rendererId, name.c_str());
+        GLint location = glGetUniformLocation(shaderID, name.c_str());
         glUniform3f(location, val.x, val.y, val.z);
     }
 
     void Shader::uploadUniformFloat4(const std::string& name, const Vec4& val)
     {
-        GLint location = glGetUniformLocation(rendererId, name.c_str());
+        GLint location = glGetUniformLocation(shaderID, name.c_str());
         glUniform4f(location, val.x, val.y, val.z, val.w);
     }
 
     void Shader::uploadUniformMat4(const std::string& name, const Mat4& matrix)
     {
-        GLint location = glGetUniformLocation(rendererId, name.c_str());
+        GLint location = glGetUniformLocation(shaderID, name.c_str());
         glUniformMatrix4fv(location, 1, GL_FALSE, value_ptr(matrix));
     }
 

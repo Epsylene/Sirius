@@ -17,7 +17,7 @@ namespace Sirius
     {
         private:
 
-            uint32_t rendererId;
+            uint32_t shaderID;
             std::string name;
 
             ///////////////////////////////////////////////////
@@ -51,7 +51,7 @@ namespace Sirius
             ////////////////////////////////////////////
             /// @brief Shader destructor
             ///
-            /// Calls glDeleteProgram() on 'rendererID`.
+            /// Calls glDeleteProgram() on 'textureID`.
             virtual ~Shader();
 
             ////////////////////////////////

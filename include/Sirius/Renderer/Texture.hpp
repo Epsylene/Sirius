@@ -3,16 +3,29 @@
 
 namespace Sirius
 {
+    enum class TextureType: uint8_t
+    {
+        None = 0, Diffuse, Specular
+    };
+
     /////////////////////////////////
     /// @brief Abstract texture class
     class Texture
     {
+        protected:
+
+            std::string path;
+            TextureType type;
+            uint32_t textureID;
+
         public:
 
             virtual ~Texture() = default;
 
             virtual uint32_t getWidth() const = 0;
             virtual uint32_t getHeight() const = 0;
+
+            virtual TextureType getType() const;
 
             virtual void bind(uint32_t slot = 0) const = 0;
     };
@@ -23,14 +36,13 @@ namespace Sirius
     {
         private:
 
-            std::string path;
-            uint32_t width, height, rendererID;
+            uint32_t width, height;
 
         public:
 
             ////////////////////////////////////////////////////////
             /// @brief Creates a new texture from the file at `path`
-            explicit Texture2D(const std::string& path);
+            explicit Texture2D(const std::string& path, const TextureType& type);
 
             //////////////////////////////
             /// @brief Deletes the texture
