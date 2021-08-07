@@ -55,17 +55,29 @@ target_link_libraries(Sirius PUBLIC glad)
 add_library(stb_image STATIC vendor/stb_image/stb_image.h vendor/stb_image/stb_image.cpp)
 target_link_libraries(Sirius PUBLIC stb_image)
 
+# Assimp #
+set(CMAKE_PREFIX_PATH vendor/assimp/lib/cmake/assimp-5.0/)
+find_package(assimp CONFIG)
+target_link_libraries(Sirius PUBLIC ${ASSIMP_LIBRARIES})
+
 # tinyobjloader #
 add_library(tinyobjloader STATIC vendor/tinyobjloader/tiny_obj_loader.h vendor/tinyobjloader/tiny_obj_loader.cc)
 target_link_libraries(Sirius PUBLIC tinyobjloader)
 
-# Copy GLFW's DLL to the bin directory (next to the
+# Copy GLFW and Assimp DLLs to the bin directory (next to the
 #   Sirius_test executable)
 add_custom_command(
         TARGET Sirius POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
         ${CMAKE_SOURCE_DIR}/vendor/glfw/bin/glfw3.dll
         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/glfw3.dll
+)
+
+add_custom_command(
+        TARGET Sirius POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_SOURCE_DIR}/vendor/assimp/bin/libassimp.dll
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libassimp.dll
 )
 
 # Precompiled headers
@@ -85,6 +97,7 @@ include_directories(vendor/glad/include/)
 include_directories(vendor/glm)
 include_directories(vendor/stb_image)
 include_directories(vendor/tinyobjloader)
+include_directories(vendor/assimp/include)
 
 # ----------------------------------------------------
 # Install Sirius and its dependencies

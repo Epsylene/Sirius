@@ -5,8 +5,8 @@
 #include "Color.hpp"
 #include "Texture.hpp"
 #include "Material.hpp"
-#include "Light.h"
-#include "Mesh.h"
+#include "Light.hpp"
+#include "Model.hpp"
 
 namespace Sirius
 {
@@ -41,7 +41,7 @@ namespace Sirius
             /// @param pos The cube's position
             /// @param size The cube's size
             /// @param color The cube's color
-            static void drawCube(const Vec3& pos, const Vec3& size, const Color& color);
+            static void drawCube(const Vec3& pos, const Vec3& size = {1.f, 1.f, 1.f}, const Color& color = Color::White);
 
             //////////////////////////////////////
             /// @brief Draw a cube with a material
@@ -51,18 +51,11 @@ namespace Sirius
             /// @param material The cube's material
             static void drawCube(const Vec3& pos, const Vec3& size, const Material& material);
 
-            ////////////////////////////////////////////////////
-            /// @brief Draw a textured cube
-            ///
-            /// @param pos The cube's position
-            /// @param size The cube's size
-            /// @param texture The texture to be applied to each
-            ///     of the cube's faces
-            static void drawCube(const Vec3& pos, const Vec3& size, const Ref <Texture>& texture);
-
             static void drawEmissionCube(const PointLight& light);
 
-            static void drawMesh(const Mesh& mesh, const Vec3& pos, const Vec3& size);
+            static void addModel(const Model& model);
+
+            static void drawModel(const Model& model, const Vec3& pos = {}, const Vec3& size = Vec3(1.f));
 
             static void addPointLight(const PointLight& ptLight);
 

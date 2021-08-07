@@ -4,6 +4,7 @@
 #include "srspch.hpp"
 #include "Sirius/Core/Core.hpp"
 #include "Sirius/Math/Vector/Vector.hpp"
+#include "Sirius/Renderer/Color.hpp"
 
 #include <glad/glad.h>
 
@@ -182,7 +183,13 @@ namespace Sirius
 
     struct Vertex
     {
-        Vec3 pos, normal, texCoords;
+        Vec3 pos, normal;
+        Vec2 texCoord;
+        Color color;
+
+        Vertex(const Vec3& pos, const Vec3& normal, const Vec2& texCoord,
+                const Color& color = Color::White):
+            pos(pos), normal(normal), texCoord(texCoord), color(color) {}
     };
 
     ///////////////////////////////////////////
@@ -265,6 +272,8 @@ namespace Sirius
             /// @param indices The vertex indices array
             /// @param count The array number of elements
             IndexBuffer(const uint32_t* indices, size_t count);
+
+            explicit IndexBuffer(const std::vector<uint32_t>& indices);
 
             //////////////////////////////////
             /// @brief Index Buffer destructor

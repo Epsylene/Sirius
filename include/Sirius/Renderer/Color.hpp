@@ -37,7 +37,6 @@ namespace Sirius
             Color(float r, float g, float b, float a = 1.f);
 
             Color(const Color& color) = default;
-            Color(Color&& color) = default;
 
             /////////////////////////////////
             /// @brief Construct an RGB color

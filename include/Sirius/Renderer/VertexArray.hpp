@@ -13,11 +13,11 @@ namespace Sirius
     {
         private:
 
-            uint32_t vtxArrID;
             std::vector<Ref<VertexBuffer>> vertexBuffers;
             Ref<IndexBuffer> indexBuffer;
 
         public:
+            uint32_t vtxArrID;
 
             //////////////////////////////////////////
             /// @brief Creates an OpenGL vertex array.
@@ -30,8 +30,6 @@ namespace Sirius
             /// @param vb The vertex buffer
             /// @param ib The index buffer
             VertexArray(const Ref<VertexBuffer>& vb, const Ref<IndexBuffer>& ib);
-
-            VertexArray(const std::vector<Vertex>& vertices, const std::vector<uint32_t> indices);
 
             ////////////////////////////////
             /// @brief Bind the vertex array

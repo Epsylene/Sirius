@@ -16,13 +16,6 @@ namespace Sirius
         setIndexBuffer(ib);
     }
 
-    VertexArray::VertexArray(const std::vector<Vertex>& vertices,
-                             const std::vector<uint32_t> indices)
-    {
-        glCreateVertexArrays(1, &vtxArrID);
-
-    }
-
     void VertexArray::bind() const
     {
         glBindVertexArray(vtxArrID);

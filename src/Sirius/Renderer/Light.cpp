@@ -1,5 +1,5 @@
 
-#include "Sirius/Renderer/Light.h"
+#include "Sirius/Renderer/Light.hpp"
 
 namespace Sirius
 {

@@ -34,5 +34,7 @@ namespace Sirius
                        vertexArray->getIndexBuffer()->getCount(),
                        GL_UNSIGNED_INT,
                        nullptr);
+
+        vertexArray->unbind();
     }
 }

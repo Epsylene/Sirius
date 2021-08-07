@@ -9,6 +9,7 @@ namespace Sirius
         if(type == "fragment" || type == "pixel") return GL_FRAGMENT_SHADER;
 
         SRS_CORE_ASSERT(false, "Unknown shader type !");
+        return GL_INVALID_ENUM;
     }
 
     Shader::Shader(const std::string& filepath)

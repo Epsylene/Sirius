@@ -20,7 +20,8 @@ namespace Sirius
 
         layout = {{ {ShaderDataType::Float3, "a_pos"},
                     {ShaderDataType::Float3, "a_normal"},
-                    {ShaderDataType::Float3, "a_texCoords"} }};
+                    {ShaderDataType::Float2, "a_texCoord"},
+                    {ShaderDataType::Float4, "a_vtxColor"} }};
     }
 
     VertexBuffer::~VertexBuffer()
@@ -47,8 +48,16 @@ namespace Sirius
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
     }
 
+    IndexBuffer::IndexBuffer(const std::vector<uint32_t>& indices): count(indices.size())
+    {
+        glCreateBuffers(1, &idxBufferID);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxBufferID);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint32_t), &indices[0], GL_STATIC_DRAW);
+    }
+
     IndexBuffer::~IndexBuffer()
     {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         glDeleteBuffers(1, &idxBufferID);
     }
 

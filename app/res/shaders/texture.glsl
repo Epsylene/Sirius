@@ -99,7 +99,7 @@ void main()
     vec4 dirLightColor = getDirectionalLightColor(tex, dirLight, u_viewDir, v_normal);
     vec4 spotlightColor = getSpotlightColor(tex, spotlight, u_viewDir, v_normal, v_fragPos);
 
-    color = ptLightColor + dirLightColor + spotlightColor;
+    color = vec4(v_fragPos, 1.0);// + dirLightColor + spotlightColor;
 }
 
 vec4 getPointLightColor(Texture tex, PointLight ptLight, vec3 viewDir, vec3 normal, vec3 fragPos)

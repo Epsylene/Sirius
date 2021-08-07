@@ -4,16 +4,16 @@
 #include "Sirius/Renderer/RenderCommand.hpp"
 #include "Sirius/Renderer/Shader.hpp"
 
-#include "srspch.hpp"
-
 namespace Sirius
 {
     struct Renderer3DStorage
     {
         uint16_t ptLightNb = 0;
         Ref<VertexArray> cubeVA;
+        Ref<VertexArray> modelVA;
         Ref<Shader> flatColorShader;
         Ref<Shader> textureShader;
+        Ref<Shader> flatTextureShader;
         Ref<Shader> emissionShader;
     };
 
@@ -73,10 +73,12 @@ namespace Sirius
                                         20, 21, 22, 22, 23, 20 };
         auto indexBuffer = std::make_shared<IndexBuffer>(indices, std::size(indices));
         data->cubeVA->setIndexBuffer(indexBuffer);
+        data->cubeVA->unbind();
 
         data->flatColorShader = std::make_shared<Shader>("../../app/res/shaders/flat_color.glsl");
         data->emissionShader = std::make_shared<Shader>("../../app/res/shaders/emission.glsl");
         data->textureShader = std::make_shared<Shader>("../../app/res/shaders/texture.glsl");
+        data->flatTextureShader = std::make_shared<Shader>("../../app/res/shaders/flat_texture.glsl");
     }
 
     void Renderer3D::shutdown()
@@ -96,6 +98,9 @@ namespace Sirius
 
         data->emissionShader->bind();
         data->emissionShader->uploadUniformMat4("u_viewProj", camera.getViewProjMatrix());
+        
+        data->flatTextureShader->bind();
+        data->flatTextureShader->uploadUniformMat4("u_viewProj", camera.getViewProjMatrix());
     }
 
     void Renderer3D::endScene()
@@ -119,23 +124,6 @@ namespace Sirius
         RenderCommand::drawIndexed(data->cubeVA);
     }
 
-    void Renderer3D::drawCube(const Vec3& pos, const Vec3& size, const Ref<Texture>& texture)
-    {
-        data->textureShader->bind();
-
-        texture->bind(0);
-        data->textureShader->uploadUniformInt("material.diffuse", 0);
-        texture->bind(1);
-        data->textureShader->uploadUniformInt("material.specular", 1);
-        data->textureShader->uploadUniformFloat("material.shininess", 32.f);
-
-        Mat4 transform = translate(pos) * scale({size.x, size.y, size.z});
-        data->textureShader->uploadUniformMat4("u_transform", transform);
-
-        data->cubeVA->bind();
-        RenderCommand::drawIndexed(data->cubeVA);
-    }
-
     void Renderer3D::drawCube(const Vec3& pos, const Vec3& size, const Material& material)
     {
         data->textureShader->bind();
@@ -152,26 +140,6 @@ namespace Sirius
 
         data->cubeVA->bind();
         RenderCommand::drawIndexed(data->cubeVA);
-    }
-
-    void Renderer3D::drawMesh(const Mesh& mesh, const Vec3& pos, const Vec3& size)
-    {
-        data->textureShader->bind();
-
-        auto diffuse = std::ranges::find_if(mesh.textures, [](const Texture2D& x) { return x.getType() == TextureType::Diffuse; });
-        diffuse->bind(0);
-        data->textureShader->uploadUniformInt("material.diffuse", 0);
-        auto specular = std::ranges::find_if(mesh.textures, [](const Texture2D& x) { return x.getType() == TextureType::Specular; });
-        specular->bind(1);
-        data->textureShader->uploadUniformInt("material.specular", 1);
-        data->textureShader->uploadUniformFloat("material.shininess", 32.f);
-
-        Mat4 transform = translate(pos) * scale({size.x, size.y, size.z});
-        data->textureShader->uploadUniformMat4("u_transform", transform);
-        data->textureShader->uploadUniformMat4("u_normalMat", transpose(inverse(transform)));
-
-        mesh.vertexArray->bind();
-        RenderCommand::drawIndexed(mesh.vertexArray);
     }
 
     void Renderer3D::setDirectionalLight(const DirectionalLight& dirLight)
@@ -269,5 +237,51 @@ namespace Sirius
         {
             SRS_CORE_ASSERT(false, "There can only be up to 10 point lights in a scene.");
         }
+    }
+
+    void Renderer3D::addModel(const Model& model)
+    {
+        auto vb = std::make_shared<VertexBuffer>(model.vertices);
+        auto ib = std::make_shared<IndexBuffer>(model.indices);
+
+        data->modelVA = std::make_shared<VertexArray>(vb, ib);
+        data->modelVA->unbind();
+    }
+
+    void Renderer3D::drawModel(const Model& model, const Vec3& pos, const Vec3& size)
+    {
+        data->textureShader->bind();
+
+        Mat4 transform = translate(pos) * scale(size);
+        data->textureShader->uploadUniformMat4("u_transform", transform);
+
+        for (auto& [key, tex]: model.textures)
+        {
+            switch (tex.type)
+            {
+                case TextureType::None:
+                    break;
+
+                case TextureType::Diffuse:
+                    tex.bind(0);
+                    data->textureShader->uploadUniformInt("material.diffuse", 0);
+                    break;
+
+                case TextureType::Specular:
+                    tex.bind(1);
+                    data->textureShader->uploadUniformInt("material.specular", 1);
+                    break;
+
+                case TextureType::Ambient:
+                    tex.bind(2);
+                    data->textureShader->uploadUniformInt("material.ambient", 2);
+                    break;
+            }
+
+            data->textureShader->uploadUniformFloat("material.shininess", 32.f);
+        }
+
+        data->modelVA->bind();
+        RenderCommand::drawIndexed(data->modelVA);
     }
 }
