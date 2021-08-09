@@ -60,10 +60,6 @@ set(CMAKE_PREFIX_PATH vendor/assimp/lib/cmake/assimp-5.0/)
 find_package(assimp CONFIG)
 target_link_libraries(Sirius PUBLIC ${ASSIMP_LIBRARIES})
 
-# tinyobjloader #
-add_library(tinyobjloader STATIC vendor/tinyobjloader/tiny_obj_loader.h vendor/tinyobjloader/tiny_obj_loader.cc)
-target_link_libraries(Sirius PUBLIC tinyobjloader)
-
 # Copy GLFW and Assimp DLLs to the bin directory (next to the
 #   Sirius_test executable)
 add_custom_command(

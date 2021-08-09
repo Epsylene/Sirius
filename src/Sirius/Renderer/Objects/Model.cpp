@@ -1,61 +1,12 @@
 
 #include "Sirius/Renderer/Objects/Model.hpp"
 
-#include <tiny_obj_loader.h>
-
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 
 namespace Sirius
 {
-//    Model::Model(const std::string& filepath)
-//    {
-//        tinyobj::ObjReader reader;
-//        SRS_CORE_ASSERT(reader.ParseFromFile(filepath), "Tiny OBJ reader error :" + reader.Error());
-//
-//        auto& attrib = reader.GetAttrib();
-//        auto& shapes = reader.GetShapes();
-//        auto& materials = reader.GetMaterials();
-//
-//        for (auto& shape: shapes)
-//        {
-//            for (auto& index: shape.mesh.indices)
-//            {
-//                Vertex vtx {{ attrib.vertices[3 * index.vertex_index],
-//                               attrib.vertices[3 * index.vertex_index + 1],
-//                               attrib.vertices[3 * index.vertex_index + 2] },
-//                            { attrib.normals[3 * index.normal_index],
-//                              attrib.normals[3 * index.normal_index + 1],
-//                              attrib.normals[3 * index.normal_index + 2]},
-//                            { attrib.texcoords[2 * index.texcoord_index],
-//                              attrib.texcoords[2 * index.texcoord_index + 1] }};
-//
-//                if(!attrib.colors.empty())
-//                {
-//                    vtx.color = { attrib.colors[3 * index.vertex_index],
-//                                  attrib.colors[3 * index.vertex_index + 1],
-//                                  attrib.colors[3 * index.vertex_index + 2] };
-//                }
-//
-//                vertices.emplace_back(vtx);
-//                indices.push_back(indices.size());
-//            }
-//        }
-//
-//        for (auto& mat: materials)
-//        {
-//            if(!mat.diffuse_texname.empty() && textures.find(mat.diffuse_texname) == textures.end())
-//                textures.emplace(mat.diffuse_texname, Texture2D(mat.diffuse_texname, TextureType::Diffuse));
-//
-//            if(!mat.specular_texname.empty() && textures.find(mat.specular_texname) == textures.end())
-//                textures.emplace(mat.specular_texname, Texture2D(mat.specular_texname, TextureType::Specular));
-//
-//            if(!mat.ambient_texname.empty() && textures.find(mat.ambient_texname) == textures.end())
-//                textures.emplace(mat.ambient_texname, Texture2D(mat.ambient_texname, TextureType::Ambient));
-//        }
-//    }
-
     Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices,
                 std::vector<Texture2D>& textures):
         vertices(vertices), indices(indices), textures(textures)

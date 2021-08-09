@@ -1,13 +1,13 @@
 
 #pragma once
 
+#include "srspch.hpp"
+
 #include "Sirius/Math/Vector/Vector.hpp"
 
 #include "Sirius/Renderer/Utils/Buffer.hpp"
 #include "Sirius/Renderer/Utils/VertexArray.hpp"
 #include "Sirius/Renderer/Utils/Texture.hpp"
-
-#include "srspch.hpp"
 
 #include <assimp/scene.h>
 
@@ -41,15 +41,4 @@ namespace Sirius
 
             explicit Model(const std::string& filepath);
     };
-
-//    class Model
-//    {
-//        public:
-//
-//            std::vector<Vertex> vertices;
-//            std::vector<uint32_t> indices;
-//            std::unordered_map<std::string, Texture2D> textures;
-//
-//            explicit Model(const std::string& filepath);
-//    };
 }
