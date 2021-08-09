@@ -5,6 +5,7 @@
 layout(location = 0) in vec3 a_position;
 layout(location = 1) in vec3 a_normal;
 layout(location = 2) in vec2 a_texCoord;
+layout(location = 3) in vec4 a_vtxCoord;
 
 uniform mat4 u_viewProj;
 uniform mat4 u_transform;
@@ -99,13 +100,15 @@ void main()
     vec4 dirLightColor = getDirectionalLightColor(tex, dirLight, u_viewDir, v_normal);
     vec4 spotlightColor = getSpotlightColor(tex, spotlight, u_viewDir, v_normal, v_fragPos);
 
-    color = vec4(v_fragPos, 1.0);// + dirLightColor + spotlightColor;
+    color = ptLightColor + dirLightColor + spotlightColor;
 }
 
 vec4 getPointLightColor(Texture tex, PointLight ptLight, vec3 viewDir, vec3 normal, vec3 fragPos)
 {
-    // Ambient component
+    // Ambient component ---------------------------------------------
 
+    // Calculate the distance between the light and the fragment, then
+    // the light's attenuation factor
     float distance = length(ptLight.pos - fragPos);
     float kl = -1.0 / (ptLight.attDistance * (ptLight.attDistance - 0.001));
     float kq = 0.1 / (ptLight.attDistance * ptLight.attDistance * 0.001);
@@ -113,15 +116,20 @@ vec4 getPointLightColor(Texture tex, PointLight ptLight, vec3 viewDir, vec3 norm
 
     vec4 ptAmbient = vec4(attenuation * 0.1 * ptLight.ambient * tex.texDiffuse, 1.0);
 
-    // Diffuse component
+    // Diffuse component ---------------------------------------------
 
+    // Calculate the direction of the light pointing at the fragment,
+    // then the scalar product between this and the surface normal
     vec3 ptLightDir = normalize(ptLight.pos - fragPos);
     float ptDiff = max(dot(normal, ptLightDir), 0.0);
 
     vec4 ptDiffuse = vec4(attenuation * ptDiff * ptLight.diffuse * tex.texDiffuse , 1.0);
 
-    // Specular component
+    // Specular component ---------------------------------------------
 
+    // Calculate the vector that is the reflection of `ptLightDir`
+    // along `normal`, and then elevate the scalar product between
+    // this and the camera's direction vector to `material.shininess`
     vec3 ptReflectDir = reflect(ptLightDir, normal);
     float ptSpec = pow(max(dot(viewDir, ptReflectDir), 0), material.shininess);
 

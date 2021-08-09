@@ -3,11 +3,11 @@
 
 #include "srspch.hpp"
 
-#include "VertexArray.hpp"
-#include "Shader.hpp"
+#include "Sirius/Renderer/Utils/VertexArray.hpp"
+#include "Sirius/Renderer/Utils/Shader.hpp"
 #include "RenderCommand.hpp"
 
-#include "Camera.hpp"
+#include "Sirius/Renderer/Objects/Camera.hpp"
 
 namespace Sirius
 {

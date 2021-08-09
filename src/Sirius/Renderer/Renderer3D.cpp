@@ -2,7 +2,7 @@
 #include "Sirius/Renderer/Renderer3D.hpp"
 
 #include "Sirius/Renderer/RenderCommand.hpp"
-#include "Sirius/Renderer/Shader.hpp"
+#include "Sirius/Renderer/Utils/Shader.hpp"
 
 namespace Sirius
 {
@@ -10,7 +10,8 @@ namespace Sirius
     {
         uint16_t ptLightNb = 0;
         Ref<VertexArray> cubeVA;
-        Ref<VertexArray> modelVA;
+//        Ref<VertexArray> modelVA;
+        std::vector<Ref<VertexArray>> modelVA;
         Ref<Shader> flatColorShader;
         Ref<Shader> textureShader;
         Ref<Shader> flatTextureShader;
@@ -239,49 +240,116 @@ namespace Sirius
         }
     }
 
+    void addMesh(const Mesh& mesh)
+    {
+        auto vb = std::make_shared<VertexBuffer>(mesh.vertices);
+        auto ib = std::make_shared<IndexBuffer>(mesh.indices);
+
+        data->modelVA.emplace_back(std::make_shared<VertexArray>(vb, ib));
+    }
+
     void Renderer3D::addModel(const Model& model)
     {
-        auto vb = std::make_shared<VertexBuffer>(model.vertices);
-        auto ib = std::make_shared<IndexBuffer>(model.indices);
-
-        data->modelVA = std::make_shared<VertexArray>(vb, ib);
-        data->modelVA->unbind();
+        for (auto& mesh: model.meshes)
+        {
+            addMesh(mesh);
+        }
     }
 
     void Renderer3D::drawModel(const Model& model, const Vec3& pos, const Vec3& size)
     {
-        data->textureShader->bind();
-
-        Mat4 transform = translate(pos) * scale(size);
-        data->textureShader->uploadUniformMat4("u_transform", transform);
-
-        for (auto& [key, tex]: model.textures)
+        if(data->modelVA.empty())
         {
-            switch (tex.type)
+            SRS_CORE_ASSERT(false, "The scene contains no model data. "
+                                   "Use Renderer3D::addModel() to add it to the scene.");
+        }
+        else
+        {
+            data->textureShader->bind();
+            Mat4 transform = translate(pos) * scale(size);
+            data->textureShader->uploadUniformMat4("u_transform", transform);
+            data->textureShader->uploadUniformMat4("u_normalMat", transpose(inverse(transform)));
+
+            for (auto& mesh: model.meshes)
             {
-                case TextureType::None:
-                    break;
+                for (auto& tex: mesh.textures)
+                {
+                    switch (tex.type)
+                    {
+                        case TextureType::None:
+                            break;
 
-                case TextureType::Diffuse:
-                    tex.bind(0);
-                    data->textureShader->uploadUniformInt("material.diffuse", 0);
-                    break;
+                        case TextureType::Diffuse:
+                            tex.bind(0);
+                            data->textureShader->uploadUniformInt("material.diffuse", 0);
+                            break;
 
-                case TextureType::Specular:
-                    tex.bind(1);
-                    data->textureShader->uploadUniformInt("material.specular", 1);
-                    break;
+                            case TextureType::Specular:
+                                tex.bind(1);
+                                data->textureShader->uploadUniformInt("material.specular", 1);
+                                break;
 
-                case TextureType::Ambient:
-                    tex.bind(2);
-                    data->textureShader->uploadUniformInt("material.ambient", 2);
-                    break;
+                                case TextureType::Ambient:
+                                    tex.bind(2);
+                                    data->textureShader->uploadUniformInt("material.ambient", 2);
+                                    break;
+                    }
+                }
             }
 
             data->textureShader->uploadUniformFloat("material.shininess", 32.f);
-        }
 
-        data->modelVA->bind();
-        RenderCommand::drawIndexed(data->modelVA);
+            for (auto& meshVA: data->modelVA)
+            {
+                meshVA->bind();
+                RenderCommand::drawIndexed(meshVA);
+            }
+        }
     }
+
+//    void Renderer3D::addModel(const Model& model)
+//    {
+//        auto vb = std::make_shared<VertexBuffer>(model.vertices);
+//        auto ib = std::make_shared<IndexBuffer>(model.indices);
+//
+//        data->modelVA = std::make_shared<VertexArray>(vb, ib);
+//        data->modelVA->unbind();
+//    }
+
+//    void Renderer3D::drawModel(const Model& model, const Vec3& pos, const Vec3& size)
+//    {
+//        data->textureShader->bind();
+//
+//        Mat4 transform = translate(pos) * scale(size);
+//        data->textureShader->uploadUniformMat4("u_transform", transform);
+//
+//        for (auto& [key, tex]: model.textures)
+//        {
+//            switch (tex.type)
+//            {
+//                case TextureType::None:
+//                    break;
+//
+//                case TextureType::Diffuse:
+//                    tex.bind(0);
+//                    data->textureShader->uploadUniformInt("material.diffuse", 0);
+//                    break;
+//
+//                case TextureType::Specular:
+//                    tex.bind(1);
+//                    data->textureShader->uploadUniformInt("material.specular", 1);
+//                    break;
+//
+//                case TextureType::Ambient:
+//                    tex.bind(2);
+//                    data->textureShader->uploadUniformInt("material.ambient", 2);
+//                    break;
+//            }
+//
+//            data->textureShader->uploadUniformFloat("material.shininess", 32.f);
+//        }
+//
+//        data->modelVA->bind();
+//        RenderCommand::drawIndexed(data->modelVA);
+//    }
 }

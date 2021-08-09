@@ -19,17 +19,17 @@
 #include <Sirius/Math/Math.hpp>
 
 // -------------- Renderer ---------------- //
-#include <Sirius/Renderer/Buffer.hpp>
-#include <Sirius/Renderer/VertexArray.hpp>
-#include <Sirius/Renderer/Shader.hpp>
-#include <Sirius/Renderer/Texture.hpp>
-#include <Sirius/Renderer/Color.hpp>
-#include <Sirius/Renderer/Material.hpp>
-#include <Sirius/Renderer/Light.hpp>
-#include <Sirius/Renderer/Model.hpp>
+#include <Sirius/Renderer/Utils/Buffer.hpp>
+#include <Sirius/Renderer/Utils/VertexArray.hpp>
+#include <Sirius/Renderer/Utils/Shader.hpp>
+#include <Sirius/Renderer/Utils/Texture.hpp>
+#include <Sirius/Renderer/Utils/Color.hpp>
+#include <Sirius/Renderer/Utils/Material.hpp>
+#include <Sirius/Renderer/Objects/Light.hpp>
+#include <Sirius/Renderer/Objects/Model.hpp>
 
-#include <Sirius/Renderer/Camera.hpp>
-#include <Sirius/Renderer/CameraController.hpp>
+#include <Sirius/Renderer/Objects/Camera.hpp>
+#include <Sirius/Renderer/Objects/CameraController.hpp>
 
 #include <Sirius/Renderer/RenderCommand.hpp>
 #include <Sirius/Renderer/Renderer.hpp>

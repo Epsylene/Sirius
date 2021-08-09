@@ -1,12 +1,12 @@
 
 #pragma once
 
-#include "Camera.hpp"
-#include "Color.hpp"
-#include "Texture.hpp"
-#include "Material.hpp"
-#include "Light.hpp"
-#include "Model.hpp"
+#include "Sirius/Renderer/Objects/Camera.hpp"
+#include "Sirius/Renderer/Utils/Color.hpp"
+#include "Sirius/Renderer/Utils/Texture.hpp"
+#include "Sirius/Renderer/Utils/Material.hpp"
+#include "Sirius/Renderer/Objects/Light.hpp"
+#include "Sirius/Renderer/Objects/Model.hpp"
 
 namespace Sirius
 {
@@ -53,14 +53,30 @@ namespace Sirius
 
             static void drawEmissionCube(const PointLight& light);
 
+            /// @brief Add a model to the scene
+            ///
+            /// The model will not be rendered
+            /// @param model
             static void addModel(const Model& model);
 
             static void drawModel(const Model& model, const Vec3& pos = {}, const Vec3& size = Vec3(1.f));
 
+            ////////////////////////////
+            /// @brief Add a point light
+            ///
+            /// @see PointLight class
             static void addPointLight(const PointLight& ptLight);
 
+            ////////////////////////////////////
+            /// @brief Set the directional light
+            ///
+            /// @see DirectionalLight class
             static void setDirectionalLight(const DirectionalLight& dirLight);
 
+            ////////////////////////////
+            /// @brief Set the spotlight
+            ///
+            /// @see Spotlight class
             static void setSpotlight(const Spotlight& spotlight);
     };
 }

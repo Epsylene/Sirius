@@ -18,23 +18,22 @@ class ExampleLayer: public Sirius::Layer
 
         ExampleLayer(): Layer("Example"), model("../../app/res/meshes/suzanne/suzanne.obj")
         {
-//            Sirius::Renderer3D::setDirectionalLight(Sirius::DirectionalLight({1.f, 0.f, 0.f}));
-//            Sirius::Renderer3D::addPointLight(ptLight);
-//            Sirius::Renderer3D::addPointLight({{2.f, 5.f, 3.f}, 500.f});
+            Sirius::Renderer3D::setDirectionalLight(Sirius::DirectionalLight({1.f, 0.f, 0.f}));
+            Sirius::Renderer3D::addPointLight(ptLight);
+            Sirius::Renderer3D::addPointLight({{2.f, 5.f, 3.f}, 500.f});
 
             Sirius::Renderer3D::addModel(model);
         }
 
         void onUpdate(Sirius::Timestep dt) override
         {
-            Sirius::RenderCommand::setClearColor({0.003, 0.006, 0.078, 1});
+            Sirius::RenderCommand::setClearColor({0.03, 0.06, 0.058, 1});
             Sirius::Renderer3D::beginScene(controller.getCamera());
 
             controller.onUpdate(dt);
 
             Sirius::Renderer3D::drawEmissionCube({ptLight.pos, 500.f});
             Sirius::Renderer3D::drawModel(model);
-//            Sirius::Renderer3D::drawCube({5.f, 0.f, 0.f});
 
             Sirius::Renderer3D::endScene();
         }

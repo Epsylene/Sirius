@@ -1,8 +1,8 @@
 
 #pragma once
 
-#include "VertexArray.hpp"
-#include "Color.hpp"
+#include "Sirius/Renderer/Utils/VertexArray.hpp"
+#include "Sirius/Renderer/Utils/Color.hpp"
 #include "Sirius/Math/Vector/Vector.hpp"
 
 namespace Sirius

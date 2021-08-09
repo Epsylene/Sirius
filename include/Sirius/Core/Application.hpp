@@ -13,9 +13,9 @@
 #include "LayerStack.hpp"
 #include "Sirius/ImGui/ImGuiLayer.hpp"
 
-#include "Sirius/Renderer/Buffer.hpp"
-#include "Sirius/Renderer/VertexArray.hpp"
-#include "Sirius/Renderer/Shader.hpp"
+#include "Sirius/Renderer/Utils/Buffer.hpp"
+#include "Sirius/Renderer/Utils/VertexArray.hpp"
+#include "Sirius/Renderer/Utils/Shader.hpp"
 #include "Sirius/Renderer/Renderer.hpp"
 #include "Sirius/Renderer/RenderCommand.hpp"
 

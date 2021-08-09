@@ -3,9 +3,9 @@
 
 #include "Sirius/Core/Core.hpp"
 
-#include "Camera.hpp"
-#include "Texture.hpp"
-#include "Color.hpp"
+#include "Sirius/Renderer/Objects/Camera.hpp"
+#include "Sirius/Renderer/Utils/Texture.hpp"
+#include "Sirius/Renderer/Utils/Color.hpp"
 
 #include "Sirius/Math/Vector/Vector.hpp"
 
