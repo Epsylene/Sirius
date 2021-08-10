@@ -6,12 +6,11 @@ class ExampleLayer: public Sirius::Layer
 {
     private:
 
-        Sirius::Ref<Sirius::Model> model;
+        Sirius::Ref<Sirius::Model> model, suzanne;
         Sirius::Ref<Sirius::Cube> cubeModel;
         Sirius::Ref<Sirius::Texture2D> diffuse, specular;
-        Sirius::PointLight ptLight {{0.f, 0.f, 0.f}, 60.f};
+        Sirius::PointLight ptLight {{2.f, 0.f, 0.f}, 60.f};
         Sirius::DirectionalLight dirLight {{-1.f, 0.f, 0.f}};
-        Sirius::Spotlight spotLight {{0.f, 0.f, 0.f}, {1.f, 0.f, 0.f}, 60.f, 60.f, 0.1f};
 
         Sirius::CameraController3D controller {{1.f, 1.f, 1.f}};
 
@@ -21,8 +20,10 @@ class ExampleLayer: public Sirius::Layer
         {
             diffuse = std::make_shared<Sirius::Texture2D>("../../app/res/textures/container.png", Sirius::TextureType::Diffuse);
             specular = std::make_shared<Sirius::Texture2D>("../../app/res/textures/container_specular.png", Sirius::TextureType::Specular);
+
             cubeModel = std::make_shared<Sirius::Cube>(Sirius::Material(diffuse, specular));
-            model = std::make_shared<Sirius::Model>("../../app/res/meshes/cube/cube.obj");
+            suzanne = std::make_shared<Sirius::Model>("../../app/res/meshes/suzanne/suzanne.obj");
+            model = std::make_shared<Sirius::Model>("../../app/res/meshes/cylinder/cylinder.obj");
 
             Sirius::Renderer3D::setDirectionalLight(Sirius::DirectionalLight({1.f, 0.f, 0.f}));
             Sirius::Renderer3D::addPointLight(ptLight);
@@ -37,7 +38,8 @@ class ExampleLayer: public Sirius::Layer
             controller.onUpdate(dt);
 
             Sirius::Renderer3D::drawEmissionCube({ptLight.pos, 500.f});
-            Sirius::Renderer3D::drawModel(cubeModel, {}, Sirius::Vec3(1.f), true);
+            Sirius::Renderer3D::drawModel(suzanne);
+            Sirius::Renderer3D::drawModel(cubeModel, {4.f, 0.f, 0.f}, Sirius::Vec3(1.f), true);
 
             Sirius::Renderer3D::endScene();
         }

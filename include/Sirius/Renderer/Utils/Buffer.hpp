@@ -179,6 +179,8 @@ namespace Sirius
             std::vector<BufferElement>::const_iterator begin() const { return elements.begin(); }
             std::vector<BufferElement>::iterator end() { return elements.end(); }
             std::vector<BufferElement>::const_iterator end() const { return elements.end(); }
+
+            size_t size() const { return elements.size(); };
     };
 
     struct Vertex

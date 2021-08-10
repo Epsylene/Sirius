@@ -1,7 +1,6 @@
 
 #include "Sirius/Renderer/Objects/Model.hpp"
 
-#include <assimp/scene.h>
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 
@@ -22,9 +21,10 @@ namespace Sirius
         Assimp::Importer importer;
         const aiScene* scene = importer.ReadFile(filepath, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenNormals | aiProcess_JoinIdenticalVertices);
 
-        SRS_CORE_ASSERT(!scene || !(scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) || !scene->mRootNode, "Assimp error : " + std::string(importer.GetErrorString()));
+        SRS_CORE_ASSERT(scene && !(scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE), "Assimp error : " + std::string(importer.GetErrorString()));
 
-        processNode(scene, scene->mRootNode);
+        if(scene)
+            processNode(scene, scene->mRootNode);
     }
 
     void Model::processNode(const aiScene* scene, aiNode* node)

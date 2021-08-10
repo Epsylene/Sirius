@@ -35,11 +35,13 @@ namespace Sirius
             /// @brief End a 3D scene
             static void endScene();
 
+            ////////////////////////////////////
+            /// @brief Draw a cube emiting light
             static void drawEmissionCube(const PointLight& light);
 
             //////////////////////////////////////////////////
             /// @brief Draw the model at `pos` and with `size`
-            static void drawModel(const Ref<Model>& model, const Vec3& pos = {}, const Vec3& size = Vec3(1.f), bool outline = false);
+            static void drawModel(const Ref<Model>& model, const Vec3& pos = {}, const Vec3& size = Vec3(1.f), bool outline = true);
 
             ////////////////////////////
             /// @brief Add a point light

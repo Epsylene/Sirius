@@ -129,7 +129,7 @@ namespace Sirius
         Mat4 transform = translate(light.pos) * scale(0.5f);
         data->emissionShader->uploadUniformMat4("u_transform", transform);
 
-        auto& emissionCubeVA = data->emissionCube->meshes.begin()->vertexArray;
+        auto emissionCubeVA = data->emissionCube->meshes.begin()->vertexArray;
         emissionCubeVA->bind();
         RenderCommand::drawIndexed(emissionCubeVA);
     }

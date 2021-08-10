@@ -19,10 +19,26 @@ namespace Sirius
     void VertexArray::bind() const
     {
         glBindVertexArray(vtxArrID);
+
+        for (auto& vb: vertexBuffers)
+        {
+            for (int i = 0; i < vb->getLayout().size(); ++i)
+            {
+                glEnableVertexAttribArray(i);
+            }
+        }
     }
 
     void VertexArray::unbind() const
     {
+        for (auto& vb: vertexBuffers)
+        {
+            for (int i = 0; i < vb->getLayout().size(); ++i)
+            {
+                glDisableVertexAttribArray(i);
+            }
+        }
+
         glBindVertexArray(0);
     }
 
@@ -49,13 +65,19 @@ namespace Sirius
         }
 
         vertexBuffers.push_back(vertexBuffer);
+
+        for (int i = 0; i < layout.size(); ++i)
+        {
+            glDisableVertexAttribArray(i);
+        }
     }
 
     void VertexArray::setIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
     {
-        glBindVertexArray(vtxArrID);
+        this->bind();
         indexBuffer->bind();
 
         this->indexBuffer = indexBuffer;
+        this->unbind();
     }
 }
