@@ -7,15 +7,20 @@
 
 namespace Sirius
 {
-    Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices,
-                std::vector<Texture2D>& textures):
+    Model::Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices,
+                std::vector<Ref<Texture2D>>& textures):
         vertices(vertices), indices(indices), textures(textures)
-   {}
+   {
+        auto vb = std::make_shared<VertexBuffer>(vertices);
+        auto ib = std::make_shared<IndexBuffer>(indices);
+
+        vertexArray = std::make_shared<VertexArray>(vb, ib);
+   }
 
     Model::Model(const std::string& filepath): path(filepath)
     {
         Assimp::Importer importer;
-        const aiScene* scene = importer.ReadFile(filepath, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenNormals);
+        const aiScene* scene = importer.ReadFile(filepath, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenNormals | aiProcess_JoinIdenticalVertices);
 
         SRS_CORE_ASSERT(!scene || !(scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) || !scene->mRootNode, "Assimp error : " + std::string(importer.GetErrorString()));
 
@@ -91,12 +96,12 @@ namespace Sirius
             std::string texPath = path.substr(0, path.find_last_of('/')) + "/" + texName.C_Str();
 
             if(texLoaded.empty())
-                texLoaded.emplace_back(texPath, type);
+                texLoaded.emplace_back(std::make_shared<Texture2D>(texPath, type));
 
             bool skip = false;
             for (auto& tex: texLoaded)
             {
-                if(texPath == tex.path)
+                if(texPath == tex->path)
                 {
                     skip = true;
                     break;
@@ -104,7 +109,7 @@ namespace Sirius
             }
 
             if(!skip)
-                texLoaded.emplace_back(texPath, type);
+                texLoaded.emplace_back(std::make_shared<Texture2D>(texPath, type));
         }
     }
 }

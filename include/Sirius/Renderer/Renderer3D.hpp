@@ -35,35 +35,11 @@ namespace Sirius
             /// @brief End a 3D scene
             static void endScene();
 
-            ///////////////////////////////////
-            /// @brief Draw a flat-colored cube
-            ///
-            /// @param pos The cube's position
-            /// @param size The cube's size
-            /// @param color The cube's color
-            static void drawCube(const Vec3& pos, const Vec3& size = {1.f, 1.f, 1.f}, const Color& color = Color::White);
-
-            //////////////////////////////////////
-            /// @brief Draw a cube with a material
-            ///
-            /// @param pos The cube's position
-            /// @param size The cube's size
-            /// @param material The cube's material
-            static void drawCube(const Vec3& pos, const Vec3& size, const Material& material);
-
             static void drawEmissionCube(const PointLight& light);
 
-            /////////////////////////////////////////////
-            /// @brief Add a model to the scene
-            ///
-            /// The model will not be rendered: its data
-            /// will be added to the scene's vertex array.
-            static void addModel(const Model& model);
-
-            ////////////////////////////////////////
-            /// @brief Draw the added model at `pos`
-            ///     and with `size`
-            static void drawModel(const Model& model, const Vec3& pos = {}, const Vec3& size = Vec3(1.f), bool outline = false);
+            //////////////////////////////////////////////////
+            /// @brief Draw the model at `pos` and with `size`
+            static void drawModel(const Ref<Model>& model, const Vec3& pos = {}, const Vec3& size = Vec3(1.f), bool outline = false);
 
             ////////////////////////////
             /// @brief Add a point light

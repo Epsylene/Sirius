@@ -7,6 +7,8 @@ namespace Sirius
 {
     void RenderCommand::init()
     {
+        glEnable(GL_CULL_FACE);
+
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_DEPTH_CLAMP);
 
