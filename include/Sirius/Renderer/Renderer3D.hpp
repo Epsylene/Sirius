@@ -53,13 +53,17 @@ namespace Sirius
 
             static void drawEmissionCube(const PointLight& light);
 
+            /////////////////////////////////////////////
             /// @brief Add a model to the scene
             ///
-            /// The model will not be rendered
-            /// @param model
+            /// The model will not be rendered: its data
+            /// will be added to the scene's vertex array.
             static void addModel(const Model& model);
 
-            static void drawModel(const Model& model, const Vec3& pos = {}, const Vec3& size = Vec3(1.f));
+            ////////////////////////////////////////
+            /// @brief Draw the added model at `pos`
+            ///     and with `size`
+            static void drawModel(const Model& model, const Vec3& pos = {}, const Vec3& size = Vec3(1.f), bool outline = false);
 
             ////////////////////////////
             /// @brief Add a point light

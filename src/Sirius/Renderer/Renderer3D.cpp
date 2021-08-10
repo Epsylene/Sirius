@@ -4,6 +4,9 @@
 #include "Sirius/Renderer/RenderCommand.hpp"
 #include "Sirius/Renderer/Utils/Shader.hpp"
 
+#include "Sirius/Core/Input.hpp"
+#include "Sirius/Core/MouseButtonCodes.h"
+
 namespace Sirius
 {
     struct Renderer3DStorage
@@ -240,23 +243,18 @@ namespace Sirius
         }
     }
 
-    void addMesh(const Mesh& mesh)
-    {
-        auto vb = std::make_shared<VertexBuffer>(mesh.vertices);
-        auto ib = std::make_shared<IndexBuffer>(mesh.indices);
-
-        data->modelVA.emplace_back(std::make_shared<VertexArray>(vb, ib));
-    }
-
     void Renderer3D::addModel(const Model& model)
     {
         for (auto& mesh: model.meshes)
         {
-            addMesh(mesh);
+            auto vb = std::make_shared<VertexBuffer>(mesh.vertices);
+            auto ib = std::make_shared<IndexBuffer>(mesh.indices);
+
+            data->modelVA.emplace_back(std::make_shared<VertexArray>(vb, ib));
         }
     }
 
-    void Renderer3D::drawModel(const Model& model, const Vec3& pos, const Vec3& size)
+    void Renderer3D::drawModel(const Model& model, const Vec3& pos, const Vec3& size, bool outline)
     {
         if(data->modelVA.empty())
         {
@@ -301,8 +299,34 @@ namespace Sirius
 
             for (auto& meshVA: data->modelVA)
             {
-                meshVA->bind();
-                RenderCommand::drawIndexed(meshVA);
+                if(Input::isMouseButtonPressed(SRS_MOUSE_BUTTON_1) && outline)
+                {
+                    glStencilFunc(GL_ALWAYS, 1, 0xFF);
+                    glStencilMask(0xFF);
+
+                    meshVA->bind();
+                    RenderCommand::drawIndexed(meshVA);
+
+                    glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+                    glStencilMask(0x00);
+                    glDisable(GL_DEPTH_TEST);
+
+                    data->emissionShader->bind();
+                    data->emissionShader->uploadUniformFloat3("u_color", {0.9f, 0.56f, 0.f});
+                    data->emissionShader->uploadUniformMat4("u_transform", translate(pos) * scale(size * 1.05f));
+
+                    meshVA->bind();
+                    RenderCommand::drawIndexed(meshVA);
+
+                    glStencilMask(0xFF);
+                    glStencilFunc(GL_ALWAYS, 1, 0xFF);
+                    glEnable(GL_DEPTH_TEST);
+                }
+                else
+                {
+                    meshVA->bind();
+                    RenderCommand::drawIndexed(meshVA);
+                }
             }
         }
     }

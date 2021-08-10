@@ -101,6 +101,11 @@ void main()
     vec4 spotlightColor = getSpotlightColor(tex, spotlight, u_viewDir, v_normal, v_fragPos);
 
     color = ptLightColor + dirLightColor + spotlightColor;
+
+//    color = vec4(v_normal, 1.0);
+//    color = vec4(v_texCoord, 1.0, 1.0);
+//    color = vec4(1.0, v_texCoord, 1.0);
+//    color = vec4(vec3(gl_FragCoord.z), 1.0);
 }
 
 vec4 getPointLightColor(Texture tex, PointLight ptLight, vec3 viewDir, vec3 normal, vec3 fragPos)

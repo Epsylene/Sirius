@@ -33,7 +33,7 @@ class ExampleLayer: public Sirius::Layer
             controller.onUpdate(dt);
 
             Sirius::Renderer3D::drawEmissionCube({ptLight.pos, 500.f});
-            Sirius::Renderer3D::drawModel(model);
+            Sirius::Renderer3D::drawModel(model, {}, Sirius::Vec3(1.f), true);
 
             Sirius::Renderer3D::endScene();
         }
