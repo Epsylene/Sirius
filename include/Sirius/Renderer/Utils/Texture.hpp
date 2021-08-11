@@ -12,12 +12,9 @@ namespace Sirius
     /// @brief Abstract texture class
     class Texture
     {
-        protected:
-
-            uint32_t textureID;
-
         public:
 
+            uint32_t textureID;
             TextureType type;
             std::string path;
 
@@ -36,11 +33,17 @@ namespace Sirius
     /// @brief 2D texture class
     class Texture2D: public Texture
     {
-        private:
+        public:
 
             uint32_t width, height;
 
-        public:
+            //////////////////////////////////////////////
+            /// @brief Creates a texture with given width
+            ///     and height, but no image data
+            ///
+            /// This is useful when creating a framebuffer
+            /// object.
+            Texture2D(uint32_t width, uint32_t height);
 
             ////////////////////////////////////////////////////////
             /// @brief Creates a new texture from the file at `path`

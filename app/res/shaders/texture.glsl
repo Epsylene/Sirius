@@ -102,6 +102,7 @@ void main()
 
     color = ptLightColor + dirLightColor + spotlightColor;
 
+    //@todo: add those as options when UI is done
 //    color = vec4(v_normal, 1.0);
 //    color = vec4(v_texCoord, 1.0, 1.0);
 //    color = vec4(1.0, v_texCoord, 1.0);

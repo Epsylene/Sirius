@@ -17,6 +17,19 @@ namespace Sirius
         path(path), type(type)
     {}
 
+    Texture2D::Texture2D(uint32_t width, uint32_t height): Texture("", TextureType::None),
+        width(width), height(height)
+    {
+        glCreateTextures(GL_TEXTURE_2D, 1, &textureID);
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
     Texture2D::Texture2D(const std::string& path, const TextureType& type):
         Texture(path, type)
     {
@@ -61,6 +74,7 @@ namespace Sirius
         //  to 'internalformat' in order to be used by OpenGL.
         glTextureSubImage2D(textureID, 0, 0, 0, width, height, dataFormat, GL_UNSIGNED_BYTE, data);
 
+        glBindTexture(GL_TEXTURE_2D, 0);
         stbi_image_free(data);
     }
 

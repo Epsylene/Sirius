@@ -70,4 +70,47 @@ namespace Sirius
     {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
+
+    //----------- RENDER BUFFER -----------//
+
+    RenderBuffer::RenderBuffer(uint32_t width, uint32_t height)
+    {
+        glCreateRenderbuffers(1, &renderBufferID);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+        glBindRenderbuffer(GL_RENDERBUFFER, 0);
+    }
+
+    void RenderBuffer::bind() const
+    {
+        glBindRenderbuffer(GL_RENDERBUFFER, renderBufferID);
+    }
+
+    //----------- FRAME BUFFER -----------//
+
+    FrameBuffer::FrameBuffer(uint32_t width, uint32_t height): colorBuffer(width, height),
+                                                               depthStencilBuffer(width, height)
+    {
+        glCreateFramebuffers(1, &frameBufferID);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorBuffer.textureID, 0);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthStencilBuffer.renderBufferID);
+
+        SRS_CORE_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE, "OpenGL error : framebuffer is not complete.");
+
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    }
+
+    FrameBuffer::~FrameBuffer()
+    {
+        glDeleteBuffers(1, &frameBufferID);
+    }
+
+    void FrameBuffer::bind() const
+    {
+        glBindBuffer(GL_FRAMEBUFFER, frameBufferID);
+    }
+
+    void FrameBuffer::unbind() const
+    {
+        glBindBuffer(GL_FRAMEBUFFER, 0);
+    }
 }

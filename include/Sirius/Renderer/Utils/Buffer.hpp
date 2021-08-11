@@ -5,6 +5,7 @@
 #include "Sirius/Core/Core.hpp"
 #include "Sirius/Math/Vector/Vector.hpp"
 #include "Color.hpp"
+#include "Texture.hpp"
 
 #include <glad/glad.h>
 
@@ -292,5 +293,35 @@ namespace Sirius
             //////////////////////////////////////////////////////////////////
             /// @brief Get the index buffer array size (in number of elements)
             inline uint32_t getCount() const { return count; }
+    };
+
+    class RenderBuffer
+    {
+        public:
+
+            uint32_t renderBufferID;
+
+            RenderBuffer(uint32_t width, uint32_t height);
+
+            void bind() const;
+    };
+
+    class FrameBuffer
+    {
+        private:
+
+            uint32_t frameBufferID;
+            Texture2D colorBuffer;
+            RenderBuffer depthStencilBuffer;
+
+        public:
+
+            FrameBuffer(uint32_t width, uint32_t height);
+
+            ~FrameBuffer();
+
+            void bind() const;
+
+            void unbind() const;
     };
 }
