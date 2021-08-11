@@ -14,6 +14,7 @@ namespace Sirius
 
         window = std::make_unique<Window>();
         window->setEventCallback([this](Event& event) { onEvent(event); });
+        window->frameBuffer = std::make_unique<FrameBuffer>(window->getWidth(), window->getHeight());
 
         Renderer::init();
 
@@ -21,13 +22,13 @@ namespace Sirius
         pushOverlay(imGuiLayer);
     }
 
-    void Application::pushLayer(Ref<Layer> layer)
+    void Application::pushLayer(const Ref<Layer>& layer)
     {
         layerStack.pushLayer(layer);
         layer->onAttach();
     }
 
-    void Application::pushOverlay(Ref<Layer> overlay)
+    void Application::pushOverlay(const Ref<Layer>& overlay)
     {
         layerStack.pushOverlay(overlay);
         overlay->onAttach();
@@ -71,18 +72,26 @@ namespace Sirius
     {
         while(running)
         {
-            // Clear the window
+            window->frameBuffer->bind();
+            RenderCommand::setDepthTest(true);
+            Sirius::RenderCommand::setClearColor({0.03, 0.06, 0.058, 1});
             RenderCommand::clear();
 
             auto time = (float)glfwGetTime();
             Timestep dt = time - lastFrameTime;
             lastFrameTime = time;
-            
+
             // Update the layers
             if(!minimized)
             {
                 for (const auto& layer: layerStack)
                     layer->onUpdate(dt);
+
+                window->frameBuffer->unbind();
+                RenderCommand::setDepthTest(false);
+                RenderCommand::setClearColor(Color::White);
+                RenderCommand::clear(COLOR_BUFFER);
+                Renderer::updateFrameBuffer(window->frameBuffer);
             }
 
             // Run ImGui and its callbacks

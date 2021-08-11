@@ -19,9 +19,9 @@ namespace Sirius
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
-    void RenderCommand::clear()
+    void RenderCommand::clear(uint32_t flags)
     {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+        glClear(flags);
     }
 
     void RenderCommand::setClearColor(const Color& color)
@@ -43,5 +43,10 @@ namespace Sirius
                        nullptr);
 
         vertexArray->unbind();
+    }
+
+    void RenderCommand::setDepthTest(bool state)
+    {
+        state ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
     }
 }

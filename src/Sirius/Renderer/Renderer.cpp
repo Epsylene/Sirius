@@ -13,6 +13,21 @@ namespace Sirius
         RenderCommand::init();
         Renderer2D::init();
         Renderer3D::init();
+
+        float vertices[] = { -1.f,  1.f,  0.f, 1.f,
+                             -1.f, -1.f,  0.f, 0.f,
+                              1.f,  1.f,  1.f, 1.f,
+                              1.f, -1.f,  1.f, 0.f };
+        std::vector<uint32_t> indices = {0, 1, 2, 2, 1, 3};
+
+        auto vb = std::make_shared<VertexBuffer>(vertices, sizeof(vertices));
+        vb->setLayout({ {ShaderDataType::Float2, "a_position"},
+                        {ShaderDataType::Float2, "a_texture"} });
+        auto ib = std::make_shared<IndexBuffer>(indices);
+
+        sceneData->quad = std::make_shared<VertexArray>(vb, ib);
+
+        sceneData->postprocess = std::make_shared<Shader>("../../app/res/shaders/postprocess.glsl");
     }
 
     void Renderer::beginScene(Camera& camera)
@@ -41,4 +56,12 @@ namespace Sirius
         RenderCommand::drawIndexed(vertexArray);
     }
 
+    void Renderer::updateFrameBuffer(const Scope<FrameBuffer>& frameBuffer)
+    {
+        sceneData->postprocess->bind();
+        sceneData->quad->bind();
+        frameBuffer->colorBuffer.bind(0);
+        sceneData->postprocess->uploadUniformInt("u_screenTex", 0);
+        RenderCommand::drawIndexed(sceneData->quad);
+    }
 }

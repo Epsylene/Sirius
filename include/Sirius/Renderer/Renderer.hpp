@@ -5,7 +5,8 @@
 
 #include "Sirius/Renderer/Utils/VertexArray.hpp"
 #include "Sirius/Renderer/Utils/Shader.hpp"
-#include "RenderCommand.hpp"
+#include "Sirius/Renderer/Objects/Model.hpp"
+#include "Sirius/Renderer/RenderCommand.hpp"
 
 #include "Sirius/Renderer/Objects/Camera.hpp"
 
@@ -24,6 +25,8 @@ namespace Sirius
             struct SceneData
             {
                 Mat4 viewProjMatrix;
+                Ref<Shader> postprocess;
+                Ref<VertexArray> quad;
             };
 
             static Scope<SceneData> sceneData;
@@ -41,6 +44,8 @@ namespace Sirius
             /////////////////////////////////
             /// @brief End the rendered scene
             static void endScene();
+
+            static void updateFrameBuffer(const Scope<FrameBuffer>& frameBuffer);
 
             ////////////////////////////////////////////////////
             /// @brief Window resize renderer callback

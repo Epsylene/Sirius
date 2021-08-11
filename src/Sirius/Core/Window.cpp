@@ -137,6 +137,8 @@ namespace Sirius
     void Window::shutdown()
     {
         glfwDestroyWindow(window);
+        window = nullptr;
+        context = nullptr;
     }
 
     void Window::onUpdate(Timestep dt)

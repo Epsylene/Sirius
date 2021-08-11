@@ -87,7 +87,7 @@ namespace Sirius
             ///
             /// The constructor will take in a reference to an event
             ///  object, so functions like dispatch are able to use it.
-            ///  For app, an EventDispatcher object could be created
+            ///  For example, an EventDispatcher object could be created
             ///  in an onEvent(Event& event) function taking in the
             ///  incoming events. The EventDispatcher object would take
             ///  the event parameter of the function in its constructor,

@@ -18,7 +18,7 @@ namespace Sirius
     {
         public:
 
-            static Input* instance;
+            static std::unique_ptr<Input> instance;
 
             ///////////////////////////////
             /// @brief Is the key pressed ?

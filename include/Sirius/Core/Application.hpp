@@ -75,12 +75,12 @@ namespace Sirius
             ///////////////////////////////////
             /// @brief Push a new window layer
             /// @see Layer class
-            void pushLayer(Ref<Layer> layer);
+            void pushLayer(const Ref<Layer>& layer);
 
             ////////////////////////////////////
             /// @brief Push a new window overlay
             /// @see Layer class
-            void pushOverlay(Ref<Layer> overlay);
+            void pushOverlay(const Ref<Layer>& overlay);
 
             //////////////////////////////////////////////
             /// @brief Is called when the window is closed

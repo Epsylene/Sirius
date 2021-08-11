@@ -8,6 +8,8 @@
 #include "Sirius/Core/Timestep.hpp"
 #include "Sirius/Events/Event.hpp"
 #include "Sirius/Renderer/RenderContext.hpp"
+#include "Sirius/Renderer/Utils/Buffer.hpp"
+#include "Sirius/Renderer/Utils/Shader.hpp"
 
 namespace Sirius
 {
@@ -62,6 +64,8 @@ namespace Sirius
             void shutdown();
 
         public:
+
+            Scope<FrameBuffer> frameBuffer;
 
             //////////////////////////////////////////
             /// @brief The default constructor

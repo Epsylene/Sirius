@@ -21,9 +21,9 @@ class ExampleLayer: public Sirius::Layer
             diffuse = std::make_shared<Sirius::Texture2D>("../../app/res/textures/container.png", Sirius::TextureType::Diffuse);
             specular = std::make_shared<Sirius::Texture2D>("../../app/res/textures/container_specular.png", Sirius::TextureType::Specular);
 
-            cubeModel = std::make_shared<Sirius::Cube>(Sirius::Material(diffuse, specular));
-            suzanne = std::make_shared<Sirius::Model>("../../app/res/meshes/suzanne/suzanne.obj");
-            model = std::make_shared<Sirius::Model>("../../app/res/meshes/cylinder/cylinder.obj");
+//            cubeModel = std::make_shared<Sirius::Cube>(Sirius::Material(diffuse, specular));
+//            suzanne = std::make_shared<Sirius::Model>("../../app/res/meshes/suzanne/suzanne.obj");
+            model = std::make_shared<Sirius::Model>("../../app/res/meshes/plane/plane.obj");
 
             Sirius::Renderer3D::setDirectionalLight(Sirius::DirectionalLight({1.f, 0.f, 0.f}));
             Sirius::Renderer3D::addPointLight(ptLight);
@@ -32,14 +32,14 @@ class ExampleLayer: public Sirius::Layer
 
         void onUpdate(Sirius::Timestep dt) override
         {
-            Sirius::RenderCommand::setClearColor({0.03, 0.06, 0.058, 1});
             Sirius::Renderer3D::beginScene(controller.getCamera());
 
             controller.onUpdate(dt);
 
             Sirius::Renderer3D::drawEmissionCube({ptLight.pos, 500.f});
-            Sirius::Renderer3D::drawModel(suzanne);
-            Sirius::Renderer3D::drawModel(cubeModel, {4.f, 0.f, 0.f}, Sirius::Vec3(1.f), true);
+//            Sirius::Renderer3D::drawModel(suzanne);
+//            Sirius::Renderer3D::drawModel(cubeModel, {4.f, 0.f, 0.f}, Sirius::Vec3(1.f), true);
+            Sirius::Renderer3D::drawModel(model);
 
             Sirius::Renderer3D::endScene();
         }

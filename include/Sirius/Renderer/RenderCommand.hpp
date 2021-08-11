@@ -7,6 +7,13 @@
 
 namespace Sirius
 {
+    enum WindowClearFlags: uint32_t
+    {
+        COLOR_BUFFER = GL_COLOR_BUFFER_BIT,
+        DEPTH_BUFFER = GL_DEPTH_BUFFER_BIT,
+        STENCIL_BUFFER = GL_STENCIL_BUFFER_BIT
+    };
+
     ////////////////////////////////////////////////////
     /// @brief OpenGL render commands class
     ///
@@ -23,7 +30,11 @@ namespace Sirius
 
             ///////////////////////////
             /// @brief Clear the window
-            static void clear();
+            static void clear(uint32_t flags = COLOR_BUFFER | DEPTH_BUFFER | STENCIL_BUFFER);
+
+            /////////////////////////////////////////////
+            /// @brief Enable or disable the depth buffer
+            static void setDepthTest(bool state);
 
             /////////////////////////////////////
             /// @brief Set the window clear color

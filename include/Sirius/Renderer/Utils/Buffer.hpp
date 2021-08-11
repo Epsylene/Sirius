@@ -74,7 +74,7 @@ namespace Sirius
     ///
     /// This is a helper class, used to build the BufferLayout
     /// objects. Each BufferElement represents a group of tightly
-    /// packed, same-type data in the vertex buffer (for app,
+    /// packed, same-type data in the vertex buffer (for example,
     /// a group of four floats or one of three integers).
     ///
     /// @see BufferLayout
@@ -130,7 +130,7 @@ namespace Sirius
     /// in a simple and easy-to-understand fashion, asking to provide
     /// an initializer list of BufferElement objects, which comprise
     /// a ShaderDataType and a string with the name of the element
-    /// group (for app, "position" or "color").
+    /// group (for example, "position" or "color").
     ///
     /// @see BufferElement, ShaderDataType
     class BufferLayout
@@ -311,10 +311,11 @@ namespace Sirius
         private:
 
             uint32_t frameBufferID;
-            Texture2D colorBuffer;
             RenderBuffer depthStencilBuffer;
 
         public:
+
+            Texture2D colorBuffer;
 
             FrameBuffer(uint32_t width, uint32_t height);
 
