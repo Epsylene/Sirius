@@ -7,7 +7,7 @@
 
 namespace Sirius
 {
-    enum WindowClearFlags: uint32_t
+    enum ClearFlags: uint32_t
     {
         COLOR_BUFFER = GL_COLOR_BUFFER_BIT,
         DEPTH_BUFFER = GL_DEPTH_BUFFER_BIT,

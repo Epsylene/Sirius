@@ -12,6 +12,18 @@
 
 namespace Sirius
 {
+    enum PostProcessingFlags
+    {
+        NONE = 0, INVERSION, GRAYSCALE, EDGES, SHARPEN, BLUR
+    };
+
+    struct Kernel
+    {
+        static const Mat3 Edges;
+        static const Mat3 Sharpen;
+        static const Mat3 Blur;
+    };
+
     /////////////////////////////////////////////
     /// @brief Global renderer class
     ///
@@ -45,7 +57,9 @@ namespace Sirius
             /// @brief End the rendered scene
             static void endScene();
 
-            static void updateFrameBuffer(const Scope<FrameBuffer>& frameBuffer);
+            static void setPostProcessing(PostProcessingFlags flags);
+
+            static void updateFrameBuffer(const Scope <FrameBuffer>& frameBuffer, const Matrix4f& transform = identity<4>());
 
             ////////////////////////////////////////////////////
             /// @brief Window resize renderer callback

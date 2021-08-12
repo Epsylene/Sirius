@@ -67,6 +67,10 @@ namespace Sirius
             void unbind() const;
 
             ///////////////////////////////////////////////
+            /// @brief Upload a bool uniform to the shader.
+            void uploadUniformBool(const std::string& name, bool val);
+
+            ///////////////////////////////////////////////
             /// @brief Upload an int uniform to the shader.
             void uploadUniformInt(const std::string& name, int val);
 
@@ -85,6 +89,10 @@ namespace Sirius
             /////////////////////////////////////////////////////////////////////
             /// @brief Upload a 4-dimensional float vector uniform to the shader.
             void uploadUniformFloat4(const std::string& name, const Vec4& val);
+
+            /////////////////////////////////////////////////////////////////////
+            /// @brief Upload a 3-dimensional float matrix uniform to the shader.
+            void uploadUniformMat3(const std::string& name, const Mat3& matrix);
 
             /////////////////////////////////////////////////////////////////////
             /// @brief Upload a 4-dimensional float matrix uniform to the shader.

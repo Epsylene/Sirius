@@ -182,6 +182,12 @@ namespace Sirius
         glUseProgram(0);
     }
 
+    void Shader::uploadUniformBool(const std::string& name, bool val)
+    {
+        GLint location = glGetUniformLocation(shaderID, name.c_str());
+        glUniform1i(location, (int)val);
+    }
+
     void Shader::uploadUniformInt(const std::string& name, int val)
     {
         GLint location = glGetUniformLocation(shaderID, name.c_str());
@@ -212,6 +218,12 @@ namespace Sirius
     {
         GLint location = glGetUniformLocation(shaderID, name.c_str());
         glUniform4f(location, val.x, val.y, val.z, val.w);
+    }
+
+    void Shader::uploadUniformMat3(const std::string& name, const Mat3& matrix)
+    {
+        GLint location = glGetUniformLocation(shaderID, name.c_str());
+        glUniformMatrix3fv(location, 1, GL_FALSE, value_ptr(matrix));
     }
 
     void Shader::uploadUniformMat4(const std::string& name, const Mat4& matrix)

@@ -84,6 +84,8 @@ namespace Sirius
             // Update the layers
             if(!minimized)
             {
+//                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
                 for (const auto& layer: layerStack)
                     layer->onUpdate(dt);
 
@@ -91,6 +93,7 @@ namespace Sirius
                 RenderCommand::setDepthTest(false);
                 RenderCommand::setClearColor(Color::White);
                 RenderCommand::clear(COLOR_BUFFER);
+                Renderer::setPostProcessing(EDGES);
                 Renderer::updateFrameBuffer(window->frameBuffer);
             }
 

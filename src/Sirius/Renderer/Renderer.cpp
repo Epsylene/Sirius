@@ -8,6 +8,16 @@ namespace Sirius
 {
     Scope<Renderer::SceneData> Renderer::sceneData = std::make_unique<Renderer::SceneData>();
 
+    const Mat3 Kernel::Edges {1.f,  1.f, 1.f,
+                              1.f, -8.f, 1.f,
+                              1.f,  1.f, 1.f};
+    const Mat3 Kernel::Sharpen {-1.f, -1.f, -1.f,
+                                -1.f,  8.f, -1.f,
+                                -1.f, -1.f, -1.f};
+    const Mat3 Kernel::Blur {1.f/16.f, 2.f/16.f, 1.f/16.f,
+                             2.f/16.f, 4.f/16.f, 2.f/16.f,
+                             1.f/16.f, 2.f/16.f, 1.f/16.f};
+
     void Renderer::init()
     {
         RenderCommand::init();
@@ -56,12 +66,54 @@ namespace Sirius
         RenderCommand::drawIndexed(vertexArray);
     }
 
-    void Renderer::updateFrameBuffer(const Scope<FrameBuffer>& frameBuffer)
+    void Renderer::updateFrameBuffer(const Scope <FrameBuffer>& frameBuffer,
+                                     const Matrix4f& transform)
     {
         sceneData->postprocess->bind();
-        sceneData->quad->bind();
         frameBuffer->colorBuffer.bind(0);
         sceneData->postprocess->uploadUniformInt("u_screenTex", 0);
+        sceneData->postprocess->uploadUniformMat4("u_transform", transform);
+
+        sceneData->quad->bind();
         RenderCommand::drawIndexed(sceneData->quad);
+    }
+
+    void Renderer::setPostProcessing(PostProcessingFlags flags)
+    {
+        sceneData->postprocess->bind();
+
+        sceneData->postprocess->uploadUniformBool("u_ppFlags.none", false);
+
+        switch (flags)
+        {
+            case NONE:
+                sceneData->postprocess->uploadUniformBool("u_ppFlags.none", true);
+                break;
+
+            case INVERSION:
+                sceneData->postprocess->uploadUniformBool("u_ppFlags.inversion", true);
+                break;
+
+            case GRAYSCALE:
+                sceneData->postprocess->uploadUniformBool("u_ppFlags.grayscale", true);
+                break;
+
+            case EDGES:
+                sceneData->postprocess->uploadUniformBool("u_ppFlags.kernel", true);
+                sceneData->postprocess->uploadUniformMat3("u_kernel", Kernel::Edges);
+                break;
+
+            case SHARPEN:
+                sceneData->postprocess->uploadUniformBool("u_ppFlags.kernel", true);
+                sceneData->postprocess->uploadUniformMat3("u_kernel", Kernel::Sharpen);
+                break;
+
+            case BLUR:
+                sceneData->postprocess->uploadUniformBool("u_ppFlags.kernel", true);
+                sceneData->postprocess->uploadUniformMat3("u_kernel", Kernel::Blur);
+                break;
+        }
+
+        sceneData->postprocess->unbind();
     }
 }
