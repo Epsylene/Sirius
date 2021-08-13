@@ -66,18 +66,6 @@ namespace Sirius
         RenderCommand::drawIndexed(vertexArray);
     }
 
-    void Renderer::updateFrameBuffer(const Scope <FrameBuffer>& frameBuffer,
-                                     const Matrix4f& transform)
-    {
-        sceneData->postprocess->bind();
-        frameBuffer->colorBuffer.bind(0);
-        sceneData->postprocess->uploadUniformInt("u_screenTex", 0);
-        sceneData->postprocess->uploadUniformMat4("u_transform", transform);
-
-        sceneData->quad->bind();
-        RenderCommand::drawIndexed(sceneData->quad);
-    }
-
     void Renderer::setPostProcessing(PostProcessingFlags flags)
     {
         sceneData->postprocess->bind();

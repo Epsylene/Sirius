@@ -8,9 +8,8 @@ namespace Sirius
 {
     ImGuiLayer::ImGuiLayer(): Layer("ImGuiLayer")
     {
-        model = std::make_shared<Model>("../../app/res/meshes/viking_room/viking_room.obj");
-
         Scene::init();
+        PropertiesPanel::init();
     }
 
     void ImGuiLayer::onAttach()
@@ -98,20 +97,7 @@ namespace Sirius
 
     void ImGuiLayer::onUpdate(Timestep dt)
     {
-        Renderer3D::beginScene(Scene::controller->getCamera());
-
-        if(Scene::mouseInArea && !PropertiesPanel::fileBrowser.IsOpened())
-            Scene::controller->onUpdate(dt);
-
-        Sirius::Renderer3D::drawEmissionCube({{2.f, 0.f, 1.f}, 500.f});
-        Sirius::Renderer3D::drawModel(model);
-
-        for (auto& model: Scene::models)
-        {
-            Renderer3D::drawModel(model);
-        }
-
-        Sirius::Renderer3D::endScene();
+        Scene::onUpdate(dt);
     }
 
     void ImGuiLayer::onImGuiRender()

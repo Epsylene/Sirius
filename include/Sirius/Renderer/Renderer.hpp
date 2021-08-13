@@ -57,9 +57,9 @@ namespace Sirius
             /// @brief End the rendered scene
             static void endScene();
 
+            ///////////////////////////////////////
+            /// @brief Set the postprocessing flags
             static void setPostProcessing(PostProcessingFlags flags);
-
-            static void updateFrameBuffer(const Scope <FrameBuffer>& frameBuffer, const Matrix4f& transform = identity<4>());
 
             ////////////////////////////////////////////////////
             /// @brief Window resize renderer callback

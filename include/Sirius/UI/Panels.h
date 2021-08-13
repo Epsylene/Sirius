@@ -12,6 +12,8 @@ namespace Sirius
 
             static ImGui::FileBrowser fileBrowser;
 
+            static void init();
+
             static void render();
     };
 }

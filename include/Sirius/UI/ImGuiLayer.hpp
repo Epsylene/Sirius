@@ -24,10 +24,6 @@ namespace Sirius
 
     class ImGuiLayer: public Layer
     {
-        private:
-
-            Ref<Model> model;
-
         public:
 
             ImGuiLayer();

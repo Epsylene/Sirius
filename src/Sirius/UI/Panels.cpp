@@ -7,6 +7,12 @@ namespace Sirius
 {
     ImGui::FileBrowser PropertiesPanel::fileBrowser {};
 
+    void PropertiesPanel::init()
+    {
+        fileBrowser.SetTitle("Open mesh");
+        fileBrowser.SetTypeFilters({".fbx", ".obj"});
+    }
+
     void PropertiesPanel::render()
     {
         ImGui::Begin("Properties");
@@ -18,20 +24,21 @@ namespace Sirius
             ImGui::Text("%s", fileBrowser.GetSelected().filename().string().c_str());
         }
 
-        ImGui::End();
-
         fileBrowser.Display();
         if(fileBrowser.HasSelected())
         {
-//            Log::coreTrace(fileBrowser.GetPwd().string());
             auto filePath = fileBrowser.GetSelected().string();
             std::ranges::replace(filePath, '\\', '/');
             Scene::models.emplace_back(std::make_shared<Model>(filePath));
-            Log::coreTrace(Scene::models.size());
-
-//            mMeshLoadCallback(file_path);
 
             fileBrowser.ClearSelected();
         }
+
+        if(ImGui::CollapsingHeader("Scene options", ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            ImGui::ColorEdit3("Scene background color", &Scene::properties.background.r);
+            ImGui::Checkbox("Wireframe mode", &Scene::properties.wireframe);
+        }
+        ImGui::End();
     }
 }

@@ -1,4 +1,5 @@
 
+#include "Sirius/UI/Scene.hpp"
 #include "Sirius/Renderer/Renderer3D.hpp"
 
 #include "Sirius/Renderer/RenderCommand.hpp"

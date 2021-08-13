@@ -12,6 +12,7 @@ namespace Sirius
     bool Scene::mouseInArea = false;
     std::vector<Ref<Model>> Scene::models {};
     Ref<CameraController3D> Scene::controller {};
+    SceneProperties Scene::properties {};
 
     void Scene::render()
     {
@@ -43,8 +44,27 @@ namespace Sirius
         controller = std::make_shared<CameraController3D>();
     }
 
-    void Scene::drawModel(const Sirius::Ref<Sirius::Model>& model)
+    void Scene::drawModel(const Ref<Model>& model, const Vec3& pos, const Vec3& size)
     {
-        Renderer3D::drawModel(model);
+        if(mouseInArea && !PropertiesPanel::fileBrowser.IsOpened())
+            Renderer3D::drawModel(model, pos, size, true);
+        else
+            Renderer3D::drawModel(model, pos, size, false);
     }
+
+    void Scene::onUpdate(Timestep dt)
+    {
+        Renderer3D::beginScene(Scene::controller->getCamera());
+
+        if(Scene::mouseInArea && !PropertiesPanel::fileBrowser.IsOpened())
+            Scene::controller->onUpdate(dt);
+
+        for (auto& model: Scene::models)
+        {
+            Renderer3D::drawModel(model);
+        }
+
+        Sirius::Renderer3D::endScene();
+    }
+
 }

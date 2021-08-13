@@ -74,7 +74,7 @@ namespace Sirius
         {
             window->frameBuffer->bind();
             RenderCommand::setDepthTest(true);
-            Sirius::RenderCommand::setClearColor({0.03, 0.06, 0.058, 1});
+            Sirius::RenderCommand::setClearColor(Scene::properties.background);
             RenderCommand::clear();
 
             auto time = (float)glfwGetTime();
@@ -84,20 +84,19 @@ namespace Sirius
             // Update the layers
             if(!minimized)
             {
-                RenderCommand::setWireframeMode(true);
+                RenderCommand::setWireframeMode(Scene::properties.wireframe);
 
                 for (const auto& layer: layerStack)
                     layer->onUpdate(dt);
 
                 RenderCommand::setWireframeMode(false);
-
-                window->frameBuffer->unbind();
-                RenderCommand::setDepthTest(false);
-                RenderCommand::setClearColor(Color::White);
-                RenderCommand::clear(COLOR_BUFFER);
-                Renderer::setPostProcessing(NONE);
-//                Renderer::updateFrameBuffer(window->frameBuffer);
             }
+
+            window->frameBuffer->unbind();
+            RenderCommand::setDepthTest(false);
+            RenderCommand::setClearColor(Color::White);
+            RenderCommand::clear(COLOR_BUFFER);
+            Renderer::setPostProcessing(INVERSION);
 
             // Run ImGui and its callbacks
             imGuiLayer->begin();
