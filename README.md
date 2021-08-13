@@ -1,4 +1,10 @@
 # Sirius
+
+![downloads](https://img.shields.io/github/downloads/epsylene/Sirius/total?style=flat-square)
+![version](https://img.shields.io/github/v/release/epsylene/Sirius?color=blue&label=version&style=flat-square)
+
+![A window containing several panels with options and a scene containing objects.](imgs/app.png "Sirius app window")
+
 ## Introduction
 
 *Sirius* is a general-purpose, 
@@ -9,14 +15,6 @@ but is intended on the long term to
 be powerful and simple enough to be
 used as a graphics engine for games,
 3D rendering or physics simulations.
-
-For the moment, the core features of *Sirius* are
-for the most part derived from [The Cherno's
-Game Engine series](https://www.youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT),
-which is a great ressource not only on
-the technicalities of a game engine,
-but also the design issues that are faced
-when writing a library. Make sure to go check it !
 
 ## Installation
 ### Getting started
@@ -95,8 +93,8 @@ include_directories(Sirius/vendor/spdlog/include/)
 include_directories(Sirius/vendor/imgui/)
 include_directories(Sirius/vendor/glfw/include/)
 include_directories(Sirius/vendor/glad/include/)
-include_directories(Sirius/vendor/glm)
 include_directories(Sirius/vendor/stb_image)
+include_directories(vendor/assimp/include)
 ```
 
 Change the `add_executable()` part so
@@ -108,8 +106,20 @@ add_executable(test app.cpp)
 target_link_libraries(test PUBLIC Sirius)
 ```
 
-Finally, go to *"Sirius/lib"* and *"Sirius/vendor/glfw/bin"*, grab
-the *libSirius.dll* and *glfw3.dll*, and paste them next to
+Finally, go to *"Sirius/lib"*, *"Sirius/vendor/glfw/bin"* and *"Sirius/vendor/assimp/bin"*, grab
+the *libSirius.dll*, *glfw3.dll* and *libassimp.dll*, and paste them next to
 your executable. Everything should work now : you can verify
 it with the *test* folder in the library source directory, which
-should create a window with an image in it.
+should create an app looking like the header image.
+
+## Credits
+
+The library's core features were at first
+derived from [The Cherno's
+Game Engine series](https://www.youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT),
+which is a great ressource not only on
+the technicalities of a game engine,
+but also the design issues that are faced
+when writing a library. Make sure to go check it !
+
+Sirius uses OpenGL, [glad](https://glad.dav1d.de/), [GLFW](https://www.glfw.org/), [Assimp](https://www.assimp.org/), [Dear ImGui](https://github.com/ocornut/imgui) and [spdlog](https://github.com/gabime/spdlog).

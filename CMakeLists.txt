@@ -92,7 +92,6 @@ include_directories(vendor/glfw/include/)
 include_directories(vendor/glad/include/)
 include_directories(vendor/glm)
 include_directories(vendor/stb_image)
-include_directories(vendor/tinyobjloader)
 include_directories(vendor/assimp/include)
 
 # ----------------------------------------------------
