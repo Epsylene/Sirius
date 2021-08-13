@@ -3,6 +3,9 @@
 
 #include "Sirius/Math/Vector/Vector.hpp"
 
+#undef far
+#undef near
+
 namespace Sirius
 {
     /////////////////////////////////////////////

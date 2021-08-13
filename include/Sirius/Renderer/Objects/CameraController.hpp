@@ -41,6 +41,10 @@ namespace Sirius
             /// The events that are dispatched are mouse scrolls
             /// and windows resizes.
             virtual void onEvent(Event& event);
+
+            ///////////////////////////////
+            /// Set the camera aspect ratio
+            virtual void setAspect(float aspect);
     };
 
     ///////////////////////////////////////////////////

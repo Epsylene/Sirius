@@ -49,4 +49,10 @@ namespace Sirius
     {
         state ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
     }
+
+    void RenderCommand::setWireframeMode(bool state)
+    {
+        state ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
+              : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    }
 }

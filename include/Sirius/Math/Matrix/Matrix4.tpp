@@ -37,10 +37,10 @@ namespace Sirius
     template<typename T>
     constexpr Vector<4, T> operator*(const Matrix<4, T>& mat, const Vector<4, T>& vec)
     {
-        return Vector<4, T>(mat[0][0] * vec.x + mat[1][0] * vec.y + mat[2][0] * vec.z, + mat[3][0] * vec.z,
-                          mat[0][1] * vec.x + mat[1][1] * vec.y + mat[2][1] * vec.z, + mat[3][1] * vec.z,
-                          mat[0][2] * vec.x + mat[1][2] * vec.y + mat[2][2] * vec.z, + mat[3][2] * vec.z,
-                          mat[0][3] * vec.x + mat[1][3] * vec.y + mat[2][3] * vec.z, + mat[3][3] * vec.z);
+        return Vector<4, T>(mat[0][0] * vec.x + mat[1][0] * vec.y + mat[2][0] * vec.z + mat[3][0] * vec.w,
+                            mat[0][1] * vec.x + mat[1][1] * vec.y + mat[2][1] * vec.z + mat[3][1] * vec.w,
+                            mat[0][2] * vec.x + mat[1][2] * vec.y + mat[2][2] * vec.z + mat[3][2] * vec.w,
+                            mat[0][3] * vec.x + mat[1][3] * vec.y + mat[2][3] * vec.z + mat[3][3] * vec.w);
     }
 }
 

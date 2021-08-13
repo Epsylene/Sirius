@@ -48,4 +48,15 @@ namespace Sirius
 
         return {(float)xPos, (float)yPos};
     }
+
+    Vec2 Input::getMouseScreenPos()
+    {
+        auto window = Application::get().getWindow().getNativeWindow();
+        double xPos, yPos;
+        int xWindowPos, yWindowPos;
+        glfwGetCursorPos(window, &xPos, &yPos);
+        glfwGetWindowPos(window, &xWindowPos, &yWindowPos);
+
+        return {(float)(xWindowPos + xPos), (float)(yWindowPos + yPos)};
+    }
 }

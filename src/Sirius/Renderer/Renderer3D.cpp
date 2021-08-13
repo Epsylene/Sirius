@@ -155,15 +155,15 @@ namespace Sirius
                         data->textureShader->uploadUniformInt("material.diffuse", 0);
                         break;
 
-                        case TextureType::Specular:
-                            tex->bind(1);
-                            data->textureShader->uploadUniformInt("material.specular", 1);
-                            break;
+                    case TextureType::Specular:
+                        tex->bind(1);
+                        data->textureShader->uploadUniformInt("material.specular", 1);
+                        break;
 
-                        case TextureType::Ambient:
-                            tex->bind(2);
-                            data->textureShader->uploadUniformInt("material.ambient", 2);
-                            break;
+                    case TextureType::Ambient:
+                        tex->bind(2);
+                        data->textureShader->uploadUniformInt("material.ambient", 2);
+                        break;
                 }
             }
 

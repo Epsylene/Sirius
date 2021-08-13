@@ -11,7 +11,7 @@
 #include "Timestep.hpp"
 
 #include "LayerStack.hpp"
-#include "Sirius/ImGui/ImGuiLayer.hpp"
+#include "Sirius/UI/ImGuiLayer.hpp"
 
 #include "Sirius/Renderer/Utils/Buffer.hpp"
 #include "Sirius/Renderer/Utils/VertexArray.hpp"

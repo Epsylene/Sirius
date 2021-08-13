@@ -36,6 +36,8 @@ namespace Sirius
             /// @brief Enable or disable the depth buffer
             static void setDepthTest(bool state);
 
+            static void setWireframeMode(bool state);
+
             /////////////////////////////////////
             /// @brief Set the window clear color
             static void setClearColor(const Color& color);

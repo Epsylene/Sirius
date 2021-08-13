@@ -33,15 +33,15 @@ namespace Sirius
             Camera();
 
             //////////////////////////////////////
-            /// @brief Set the camera2D's position
+            /// @brief Set the camera's position
             virtual void setPosition(const Vec3& pos);
 
             //////////////////////////////////////
-            /// @brief Get the camera2D's position
+            /// @brief Get the camera's position
             virtual const Vec3& getPosition() const;
 
             /////////////////////////////////////////////////////
-            /// @brief Get the camera2D's normal direction vector
+            /// @brief Get the camera's normal direction vector
             virtual const Vec3& getDirection() const;
 
             ////////////////////////////////////////////////

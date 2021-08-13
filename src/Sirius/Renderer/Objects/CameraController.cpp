@@ -16,6 +16,11 @@ namespace Sirius
         eventDispatcher.dispatch<WindowResizeEvent>([this](WindowResizeEvent& event) { return onWindowResized(event); });
     }
 
+    void CameraController::setAspect(float aspect)
+    {
+        this->aspect = aspect;
+    }
+
     // --------------------- CAMERA CONTROLLER 2D --------------------- //
 
     CameraController2D::CameraController2D(): CameraController2D(16.f/9.f, false)

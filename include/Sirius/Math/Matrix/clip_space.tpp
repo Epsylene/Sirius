@@ -1,6 +1,9 @@
 
 #include "clip_space.hpp"
 
+#undef far
+#undef near
+
 namespace Sirius
 {
     template<typename T> 

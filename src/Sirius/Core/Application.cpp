@@ -84,17 +84,19 @@ namespace Sirius
             // Update the layers
             if(!minimized)
             {
-//                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+                RenderCommand::setWireframeMode(true);
 
                 for (const auto& layer: layerStack)
                     layer->onUpdate(dt);
+
+                RenderCommand::setWireframeMode(false);
 
                 window->frameBuffer->unbind();
                 RenderCommand::setDepthTest(false);
                 RenderCommand::setClearColor(Color::White);
                 RenderCommand::clear(COLOR_BUFFER);
-                Renderer::setPostProcessing(EDGES);
-                Renderer::updateFrameBuffer(window->frameBuffer);
+                Renderer::setPostProcessing(NONE);
+//                Renderer::updateFrameBuffer(window->frameBuffer);
             }
 
             // Run ImGui and its callbacks

@@ -36,10 +36,12 @@ namespace Sirius
             /// @brief Get the mouse Y position
             static float getMouseY();
 
-            //////////////////////////////////////////////////
-            /// @brief Get the mouse position
-            ///
-            /// Position is returned as an std::pair of floats
+            ////////////////////////////////////////////////////////
+            /// @brief Get the mouse position, in window coordinates
             static Vec2 getMousePos();
+
+            ////////////////////////////////////////////////////////
+            /// @brief Get the mouse position, in screen coordinates
+            static Vec2 getMouseScreenPos();
     };
 }

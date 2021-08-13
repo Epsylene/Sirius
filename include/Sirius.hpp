@@ -7,8 +7,9 @@
 #include <Sirius/Core/Application.hpp>
 #include <Sirius/Core/Log.hpp>
 
+#include <Sirius/UI/Scene.hpp>
 #include <Sirius/Core/Layer.hpp>
-#include <Sirius/ImGui/ImGuiLayer.hpp>
+#include <Sirius/UI/ImGuiLayer.hpp>
 
 #include <Sirius/Core/Timestep.hpp>
 
