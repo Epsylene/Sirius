@@ -20,7 +20,9 @@ namespace Sirius
         public:
 
             static bool mouseInArea;
+            static Vec2 panelSize;
             static SceneProperties properties;
+
             static std::vector<Ref<Model>> models;
             static Ref<CameraController3D> controller;
 

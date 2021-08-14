@@ -23,32 +23,28 @@ layout(location = 0) out vec4 color;
 
 uniform sampler2D u_screenTex;
 
-struct PostProcessFlags
-{
-    bool none, inversion, grayscale, kernel;
-};
-
-uniform PostProcessFlags u_ppFlags;
+uniform int u_ppFlag;
+uniform bool u_isKernel;
 uniform mat3 u_kernel;
 
 in vec2 v_texCoord;
 
 void main()
 {
-    if(u_ppFlags.none)
+    if(u_ppFlag == 0)
         color = vec4(texture(u_screenTex, v_texCoord).rgb, 1.0);
 
-    if(u_ppFlags.inversion)
+    if(u_ppFlag == 1)
         color = vec4(1.0 - texture(u_screenTex, v_texCoord).rgb, 1.0);
 
-    if(u_ppFlags.grayscale)
+    if(u_ppFlag == 2)
     {
         color = texture(u_screenTex, v_texCoord);
         float average = 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b;
         color = vec4(average, average, average, 1.0);
     }
 
-    if(u_ppFlags.kernel)
+    if(u_ppFlag > 2)
     {
         const float offset = 1.0 / 500.0;
         float kernel[9];

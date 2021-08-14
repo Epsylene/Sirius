@@ -10,6 +10,7 @@
 namespace Sirius
 {
     bool Scene::mouseInArea = false;
+    Vec2 Scene::panelSize {};
     std::vector<Ref<Model>> Scene::models {};
     Ref<CameraController3D> Scene::controller {};
     SceneProperties Scene::properties {};
@@ -38,8 +39,9 @@ namespace Sirius
             mouseInArea = false;
 
         ImVec2 panelSize = ImGui::GetContentRegionAvail();
+        Scene::panelSize = { panelSize.x, panelSize.y };
         controller->setAspect(panelSize.x / panelSize.y);
-        auto& tex = Sirius::Application::get().getWindow().postRenderFBO->colorBuffer;
+        auto& tex = Renderer::sceneData->postRenderFBO->colorBuffer;
         ImGui::Image(reinterpret_cast<void*>(tex.textureID), panelSize, ImVec2(0, 1), ImVec2(1, 0));
 
         ImGui::End();
@@ -62,7 +64,7 @@ namespace Sirius
 
         for (auto& model: Scene::models)
         {
-            Renderer3D::drawModel(model);
+            Scene::drawModel(model);
         }
 
         Sirius::Renderer3D::endScene();

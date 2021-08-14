@@ -26,7 +26,7 @@ namespace Sirius
         /// @param title The window's title
         /// @param width The window's width
         /// @param height The window's height
-        explicit WindowProps(const std::string& title = "Sirius Engine", unsigned int width = 1024, unsigned int height = 576):
+        explicit WindowProps(const std::string& title = "Sirius Engine", unsigned int width = 1280, unsigned int height = 720):
             title(title), width(width), height(height) {}
     };
 
@@ -64,9 +64,6 @@ namespace Sirius
             void shutdown();
 
         public:
-
-            Scope<FrameBuffer> preRenderFBO;
-            Scope<FrameBuffer> postRenderFBO;
 
             //////////////////////////////////////////
             /// @brief The default constructor

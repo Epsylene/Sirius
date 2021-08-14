@@ -188,6 +188,12 @@ namespace Sirius
         glUniform1i(location, (int)val);
     }
 
+    void Shader::uploadUniformUint(const std::string& name, uint32_t val)
+    {
+        GLint location = glGetUniformLocation(shaderID, name.c_str());
+        glUniform1ui(location, val);
+    }
+
     void Shader::uploadUniformInt(const std::string& name, int val)
     {
         GLint location = glGetUniformLocation(shaderID, name.c_str());

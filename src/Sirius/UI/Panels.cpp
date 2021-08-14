@@ -2,15 +2,24 @@
 #include "Sirius/UI/Panels.h"
 
 #include "Sirius/UI/Scene.hpp"
+#include "Sirius/Core/Core.hpp"
 
 namespace Sirius
 {
     ImGui::FileBrowser PropertiesPanel::fileBrowser {};
+    std::vector<const char*> ppFlagsStrs {};
+    int selectedFlag;
 
     void PropertiesPanel::init()
     {
         fileBrowser.SetTitle("Open mesh");
         fileBrowser.SetTypeFilters({".fbx", ".obj"});
+
+        constexpr auto& flags = magic_enum::enum_names<PostProcessingFlags>();
+        for (auto& flag: flags)
+        {
+            ppFlagsStrs.emplace_back(flag.data());
+        }
     }
 
     void PropertiesPanel::render()
@@ -38,6 +47,9 @@ namespace Sirius
         {
             ImGui::ColorEdit3("Scene background color", &Scene::properties.background.r);
             ImGui::Checkbox("Wireframe mode", &Scene::properties.wireframe);
+
+            ImGui::Combo("Label", &selectedFlag, &ppFlagsStrs[0], ppFlagsStrs.size());
+            Scene::properties.ppFlag = PostProcessingFlags(selectedFlag);
         }
         ImGui::End();
     }

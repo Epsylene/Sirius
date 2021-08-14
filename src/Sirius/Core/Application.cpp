@@ -14,8 +14,6 @@ namespace Sirius
 
         window = std::make_unique<Window>();
         window->setEventCallback([this](Event& event) { onEvent(event); });
-        window->preRenderFBO = std::make_unique<FrameBuffer>(window->getWidth(), window->getHeight());
-        window->postRenderFBO = std::make_unique<FrameBuffer>(window->getWidth(), window->getHeight());
 
         Renderer::init();
 
@@ -65,7 +63,6 @@ namespace Sirius
         }
         minimized = false;
 
-        Renderer::onWindowResize(event.getWidth(), event.getHeight());
         return false;
     }
 
@@ -73,10 +70,7 @@ namespace Sirius
     {
         while(running)
         {
-            window->preRenderFBO->bind();
-            RenderCommand::setDepthTest(true);
-            RenderCommand::setClearColor(Scene::properties.background);
-            RenderCommand::clear();
+            Renderer::preRender();
 
             auto time = (float)glfwGetTime();
             Timestep dt = time - lastFrameTime;
@@ -85,22 +79,11 @@ namespace Sirius
             // Update the layers
             if(!minimized)
             {
-                RenderCommand::setWireframeMode(Scene::properties.wireframe);
-
                 for (const auto& layer: layerStack)
                     layer->onUpdate(dt);
-
-                RenderCommand::setWireframeMode(false);
             }
 
-            window->preRenderFBO->unbind();
-            RenderCommand::setDepthTest(false);
-            RenderCommand::setClearColor(Color::White);
-            RenderCommand::clear(COLOR_BUFFER);
-            Renderer::setPostProcessing(INVERSION);
-            window->postRenderFBO->bind();
-            Renderer::applyPostProcessing(window->preRenderFBO);
-            window->postRenderFBO->unbind();
+            Renderer::postRender();
 
             // Run ImGui and its callbacks
             imGuiLayer->begin();

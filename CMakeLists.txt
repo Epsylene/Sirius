@@ -93,6 +93,7 @@ include_directories(vendor/glad/include/)
 include_directories(vendor/glm)
 include_directories(vendor/stb_image)
 include_directories(vendor/assimp/include)
+include_directories(vendor/magic_enum)
 
 # ----------------------------------------------------
 # Install Sirius and its dependencies

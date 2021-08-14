@@ -70,6 +70,10 @@ namespace Sirius
             /// @brief Upload a bool uniform to the shader.
             void uploadUniformBool(const std::string& name, bool val);
 
+            ////////////////////////////////////////////////////////
+            /// @brief Upload an unsigned int uniform to the shader.
+            void uploadUniformUint(const std::string& name, uint32_t val);
+
             ///////////////////////////////////////////////
             /// @brief Upload an int uniform to the shader.
             void uploadUniformInt(const std::string& name, int val);
