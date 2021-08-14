@@ -43,5 +43,16 @@ namespace Sirius
             ////////////////////////////////////////////////////////
             /// @brief Get the mouse position, in screen coordinates
             static Vec2 getMouseScreenPos();
+
+            ////////////////////////////////////////////////////////
+            /// @brief Check whether the mouse is in a certain area
+            ///
+            /// The area is defined by the rectangle that has `p0`
+            /// and `p1` as bottom-left and upper-right vertices,
+            /// respectively.
+            ///
+            /// @param screenCoords Set to true if `p0` and `p1` are
+            ///     in screen coordinates
+            static bool mouseInArea(const Vec2& p0, const Vec2& p1, bool screenCoords = false);
     };
 }

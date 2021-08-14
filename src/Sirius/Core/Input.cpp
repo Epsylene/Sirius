@@ -59,4 +59,11 @@ namespace Sirius
 
         return {(float)(xWindowPos + xPos), (float)(yWindowPos + yPos)};
     }
+
+    bool Input::mouseInArea(const Vec2& p0, const Vec2& p1, bool screenCoords)
+    {
+        auto mousePos = screenCoords ? getMouseScreenPos() : getMousePos();
+
+        return (mousePos.x > p0.x && mousePos.x < p1.x && mousePos.y > p0.y && mousePos.y < p1.y);
+    }
 }
