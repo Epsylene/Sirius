@@ -40,30 +40,22 @@ namespace Sirius
         sceneData->postprocess = std::make_shared<Shader>("../../app/res/shaders/postprocess.glsl");
     }
 
-    void Renderer::beginScene(Camera& camera)
-    {
-        sceneData->viewProjMatrix = camera.getViewProjMatrix();
-    }
-
-    void Renderer::endScene()
-    {}
-
     void Renderer::onWindowResize(uint32_t width, uint32_t height)
     {
         RenderCommand::setViewport(0, 0, width, height);
     }
 
-    void Renderer::submit(const Ref<Shader>& shader,
-                          const Ref<VertexArray>& vertexArray,
-                          const Mat4& transform)
+    void Renderer::applyPostProcessing(const Scope <FrameBuffer>& frameBuffer,
+                                       const Matrix4f& transform)
     {
-        shader->bind();
-        shader->uploadUniformMat4("u_viewProj", sceneData->viewProjMatrix);
-        shader->uploadUniformMat4("u_transform", transform);
-        shader->uploadUniformFloat4("u_color", {1.f, 1.f, 1.f, 1.f});
+        sceneData->postprocess->bind();
+        sceneData->quad->bind();
+        frameBuffer->colorBuffer.bind(0);
+        sceneData->postprocess->uploadUniformInt("u_screenTex", 0);
+        sceneData->postprocess->uploadUniformMat4("u_transform", transform);
 
-        vertexArray->bind();
-        RenderCommand::drawIndexed(vertexArray);
+        sceneData->quad->bind();
+        RenderCommand::drawIndexed(sceneData->quad);
     }
 
     void Renderer::setPostProcessing(PostProcessingFlags flags)

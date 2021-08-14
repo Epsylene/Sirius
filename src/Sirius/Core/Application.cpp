@@ -14,7 +14,8 @@ namespace Sirius
 
         window = std::make_unique<Window>();
         window->setEventCallback([this](Event& event) { onEvent(event); });
-        window->frameBuffer = std::make_unique<FrameBuffer>(window->getWidth(), window->getHeight());
+        window->preRenderFBO = std::make_unique<FrameBuffer>(window->getWidth(), window->getHeight());
+        window->postRenderFBO = std::make_unique<FrameBuffer>(window->getWidth(), window->getHeight());
 
         Renderer::init();
 
@@ -72,9 +73,9 @@ namespace Sirius
     {
         while(running)
         {
-            window->frameBuffer->bind();
+            window->preRenderFBO->bind();
             RenderCommand::setDepthTest(true);
-            Sirius::RenderCommand::setClearColor(Scene::properties.background);
+            RenderCommand::setClearColor(Scene::properties.background);
             RenderCommand::clear();
 
             auto time = (float)glfwGetTime();
@@ -92,11 +93,14 @@ namespace Sirius
                 RenderCommand::setWireframeMode(false);
             }
 
-            window->frameBuffer->unbind();
+            window->preRenderFBO->unbind();
             RenderCommand::setDepthTest(false);
             RenderCommand::setClearColor(Color::White);
             RenderCommand::clear(COLOR_BUFFER);
             Renderer::setPostProcessing(INVERSION);
+            window->postRenderFBO->bind();
+            Renderer::applyPostProcessing(window->preRenderFBO);
+            window->postRenderFBO->unbind();
 
             // Run ImGui and its callbacks
             imGuiLayer->begin();

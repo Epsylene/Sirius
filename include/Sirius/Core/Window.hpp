@@ -65,7 +65,8 @@ namespace Sirius
 
         public:
 
-            Scope<FrameBuffer> frameBuffer;
+            Scope<FrameBuffer> preRenderFBO;
+            Scope<FrameBuffer> postRenderFBO;
 
             //////////////////////////////////////////
             /// @brief The default constructor

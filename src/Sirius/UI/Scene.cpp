@@ -14,6 +14,11 @@ namespace Sirius
     Ref<CameraController3D> Scene::controller {};
     SceneProperties Scene::properties {};
 
+    void Scene::init()
+    {
+        controller = std::make_shared<CameraController3D>();
+    }
+
     void Scene::render()
     {
         ImGui::Begin("Scene");
@@ -34,14 +39,10 @@ namespace Sirius
 
         ImVec2 panelSize = ImGui::GetContentRegionAvail();
         controller->setAspect(panelSize.x / panelSize.y);
-        ImGui::Image(reinterpret_cast<void*>(Sirius::Application::get().getWindow().frameBuffer->colorBuffer.textureID), panelSize, ImVec2(0, 1), ImVec2(1, 0));
+        auto& tex = Sirius::Application::get().getWindow().postRenderFBO->colorBuffer;
+        ImGui::Image(reinterpret_cast<void*>(tex.textureID), panelSize, ImVec2(0, 1), ImVec2(1, 0));
 
         ImGui::End();
-    }
-
-    void Scene::init()
-    {
-        controller = std::make_shared<CameraController3D>();
     }
 
     void Scene::drawModel(const Ref<Model>& model, const Vec3& pos, const Vec3& size)

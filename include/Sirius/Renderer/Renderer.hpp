@@ -36,7 +36,6 @@ namespace Sirius
 
             struct SceneData
             {
-                Mat4 viewProjMatrix;
                 Ref<Shader> postprocess;
                 Ref<VertexArray> quad;
             };
@@ -48,14 +47,6 @@ namespace Sirius
             /////////////////////////////////////////
             /// @brief Initialize the global renderer
             static void init();
-
-            ///////////////////////////////////////////////////////////////
-            /// @brief Set up the rendered scene with a particular camera2D
-            static void beginScene(Camera& camera);
-
-            /////////////////////////////////
-            /// @brief End the rendered scene
-            static void endScene();
 
             ///////////////////////////////////////
             /// @brief Set the postprocessing flags
@@ -82,5 +73,7 @@ namespace Sirius
             static void submit(const Ref<Shader>& shader,
                                const Ref<VertexArray>& vertexArray,
                                const Mat4& transform = identity<4>());
+
+            static void applyPostProcessing(const Scope <FrameBuffer>& frameBuffer, const Matrix4f& transform = identity<4>());
     };
 }
