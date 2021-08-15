@@ -26,9 +26,11 @@
 #include <Sirius/Renderer/Utils/Texture.hpp>
 #include <Sirius/Renderer/Utils/Color.hpp>
 #include <Sirius/Renderer/Utils/Material.hpp>
+
 #include <Sirius/Renderer/Objects/Light.hpp>
 #include <Sirius/Renderer/Objects/Model.hpp>
 #include <Sirius/Renderer/Objects/PrefabMeshes.h>
+#include <Sirius/Renderer/Objects/Skybox.hpp>
 
 #include <Sirius/Renderer/Objects/Camera.hpp>
 #include <Sirius/Renderer/Objects/CameraController.hpp>

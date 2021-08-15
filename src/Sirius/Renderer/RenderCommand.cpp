@@ -11,6 +11,7 @@ namespace Sirius
 
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_DEPTH_CLAMP);
+        glDepthFunc(GL_LEQUAL);
 
         glEnable(GL_STENCIL_TEST);
         glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
@@ -54,5 +55,11 @@ namespace Sirius
     {
         state ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
               : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    }
+
+    void RenderCommand::setFaceCulling(bool state)
+    {
+        state ? glEnable(GL_CULL_FACE)
+              : glDisable(GL_CULL_FACE);
     }
 }

@@ -120,6 +120,11 @@ Game Engine series](https://www.youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0G
 which is a great ressource not only on
 the technicalities of a game engine,
 but also the design issues that are faced
-when writing a library. Make sure to go check it !
+when writing a library. On the other hand, 
+Joey de Vrie's [Learn OpenGL](https://learnopengl.com/) 
+has been extremely useful to understand the OpenGL concepts
+and objects I wanted to implement. Make sure to go check both !
 
-Sirius uses OpenGL, [glad](https://glad.dav1d.de/), [GLFW](https://www.glfw.org/), [Assimp](https://www.assimp.org/), [Dear ImGui](https://github.com/ocornut/imgui) and [spdlog](https://github.com/gabime/spdlog).
+Sirius uses OpenGL, [glad](https://glad.dav1d.de/), [GLFW](https://www.glfw.org/),
+[Assimp](https://www.assimp.org/), [Dear ImGui](https://github.com/ocornut/imgui) 
+and [spdlog](https://github.com/gabime/spdlog).

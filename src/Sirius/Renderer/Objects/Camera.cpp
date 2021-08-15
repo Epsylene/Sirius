@@ -30,6 +30,11 @@ namespace Sirius
         return viewProjMatrix;
     }
 
+    std::pair<Mat4, Mat4> Camera::getViewAndProjMatrices() const
+    {
+        return { viewMatrix, projMatrix };
+    }
+
     //-------------------------- 2D CAMERA --------------------------//
 
     Camera2D::Camera2D(): Camera2D(-1.f, 1.f, -1.f, 1.f)

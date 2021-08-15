@@ -12,6 +12,7 @@ namespace Sirius
         public:
 
             Cube();
+
             explicit Cube(const Material& mat, bool perFaceTexture = true);
     };
 }

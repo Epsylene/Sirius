@@ -53,18 +53,22 @@ namespace Sirius
 
     void Scene::onUpdate(Timestep dt)
     {
-        Renderer3D::beginScene(Scene::controller->getCamera());
+        Renderer3D::beginScene(controller->getCamera());
 
         auto p0 = properties.pos, p1 = properties.pos + properties.size;
         if(Input::mouseInArea(p0, p1, true) && !PropertiesPanel::fileBrowser.IsOpened())
-            Scene::controller->onUpdate(dt);
+            controller->onUpdate(dt);
 
-        for (auto& model: Scene::models)
-        {
+        for (auto& model: models)
             Scene::drawModel(model);
-        }
 
-        Sirius::Renderer3D::endScene();
+        Renderer3D::drawSkybox();
+
+        Renderer3D::endScene();
     }
 
+    void Scene::setSkybox(const Ref<Skybox>& skybox)
+    {
+        Renderer3D::setSkybox(skybox);
+    }
 }

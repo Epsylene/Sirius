@@ -75,7 +75,6 @@ namespace Sirius
 
     RenderBuffer::RenderBuffer(uint32_t width, uint32_t height)
     {
-//        glCreateRenderbuffers(1, &renderBufferID);
         glGenRenderbuffers(1, &renderBufferID);
         glBindRenderbuffer(GL_RENDERBUFFER, renderBufferID);
         glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);

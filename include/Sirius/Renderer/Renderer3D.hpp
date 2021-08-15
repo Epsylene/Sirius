@@ -7,6 +7,7 @@
 #include "Sirius/Renderer/Utils/Material.hpp"
 #include "Sirius/Renderer/Objects/Light.hpp"
 #include "Sirius/Renderer/Objects/Model.hpp"
+#include "Sirius/Renderer/Objects/Skybox.hpp"
 
 namespace Sirius
 {
@@ -42,6 +43,10 @@ namespace Sirius
             //////////////////////////////////////////////////
             /// @brief Draw the model at `pos` and with `size`
             static void drawModel(const Ref<Model>& model, const Vec3& pos = {}, const Vec3& size = Vec3(1.f), bool outline = true);
+
+            static void setSkybox(const Ref<Skybox>& skybox);
+
+            static void drawSkybox();
 
             ////////////////////////////
             /// @brief Add a point light

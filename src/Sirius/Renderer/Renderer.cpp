@@ -15,9 +15,9 @@ namespace Sirius
     const Mat3 Kernel::Edges {1.f,  1.f, 1.f,
                               1.f, -8.f, 1.f,
                               1.f,  1.f, 1.f};
-    const Mat3 Kernel::Sharpen {-1.f, -1.f, -1.f,
-                                -1.f,  9.f, -1.f,
-                                -1.f, -1.f, -1.f};
+    const Mat3 Kernel::Sharpen { 0.f, -1.f,  0.f,
+                                -1.f,  5.f, -1.f,
+                                 0.f, -1.f,  0.f};
     const Mat3 Kernel::Blur {1.f/16.f, 2.f/16.f, 1.f/16.f,
                              2.f/16.f, 4.f/16.f, 2.f/16.f,
                              1.f/16.f, 2.f/16.f, 1.f/16.f};

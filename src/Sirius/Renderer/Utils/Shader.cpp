@@ -274,7 +274,7 @@ namespace Sirius
         return shader;
     }
 
-    Ref<Shader>& ShaderLibrary::get(const std::string& name)
+    Ref <Shader>& ShaderLibrary::operator[](const std::string& name)
     {
         if(shaders.find(name) == shaders.end())
             Log::coreError("Shader '{0}' not found !", name);

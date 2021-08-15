@@ -7,6 +7,7 @@
 namespace Sirius
 {
     ImGui::FileBrowser PropertiesPanel::fileBrowser {};
+
     std::vector<const char*> ppFlagsStrs {};
     int selectedFlag;
 
@@ -48,7 +49,7 @@ namespace Sirius
             ImGui::ColorEdit3("Scene background color", &Scene::properties.background.r);
             ImGui::Checkbox("Wireframe mode", &Scene::properties.wireframe);
 
-            ImGui::Combo("Label", &selectedFlag, &ppFlagsStrs[0], ppFlagsStrs.size());
+            ImGui::Combo("Postprocessing", &selectedFlag, &ppFlagsStrs[0], ppFlagsStrs.size());
             Scene::properties.ppFlag = PostProcessingFlags(selectedFlag);
         }
         ImGui::End();

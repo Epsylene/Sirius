@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <Sirius/Renderer/Objects/Skybox.hpp>
 #include "Sirius/Math/Vector/Vector.hpp"
 #include "Sirius/Renderer/Objects/CameraController.hpp"
 #include "Sirius/Renderer/Objects/Model.hpp"
@@ -52,5 +53,7 @@ namespace Sirius
             ////////////////////////////////////
             /// @brief Draw a model in the scene
             static void drawModel(const Ref<Model>& model, const Vec3& pos = {}, const Vec3& size = Vec3(1.f));
+
+            static void setSkybox(const Ref<Skybox>& skybox);
     };
 }

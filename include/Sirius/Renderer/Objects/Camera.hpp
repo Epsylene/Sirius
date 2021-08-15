@@ -47,6 +47,8 @@ namespace Sirius
             ////////////////////////////////////////////////
             /// @brief Get the OpenGL view-projection matrix
             virtual const Mat4& getViewProjMatrix() const;
+
+            virtual std::pair<Mat4, Mat4> getViewAndProjMatrices() const;
     };
 
     ///////////////////////////////////////////////////////////////

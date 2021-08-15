@@ -36,6 +36,10 @@ namespace Sirius
             /// @brief Enable or disable the depth buffer
             static void setDepthTest(bool state);
 
+            /////////////////////////////////////////
+            /// @brief Enable or disable face culling
+            static void setFaceCulling(bool state);
+
             ////////////////////////////////////////////////
             /// @brief Enable or disable wireframe rendering
             static void setWireframeMode(bool state);

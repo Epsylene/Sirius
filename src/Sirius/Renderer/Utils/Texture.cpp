@@ -8,6 +8,8 @@
 
 namespace Sirius
 {
+    // -------------------------  TEXTURE  -------------------------
+
     TextureType Texture::getType() const
     {
         return type;
@@ -17,13 +19,18 @@ namespace Sirius
         path(path), type(type)
     {}
 
-    Texture2D::Texture2D(uint32_t width, uint32_t height): Texture("", TextureType::None),
-        width(width), height(height)
+    Texture::Texture(): type(TextureType::None)
+    {}
+
+    // ------------------------  TEXTURE 2D  ------------------------
+
+    Texture2D::Texture2D(uint32_t width, uint32_t height): Texture()
     {
-        glGenTextures(1, &textureID);
-        glBindTexture(GL_TEXTURE_2D, textureID);
+        glCreateTextures(GL_TEXTURE_2D, 1, &textureID);
 
         glTextureStorage2D(textureID, 1, GL_RGB8, width, height);
+        this->width = width;
+        this->height = height;
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -87,5 +94,40 @@ namespace Sirius
     void Texture2D::bind(uint32_t slot) const
     {
         glBindTextureUnit(slot, textureID);
+    }
+
+    // ------------------------  TEXTURE 3D  ------------------------
+
+    Texture3D::Texture3D(const std::array<std::string, 6>& facesTexPaths, TextureType type)
+    {
+        glGenTextures(1, &textureID);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+
+        int width, height, nrChannels;
+        for (int i = 0; auto& faceTexPath: facesTexPaths)
+        {
+            unsigned char *data = stbi_load(faceTexPath.c_str(), &width, &height, &nrChannels, 0);
+
+            if (data)
+                glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + (i++), 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            else
+                SRS_CORE_ASSERT(false, "Cubemap texture failed to load at path: " + faceTexPath)
+
+            stbi_image_free(data);
+        }
+
+        this->width = width;
+        this->height = height;
+
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+    }
+
+    void Texture3D::bind(uint32_t slot) const
+    {
+        glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
     }
 }

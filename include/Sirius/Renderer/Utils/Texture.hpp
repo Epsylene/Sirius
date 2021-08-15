@@ -17,12 +17,12 @@ namespace Sirius
             uint32_t textureID;
             TextureType type;
             std::string path;
+            uint32_t width, height;
 
+            Texture();
             Texture(const std::string& path, const TextureType& type);
-            virtual ~Texture() = default;
 
-            virtual uint32_t getWidth() const = 0;
-            virtual uint32_t getHeight() const = 0;
+            virtual ~Texture() = default;
 
             virtual TextureType getType() const;
 
@@ -35,34 +35,37 @@ namespace Sirius
     {
         public:
 
-            uint32_t width, height;
-
             //////////////////////////////////////////////
             /// @brief Creates a texture with given width
             ///     and height, but no image data
             ///
             /// This is useful when creating a framebuffer
-            /// object.
+            /// object. The texture has immutable storage.
             Texture2D(uint32_t width, uint32_t height);
 
             ////////////////////////////////////////////////////////
             /// @brief Creates a new texture from the file at `path`
+            ///
+            /// The texture has immutable storage.
             Texture2D(const std::string& path, const TextureType& type);
 
             //////////////////////////////
             /// @brief Deletes the texture
             virtual ~Texture2D() override;
 
-            ////////////////////////////////////////////
-            /// @brief Get the texture's width in pixels
-            virtual uint32_t getWidth() const override { return width; };
-
-            /////////////////////////////////////////////
-            /// @brief Get the texture's height in pixels
-            virtual uint32_t getHeight() const override { return height; };
-
             /////////////////////////////////////
             /// @brief Bind the texture to OpenGL
+            virtual void bind(uint32_t slot = 0) const override;
+    };
+
+    class Texture3D: public Texture
+    {
+        public:
+
+            uint32_t width, height;
+
+            Texture3D(const std::array<std::string, 6>& facesTexPaths, TextureType type);
+
             virtual void bind(uint32_t slot = 0) const override;
     };
 }
