@@ -45,7 +45,7 @@ namespace Sirius
     {
         auto p0 = properties.pos, p1 = properties.pos + properties.size;
 
-        if(Input::mouseInArea(p0, p1, true) && !PropertiesPanel::fileBrowser.IsOpened())
+        if(Input::mouseInArea(p0, p1, true) && !PropertiesPanel::browserOpened())
             Renderer3D::drawModel(model, pos, size, true);
         else
             Renderer3D::drawModel(model, pos, size, false);
@@ -56,18 +56,19 @@ namespace Sirius
         Renderer3D::beginScene(controller->getCamera());
 
         auto p0 = properties.pos, p1 = properties.pos + properties.size;
-        if(Input::mouseInArea(p0, p1, true) && !PropertiesPanel::fileBrowser.IsOpened())
+        if(Input::mouseInArea(p0, p1, true) && !PropertiesPanel::browserOpened())
             controller->onUpdate(dt);
 
         for (auto& model: models)
             Scene::drawModel(model);
 
-        Renderer3D::drawSkybox();
+        if(!properties.wireframe)
+            Renderer3D::drawSkybox();
 
         Renderer3D::endScene();
     }
 
-    void Scene::setSkybox(const Ref<Skybox>& skybox)
+    void Scene::setSkybox(const std::unordered_map<CubeFace, std::string>& skybox)
     {
         Renderer3D::setSkybox(skybox);
     }

@@ -29,7 +29,7 @@
 
 #include <Sirius/Renderer/Objects/Light.hpp>
 #include <Sirius/Renderer/Objects/Model.hpp>
-#include <Sirius/Renderer/Objects/PrefabMeshes.h>
+#include <Sirius/Renderer/Objects/PrefabMeshes.hpp>
 #include <Sirius/Renderer/Objects/Skybox.hpp>
 
 #include <Sirius/Renderer/Objects/Camera.hpp>

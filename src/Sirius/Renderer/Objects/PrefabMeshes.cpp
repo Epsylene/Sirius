@@ -1,5 +1,5 @@
 
-#include "Sirius/Renderer/Objects/PrefabMeshes.h"
+#include "Sirius/Renderer/Objects/PrefabMeshes.hpp"
 
 namespace Sirius
 {

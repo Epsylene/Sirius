@@ -60,7 +60,7 @@ namespace Sirius
             dataFormat = GL_RGBA;
         }
 
-        SRS_CORE_ASSERT(internalFormat & dataFormat, "Texture at path \"" + path + "\" : format not supported.");
+        SRS_CORE_ASSERT(internalFormat & dataFormat, "Texture at path \"" + path + "\" : format not supported or texture not found.");
 
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
@@ -98,20 +98,28 @@ namespace Sirius
 
     // ------------------------  TEXTURE 3D  ------------------------
 
-    Texture3D::Texture3D(const std::array<std::string, 6>& facesTexPaths, TextureType type)
+    Texture3D::Texture3D(const std::unordered_map<CubeFace, std::string>& faces, TextureType type)
     {
         glGenTextures(1, &textureID);
         glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
-        int width, height, nrChannels;
-        for (int i = 0; auto& faceTexPath: facesTexPaths)
+        stbi_set_flip_vertically_on_load(1);
+        int width, height, channels;
+        for (auto& [face, texPath]: faces)
         {
-            unsigned char *data = stbi_load(faceTexPath.c_str(), &width, &height, &nrChannels, 0);
+            unsigned char* data;
 
-            if (data)
-                glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + (i++), 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            if(face == CubeFace::TOP)
+                data = stbi_load(faces.at(CubeFace::BOTTOM).c_str(), &width, &height, &channels, 0);
+            else if(face == CubeFace::BOTTOM)
+                data = stbi_load(faces.at(CubeFace::TOP).c_str(), &width, &height, &channels, 0);
             else
-                SRS_CORE_ASSERT(false, "Cubemap texture failed to load at path: " + faceTexPath)
+                data = stbi_load(texPath.c_str(), &width, &height, &channels, 0);
+
+            if(data)
+                glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + (int)face, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            else
+                SRS_CORE_ASSERT(false, "Cubemap texture failed to load at path: " + texPath)
 
             stbi_image_free(data);
         }
@@ -124,10 +132,12 @@ namespace Sirius
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+        glBindTexture(GL_TEXTURE_3D, 0);
     }
 
     void Texture3D::bind(uint32_t slot) const
     {
-        glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+        glBindTextureUnit(slot, textureID);
     }
 }

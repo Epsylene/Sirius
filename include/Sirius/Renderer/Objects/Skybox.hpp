@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "Sirius/Renderer/Objects/PrefabMeshes.h"
+#include "Sirius/Renderer/Objects/PrefabMeshes.hpp"
 
 namespace Sirius
 {
@@ -12,6 +12,6 @@ namespace Sirius
             Cube cube;
             Texture3D texture;
 
-            explicit Skybox(const std::array<std::string, 6>& facesTexPaths);
+            explicit Skybox(const std::unordered_map<CubeFace, std::string>& facesTexPaths);
     };
 }

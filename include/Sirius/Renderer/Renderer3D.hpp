@@ -44,7 +44,7 @@ namespace Sirius
             /// @brief Draw the model at `pos` and with `size`
             static void drawModel(const Ref<Model>& model, const Vec3& pos = {}, const Vec3& size = Vec3(1.f), bool outline = true);
 
-            static void setSkybox(const Ref<Skybox>& skybox);
+            static void setSkybox(const std::unordered_map<CubeFace, std::string>& skybox);
 
             static void drawSkybox();
 

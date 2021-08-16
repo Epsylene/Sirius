@@ -4,7 +4,7 @@
 
 #include "Sirius/Renderer/RenderCommand.hpp"
 #include "Sirius/Renderer/Utils/Shader.hpp"
-#include "Sirius/Renderer/Objects/PrefabMeshes.h"
+#include "Sirius/Renderer/Objects/PrefabMeshes.hpp"
 
 #include "Sirius/Core/Input.hpp"
 #include "Sirius/Core/MouseButtonCodes.h"
@@ -33,6 +33,16 @@ namespace Sirius
         data->shaderLib.load("../../app/res/shaders/texture.glsl");
         data->shaderLib.load("../../app/res/shaders/flat_texture.glsl");
         data->shaderLib.load("../../app/res/shaders/skybox.glsl");
+
+        std::unordered_map<Sirius::CubeFace, std::string> skybox =
+                {{Sirius::CubeFace::RIGHT, "../../app/res/textures/skybox/right.jpg"},
+                 {Sirius::CubeFace::LEFT, "../../app/res/textures/skybox/left.jpg"},
+                 {Sirius::CubeFace::BOTTOM, "../../app/res/textures/skybox/bottom.jpg"},
+                 {Sirius::CubeFace::TOP, "../../app/res/textures/skybox/top.jpg"},
+                 {Sirius::CubeFace::BACK, "../../app/res/textures/skybox/back.jpg"},
+                 {Sirius::CubeFace::FRONT, "../../app/res/textures/skybox/front.jpg"}};
+
+        setSkybox(skybox);
     }
 
     void Renderer3D::shutdown()
@@ -212,25 +222,24 @@ namespace Sirius
         }
     }
 
-    void Renderer3D::setSkybox(const Ref<Skybox>& skybox)
+    void Renderer3D::setSkybox(const std::unordered_map<CubeFace, std::string>& skybox)
     {
-        if(skybox)
-            data->skybox = skybox;
-        else
-            SRS_CORE_ASSERT(false, "No data in skybox");
+        data->skybox = std::make_shared<Skybox>(skybox);
     }
 
     void Renderer3D::drawSkybox()
     {
-        RenderCommand::setFaceCulling(false);
-        data->shaderLib["skybox"]->bind();
+        if(data->skybox)
+        {
+            RenderCommand::setFaceCulling(false);
+            data->shaderLib["skybox"]->bind();
 
-        data->skybox->texture.bind();
-        data->shaderLib["skybox"]->uploadUniformInt("u_skybox", 0);
+            data->skybox->texture.bind();
+            data->shaderLib["skybox"]->uploadUniformInt("u_skybox", 0);
 
-        auto va = data->skybox->cube.meshes.begin()->vertexArray;
-        va->bind();
-        RenderCommand::drawIndexed(va);
-        RenderCommand::setFaceCulling(true);
+            data->skybox->cube.meshes.begin()->vertexArray->bind();
+            RenderCommand::drawIndexed(data->skybox->cube.meshes.begin()->vertexArray);
+            RenderCommand::setFaceCulling(true);
+        }
     }
 }

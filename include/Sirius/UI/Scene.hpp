@@ -54,6 +54,7 @@ namespace Sirius
             /// @brief Draw a model in the scene
             static void drawModel(const Ref<Model>& model, const Vec3& pos = {}, const Vec3& size = Vec3(1.f));
 
-            static void setSkybox(const Ref<Skybox>& skybox);
+            static void setSkybox(
+                    const std::unordered_map<CubeFace, std::string>& skybox);
     };
 }

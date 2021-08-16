@@ -58,13 +58,19 @@ namespace Sirius
             virtual void bind(uint32_t slot = 0) const override;
     };
 
+    enum class CubeFace
+    {
+        RIGHT = 0, LEFT, TOP, BOTTOM, FRONT, BACK,
+        POSX = 0, NEGX, POSY, NEGY, POSZ, NEGZ
+    };
+
     class Texture3D: public Texture
     {
         public:
 
             uint32_t width, height;
 
-            Texture3D(const std::array<std::string, 6>& facesTexPaths, TextureType type);
+            Texture3D(const std::unordered_map<CubeFace, std::string>& faces, TextureType type);
 
             virtual void bind(uint32_t slot = 0) const override;
     };

@@ -13,7 +13,7 @@
 #include "Sirius/Renderer/Objects/CameraController.hpp"
 #include "Sirius/Renderer/Objects/Model.hpp"
 #include "Sirius/UI/Scene.hpp"
-#include "Sirius/UI/Panels.h"
+#include "Sirius/UI/Panels.hpp"
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
