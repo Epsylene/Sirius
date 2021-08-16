@@ -43,9 +43,12 @@ namespace Sirius
         glDeleteProgram(shaderID);
     }
 
+    std::string path;
+
     std::string Shader::readFile(const std::string& filepath)
     {
         std::string result;
+        path = filepath;
         std::ifstream file(filepath, std::ios::binary);
 
         if(file)
@@ -127,8 +130,8 @@ namespace Sirius
 
                 glDeleteShader(shader);
 
-                Log::coreError("{0}", infoLog.data());
-                Log::coreError("{0} shader compilation failure !", type);
+                Log::coreError("Shader {} at \"" + path + "\" compilation failure !", type);
+                Log::coreError("{}", infoLog.data());
                 return;
             }
 
@@ -167,7 +170,7 @@ namespace Sirius
         }
     }
 
-    const std::string& Shader::getName()
+    const std::string& Shader::getName() const
     {
         return name;
     }
@@ -213,8 +216,7 @@ namespace Sirius
         glUniform2f(location, val.x, val.y);
     }
 
-    void Shader::uploadUniformFloat3(const std::string& name,
-                                     const Vec3& val)
+    void Shader::uploadUniformFloat3(const std::string& name, const Vec3& val)
     {
         GLint location = glGetUniformLocation(shaderID, name.c_str());
         glUniform3f(location, val.x, val.y, val.z);

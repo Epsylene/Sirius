@@ -108,6 +108,7 @@ namespace Sirius
 
     void ImGuiLayer::onEvent(Event& event)
     {
-        Scene::controller->onEvent(event);
+        if(Scene::properties.active)
+            Scene::data.controller->onEvent(event);
     }
 }

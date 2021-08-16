@@ -9,13 +9,22 @@
 
 namespace Sirius
 {
-    std::vector<Ref<Model>> Scene::models {};
-    Ref<CameraController3D> Scene::controller {};
     SceneProperties Scene::properties {};
+    SceneData Scene::data {};
 
     void Scene::init()
     {
-        controller = std::make_shared<CameraController3D>();
+        data.controller = std::make_shared<CameraController3D>();
+
+        std::unordered_map<Sirius::CubeFace, std::string> skybox =
+                {{Sirius::CubeFace::RIGHT, "../../app/res/textures/skybox/right.jpg"},
+                 {Sirius::CubeFace::LEFT, "../../app/res/textures/skybox/left.jpg"},
+                 {Sirius::CubeFace::BOTTOM, "../../app/res/textures/skybox/bottom.jpg"},
+                 {Sirius::CubeFace::TOP, "../../app/res/textures/skybox/top.jpg"},
+                 {Sirius::CubeFace::BACK, "../../app/res/textures/skybox/back.jpg"},
+                 {Sirius::CubeFace::FRONT, "../../app/res/textures/skybox/front.jpg"}};
+
+        data.skybox = std::make_shared<Skybox>(skybox);
     }
 
     void Scene::render()
@@ -31,45 +40,32 @@ namespace Sirius
         vMax.y += ImGui::GetWindowPos().y;
 
         ImVec2 panelSize = ImGui::GetContentRegionAvail();
-        controller->setAspect(panelSize.x / panelSize.y);
+        data.controller->setAspect(panelSize.x / panelSize.y);
         auto& tex = Renderer::sceneData->postRenderFBO->colorBuffer;
         ImGui::Image(reinterpret_cast<void*>(tex.textureID), panelSize, ImVec2(0, 1), ImVec2(1, 0));
 
         properties.pos = { vMin.x, vMin.y };
         properties.size = { panelSize.x, panelSize.y };
 
-        ImGui::End();
-    }
-
-    void Scene::drawModel(const Ref<Model>& model, const Vec3& pos, const Vec3& size)
-    {
         auto p0 = properties.pos, p1 = properties.pos + properties.size;
+        properties.active = Input::mouseInArea(p0, p1, true) && !PropertiesPanel::browserOpened();
 
-        if(Input::mouseInArea(p0, p1, true) && !PropertiesPanel::browserOpened())
-            Renderer3D::drawModel(model, pos, size, true);
-        else
-            Renderer3D::drawModel(model, pos, size, false);
+        ImGui::End();
     }
 
     void Scene::onUpdate(Timestep dt)
     {
-        Renderer3D::beginScene(controller->getCamera());
+        Renderer3D::beginScene(data.controller->getCamera());
 
-        auto p0 = properties.pos, p1 = properties.pos + properties.size;
-        if(Input::mouseInArea(p0, p1, true) && !PropertiesPanel::browserOpened())
-            controller->onUpdate(dt);
+        if(properties.active)
+            data.controller->onUpdate(dt);
 
-        for (auto& model: models)
-            Scene::drawModel(model);
+        for (auto& model: data.models)
+            Renderer3D::drawModel(model, DrawMode::TEXTURE);
 
         if(!properties.wireframe)
             Renderer3D::drawSkybox();
 
         Renderer3D::endScene();
-    }
-
-    void Scene::setSkybox(const std::unordered_map<CubeFace, std::string>& skybox)
-    {
-        Renderer3D::setSkybox(skybox);
     }
 }

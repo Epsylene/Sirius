@@ -9,8 +9,7 @@ class ExampleLayer: public Sirius::Layer
         Sirius::PointLight ptLight {{2.f, 0.f, 0.f}, 60.f};
         Sirius::DirectionalLight dirLight {{1.f, 0.f, 0.f}};
 
-        Sirius::Ref<Sirius::Model> cylinder, cube;
-        Sirius::Ref<Sirius::Texture2D> tex;
+        Sirius::Ref<Sirius::Model> suzanne;
 
     public:
 
@@ -20,13 +19,13 @@ class ExampleLayer: public Sirius::Layer
             Sirius::Renderer3D::addPointLight(ptLight);
             Sirius::Renderer3D::addPointLight({{2.f, 5.f, 3.f}, 500.f});
 
-            cylinder = std::make_shared<Sirius::Model>("../../app/res/meshes/cylinder/cylinder.obj");
+            suzanne = std::make_shared<Sirius::Model>("../../app/res/meshes/suzanne/suzanne.obj");
         }
 
         void onUpdate(Sirius::Timestep dt) override
         {
             Sirius::Renderer3D::drawEmissionCube({{2.f, 0.f, 1.f}, 500.f});
-            Sirius::Scene::drawModel(cylinder);
+            Sirius::Renderer3D::drawModel(suzanne, Sirius::DrawMode::REFRACTION);
         }
 
         void onImGuiRender() override

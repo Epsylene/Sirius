@@ -12,9 +12,17 @@ namespace Sirius
     struct SceneProperties
     {
         Vec2 pos, size;
+        bool active;
         Color background;
         bool wireframe;
         PostProcessingFlags ppFlag;
+    };
+
+    struct SceneData
+    {
+        std::vector<Ref<Model>> models;
+        Ref<CameraController3D> controller;
+        Ref<Skybox> skybox;
     };
 
     ////////////////////////////////////////////
@@ -29,9 +37,7 @@ namespace Sirius
         public:
 
             static SceneProperties properties;
-
-            static std::vector<Ref<Model>> models;
-            static Ref<CameraController3D> controller;
+            static SceneData data;
 
             Scene() = delete;
 
@@ -49,12 +55,5 @@ namespace Sirius
             ///////////////////////////
             /// @brief Update the scene
             static void onUpdate(Timestep dt);
-
-            ////////////////////////////////////
-            /// @brief Draw a model in the scene
-            static void drawModel(const Ref<Model>& model, const Vec3& pos = {}, const Vec3& size = Vec3(1.f));
-
-            static void setSkybox(
-                    const std::unordered_map<CubeFace, std::string>& skybox);
     };
 }

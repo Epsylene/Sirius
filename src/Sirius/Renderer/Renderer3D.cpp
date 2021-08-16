@@ -15,7 +15,6 @@ namespace Sirius
     {
         uint16_t ptLightNb = 0;
         Ref<Cube> emissionCube;
-        Ref<Skybox> skybox;
 
         ShaderLibrary shaderLib;
     };
@@ -33,16 +32,8 @@ namespace Sirius
         data->shaderLib.load("../../app/res/shaders/texture.glsl");
         data->shaderLib.load("../../app/res/shaders/flat_texture.glsl");
         data->shaderLib.load("../../app/res/shaders/skybox.glsl");
-
-        std::unordered_map<Sirius::CubeFace, std::string> skybox =
-                {{Sirius::CubeFace::RIGHT, "../../app/res/textures/skybox/right.jpg"},
-                 {Sirius::CubeFace::LEFT, "../../app/res/textures/skybox/left.jpg"},
-                 {Sirius::CubeFace::BOTTOM, "../../app/res/textures/skybox/bottom.jpg"},
-                 {Sirius::CubeFace::TOP, "../../app/res/textures/skybox/top.jpg"},
-                 {Sirius::CubeFace::BACK, "../../app/res/textures/skybox/back.jpg"},
-                 {Sirius::CubeFace::FRONT, "../../app/res/textures/skybox/front.jpg"}};
-
-        setSkybox(skybox);
+        data->shaderLib.load("../../app/res/shaders/reflection.glsl");
+        data->shaderLib.load("../../app/res/shaders/refraction.glsl");
     }
 
     void Renderer3D::shutdown()
@@ -54,23 +45,28 @@ namespace Sirius
     {
         for (auto& [name, shader]: data->shaderLib)
         {
+            shader->bind();
+
             if(name == "skybox")
             {
-                shader->bind();
                 auto [view, proj] = camera.getViewAndProjMatrices();
                 view = Mat4(Mat3(view));
                 view[3][3] = 1.f;
-                shader->uploadUniformMat4("u_viewProj", proj * view * scale(5.f));
+                shader->uploadUniformMat4("u_viewProj", proj * view * scale(100.f));
             }
             else
             {
-                shader->bind();
                 shader->uploadUniformMat4("u_viewProj", camera.getViewProjMatrix());
             }
 
             if(name == "flat_color" || name == "texture")
                 shader->uploadUniformFloat3("u_viewDir", camera.getDirection());
         }
+
+        data->shaderLib["reflection"]->bind();
+        data->shaderLib["reflection"]->uploadUniformFloat3("u_cameraPos", camera.getPosition());
+        data->shaderLib["refraction"]->bind();
+        data->shaderLib["refraction"]->uploadUniformFloat3("u_cameraPos", camera.getPosition());
     }
 
     void Renderer3D::endScene()
@@ -153,45 +149,72 @@ namespace Sirius
         RenderCommand::drawIndexed(emissionCubeVA);
     }
 
-    void Renderer3D::drawModel(const Ref<Model>& model, const Vec3& pos, const Vec3& size, bool outline)
+    void Renderer3D::drawModel(const Ref<Model>& model, DrawMode mode, const Vec3& pos, const Vec3& size, bool outline)
     {
-        auto& textureShader = data->shaderLib["texture"];
-        auto& emissionShader = data->shaderLib["emission"];
-
-        textureShader->bind();
         Mat4 transform = translate(pos) * scale(size);
-        textureShader->uploadUniformMat4("u_transform", transform);
-        textureShader->uploadUniformMat4("u_normalMat", transpose(inverse(transform)));
 
-        for (auto& mesh: model->meshes)
+        if(mode == DrawMode::TEXTURE)
         {
-            for (auto& tex: mesh.textures)
+            auto& textureShader = data->shaderLib["texture"];
+
+            textureShader->bind();
+            textureShader->uploadUniformMat4("u_transform", transform);
+            textureShader->uploadUniformMat4("u_normalMat", transpose(inverse(transform)));
+
+            for (auto& mesh: model->meshes)
             {
-                switch (tex->type)
+                for (auto& tex: mesh.textures)
                 {
-                    case TextureType::None:
-                        break;
+                    switch (tex->type)
+                    {
+                        case TextureType::None:
+                            break;
 
-                    case TextureType::Diffuse:
-                        tex->bind(0);
-                        textureShader->uploadUniformInt("material.diffuse", 0);
-                        break;
+                        case TextureType::Diffuse:
+                            tex->bind(0);
+                            textureShader->uploadUniformInt("material.diffuse", 0);
+                            break;
 
-                    case TextureType::Specular:
-                        tex->bind(1);
-                        textureShader->uploadUniformInt("material.specular", 1);
-                        break;
+                            case TextureType::Specular:
+                                tex->bind(1);
+                                textureShader->uploadUniformInt("material.specular", 1);
+                                break;
 
-                    case TextureType::Ambient:
-                        tex->bind(2);
-                        textureShader->uploadUniformInt("material.ambient", 2);
-                        break;
+                                case TextureType::Ambient:
+                                    tex->bind(2);
+                                    textureShader->uploadUniformInt("material.ambient", 2);
+                                    break;
+                    }
                 }
             }
 
             textureShader->uploadUniformFloat("material.shininess", 32.f);
+        }
+        else if(mode == DrawMode::REFLECTION)
+        {
+            auto& reflectionShader = data->shaderLib["reflection"];
+            reflectionShader->bind();
+            reflectionShader->uploadUniformMat4("u_transform", transform);
+            reflectionShader->uploadUniformMat4("u_normalMat", transpose(inverse(transform)));
 
-            if(Input::isMouseButtonPressed(SRS_MOUSE_BUTTON_1) && outline)
+            Scene::data.skybox->texture.bind(0);
+            reflectionShader->uploadUniformInt("u_skybox", 0);
+        }
+        else if(mode == DrawMode::REFRACTION)
+        {
+            auto& refractionShader = data->shaderLib["refraction"];
+            refractionShader->bind();
+            refractionShader->uploadUniformMat4("u_transform", transform);
+            refractionShader->uploadUniformMat4("u_normalMat", transpose(inverse(transform)));
+
+            Scene::data.skybox->texture.bind(0);
+            refractionShader->uploadUniformInt("u_skybox", 0);
+        }
+
+        auto& emissionShader = data->shaderLib["emission"];
+        for (auto& mesh: model->meshes)
+        {
+            if(Input::isMouseButtonPressed(SRS_MOUSE_BUTTON_1) && outline && Scene::properties.active)
             {
                 glStencilFunc(GL_ALWAYS, 1, 0xFF);
                 glStencilMask(0xFF);
@@ -201,7 +224,6 @@ namespace Sirius
 
                 glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
                 glStencilMask(0x00);
-                glDisable(GL_DEPTH_TEST);
 
                 emissionShader->bind();
                 emissionShader->uploadUniformFloat3("u_color", {0.9f, 0.56f, 0.f});
@@ -212,7 +234,6 @@ namespace Sirius
 
                 glStencilMask(0xFF);
                 glStencilFunc(GL_ALWAYS, 1, 0xFF);
-                glEnable(GL_DEPTH_TEST);
             }
             else
             {
@@ -222,24 +243,16 @@ namespace Sirius
         }
     }
 
-    void Renderer3D::setSkybox(const std::unordered_map<CubeFace, std::string>& skybox)
-    {
-        data->skybox = std::make_shared<Skybox>(skybox);
-    }
-
     void Renderer3D::drawSkybox()
     {
-        if(data->skybox)
-        {
-            RenderCommand::setFaceCulling(false);
-            data->shaderLib["skybox"]->bind();
+        RenderCommand::setFaceCulling(false);
 
-            data->skybox->texture.bind();
-            data->shaderLib["skybox"]->uploadUniformInt("u_skybox", 0);
+        data->shaderLib["skybox"]->bind();
+        Scene::data.skybox->texture.bind();
+        data->shaderLib["skybox"]->uploadUniformInt("u_skybox", 0);
+        Scene::data.skybox->cube.meshes.begin()->vertexArray->bind();
+        RenderCommand::drawIndexed(Scene::data.skybox->cube.meshes.begin()->vertexArray);
 
-            data->skybox->cube.meshes.begin()->vertexArray->bind();
-            RenderCommand::drawIndexed(data->skybox->cube.meshes.begin()->vertexArray);
-            RenderCommand::setFaceCulling(true);
-        }
+        RenderCommand::setFaceCulling(true);
     }
 }

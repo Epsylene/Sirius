@@ -56,7 +56,7 @@ namespace Sirius
 
             ////////////////////////////////
             /// @brief Get the shader's name
-            const std::string& getName();
+            const std::string& getName() const;
 
             //////////////////////////////////
             /// @brief Bind the shader program

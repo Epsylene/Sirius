@@ -58,7 +58,7 @@ namespace Sirius
         {
             auto filePath = meshBrowser.GetSelected().string();
             std::ranges::replace(filePath, '\\', '/');
-            Scene::models.emplace_back(std::make_shared<Model>(filePath));
+            Scene::data.models.emplace_back(std::make_shared<Model>(filePath));
 
             meshBrowser.ClearSelected();
         }
@@ -88,7 +88,7 @@ namespace Sirius
                     skybox[CubeFace::BACK] = filePath.string();
             }
 
-            Scene::setSkybox(skybox);
+            Scene::data.skybox = std::make_shared<Skybox>(skybox);
             skyboxBrowser.ClearSelected();
         }
 

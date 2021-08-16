@@ -11,6 +11,11 @@
 
 namespace Sirius
 {
+    enum class DrawMode
+    {
+        TEXTURE, REFLECTION, REFRACTION
+    };
+
     ////////////////////////////
     /// @brief 3D renderer class
     class Renderer3D
@@ -42,10 +47,10 @@ namespace Sirius
 
             //////////////////////////////////////////////////
             /// @brief Draw the model at `pos` and with `size`
-            static void drawModel(const Ref<Model>& model, const Vec3& pos = {}, const Vec3& size = Vec3(1.f), bool outline = true);
+            static void drawModel(const Ref <Model>& model, DrawMode mode, const Vec3& pos = {}, const Vec3& size = Vec3(1.f), bool outline = true);
 
-            static void setSkybox(const std::unordered_map<CubeFace, std::string>& skybox);
-
+            ////////////////////////////////
+            /// @brief Draw the scene skybox
             static void drawSkybox();
 
             ////////////////////////////
