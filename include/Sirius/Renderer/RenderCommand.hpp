@@ -7,11 +7,18 @@
 
 namespace Sirius
 {
-    enum ClearFlags: uint32_t
+    enum ClearBuffers: uint32_t
     {
         COLOR_BUFFER = GL_COLOR_BUFFER_BIT,
         DEPTH_BUFFER = GL_DEPTH_BUFFER_BIT,
         STENCIL_BUFFER = GL_STENCIL_BUFFER_BIT
+    };
+
+    enum class Primitives
+    {
+        TRIANGLES = GL_TRIANGLES,
+        POINTS = GL_POINTS,
+        LINES = GL_LINES
     };
 
     ////////////////////////////////////////////////////
@@ -59,6 +66,6 @@ namespace Sirius
 
             ////////////////////////////////
             /// @brief Draw the vertex array
-            static void drawIndexed(const Ref<VertexArray>& vertexArray);
+            static void drawIndexed(const Ref <VertexArray>& vertexArray, Primitives drawPrimitive = Primitives::TRIANGLES);
     };
 }

@@ -146,7 +146,7 @@ namespace Sirius
 
         auto& emissionCubeVA = data->emissionCube->meshes.begin()->vertexArray;
         emissionCubeVA->bind();
-        RenderCommand::drawIndexed(emissionCubeVA);
+        RenderCommand::drawIndexed(emissionCubeVA, Primitives::TRIANGLES);
     }
 
     void Renderer3D::drawModel(const Ref<Model>& model, DrawMode mode, const Vec3& pos, const Vec3& size, bool outline)
@@ -220,7 +220,7 @@ namespace Sirius
                 glStencilMask(0xFF);
 
                 mesh.vertexArray->bind();
-                RenderCommand::drawIndexed(mesh.vertexArray);
+                RenderCommand::drawIndexed(mesh.vertexArray, Primitives::TRIANGLES);
 
                 glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
                 glStencilMask(0x00);
@@ -230,7 +230,7 @@ namespace Sirius
                 emissionShader->uploadUniformMat4("u_transform", translate(pos) * scale(size * 1.05f));
 
                 mesh.vertexArray->bind();
-                RenderCommand::drawIndexed(mesh.vertexArray);
+                RenderCommand::drawIndexed(mesh.vertexArray, Primitives::TRIANGLES);
 
                 glStencilMask(0xFF);
                 glStencilFunc(GL_ALWAYS, 1, 0xFF);
@@ -251,7 +251,9 @@ namespace Sirius
         Scene::data.skybox->texture.bind();
         data->shaderLib["skybox"]->uploadUniformInt("u_skybox", 0);
         Scene::data.skybox->cube.meshes.begin()->vertexArray->bind();
-        RenderCommand::drawIndexed(Scene::data.skybox->cube.meshes.begin()->vertexArray);
+        RenderCommand::drawIndexed(
+                Scene::data.skybox->cube.meshes.begin()->vertexArray,
+                Primitives::TRIANGLES);
 
         RenderCommand::setFaceCulling(true);
     }

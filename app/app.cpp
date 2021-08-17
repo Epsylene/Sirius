@@ -25,7 +25,7 @@ class ExampleLayer: public Sirius::Layer
         void onUpdate(Sirius::Timestep dt) override
         {
             Sirius::Renderer3D::drawEmissionCube({{2.f, 0.f, 1.f}, 500.f});
-            Sirius::Renderer3D::drawModel(suzanne, Sirius::DrawMode::REFRACTION);
+            Sirius::Renderer3D::drawModel(suzanne, Sirius::DrawMode::REFLECTION);
         }
 
         void onImGuiRender() override

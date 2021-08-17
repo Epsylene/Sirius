@@ -5,6 +5,7 @@
 #include "Sirius/Core/Core.hpp"
 #include "Sirius/Renderer/Utils/Texture.hpp"
 #include "Sirius/Renderer/Renderer3D.hpp"
+#include "Sirius/Core/Application.hpp"
 
 namespace Sirius
 {
@@ -99,12 +100,8 @@ namespace Sirius
 
             ImGui::Combo("Postprocessing", &selectedFlag, &ppFlagsStrs[0], ppFlagsStrs.size());
             Scene::properties.ppFlag = PostProcessingFlags(selectedFlag);
+            ImGui::SliderFloat("Separator", &Scene::properties.ppSeparator, 0.f, (float)Application::get().getWindow().getWidth());
         }
         ImGui::End();
-    }
-
-    bool PropertiesPanel::browserOpened()
-    {
-        return (meshBrowser.IsOpened() || skyboxBrowser.IsOpened());
     }
 }

@@ -11,11 +11,11 @@ namespace Sirius
 {
     struct SceneProperties
     {
-        Vec2 pos, size;
         bool active;
         Color background;
         bool wireframe;
         PostProcessingFlags ppFlag;
+        float ppSeparator;
     };
 
     struct SceneData
@@ -45,7 +45,7 @@ namespace Sirius
             /// @brief Initialize the scene
             static void init();
 
-            ///////////////////////////////////////
+            ////////////////////////////////////////
             /// @brief Render the ImGui scene panel
             ///
             /// The rendered color buffer is applied

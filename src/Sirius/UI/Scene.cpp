@@ -14,6 +14,8 @@ namespace Sirius
 
     void Scene::init()
     {
+        properties.ppSeparator = (float)Application::get().getWindow().getWidth() / 2.f;
+
         data.controller = std::make_shared<CameraController3D>();
 
         std::unordered_map<Sirius::CubeFace, std::string> skybox =
@@ -31,24 +33,12 @@ namespace Sirius
     {
         ImGui::Begin("Scene");
 
-        ImVec2 vMin = ImGui::GetWindowContentRegionMin();
-        ImVec2 vMax = ImGui::GetWindowContentRegionMax();
-
-        vMin.x += ImGui::GetWindowPos().x;
-        vMin.y += ImGui::GetWindowPos().y;
-        vMax.x += ImGui::GetWindowPos().x;
-        vMax.y += ImGui::GetWindowPos().y;
-
         ImVec2 panelSize = ImGui::GetContentRegionAvail();
         data.controller->setAspect(panelSize.x / panelSize.y);
         auto& tex = Renderer::sceneData->postRenderFBO->colorBuffer;
         ImGui::Image(reinterpret_cast<void*>(tex.textureID), panelSize, ImVec2(0, 1), ImVec2(1, 0));
 
-        properties.pos = { vMin.x, vMin.y };
-        properties.size = { panelSize.x, panelSize.y };
-
-        auto p0 = properties.pos, p1 = properties.pos + properties.size;
-        properties.active = Input::mouseInArea(p0, p1, true) && !PropertiesPanel::browserOpened();
+        properties.active = ImGui::IsWindowHovered();
 
         ImGui::End();
     }

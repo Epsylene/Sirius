@@ -26,9 +26,5 @@ namespace Sirius
             ///////////////////////////
             /// @brief Render the panel
             static void render();
-
-            //////////////////////////////////////////////////
-            /// @brief Returns whether a broser window is open
-            static bool browserOpened();
     };
 }

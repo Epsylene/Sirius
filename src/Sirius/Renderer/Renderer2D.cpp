@@ -83,7 +83,7 @@ namespace Sirius
         data->emissionShader->uploadUniformMat4("u_transform", transform);
 
         data->quadVA->bind();
-        RenderCommand::drawIndexed(data->quadVA);
+        RenderCommand::drawIndexed(data->quadVA, Primitives::TRIANGLES);
     }
 
     void Renderer2D::drawQuad(const Vec2& pos, const Vec2& size,
@@ -103,6 +103,6 @@ namespace Sirius
         texture->bind();
 
         data->quadVA->bind();
-        RenderCommand::drawIndexed(data->quadVA);
+        RenderCommand::drawIndexed(data->quadVA, Primitives::TRIANGLES);
     }
 }

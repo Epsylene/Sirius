@@ -56,9 +56,10 @@ namespace Sirius
         frameBuffer->colorBuffer.bind(0);
         sceneData->postprocess->uploadUniformInt("u_screenTex", 0);
         sceneData->postprocess->uploadUniformMat4("u_transform", transform);
+        sceneData->postprocess->uploadUniformFloat("u_separator", Scene::properties.ppSeparator);
 
         sceneData->quad->bind();
-        RenderCommand::drawIndexed(sceneData->quad);
+        RenderCommand::drawIndexed(sceneData->quad, Primitives::TRIANGLES);
     }
 
     void Renderer::setPostProcessing(PostProcessingFlags flags)
