@@ -1,22 +1,29 @@
 
 #type vertex
-#version 330 core
+#version 420 core
 
 layout (location = 0) in vec3 a_position;
 
 out vec3 v_texCoords;
 
-uniform mat4 u_viewProj;
+layout (std140, binding = 0) uniform CameraData
+{
+    mat4 u_viewProj;
+    vec3 u_viewDir;
+    vec3 u_cameraPos;
+};
+
+uniform mat4 u_transform;
 
 void main()
 {
     v_texCoords = -a_position;
-    vec4 pos = u_viewProj * vec4(a_position, 1.0);
-    gl_Position = pos.xyww;
+    vec4 pos = u_viewProj * u_transform * vec4(a_position, 1.0);
+    gl_Position = pos.xyzw;
 }
 
 #type fragment
-#version 330 core
+#version 420 core
 
 layout(location = 0) out vec4 color;
 

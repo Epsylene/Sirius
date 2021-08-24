@@ -36,7 +36,7 @@ namespace Sirius
 
             struct SceneData
             {
-                Scope<FrameBuffer> preRenderFBO, postRenderFBO;
+                Scope<FrameBuffer> renderFBO, postRenderFBO;
                 Ref<Shader> postprocess;
                 Ref<VertexArray> quad;
             };
@@ -58,8 +58,20 @@ namespace Sirius
             ///     framebuffer color buffer
             static void applyPostProcessing(const Scope<FrameBuffer>& frameBuffer, const Matrix4f& transform = identity<4>());
 
+            //////////////////////////////////////////////
+            /// @brief Performs pre-rendering tasks
+            ///
+            /// Binds the render FBO, activates the depth
+            /// test and sets the wireframe mode and scene
+            /// background color.
             static void preRender();
 
+            /////////////////////////////////////////////////
+            /// @brief Performs post-rendering tasks
+            ///
+            /// Applies the postprocessing on the render FBO,
+            /// and binds that to the post-render FBO, that
+            /// is drawn on the ImGui "Scene" panel.
             static void postRender();
     };
 }

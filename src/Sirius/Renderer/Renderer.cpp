@@ -29,7 +29,7 @@ namespace Sirius
         Renderer3D::init();
 
         auto& window = Application::get().getWindow();
-        sceneData->preRenderFBO = std::make_unique<FrameBuffer>(window.getWidth(), window.getHeight());
+        sceneData->renderFBO = std::make_unique<FrameBuffer>(window.getWidth(), window.getHeight());
         sceneData->postRenderFBO = std::make_unique<FrameBuffer>(window.getWidth(), window.getHeight());
 
         float vertices[] = { -1.f,  1.f,  0.f, 1.f,
@@ -39,8 +39,8 @@ namespace Sirius
         std::vector<uint32_t> indices = {0, 1, 2, 2, 1, 3};
 
         auto vb = std::make_shared<VertexBuffer>(vertices, sizeof(vertices));
-        vb->setLayout({ {ShaderDataType::Float2, "a_position"},
-                        {ShaderDataType::Float2, "a_texture"} });
+        vb->setLayout({{DataType::Float2, "a_position"},
+                       {DataType::Float2, "a_texture"}});
         auto ib = std::make_shared<IndexBuffer>(indices);
 
         sceneData->quad = std::make_shared<VertexArray>(vb, ib);
@@ -87,7 +87,7 @@ namespace Sirius
 
     void Renderer::preRender()
     {
-        sceneData->preRenderFBO->bind();
+        sceneData->renderFBO->bind();
         RenderCommand::setDepthTest(true);
         RenderCommand::setClearColor(Scene::properties.background);
         RenderCommand::clear();
@@ -97,14 +97,14 @@ namespace Sirius
     void Renderer::postRender()
     {
         RenderCommand::setWireframeMode(false);
-        sceneData->preRenderFBO->unbind();
+        sceneData->renderFBO->unbind();
         RenderCommand::setDepthTest(false);
         RenderCommand::setClearColor(Color::White);
         RenderCommand::clear(COLOR_BUFFER);
         Renderer::setPostProcessing(Scene::properties.ppFlag);
 
         sceneData->postRenderFBO->bind();
-        applyPostProcessing(sceneData->preRenderFBO);
+        applyPostProcessing(sceneData->renderFBO);
         sceneData->postRenderFBO->unbind();
     }
 }

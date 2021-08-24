@@ -32,8 +32,8 @@ namespace Sirius
         auto vertexBuffer = std::make_shared<VertexBuffer>(vertices, sizeof(vertices));
 
         vertexBuffer->setLayout({
-            { ShaderDataType::Float3, "a_position" },
-            { ShaderDataType::Float2, "a_texCoord" }});
+            {DataType::Float3, "a_position" },
+            {DataType::Float2, "a_texCoord" }});
         data->quadVA->addVertexBuffer(vertexBuffer);
 
         unsigned int indices[6] = {0, 1, 2, 2, 3, 0};

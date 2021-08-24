@@ -1,23 +1,32 @@
 
 #type vertex
-#version 330 core
+#version 420 core
 
 layout(location = 0) in vec3 a_position;
 layout(location = 1) in vec3 a_normal;
 layout(location = 2) in vec2 a_texCoord;
 layout(location = 3) in vec4 a_vtxCoord;
 
-uniform mat4 u_viewProj;
+layout (std140, binding = 0) uniform CameraData
+{
+    mat4 u_viewProj;
+    vec3 u_viewDir;
+    vec3 u_cameraPos;
+};
+
 uniform mat4 u_transform;
 uniform mat4 u_normalMat;
 
 out vec2 v_texCoord;
 out vec3 v_normal;
 out vec3 v_fragPos;
+out vec3 v_viewDir;
 
 void main()
 {
     v_texCoord = a_texCoord;
+    v_viewDir = u_viewDir;
+
     gl_Position = u_viewProj * u_transform * vec4(a_position, 1.0);
     v_fragPos = vec3(u_transform * vec4(a_position, 1.0));
     v_normal = mat3(u_normalMat) * a_normal;
@@ -25,7 +34,7 @@ void main()
 
 
 #type fragment
-#version 330 core
+#version 420 core
 
 layout(location = 0) out vec4 color;
 
@@ -46,7 +55,6 @@ struct PointLight
 {
     vec3 ambient;
     vec3 diffuse;
-
     vec3 pos;
     float attDistance;
 };
@@ -55,29 +63,48 @@ struct DirectionalLight
 {
     vec3 ambient;
     vec3 diffuse;
-
     vec3 dir;
 };
 
 struct Spotlight
 {
-    vec3 ambient;
     vec3 diffuse;
-
-    vec3 pos, dir;
-    float cosInCutoff, cosOutCutoff, attDistance;
+    float cosInCutoff;
+    vec3 pos;
+    float cosOutCutoff;
+    vec3 ambient;
+    float attDistance;
+    vec3 dir;
 };
 
-uniform Material material;
-uniform PointLight ptLights[10];
-uniform DirectionalLight dirLight;
-uniform Spotlight spotlight;
+//layout (std140, binding = 2) uniform LightData
+//{
+//    PointLight ptLights[10];
+//    DirectionalLight dirLight;
+//    Spotlight spotlight;
+//} u_lightData;
 
-uniform vec3 u_viewDir;
+layout (std140, binding = 1) uniform DirLightData
+{
+    DirectionalLight dirLight;
+} u_dirLightData;
+
+layout (std140, binding = 2) uniform SpotlightData
+{
+    Spotlight spotlight;
+} u_spotlightData;
+
+layout (std140, binding = 3) uniform PointLightsData
+{
+    PointLight ptLights[10];
+} u_ptLightData;
+
+uniform Material material;
 
 in vec2 v_texCoord;
 in vec3 v_normal;
 in vec3 v_fragPos;
+in vec3 v_viewDir;
 
 vec4 getPointLightColor(Texture tex, PointLight ptLight, vec3 viewDir, vec3 normal, vec3 fragPos);
 vec4 getDirectionalLightColor(Texture tex, DirectionalLight dirLight, vec3 viewDir, vec3 normal);
@@ -94,15 +121,15 @@ void main()
 
     for(int i = 0; i < 10; i++)
     {
-        ptLightColor += getPointLightColor(tex, ptLights[i], u_viewDir, v_normal, v_fragPos);
+        ptLightColor += getPointLightColor(tex, u_ptLightData.ptLights[i], v_viewDir, v_normal, v_fragPos);
     }
 
-    vec4 dirLightColor = getDirectionalLightColor(tex, dirLight, u_viewDir, v_normal);
-    vec4 spotlightColor = getSpotlightColor(tex, spotlight, u_viewDir, v_normal, v_fragPos);
+    vec4 dirLightColor = getDirectionalLightColor(tex, u_dirLightData.dirLight, v_viewDir, v_normal);
+    vec4 spotlightColor = getSpotlightColor(tex, u_spotlightData.spotlight, v_viewDir, v_normal, v_fragPos);
 
     color = ptLightColor + dirLightColor + spotlightColor;
 
-    //@todo: add those as options when UI is done
+    //@todo: add those as options when UI and model options are done
 //    color = vec4(v_normal, 1.0);
 //    color = vec4(v_texCoord, 1.0, 1.0);
 //    color = vec4(1.0, v_texCoord, 1.0);

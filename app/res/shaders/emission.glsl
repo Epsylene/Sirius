@@ -1,10 +1,16 @@
 
 #type vertex
-#version 330 core
+#version 420 core
 
 layout(location = 0) in vec3 a_position;
 
-uniform mat4 u_viewProj;
+layout (std140, binding = 0) uniform CameraData
+{
+    mat4 u_viewProj;
+    vec3 u_viewDir;
+    vec3 u_cameraPos;
+};
+
 uniform mat4 u_transform;
 
 void main()
@@ -14,7 +20,7 @@ void main()
 
 
 #type fragment
-#version 330 core
+#version 420 core
 
 layout(location = 0) out vec4 color;
 

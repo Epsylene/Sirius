@@ -35,7 +35,7 @@ namespace Sirius
         dir(dir), Light(light)
     {}
 
-    ///////////////////////// DIRECTIONAL LIGHT  ///////////////////////////
+    ///////////////////////// SPOTLIGHT  ///////////////////////////
 
     Spotlight::Spotlight(const Vec3& pos, const Vec3& dir, float attDistance, float cutoff,
                          float epsilon): pos(pos), dir(dir), cutoff(cutoff),

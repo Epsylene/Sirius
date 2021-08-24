@@ -18,10 +18,10 @@ namespace Sirius
         glBindBuffer(GL_ARRAY_BUFFER, bufferID);
         glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
 
-        layout = {{ {ShaderDataType::Float3, "a_pos"},
-                    {ShaderDataType::Float3, "a_normal"},
-                    {ShaderDataType::Float2, "a_texCoord"},
-                    {ShaderDataType::Float4, "a_vtxColor"} }};
+        layout = {{{DataType::Float3, "a_pos"},
+                   {DataType::Float3, "a_normal"},
+                   {DataType::Float2, "a_texCoord"},
+                   {DataType::Float4, "a_vtxColor"}}};
     }
 
     VertexBuffer::~VertexBuffer()
@@ -87,8 +87,7 @@ namespace Sirius
 
     //----------- FRAME BUFFER -----------//
 
-    FrameBuffer::FrameBuffer(uint32_t width, uint32_t height): colorBuffer(width, height),
-                                                               depthStencilBuffer(width, height)
+    FrameBuffer::FrameBuffer(uint32_t width, uint32_t height): colorBuffer(width, height), depthStencilBuffer(width, height)
     {
         glGenFramebuffers(1, &frameBufferID);
         glBindFramebuffer(GL_FRAMEBUFFER, frameBufferID);
@@ -114,5 +113,80 @@ namespace Sirius
     void FrameBuffer::unbind() const
     {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    }
+
+    //----------- UNIFORM BUFFER -----------//
+
+    UniformBuffer::UniformBuffer(const BufferLayout& layout, uint32_t bindingPoint):
+        layout(layout)
+    {
+        auto offset = 0;
+        for (auto& elem: this->layout)
+        {
+            elem.size = 0;
+
+            for (auto& type: elem.types)
+            {
+                if(type == DataType::Float3)
+                    type = DataType::Float4;
+
+                elem.size += dataTypeSize(type);
+            }
+
+            elem.size *= elem.arrayNb;
+
+            elem.offset = offset;
+            offset += elem.size;
+        }
+
+        glGenBuffers(1, &uniformBufferID);
+        glBindBuffer(GL_UNIFORM_BUFFER, uniformBufferID);
+
+        uint32_t allocBytes = 0;
+        for (auto& elem: this->layout)
+            allocBytes += elem.size;
+
+        glBufferData(GL_UNIFORM_BUFFER, allocBytes, nullptr, GL_DYNAMIC_DRAW);
+        glBindBufferRange(GL_UNIFORM_BUFFER, bindingPoint, uniformBufferID, 0, allocBytes);
+        glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    }
+
+    void UniformBuffer::bind() const
+    {
+        glBindBuffer(GL_UNIFORM_BUFFER, uniformBufferID);
+    }
+
+    std::pair<uint32_t, uint32_t> UniformBuffer::calculateSizeAndOffset(const std::string& name) const
+    {
+        for (auto& elem: layout)
+            if(name == elem.name)
+                return {elem.size, elem.offset};
+
+        SRS_CORE_ASSERT(false, "\"" + name + "\" is not an element of the UBO with ID " + std::to_string(uniformBufferID) + ".");
+        return {-1, -1};
+    }
+
+    void UniformBuffer::uploadMat4(const std::string& name, const Mat4& val)
+    {
+        glBindBuffer(GL_UNIFORM_BUFFER, uniformBufferID);
+        auto [size, offset] = calculateSizeAndOffset(name);
+        glBufferSubData(GL_UNIFORM_BUFFER, offset, size, value_ptr(val));
+        glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    }
+
+    void UniformBuffer::uploadFloat3(const std::string& name, const Vec3& val)
+    {
+        glBindBuffer(GL_UNIFORM_BUFFER, uniformBufferID);
+        auto [size, offset] = calculateSizeAndOffset(name);
+        glBufferSubData(GL_UNIFORM_BUFFER, offset, size, &val.x);
+        glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    }
+
+    void UniformBuffer::uploadStruct(const std::string& name, const void* data)
+    {
+        glBindBuffer(GL_UNIFORM_BUFFER, uniformBufferID);
+        auto [size, offset] = calculateSizeAndOffset(name);
+        glBufferSubData(GL_UNIFORM_BUFFER, offset, size, data);
+        glBindBuffer(GL_UNIFORM_BUFFER, 0);
     }
 }

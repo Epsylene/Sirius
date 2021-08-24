@@ -4,6 +4,7 @@
 #include "srspch.hpp"
 #include "Sirius/Core/Core.hpp"
 #include "Sirius/Math/Vector/Vector.hpp"
+#include "Sirius/Math/Matrix/Matrix.hpp"
 #include "Color.hpp"
 #include "Texture.hpp"
 
@@ -12,57 +13,66 @@
 namespace Sirius
 {
     ///////////////////////////////////////////////////////////
-    /// @brief ShaderDataType
+    /// @brief DataType
     ///
     /// This is a helper class, used to build the BufferElement
-    /// objects. Each ShaderDataType represents an abstract type
+    /// objects. Each DataType represents an abstract type
     /// (float, int, bool, etc) which is then provided to OpenGL
     /// as a number of bytes.
     ///
     /// @see BufferLayout
-    enum class ShaderDataType: uint8_t
+    enum class DataType: uint8_t
     {
-            None = 0, Float, Float2, Float3, Float4, Int, Int2, Int3, Int4
+            None = 0,
+            Float, Float2, Float3, Float4,
+            Int, Int2, Int3, Int4,
+            Mat2, Mat4
     };
 
     ////////////////////////////////////////////////////
-    /// @brief Get the ShaderDataType type size in bytes
-    static uint32_t ShaderDataTypeSize(ShaderDataType type)
+    /// @brief Get the DataType type size in bytes
+    static uint32_t dataTypeSize(DataType type)
     {
         switch (type)
         {
-            case ShaderDataType::Float: return 4;
-            case ShaderDataType::Float2: return 4 * 2;
-            case ShaderDataType::Float3: return 4 * 3;
-            case ShaderDataType::Float4: return 4 * 4;
+            case DataType::Float: return 4;
+            case DataType::Float2: return 4 * 2;
+            case DataType::Float3: return 4 * 3;
+            case DataType::Float4: return 4 * 4;
 
-            case ShaderDataType::Int: return 4;
-            case ShaderDataType::Int2: return 4 * 2;
-            case ShaderDataType::Int3: return 4 * 3;
-            case ShaderDataType::Int4: return 4 * 4;
+            case DataType::Int: return 4;
+            case DataType::Int2: return 4 * 2;
+            case DataType::Int3: return 4 * 3;
+            case DataType::Int4: return 4 * 4;
 
-            case ShaderDataType::None: break;
+            case DataType::Mat2: return 4 * 2 * 2;
+            case DataType::Mat4: return 4 * 4 * 4;
+
+            case DataType::None: break;
         }
 
         SRS_CORE_ASSERT(false, "Unknown shader data type.")
         return -1;
     }
 
-    static GLenum shaderTypeToGLType(ShaderDataType type)
+    static GLenum dataTypeToGLType(DataType type)
     {
         switch (type)
         {
-            case ShaderDataType::Float: return GL_FLOAT;
-            case ShaderDataType::Float2: return GL_FLOAT;
-            case ShaderDataType::Float3: return GL_FLOAT;
-            case ShaderDataType::Float4: return GL_FLOAT;
+            case DataType::Float: return GL_FLOAT;
+            case DataType::Float2: return GL_FLOAT;
+            case DataType::Float3: return GL_FLOAT;
+            case DataType::Float4: return GL_FLOAT;
 
-            case ShaderDataType::Int: return GL_INT;
-            case ShaderDataType::Int2: return GL_INT;
-            case ShaderDataType::Int3: return GL_INT;
-            case ShaderDataType::Int4: return GL_INT;
+            case DataType::Int: return GL_INT;
+            case DataType::Int2: return GL_INT;
+            case DataType::Int3: return GL_INT;
+            case DataType::Int4: return GL_INT;
 
-            case ShaderDataType::None: break;
+            case DataType::Mat2: break;
+            case DataType::Mat4: break;
+
+            case DataType::None: break;
         }
 
         SRS_CORE_ASSERT(false, "Unknown shader data type.")
@@ -81,44 +91,58 @@ namespace Sirius
     struct BufferElement
     {
         std::string name;
-        ShaderDataType type;
-        uint32_t offset;
+        std::vector<DataType> types;
+        uint32_t arrayNb = 1;
+        uint32_t offset = 0;
         size_t size;
         bool normalized;
 
         BufferElement() = default;
 
+        BufferElement(DataType type, const std::string& name, bool normalized = false):
+            name(name), types({type}), size(dataTypeSize(type)), normalized(normalized) {}
+
         ////////////////////////////////////////////////////////
         /// @brief Vertex buffer element constructor
-        /// @param type The buffer element type
+        /// @param types The buffer element types
         /// @param name The buffer element name
         /// @param normalized Normalize fixed-point data values
         ///  (default to false)
-        BufferElement(ShaderDataType type, const std::string& name, bool normalized = false): name(name), type(type), size(ShaderDataTypeSize(type)), offset(0), normalized(normalized) {}
+        BufferElement(const std::vector<DataType>& types, const std::string& name, size_t arrayNb = 1):
+            name(name), types(types), size(0), normalized(false), arrayNb(arrayNb)
+        {
+            for (auto& type: types)
+            {
+                size += dataTypeSize(type);
+            }
+
+            size *= arrayNb;
+        }
 
         ///////////////////////////////////////////////////////////
         /// @brief Vertex buffer element underlying data type count
-        /// @return The number of elements of a certain ShaderDataType
+        /// @return The number of elements of a certain DataType
         ///  in a vertex buffer element.
-        /// @see ShaderDataType
+        /// @see DataType
         uint32_t count() const
         {
-            switch (type)
-            {
-                case ShaderDataType::Float: return 1;
-                case ShaderDataType::Float2: return 2;
-                case ShaderDataType::Float3: return 3;
-                case ShaderDataType::Float4: return 4;
+            if(types.size() == 1)
+                switch (*types.begin())
+                {
+                    case DataType::Float: return 1;
+                    case DataType::Float2: return 2;
+                    case DataType::Float3: return 3;
+                    case DataType::Float4: return 4;
 
-                case ShaderDataType::Int: return 1;
-                case ShaderDataType::Int2: return 2;
-                case ShaderDataType::Int3: return 3;
-                case ShaderDataType::Int4: return 4;
+                    case DataType::Int: return 1;
+                    case DataType::Int2: return 2;
+                    case DataType::Int3: return 3;
+                    case DataType::Int4: return 4;
 
-                case ShaderDataType::None: break;
-            }
+                    case DataType::None: break;
+                }
 
-            SRS_CORE_ASSERT(false, "Unknown shader data type.")
+            SRS_CORE_ASSERT(false, "Unknown shader or not supported data type.")
             return -1;
         }
     };
@@ -129,10 +153,10 @@ namespace Sirius
     /// This class intends allowing to show the vertex buffer layout
     /// in a simple and easy-to-understand fashion, asking to provide
     /// an initializer list of BufferElement objects, which comprise
-    /// a ShaderDataType and a string with the name of the element
+    /// a DataType and a string with the name of the element
     /// group (for example, "position" or "color").
     ///
-    /// @see BufferElement, ShaderDataType
+    /// @see BufferElement, DataType
     class BufferLayout
     {
         private:
@@ -324,5 +348,27 @@ namespace Sirius
             void bind() const;
 
             void unbind() const;
+    };
+
+    class UniformBuffer
+    {
+        private:
+
+            uint32_t uniformBufferID;
+            BufferLayout layout;
+
+            std::pair<uint32_t, uint32_t> calculateSizeAndOffset(const std::string& name) const;
+
+        public:
+
+            UniformBuffer(const BufferLayout& layout, uint32_t bindingPoint);
+
+            void bind() const;
+
+            void uploadMat4(const std::string& name, const Mat4& mat);
+
+            void uploadFloat3(const std::string& name, const Vec3& vec);
+
+            void uploadStruct(const std::string& name, const void* data);
     };
 }

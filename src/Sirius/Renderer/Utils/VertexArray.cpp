@@ -57,7 +57,7 @@ namespace Sirius
             glEnableVertexAttribArray(index);
             glVertexAttribPointer(index,
                                   element.count(),
-                                  shaderTypeToGLType(element.type),
+                                  dataTypeToGLType(*element.types.begin()),
                                   element.normalized ? GL_TRUE : GL_FALSE,
                                   layout.getStride(),
                                   (const void*)element.offset);
