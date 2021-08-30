@@ -27,11 +27,13 @@ class ExampleLayer: public Sirius::Layer
         void onUpdate(Sirius::Timestep dt) override
         {
             Sirius::Renderer3D::drawEmissionCube({ptLightPos, 500.f});
+            Sirius::Renderer3D::drawEmissionCube({{-2.f, 0.f, -2.f}, 500.f});
             Sirius::Renderer3D::drawModel(suzanne, Sirius::DrawMode::TEXTURE);
         }
 
         void onImGuiRender() override
         {
+            ImGui::SliderFloat3("Light pos", &ptLightPos.x, 0.f, 5.f);
         }
 
         void onEvent(Sirius::Event& event) override

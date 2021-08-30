@@ -1,5 +1,6 @@
 
 #include "Vector2.hpp"
+#include "Vector.hpp"
 
 namespace Sirius
 {

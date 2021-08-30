@@ -55,7 +55,7 @@ struct PointLight
 {
     vec3 ambient;
     vec3 diffuse;
-    vec3 pos;
+    vec4 pos;
     float attDistance;
 };
 
@@ -120,9 +120,7 @@ void main()
     vec4 ptLightColor = vec4(0.0);
 
     for(int i = 0; i < 10; i++)
-    {
         ptLightColor += getPointLightColor(tex, u_ptLightData.ptLights[i], v_viewDir, v_normal, v_fragPos);
-    }
 
     vec4 dirLightColor = getDirectionalLightColor(tex, u_dirLightData.dirLight, v_viewDir, v_normal);
     vec4 spotlightColor = getSpotlightColor(tex, u_spotlightData.spotlight, v_viewDir, v_normal, v_fragPos);
@@ -142,7 +140,7 @@ vec4 getPointLightColor(Texture tex, PointLight ptLight, vec3 viewDir, vec3 norm
 
     // Calculate the distance between the light and the fragment, then
     // the light's attenuation factor
-    float distance = length(ptLight.pos - fragPos);
+    float distance = length(ptLight.pos.xyz - fragPos);
     float kl = -1.0 / (ptLight.attDistance * (ptLight.attDistance - 0.001));
     float kq = 0.1 / (ptLight.attDistance * ptLight.attDistance * 0.001);
     float attenuation = 1.0 / (1.0 + distance * kl + distance * distance * kq);
@@ -153,7 +151,7 @@ vec4 getPointLightColor(Texture tex, PointLight ptLight, vec3 viewDir, vec3 norm
 
     // Calculate the direction of the light pointing at the fragment,
     // then the scalar product between this and the surface normal
-    vec3 ptLightDir = normalize(ptLight.pos - fragPos);
+    vec3 ptLightDir = normalize(ptLight.pos.xyz - fragPos);
     float ptDiff = max(dot(normal, ptLightDir), 0.0);
 
     vec4 ptDiffuse = vec4(attenuation * ptDiff * ptLight.diffuse * tex.texDiffuse , 1.0);

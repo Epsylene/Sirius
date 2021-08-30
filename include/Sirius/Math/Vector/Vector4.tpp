@@ -135,6 +135,16 @@ namespace Sirius
         return {x ? -x : 0, y ? -y : 0, z ? -z : 0, w ? -w : 0};
     }
 
+    template<typename T> requires std::is_scalar_v<T>
+    constexpr Vector<4, T>::Vector(const Vector<2, T>& vec, T z, T w):
+        Vector(vec.x, vec.y, z, w)
+    {}
+
+    template<typename T> requires std::is_scalar_v<T>
+    constexpr Vector<4, T>::Vector(const Vector<3, T>& vec, T w):
+        Vector(vec.x, vec.y, vec.z, w)
+    {}
+
     template<typename T>
     constexpr Vector<4, T> operator+(const Vector<4, T>& v1, const Vector<4, T>& v2)
     {

@@ -31,6 +31,9 @@ namespace Sirius
             template<typename... Ts> requires (std::is_convertible_v<Ts, T> && ...)
             explicit constexpr Vector(Ts... xs);
 
+            template<unsigned dim2, typename... Ts> requires (dim2 < dim && (std::is_convertible_v<Ts, T> && ...))
+            constexpr Vector(const Vector<dim2, T>& vec, Ts... scalars);
+
             template<unsigned dim2> requires (dim2 > dim)
             constexpr Vector(const Vector<dim2, T>& vec);
 

@@ -22,6 +22,23 @@ namespace Sirius
     }
 
     template<unsigned int dim, typename T> requires std::is_scalar_v<T>
+    template<unsigned int dim2, typename... Ts> requires (dim2 < dim && (std::is_convertible_v<Ts, T> && ...))
+    constexpr Vector<dim, T>::Vector(const Vector <dim2, T>& vec, Ts... scalars)
+    {
+        for (int i = 0; i < dim2; ++i)
+        {
+            vals[i] = vec[i];
+        }
+
+        auto temp = { scalars... };
+
+        for (int i = dim2; i < dim; ++i)
+        {
+            vals[i] = temp[i];
+        }
+    }
+
+    template<unsigned int dim, typename T> requires std::is_scalar_v<T>
     template<unsigned dim2> requires (dim2 > dim)
     constexpr Vector<dim, T>::Vector(const Vector<dim2, T>& vec)
     {

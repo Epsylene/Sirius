@@ -14,6 +14,13 @@ namespace Sirius
     struct Renderer3DStorage
     {
         uint16_t ptLightNb = 0;
+        struct PointLight
+        {
+            Color ambient;
+            Color diffuse;
+            Vec4 pos;
+            float attDistance;
+        } ptLights[10];
         Ref<Cube> emissionCube;
 
         ShaderLibrary shaderLib;
@@ -53,7 +60,7 @@ namespace Sirius
                     DataType::Float3}, "spotlight"}};
         data->spotlightData = std::make_shared<UniformBuffer>(layout, 2);
 
-        layout = {{{DataType::Float3, DataType::Float3,
+        layout = {{{DataType::Float4, DataType::Float4,
                     DataType::Float3, DataType::Float}, "ptLights"}};
 
         data->ptLightsData = std::make_shared<UniformBuffer>(layout, 3);
@@ -114,18 +121,10 @@ namespace Sirius
     {
         if(data->ptLightNb < 10)
         {
-            struct PointLight
-            {
-                Color ambient;
-                Color diffuse;
-                alignas(16) Vec3 pos;
-                float attDistance;
-            } ptLights[10];
-
-            ptLights[data->ptLightNb++] = {ptLight.ambient, ptLight.diffuse,
+            data->ptLights[data->ptLightNb++] = {ptLight.ambient, ptLight.diffuse,
                                            ptLight.pos, ptLight.attDistance};
 
-            data->ptLightsData->uploadStruct("ptLights", &ptLights);
+            data->ptLightsData->uploadStruct("ptLights", &data->ptLights);
         }
         else
         {
@@ -146,7 +145,7 @@ namespace Sirius
 
         auto& emissionCubeVA = data->emissionCube->meshes.begin()->vertexArray;
         emissionCubeVA->bind();
-        RenderCommand::drawIndexed(emissionCubeVA, Primitives::TRIANGLES);
+        RenderCommand::drawIndexed(emissionCubeVA);
     }
 
     void Renderer3D::drawModel(const Ref<Model>& model, DrawMode mode, const Vec3& pos, const Vec3& size, bool outline)
@@ -175,15 +174,15 @@ namespace Sirius
                             textureShader->uploadUniformInt("material.diffuse", 0);
                             break;
 
-                            case TextureType::Specular:
-                                tex->bind(1);
-                                textureShader->uploadUniformInt("material.specular", 1);
-                                break;
+                        case TextureType::Specular:
+                            tex->bind(1);
+                            textureShader->uploadUniformInt("material.specular", 1);
+                            break;
 
-                                case TextureType::Ambient:
-                                    tex->bind(2);
-                                    textureShader->uploadUniformInt("material.ambient", 2);
-                                    break;
+                        case TextureType::Ambient:
+                            tex->bind(2);
+                            textureShader->uploadUniformInt("material.ambient", 2);
+                            break;
                     }
                 }
             }
@@ -230,7 +229,7 @@ namespace Sirius
                 emissionShader->uploadUniformMat4("u_transform", translate(pos) * scale(size * 1.05f));
 
                 mesh.vertexArray->bind();
-                RenderCommand::drawIndexed(mesh.vertexArray, Primitives::TRIANGLES);
+                RenderCommand::drawIndexed(mesh.vertexArray);
 
                 glStencilMask(0xFF);
                 glStencilFunc(GL_ALWAYS, 1, 0xFF);

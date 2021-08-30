@@ -26,7 +26,15 @@ namespace Sirius
         ///     provided scalar coefficients
         constexpr Vector(T x, T y, T z);
 
+        //////////////////////////////////////////
+        /// @brief Construct a 3d vector from a 2d
+        ///     vector and a scalar
+        constexpr Vector(const Vector<2, T>& vec, T z);
+
         constexpr Vector(const Vector& vec) = default;
+
+        ///////////////////////////////////////////////////////
+        /// @brief Fill a 3d vector with the values of a 2d one
         constexpr Vector(const Vector<2, T>& vec);
 
         constexpr Vector(Vector&& vec) noexcept = default;

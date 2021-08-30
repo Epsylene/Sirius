@@ -36,7 +36,6 @@ in vec3 v_normal;
 in vec3 v_fragPos;
 in vec3 v_cameraPos;
 
-uniform vec3 u_otherCameraPos;
 uniform samplerCube u_skybox;
 
 vec3 refracted(vec3 i, vec3 n, float k)

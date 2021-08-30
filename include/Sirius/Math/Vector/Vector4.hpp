@@ -26,8 +26,24 @@ namespace Sirius
         ///     provided scalar coefficients
         constexpr Vector(T x, T y, T z, T w);
 
+        //////////////////////////////////////////
+        /// @brief Construct a 4d vector from a 2d
+        ///     vector and two scalars
+        constexpr Vector(const Vector<2, T>& vec, T z, T w);
+
+        //////////////////////////////////////////
+        /// @brief Construct a 4d vector from a 3d
+        ///     vector and a scalar
+        constexpr Vector(const Vector<3, T>& vec, T w);
+
         constexpr Vector(const Vector& vec) = default;
+
+        ///////////////////////////////////////////////////////
+        /// @brief Fill a 4d vector with the values of a 2d one
         constexpr Vector(const Vector<2, T>& vec);
+
+        ///////////////////////////////////////////////////////
+        /// @brief Fill a 4d vector with the values of a 3d one
         constexpr Vector(const Vector<3, T>& vec);
 
         constexpr Vector(Vector&& vec) noexcept = default;
