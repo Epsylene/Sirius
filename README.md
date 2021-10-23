@@ -1,9 +1,9 @@
-![Sirius logo](imgs/Sirius.png)
-
 # Sirius
 
 ![downloads](https://img.shields.io/github/downloads/epsylene/Sirius/total?style=flat-square)
 ![version](https://img.shields.io/github/v/release/epsylene/Sirius?color=blue&label=version&style=flat-square)
+
+![Sirius logo](imgs/Sirius.png)
 
 ![A window containing several panels with options and a scene containing objects.](imgs/app.png "Sirius app window")
 
