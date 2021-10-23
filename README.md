@@ -1,4 +1,4 @@
-![Sirius logo](imgs/Sirius.png)
+<img src="imgs/Sirius.png" alt="Sirius logo" width="200" />
 
 # Sirius
 
