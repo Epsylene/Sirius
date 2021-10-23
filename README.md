@@ -1,3 +1,5 @@
+![Sirius logo](imgs/Sirius.png)
+
 # Sirius
 
 ![downloads](https://img.shields.io/github/downloads/epsylene/Sirius/total?style=flat-square)
