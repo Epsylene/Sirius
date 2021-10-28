@@ -37,7 +37,7 @@ namespace Sirius
 
             //////////////////////////////////////////////
             /// @brief Creates a texture with given width
-            ///     and height, but no image data
+            ///     and height, but no image scene3DData
             ///
             /// This is useful when creating a framebuffer
             /// object. The texture has immutable storage.
@@ -71,6 +71,8 @@ namespace Sirius
             uint32_t width, height;
 
             Texture3D(const std::unordered_map<CubeFace, std::string>& faces, TextureType type);
+
+            ~Texture3D();
 
             virtual void bind(uint32_t slot = 0) const override;
     };

@@ -3,6 +3,7 @@
 
 #include "Sirius/Core/Application.hpp"
 #include "Sirius/Core/Input.hpp"
+#include "Sirius/Renderer/Renderer2D.hpp"
 #include "Sirius/Renderer/Renderer3D.hpp"
 
 #include <imgui.h>
@@ -10,13 +11,14 @@
 namespace Sirius
 {
     SceneProperties Scene::properties {};
-    SceneData Scene::data {};
+    SceneData Scene::sceneData {};
 
     void Scene::init()
     {
         properties.ppSeparator = (float)Application::get().getWindow().getWidth() / 2.f;
 
-        data.controller = std::make_shared<CameraController3D>();
+        sceneData.controller2D = std::make_shared<CameraController2D>();
+        sceneData.controller3D = std::make_shared<CameraController3D>();
 
         std::unordered_map<Sirius::CubeFace, std::string> skybox =
                 {{Sirius::CubeFace::RIGHT, "../../app/res/textures/skybox/right.jpg"},
@@ -26,15 +28,19 @@ namespace Sirius
                  {Sirius::CubeFace::BACK, "../../app/res/textures/skybox/back.jpg"},
                  {Sirius::CubeFace::FRONT, "../../app/res/textures/skybox/front.jpg"}};
 
-        data.skybox = std::make_shared<Skybox>(skybox);
+        sceneData.skybox = std::make_shared<Skybox>(skybox);
     }
 
     void Scene::render()
     {
         ImGui::Begin("Scene");
 
+        if(properties.render2D)
+            properties.background = Color::White;
+
         ImVec2 panelSize = ImGui::GetContentRegionAvail();
-        data.controller->setAspect(panelSize.x / panelSize.y);
+        sceneData.controller2D->setAspect(panelSize.x / panelSize.y);
+        sceneData.controller3D->setAspect(panelSize.x / panelSize.y);
         auto& tex = Renderer::sceneData->postRenderFBO->colorBuffer;
         ImGui::Image(reinterpret_cast<void*>(tex.textureID), panelSize, ImVec2(0, 1), ImVec2(1, 0));
 
@@ -45,17 +51,25 @@ namespace Sirius
 
     void Scene::onUpdate(Timestep dt)
     {
-        Renderer3D::beginScene(data.controller->getCamera());
+        properties.render2D ? Renderer2D::beginScene(sceneData.controller2D->getCamera())
+                            : Renderer3D::beginScene(sceneData.controller3D->getCamera());
 
         if(properties.active)
-            data.controller->onUpdate(dt);
+        {
+            properties.render2D ? sceneData.controller2D->onUpdate(dt)
+                                : sceneData.controller3D->onUpdate(dt);
+        }
 
-        for (auto& model: data.models)
-            Renderer3D::drawModel(model, DrawMode::TEXTURE);
+        if(!properties.render2D)
+        {
+            for (auto& model: sceneData.models)
+                Renderer3D::drawModel(model, DrawMode::TEXTURE);
 
-        if(!properties.wireframe)
-            Renderer3D::drawSkybox();
+            if(!properties.wireframe)
+                Renderer3D::drawSkybox();
+        }
 
+        Renderer2D::endScene();
         Renderer3D::endScene();
     }
 }

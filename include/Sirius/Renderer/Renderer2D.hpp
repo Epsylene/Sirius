@@ -37,35 +37,35 @@ namespace Sirius
             static void endScene();
 
             //////////////////////////////////////
-            /// @brief Draw a colored quad
+            /// @brief Draw a colored renderQuad
             ///
-            /// @param pos 2D position of the quad
-            /// @param size Size of the quad
-            /// @param color Color of the quad
+            /// @param pos 2D position of the renderQuad
+            /// @param size Size of the renderQuad
+            /// @param color Color of the renderQuad
             static void drawQuad(const Vec2& pos, const Vec2& size, const Color& color);
 
             //////////////////////////////////////
-            /// @brief Draw a colored quad
+            /// @brief Draw a colored renderQuad
             ///
-            /// @param pos 3D position of the quad
-            /// @param size Size of the quad
-            /// @param color Color of the quad
+            /// @param pos 3D position of the renderQuad
+            /// @param size Size of the renderQuad
+            /// @param color Color of the renderQuad
             static void drawQuad(const Vec3& pos, const Vec2& size, const Color& color);
 
             //////////////////////////////////////
-            /// @brief Draw a textured quad
+            /// @brief Draw a textured renderQuad
             ///
-            /// @param pos 2D position of the quad
-            /// @param size Size of the quad
-            /// @param texture Texture of the quad
+            /// @param pos 2D position of the renderQuad
+            /// @param size Size of the renderQuad
+            /// @param texture Texture of the renderQuad
             static void drawQuad(const Vec2& pos, const Vec2& size, const Ref<Texture2D>& texture);
 
             //////////////////////////////////////
-            /// @brief Draw a textured quad
+            /// @brief Draw a textured renderQuad
             ///
-            /// @param pos 3D position of the quad
-            /// @param size Size of the quad
-            /// @param texture Texture of the quad
+            /// @param pos 3D position of the renderQuad
+            /// @param size Size of the renderQuad
+            /// @param texture Texture of the renderQuad
             static void drawQuad(const Vec3& pos, const Vec2& size, const Ref<Texture2D>& texture);
     };
 }

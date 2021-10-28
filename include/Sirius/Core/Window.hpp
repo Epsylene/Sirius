@@ -47,7 +47,7 @@ namespace Sirius
             using EventCallbackFn = std::function<void(Event&)>;
 
             ////////////////////////////////////////////
-            /// @brief Struct holding the window's data
+            /// @brief Struct holding the window's scene3DData
             struct WindowData
             {
                 std::string title;

@@ -50,7 +50,7 @@ namespace Sirius
         SRS_CORE_ASSERT(!vertexBuffer->getLayout().getElements().empty(), "Vertex buffer has no layout.")
 
         // For each element in the layout, enable the vertex attribute
-        // array at the element's index and give it the data it wants
+        // array at the element's index and give it the scene3DData it wants
         const auto& layout = vertexBuffer->getLayout();
         for (uint32_t index = 0; const auto& element: layout)
         {

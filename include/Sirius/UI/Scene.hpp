@@ -12,6 +12,7 @@ namespace Sirius
     struct SceneProperties
     {
         bool active;
+        bool render2D = false;
         Color background;
         bool wireframe;
         PostProcessingFlags ppFlag;
@@ -21,7 +22,8 @@ namespace Sirius
     struct SceneData
     {
         std::vector<Ref<Model>> models;
-        Ref<CameraController3D> controller;
+        Ref<CameraController2D> controller2D;
+        Ref<CameraController3D> controller3D;
         Ref<Skybox> skybox;
     };
 
@@ -37,7 +39,7 @@ namespace Sirius
         public:
 
             static SceneProperties properties;
-            static SceneData data;
+            static SceneData sceneData;
 
             Scene() = delete;
 

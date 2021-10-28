@@ -18,7 +18,6 @@ void main()
     gl_Position = u_viewProj * u_transform * vec4(a_position, 1.0);
 }
 
-
 #type fragment
 #version 420 core
 

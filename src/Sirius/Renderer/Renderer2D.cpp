@@ -3,15 +3,15 @@
 
 #include "Sirius/Renderer/Utils/Shader.hpp"
 #include "Sirius/Renderer/RenderCommand.hpp"
+#include "Sirius/Renderer/Renderer.hpp"
 
 namespace Sirius
 {
     struct Renderer2DStorage
     {
         Ref<VertexArray> quadVA;
-        Ref<Shader> flatColorShader;
-        Ref<Shader> emissionShader;
-        Ref<Shader> textureShader;
+
+        ShaderLibrary shaderLib;
     };
 
     static Scope<Renderer2DStorage> data;
@@ -20,31 +20,22 @@ namespace Sirius
     {
         data = std::make_unique<Renderer2DStorage>();
 
-        data->quadVA = std::make_shared<VertexArray>();
+        float vertices[] = { -1.f,  1.f,  0.f, 1.f,
+                             -1.f, -1.f,  0.f, 0.f,
+                              1.f,  1.f,  1.f, 1.f,
+                              1.f, -1.f,  1.f, 0.f };
+        std::vector<uint32_t> indices = {0, 1, 2, 2, 1, 3};
 
-        float vertices[5 * 4] = {
-                -0.5f, -0.5f, 0.0f, 0.f, 0.f,
-                -0.5f,  0.5f, 0.0f, 0.f, 1.f,
-                 0.5f,  0.5f, 0.0f, 1.f, 1.f,
-                 0.5f, -0.5f, 0.0f, 1.f, 0.f
-        };
+        auto vb = std::make_shared<VertexBuffer>(vertices, sizeof(vertices));
+        vb->setLayout({{DataType::Float2, "a_position"},
+                       {DataType::Float2, "a_texture"}});
+        auto ib = std::make_shared<IndexBuffer>(indices);
 
-        auto vertexBuffer = std::make_shared<VertexBuffer>(vertices, sizeof(vertices));
+        data->quadVA = std::make_shared<VertexArray>(vb, ib);
 
-        vertexBuffer->setLayout({
-            {DataType::Float3, "a_position" },
-            {DataType::Float2, "a_texCoord" }});
-        data->quadVA->addVertexBuffer(vertexBuffer);
-
-        unsigned int indices[6] = {0, 1, 2, 2, 3, 0};
-        auto indexBuffer = std::make_shared<IndexBuffer>(indices, std::size(indices));
-        data->quadVA->setIndexBuffer(indexBuffer);
-
-        data->flatColorShader = std::make_shared<Shader>("../../app/res/shaders/flat_color.glsl");
-        data->textureShader = std::make_shared<Shader>("../../app/res/shaders/texture.glsl");
-        data->textureShader->bind();
-        data->textureShader->uploadUniformInt("u_texture", 0);
-        data->emissionShader = std::make_shared<Shader>("../../app/res/shaders/emission.glsl");
+        data->shaderLib.load("../../app/res/shaders/flat_color.glsl");
+        data->shaderLib.load("../../app/res/shaders/texture.glsl");
+        data->shaderLib.load("../../app/res/shaders/emission.glsl");
     }
 
     void Renderer2D::shutdown()
@@ -54,14 +45,9 @@ namespace Sirius
 
     void Renderer2D::beginScene(const Camera2D& camera)
     {
-        data->flatColorShader->bind();
-        data->flatColorShader->uploadUniformMat4("u_viewProj", camera.getViewProjMatrix());
-
-        data->textureShader->bind();
-        data->textureShader->uploadUniformMat4("u_viewProj", camera.getViewProjMatrix());
-
-        data->emissionShader->bind();
-        data->emissionShader->uploadUniformMat4("u_viewProj", camera.getViewProjMatrix());
+        Renderer::sceneData->cameraData->uploadMat4("viewProj", camera.getViewProjMatrix());
+        Renderer::sceneData->cameraData->uploadFloat3("viewDir", camera.getDirection());
+        Renderer::sceneData->cameraData->uploadFloat3("cameraPos", camera.getPosition());
     }
 
     void Renderer2D::endScene()
@@ -76,11 +62,13 @@ namespace Sirius
     void Renderer2D::drawQuad(const Vec3& pos, const Vec2& size,
                               const Color& color)
     {
-        data->emissionShader->bind();
-        data->emissionShader->uploadUniformFloat4("u_color", color);
+        auto& emissionShader = data->shaderLib["emission"];
+
+        emissionShader->bind();
+        emissionShader->uploadUniformFloat3("u_color", color);
 
         Mat4 transform = translate(pos) * scale({size.x, size.y, 1.f});
-        data->emissionShader->uploadUniformMat4("u_transform", transform);
+        emissionShader->uploadUniformMat4("u_transform", transform);
 
         data->quadVA->bind();
         RenderCommand::drawIndexed(data->quadVA, Primitives::TRIANGLES);
@@ -95,10 +83,11 @@ namespace Sirius
     void Renderer2D::drawQuad(const Vec3& pos, const Vec2& size,
                               const Ref<Texture2D>& texture)
     {
-        data->textureShader->bind();
+        auto& textureShader = data->shaderLib["texture"];
+        textureShader->bind();
 
         Mat4 transform = translate(pos) * scale({size.x, size.y, 1.f});
-        data->textureShader->uploadUniformMat4("u_transform", transform);
+        textureShader->uploadUniformMat4("u_transform", transform);
 
         texture->bind();
 

@@ -109,6 +109,9 @@ namespace Sirius
     void ImGuiLayer::onEvent(Event& event)
     {
         if(Scene::properties.active)
-            Scene::data.controller->onEvent(event);
+        {
+            Scene::properties.render2D ? Scene::sceneData.controller2D->onEvent(event)
+                                       : Scene::sceneData.controller3D->onEvent(event);
+        }
     }
 }

@@ -77,8 +77,8 @@ namespace Sirius
         glTextureParameteri(textureID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
         // Specify the texture sub-image that will be used, from some pixel
-        //  data the format (memory layout) of which is specified, along
-        //  with a type. The pixel data will be converted from 'dataformat'
+        //  scene3DData the format (memory layout) of which is specified, along
+        //  with a type. The pixel scene3DData will be converted from 'dataformat'
         //  to 'internalformat' in order to be used by OpenGL.
         glTextureSubImage2D(textureID, 0, 0, 0, width, height, dataFormat, GL_UNSIGNED_BYTE, data);
 
@@ -134,6 +134,11 @@ namespace Sirius
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
         glBindTexture(GL_TEXTURE_3D, 0);
+    }
+
+    Texture3D::~Texture3D()
+    {
+        glDeleteTextures(1, &textureID);
     }
 
     void Texture3D::bind(uint32_t slot) const

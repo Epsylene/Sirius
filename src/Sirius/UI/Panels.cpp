@@ -59,7 +59,7 @@ namespace Sirius
         {
             auto filePath = meshBrowser.GetSelected().string();
             std::ranges::replace(filePath, '\\', '/');
-            Scene::data.models.emplace_back(std::make_shared<Model>(filePath));
+            Scene::sceneData.models.emplace_back(std::make_shared<Model>(filePath));
 
             meshBrowser.ClearSelected();
         }
@@ -89,7 +89,7 @@ namespace Sirius
                     skybox[CubeFace::BACK] = filePath.string();
             }
 
-            Scene::data.skybox = std::make_shared<Skybox>(skybox);
+            Scene::sceneData.skybox = std::make_shared<Skybox>(skybox);
             skyboxBrowser.ClearSelected();
         }
 
@@ -97,6 +97,7 @@ namespace Sirius
         {
             ImGui::ColorEdit3("Scene background color", &Scene::properties.background.r);
             ImGui::Checkbox("Wireframe mode", &Scene::properties.wireframe);
+            ImGui::Checkbox("2D mode", &Scene::properties.render2D);
 
             ImGui::Combo("Postprocessing", &selectedFlag, &ppFlagsStrs[0], ppFlagsStrs.size());
             Scene::properties.ppFlag = PostProcessingFlags(selectedFlag);

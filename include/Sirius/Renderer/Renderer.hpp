@@ -28,7 +28,7 @@ namespace Sirius
     /// @brief Global renderer class
     ///
     /// This class provides a number of functions
-    /// to initialize and perform common tasks to
+    /// to initialize and perform tasks common to
     /// the 2D and 3D renderers.
     class Renderer
     {
@@ -38,7 +38,9 @@ namespace Sirius
             {
                 Scope<FrameBuffer> renderFBO, postRenderFBO;
                 Ref<Shader> postprocess;
-                Ref<VertexArray> quad;
+                Ref<VertexArray> renderQuad;
+
+                Ref<UniformBuffer> cameraData;
             };
 
         public:

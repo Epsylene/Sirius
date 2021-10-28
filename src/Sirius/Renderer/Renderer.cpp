@@ -28,6 +28,11 @@ namespace Sirius
         Renderer2D::init();
         Renderer3D::init();
 
+        BufferLayout layout = {{DataType::Mat4,   "viewProj"},
+                               {DataType::Float3, "viewDir"},
+                               {DataType::Float3, "cameraPos"}};
+        sceneData->cameraData = std::make_shared<UniformBuffer>(layout, 0);
+
         auto& window = Application::get().getWindow();
         sceneData->renderFBO = std::make_unique<FrameBuffer>(window.getWidth(), window.getHeight());
         sceneData->postRenderFBO = std::make_unique<FrameBuffer>(window.getWidth(), window.getHeight());
@@ -43,7 +48,7 @@ namespace Sirius
                        {DataType::Float2, "a_texture"}});
         auto ib = std::make_shared<IndexBuffer>(indices);
 
-        sceneData->quad = std::make_shared<VertexArray>(vb, ib);
+        sceneData->renderQuad = std::make_shared<VertexArray>(vb, ib);
 
         sceneData->postprocess = std::make_shared<Shader>("../../app/res/shaders/postprocess.glsl");
     }
@@ -52,14 +57,14 @@ namespace Sirius
                                        const Matrix4f& transform)
     {
         sceneData->postprocess->bind();
-        sceneData->quad->bind();
+        sceneData->renderQuad->bind();
         frameBuffer->colorBuffer.bind(0);
         sceneData->postprocess->uploadUniformInt("u_screenTex", 0);
         sceneData->postprocess->uploadUniformMat4("u_transform", transform);
         sceneData->postprocess->uploadUniformFloat("u_separator", Scene::properties.ppSeparator);
 
-        sceneData->quad->bind();
-        RenderCommand::drawIndexed(sceneData->quad, Primitives::TRIANGLES);
+        sceneData->renderQuad->bind();
+        RenderCommand::drawIndexed(sceneData->renderQuad, Primitives::TRIANGLES);
     }
 
     void Renderer::setPostProcessing(PostProcessingFlags flags)

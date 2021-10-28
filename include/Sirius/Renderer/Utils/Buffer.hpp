@@ -51,7 +51,7 @@ namespace Sirius
             case DataType::None: break;
         }
 
-        SRS_CORE_ASSERT(false, "Unknown shader data type.")
+        SRS_CORE_ASSERT(false, "Unknown shader scene3DData type.")
         return -1;
     }
 
@@ -75,7 +75,7 @@ namespace Sirius
             case DataType::None: break;
         }
 
-        SRS_CORE_ASSERT(false, "Unknown shader data type.")
+        SRS_CORE_ASSERT(false, "Unknown shader scene3DData type.")
         return -1;
     }
 
@@ -84,7 +84,7 @@ namespace Sirius
     ///
     /// This is a helper class, used to build the BufferLayout
     /// objects. Each BufferElement represents a group of tightly
-    /// packed, same-type data in the vertex buffer (for example,
+    /// packed, same-type scene3DData in the vertex buffer (for example,
     /// a group of four floats or one of three integers).
     ///
     /// @see BufferLayout
@@ -106,7 +106,7 @@ namespace Sirius
         /// @brief Vertex buffer element constructor
         /// @param types The buffer element types
         /// @param name The buffer element name
-        /// @param normalized Normalize fixed-point data values
+        /// @param normalized Normalize fixed-point scene3DData values
         ///  (default to false)
         BufferElement(const std::vector<DataType>& types, const std::string& name, size_t arrayNb = 1):
             name(name), types(types), size(0), normalized(false), arrayNb(arrayNb)
@@ -120,7 +120,7 @@ namespace Sirius
         }
 
         ///////////////////////////////////////////////////////////
-        /// @brief Vertex buffer element underlying data type count
+        /// @brief Vertex buffer element underlying scene3DData type count
         /// @return The number of elements of a certain DataType
         ///  in a vertex buffer element.
         /// @see DataType
@@ -142,7 +142,7 @@ namespace Sirius
                     case DataType::None: break;
                 }
 
-            SRS_CORE_ASSERT(false, "Unknown shader or not supported data type.")
+            SRS_CORE_ASSERT(false, "Unknown shader or not supported scene3DData type.")
             return -1;
         }
     };
@@ -175,7 +175,7 @@ namespace Sirius
             //////////////////////////////////////////////////////////
             /// @brief BufferLayout constructor
             ///
-            /// A buffer layout is a list of same-type data groups,
+            /// A buffer layout is a list of same-type scene3DData groups,
             /// which are given an explanatory name.
             ///
             /// @param elements The list of BufferElement objects
@@ -369,6 +369,6 @@ namespace Sirius
 
             void uploadFloat3(const std::string& name, const Vec3& vec);
 
-            void uploadStruct(const std::string& name, const void* data);
+            void uploadStruct(const std::string& name, const void* data, size_t number = 1);
     };
 }

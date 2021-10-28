@@ -7,6 +7,7 @@ namespace Sirius
     {
         if(type == "vertex") return GL_VERTEX_SHADER;
         if(type == "fragment" || type == "pixel") return GL_FRAGMENT_SHADER;
+        if(type == "geometry") return GL_GEOMETRY_SHADER;
 
         SRS_CORE_ASSERT(false, "Unknown shader type !");
         return GL_INVALID_ENUM;
@@ -21,7 +22,7 @@ namespace Sirius
 
         // Extract the shader's name from the file's name
         auto lastSlash = filepath.find_last_of("/\\");
-        lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
+        lastSlash = (lastSlash == std::string::npos) ? 0 : lastSlash + 1;
         auto lastDot = filepath.rfind('.');
         auto count = (lastDot == std::string::npos) ? filepath.size() - lastSlash : lastDot - lastSlash;
 
@@ -103,8 +104,8 @@ namespace Sirius
     {
         shaderID = glCreateProgram();
 
-        SRS_CORE_ASSERT(shaderSources.size() <= 2, "Too many shaders.");
-        std::array<GLenum, 2> glShaderIDs {};
+        SRS_CORE_ASSERT(shaderSources.size() <= 3, "Too many shaders.");
+        std::array<GLenum, 3> glShaderIDs {};
 
         // Compile the shaders
         int shaderIndex = 0;

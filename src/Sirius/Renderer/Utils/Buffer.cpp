@@ -182,11 +182,11 @@ namespace Sirius
         glBindBuffer(GL_UNIFORM_BUFFER, 0);
     }
 
-    void UniformBuffer::uploadStruct(const std::string& name, const void* data)
+    void UniformBuffer::uploadStruct(const std::string& name, const void* data, size_t number)
     {
         glBindBuffer(GL_UNIFORM_BUFFER, uniformBufferID);
         auto [size, offset] = calculateSizeAndOffset(name);
-        glBufferSubData(GL_UNIFORM_BUFFER, offset, size, data);
+        glBufferSubData(GL_UNIFORM_BUFFER, offset, size * number, data);
         glBindBuffer(GL_UNIFORM_BUFFER, 0);
     }
 }

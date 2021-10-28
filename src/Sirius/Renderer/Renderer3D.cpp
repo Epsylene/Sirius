@@ -24,7 +24,6 @@ namespace Sirius
         Ref<Cube> emissionCube;
 
         ShaderLibrary shaderLib;
-        Ref<UniformBuffer> cameraData;
         Ref<UniformBuffer> ptLightsData;
         Ref<UniformBuffer> dirLightData;
         Ref<UniformBuffer> spotlightData;
@@ -46,12 +45,7 @@ namespace Sirius
         data->shaderLib.load("../../app/res/shaders/reflection.glsl");
         data->shaderLib.load("../../app/res/shaders/refraction.glsl");
 
-        BufferLayout layout = {{DataType::Mat4,   "viewProj"},
-                               {DataType::Float3, "viewDir"},
-                               {DataType::Float3, "cameraPos"}};
-        data->cameraData = std::make_shared<UniformBuffer>(layout, 0);
-
-        layout = {{{DataType::Float3, DataType::Float3, DataType::Float3}, "dirLight"}};
+        BufferLayout layout = {{{DataType::Float3, DataType::Float3, DataType::Float3}, "dirLight"}};
         data->dirLightData = std::make_shared<UniformBuffer>(layout, 1);
 
         layout = {{{DataType::Float3, DataType::Float,
@@ -73,9 +67,9 @@ namespace Sirius
 
     void Renderer3D::beginScene(const Camera3D& camera)
     {
-        data->cameraData->uploadMat4("viewProj", camera.getViewProjMatrix());
-        data->cameraData->uploadFloat3("viewDir", camera.getDirection());
-        data->cameraData->uploadFloat3("cameraPos", camera.getPosition());
+        Renderer::sceneData->cameraData->uploadMat4("viewProj", camera.getViewProjMatrix());
+        Renderer::sceneData->cameraData->uploadFloat3("viewDir", camera.getDirection());
+        Renderer::sceneData->cameraData->uploadFloat3("cameraPos", camera.getPosition());
 
         data->shaderLib["refraction"]->uploadUniformFloat3("u_otherCameraPos", camera.getPosition());
     }
@@ -91,7 +85,7 @@ namespace Sirius
         {
             Color ambient;
             Color diffuse;
-            alignas(16) Vec3 dir;
+            Vec4 dir;
         } dirLightStruct { dirLight.ambient,
                            dirLight.diffuse,
                            dirLight.dir };
@@ -122,7 +116,7 @@ namespace Sirius
         if(data->ptLightNb < 10)
         {
             data->ptLights[data->ptLightNb++] = {ptLight.ambient, ptLight.diffuse,
-                                           ptLight.pos, ptLight.attDistance};
+                                                 ptLight.pos, ptLight.attDistance};
 
             data->ptLightsData->uploadStruct("ptLights", &data->ptLights);
         }
@@ -196,7 +190,7 @@ namespace Sirius
             reflectionShader->uploadUniformMat4("u_transform", transform);
             reflectionShader->uploadUniformMat4("u_normalMat", transpose(inverse(transform)));
 
-            Scene::data.skybox->texture.bind(0);
+            Scene::sceneData.skybox->texture.bind(0);
             reflectionShader->uploadUniformInt("u_skybox", 0);
         }
         else if(mode == DrawMode::REFRACTION)
@@ -206,7 +200,7 @@ namespace Sirius
             refractionShader->uploadUniformMat4("u_transform", transform);
             refractionShader->uploadUniformMat4("u_normalMat", transpose(inverse(transform)));
 
-            Scene::data.skybox->texture.bind(0);
+            Scene::sceneData.skybox->texture.bind(0);
             refractionShader->uploadUniformInt("u_skybox", 0);
         }
 
@@ -248,10 +242,10 @@ namespace Sirius
 
         data->shaderLib["skybox"]->bind();
         data->shaderLib["skybox"]->uploadUniformMat4("u_transform", scale(100.f));
-        Scene::data.skybox->texture.bind();
+        Scene::sceneData.skybox->texture.bind();
         data->shaderLib["skybox"]->uploadUniformInt("u_skybox", 0);
-        Scene::data.skybox->cube.meshes.begin()->vertexArray->bind();
-        RenderCommand::drawIndexed(Scene::data.skybox->cube.meshes.begin()->vertexArray);
+        Scene::sceneData.skybox->cube.meshes.begin()->vertexArray->bind();
+        RenderCommand::drawIndexed(Scene::sceneData.skybox->cube.meshes.begin()->vertexArray);
 
         RenderCommand::setFaceCulling(true);
     }
