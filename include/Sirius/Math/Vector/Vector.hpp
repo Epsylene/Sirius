@@ -3,12 +3,14 @@
 
 namespace Sirius
 {
+    template<typename Ts, typename T> concept T_equal = std::is_convertible_v<Ts, T>;
+
     /////////////////////////////////////////////////
     /// @brief Any-dimensional vector class
     /// 
     /// @tparam dim The vector dimension
     /// @tparam T The type of the vector coefficients
-    template<unsigned dim, typename T>
+    template<unsigned dim, typename T = float>
     requires std::is_scalar_v<T>
     class Vector
     {
@@ -28,10 +30,10 @@ namespace Sirius
             /////////////////////////////////////////
             /// @brief Construct a vector from the 
             ///     provided scalar coefficients
-            template<typename... Ts> requires (std::is_convertible_v<Ts, T> && ...)
+            template<std::convertible_to<T>... Ts>
             explicit constexpr Vector(Ts... xs);
 
-            template<unsigned dim2, typename... Ts> requires (dim2 < dim && (std::is_convertible_v<Ts, T> && ...))
+            template<unsigned dim2, std::convertible_to<T>... Ts> requires (dim2 < dim)
             constexpr Vector(const Vector<dim2, T>& vec, Ts... scalars);
 
             template<unsigned dim2> requires (dim2 > dim)
@@ -51,7 +53,7 @@ namespace Sirius
             /// The coefficients of the right-hand side vector are 
             /// statically casted to the type of the left-hand side 
             /// vector.
-            template<typename U> requires std::is_convertible_v<U, T>
+            template<std::convertible_to<T> U>
             constexpr Vector<dim, T>& operator=(const Vector<dim, U>& vec);
 
             ///////////////////////////////////////////////
@@ -120,10 +122,6 @@ namespace Sirius
     /// This is only provided for the sake of convenience,
     /// in dot product functions and the like.
     template<unsigned dim, typename T> constexpr Vector<dim, T> operator*(const Vector<dim, T>& v1, const Vector<dim, T>& v2);
-
-    /////////////////////////////////////////////
-    /// @brief Vector coefficients values pointer
-    template<unsigned dim, typename T> const T* value_ptr(const Vector<dim, T>& vec);
 }
 
 #include "Vector.tpp"

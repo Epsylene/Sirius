@@ -170,7 +170,7 @@ namespace Sirius
     {
         glBindBuffer(GL_UNIFORM_BUFFER, uniformBufferID);
         auto [size, offset] = calculateSizeAndOffset(name);
-        glBufferSubData(GL_UNIFORM_BUFFER, offset, size, value_ptr(val));
+        glBufferSubData(GL_UNIFORM_BUFFER, offset, size, &val[0][0]);
         glBindBuffer(GL_UNIFORM_BUFFER, 0);
     }
 

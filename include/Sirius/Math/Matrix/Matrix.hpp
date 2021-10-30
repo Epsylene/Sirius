@@ -39,7 +39,7 @@ namespace Sirius
             ///////////////////////////////////////////////
             /// @brief Construct a matrix with the provided
             ///     scalars as its coefficients
-            template<typename... Ts> requires (std::is_convertible_v<Ts, T> && ...)
+            template<std::convertible_to<T>... Ts>
             constexpr explicit Matrix(Ts... vals);
 
             constexpr Matrix(const Matrix& mat) = default;
@@ -70,7 +70,7 @@ namespace Sirius
             /// The coefficients of the right-hand side matrix are
             /// statically casted to the type of the left-hand side
             /// matrix.
-            template<typename U> requires std::is_convertible_v<U, T>
+            template<std::convertible_to<T> U>
             constexpr Matrix<dim, T>& operator=(const Matrix<dim, U>& mat);
 
             //////////////////////////////////////////////////
@@ -122,14 +122,6 @@ namespace Sirius
     ///////////////////////////////////////
     /// @brief Matrix-vector multiplication
     template<unsigned dim, typename T> constexpr Vector<dim, T> operator*(const Matrix<dim, T>& mat, const Vector<dim, T>& vec);
-    
-    /////////////////////////////////////////////////////////
-    /// @brief Matrix coefficients value adress
-    /// 
-    /// This just returns the adress of the first coefficient
-    /// of the matrix. It is used when uploading matrices to
-    /// OpenGL.
-    template<unsigned dim, typename T> const T* value_ptr(const Matrix<dim, T>& mat);
 }
 
 #include "Matrix.tpp"

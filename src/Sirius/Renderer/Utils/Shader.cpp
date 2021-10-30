@@ -232,13 +232,13 @@ namespace Sirius
     void Shader::uploadUniformMat3(const std::string& name, const Mat3& matrix)
     {
         GLint location = glGetUniformLocation(shaderID, name.c_str());
-        glUniformMatrix3fv(location, 1, GL_FALSE, value_ptr(matrix));
+        glUniformMatrix3fv(location, 1, GL_FALSE, &matrix[0][0]);
     }
 
     void Shader::uploadUniformMat4(const std::string& name, const Mat4& matrix)
     {
         GLint location = glGetUniformLocation(shaderID, name.c_str());
-        glUniformMatrix4fv(location, 1, GL_FALSE, value_ptr(matrix));
+        glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
     }
 
     void ShaderLibrary::add(const Ref<Shader>& shader)

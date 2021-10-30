@@ -15,22 +15,22 @@ namespace Sirius
     }
 
     template<unsigned int dim, typename T> requires std::is_scalar_v<T>
-    template<typename... Ts> requires (std::is_convertible_v<Ts, T> && ...)
+    template<std::convertible_to<T>... Ts>
     constexpr Vector<dim, T>::Vector(Ts... xs)
     {
         vals = { xs... };
     }
 
     template<unsigned int dim, typename T> requires std::is_scalar_v<T>
-    template<unsigned int dim2, typename... Ts> requires (dim2 < dim && (std::is_convertible_v<Ts, T> && ...))
-    constexpr Vector<dim, T>::Vector(const Vector <dim2, T>& vec, Ts... scalars)
+    template<unsigned int dim2, std::convertible_to<T>... Ts> requires (dim2 < dim)
+    constexpr Vector<dim, T>::Vector(const Vector<dim2, T>& vec, Ts... scalars)
     {
         for (int i = 0; i < dim2; ++i)
         {
             vals[i] = vec[i];
         }
 
-        auto temp = { scalars... };
+        Vector<dim - dim2, T> temp { scalars... };
 
         for (int i = dim2; i < dim; ++i)
         {
@@ -59,7 +59,7 @@ namespace Sirius
     }
 
     template<unsigned dim, typename T> requires std::is_scalar_v<T>
-    template<typename U> requires std::is_convertible_v<U, T>
+    template<std::convertible_to<T> U>
     constexpr Vector<dim, T>& Vector<dim, T>::operator=(const Vector<dim, U>& vec)
     {
         for (int i = 0; i < dim; ++i)
@@ -227,12 +227,6 @@ namespace Sirius
         }
 
         return result;
-    }
-
-    template<unsigned dim, typename T>
-    const T* value_ptr(const Vector<dim, T>& vec)
-    {
-        return &(vec[0]);
     }
 }
 

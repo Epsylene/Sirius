@@ -117,10 +117,6 @@ namespace Sirius
     /// in dot product functions and the like.
     template<typename T> constexpr Vector<3, T> operator*(const Vector<3, T>& v1, const Vector<3, T>& v2);
 
-    /////////////////////////////////////////////
-    /// @brief Vector coefficients values pointer
-    template<typename T> const T* value_ptr(const Vector<3, T>& vec);
-
     using Vector3i = Vector<3, int>;
     using Vector3f = Vector<3, float>;
     using Vector3d = Vector<3, double>;

@@ -22,7 +22,7 @@ namespace Sirius
     }
 
     template<unsigned int dim, typename T> requires std::is_scalar_v<T>
-    template<typename... Ts> requires (std::is_convertible_v<Ts, T> && ...)
+    template<std::convertible_to<T>... Ts>
     constexpr Matrix<dim, T>::Matrix(Ts... vals)
     {
         std::array<T, dim * dim> scalars = { vals...};
@@ -66,7 +66,7 @@ namespace Sirius
     }
 
     template<unsigned dim, typename T> requires std::is_scalar_v<T>
-    template<typename U> requires std::is_convertible_v<U, T>
+    template<std::convertible_to<T> U>
     constexpr Matrix<dim, T>& Matrix<dim, T>::operator=(const Matrix<dim, U>& mat)
     {
         for (int i = 0; i < dim; ++i)
@@ -209,12 +209,6 @@ namespace Sirius
         }
 
         return result;
-    }
-
-    template<unsigned dim, typename T>
-    const T* value_ptr(const Matrix<dim, T>& mat)
-    {
-        return &(mat[0][0]);
     }
 }
 

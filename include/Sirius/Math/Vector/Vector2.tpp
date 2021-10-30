@@ -137,11 +137,6 @@ namespace Sirius
     {
         return Vector<2, T>(vec.x / scalar, vec.y / scalar);
     }
-
-    template<typename T> const T* value_ptr(const Vector<2, T>& vec)
-    {
-        return &(vec.x);
-    }
 }
 
 template <typename T>
