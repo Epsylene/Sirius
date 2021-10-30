@@ -11,6 +11,11 @@
 
 namespace Sirius
 {
+    enum class Shapes
+    {
+        QUAD, CIRCLE
+    };
+
     ////////////////////////////
     /// @brief 2D renderer class
     class Renderer2D
@@ -36,8 +41,16 @@ namespace Sirius
             /// @brief End a 2D scene
             static void endScene();
 
+            ///////////////////////////////////////
+            /// @brief Draw a colored shape
+            ///
+            /// @param pos 2D position of the shape
+            /// @param size Size of the shape
+            /// @param color Color of the shape
+            static void drawShape(Shapes shape, const Vec2& pos, const Vec2& size, const Color& color);
+
             //////////////////////////////////////
-            /// @brief Draw a colored renderQuad
+            /// @brief Draw a colored quad
             ///
             /// @param pos 2D position of the quad
             /// @param size Size of the quad

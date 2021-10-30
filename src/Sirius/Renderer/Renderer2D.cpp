@@ -97,8 +97,7 @@ namespace Sirius
     void Renderer2D::endScene()
     {}
 
-    void Renderer2D::drawQuad(const Vec2& pos, const Vec2& size,
-                              const Color& color)
+    void Renderer2D::drawShape(Shapes shape, const Vec2& pos, const Vec2& size, const Color& color)
     {
         auto& emissionShader = data->shaderLib["emission"];
 
@@ -108,21 +107,28 @@ namespace Sirius
         Mat4 transform = translate({pos}) * scale({size.x, size.y, 1.f});
         emissionShader->uploadUniformMat4("u_transform", transform);
 
-        data->quadVA->bind();
-        RenderCommand::drawIndexed(data->quadVA);
+        switch (shape)
+        {
+            case Shapes::QUAD:
+                data->quadVA->bind();
+                RenderCommand::drawIndexed(data->quadVA);
+                break;
+
+            case Shapes::CIRCLE:
+                data->circleVA->bind();
+                RenderCommand::drawIndexed(data->circleVA);
+                break;
+        }
+    }
+
+    void Renderer2D::drawQuad(const Vec2& pos, const Vec2& size,
+                              const Color& color)
+    {
+        drawShape(Shapes::QUAD, pos, size, color);
     }
 
     void Renderer2D::drawCircle(const Vec2& pos, const Vec2& size, const Color& color)
     {
-        auto& emissionShader = data->shaderLib["emission"];
-
-        emissionShader->bind();
-        emissionShader->uploadUniformFloat3("u_color", color);
-
-        Mat4 transform = translate({pos}) * scale({size.x, size.y, 1.f});
-        emissionShader->uploadUniformMat4("u_transform", transform);
-
-        data->circleVA->bind();
-        RenderCommand::drawIndexed(data->circleVA);
+        drawShape(Shapes::CIRCLE, pos, size, color);
     }
 }
