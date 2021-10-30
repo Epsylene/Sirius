@@ -143,6 +143,7 @@ namespace Sirius
             /// with 16/9 aspect ratio.
             CameraController3D(const Vec3& pos);
 
+            /////////////////////////////////////////////////////////////////////////
             /// @brief Construct a 3D camera controller
             ///
             /// @param fov Field of view, that is, the angle the camera2D "sees" of

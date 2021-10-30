@@ -47,8 +47,7 @@ namespace Sirius
             ///////////////////////////////////////////////////
             /// @brief Set the index buffer
             /// @param indexBuffer A pointer to the index buffer
-            void setIndexBuffer(
-                    const Ref<IndexBuffer>& indexBuffer);
+            void setIndexBuffer(const Ref<IndexBuffer>& indexBuffer);
 
             /////////////////////////////////
             /// @brief Get the vertex buffers

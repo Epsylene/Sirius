@@ -7,13 +7,11 @@ class ExampleLayer: public Sirius::Layer
     public:
 
         ExampleLayer(): Layer("Example")
-        {
-
-        }
+        {}
 
         void onUpdate(Sirius::Timestep dt) override
         {
-            Sirius::Renderer2D::drawQuad({0.f, 0.f}, {1.f, 1.f}, Sirius::Color::Black);
+            Sirius::Renderer2D::drawCircle({0.f, 0.f}, {0.5f, 0.5f}, Sirius::Color::Red);
         }
 
         void onImGuiRender() override

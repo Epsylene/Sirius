@@ -89,7 +89,9 @@ namespace Sirius
         }
 
         camera->setPosition(pos);
-        movSpeed = 3.f / zoom;
+        auto zoom = 1.f/this->zoom;
+        camera->setProjection(-aspect * zoom, aspect * zoom, -zoom, zoom);
+        movSpeed = 3.f * zoom;
     }
 
     Camera2D& CameraController2D::getCamera()
