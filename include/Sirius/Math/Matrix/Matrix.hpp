@@ -28,7 +28,8 @@ namespace Sirius
             //////////////////////////////////////////
             /// @brief Construct a matrix with all its
             ///     coefficients set to `val`
-            explicit constexpr Matrix(T val);
+            template<std::convertible_to<T> Ts>
+            explicit constexpr Matrix(Ts val);
 
             //////////////////////////////////////
             /// @brief Construct a matrix with the
@@ -50,7 +51,8 @@ namespace Sirius
             /// The coefficients of the result matrix between 0 and dim2 
             /// are set to the corresponding ones of the argument matrix; 
             /// those between dim2 and dim are set to 0.
-            template<unsigned dim2> requires (dim2 < dim) constexpr Matrix(const Matrix<dim2, T>& mat);
+            template<unsigned dim2> requires (dim2 < dim)
+            constexpr Matrix(const Matrix<dim2, T>& mat);
             
             ///////////////////////////////////////////////////
             /// @brief Construct a matrix from a smaller matrix
@@ -91,11 +93,13 @@ namespace Sirius
 
             //////////////////////////////////////
             /// @brief Unary matrix scalar product
-            constexpr Matrix<dim, T>& operator*=(T scalar);
+            template<std::convertible_to<T> Ts>
+            constexpr Matrix<dim, T>& operator*=(Ts scalar);
 
             ///////////////////////////////////////
             /// @brief Unary matrix scalar division
-            constexpr Matrix<dim, T>& operator/=(T scalar);
+            template<std::convertible_to<T> Ts>
+            constexpr Matrix<dim, T>& operator/=(Ts scalar);
 
             ///////////////////////////////
             /// @brief Unary matrix product 

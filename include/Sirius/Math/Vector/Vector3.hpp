@@ -19,17 +19,20 @@ namespace Sirius
         //////////////////////////////////////////
         /// @brief Construct a vector with all its 
         ///     coefficients set to `scalar`
-        constexpr explicit Vector(T scalar);
+        template<std::convertible_to<T> Ts>
+        constexpr explicit Vector(Ts scalar);
 
         /////////////////////////////////////////
         /// @brief Construct a vector from the 
         ///     provided scalar coefficients
-        constexpr Vector(T x, T y, T z);
+        template<std::convertible_to<T> Ts>
+        constexpr Vector(Ts x, Ts y, Ts z);
 
         //////////////////////////////////////////
         /// @brief Construct a 3d vector from a 2d
         ///     vector and a scalar
-        constexpr Vector(const Vector<2, T>& vec, T z);
+        template<std::convertible_to<T> Ts>
+        constexpr Vector(const Vector<2, T>& vec, Ts z);
 
         constexpr Vector(const Vector& vec) = default;
 
@@ -47,7 +50,7 @@ namespace Sirius
         /// The coefficients of the right-hand side vector are 
         /// statically casted to the type of the left-hand side 
         /// vector.
-        template<typename U> requires std::is_convertible_v<U, T>
+        template<std::convertible_to<T> U>
         constexpr Vector<3, T>& operator=(const Vector<3, U>& vec);
 
         ///////////////////////////////////////////////
@@ -68,11 +71,13 @@ namespace Sirius
 
         //////////////////////////////////////
         /// @brief Unary vector scalar product
-        constexpr Vector<3, T>& operator*=(T scalar);
+        template<std::convertible_to<T> Ts>
+        constexpr Vector<3, T>& operator*=(Ts scalar);
 
         ///////////////////////////////////////
         /// @brief Unary vector scalar division
-        constexpr Vector<3, T>& operator/=(T scalar);
+        template<std::convertible_to<T> Ts>
+        constexpr Vector<3, T>& operator/=(Ts scalar);
 
         /////////////////////////////////////////////////////
         /// @brief Unary vector coefficient-wise product
@@ -104,11 +109,13 @@ namespace Sirius
 
     ///////////////////////////////////////
     /// @brief Binary vector scalar product
-    template<typename T> constexpr Vector<3, T> operator*(const Vector<3, T>& vec, T scalar);
+    template<typename T, std::convertible_to<T> Ts>
+    constexpr Vector<3, T> operator*(const Vector<3, T>& vec, Ts scalar);
 
     ////////////////////////////////////////
     /// @brief Binary vector scalar division
-    template<typename T> constexpr Vector<3, T> operator/(const Vector<3, T>& vec, T scalar);
+    template<typename T, std::convertible_to<T> Ts>
+    constexpr Vector<3, T> operator/(const Vector<3, T>& vec, Ts scalar);
 
     //////////////////////////////////////////////////////
     /// @brief Binary vector coefficient-wise product

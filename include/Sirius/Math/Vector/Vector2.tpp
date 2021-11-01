@@ -5,15 +5,17 @@
 namespace Sirius
 {
     template<typename T> requires std::is_scalar_v<T>
-    constexpr Vector<2, T>::Vector(T scalar): x(scalar), y(scalar)
+    template<std::convertible_to<T> Ts>
+    constexpr Vector<2, T>::Vector(Ts scalar): x(scalar), y(scalar)
     {}
 
     template<typename T> requires std::is_scalar_v<T>
-    constexpr Vector<2, T>::Vector(T x, T y): x(x), y(y)
+    template<std::convertible_to<T> Ts>
+    constexpr Vector<2, T>::Vector(Ts x, Ts y): x(x), y(y)
     {}
 
     template<typename T> requires std::is_scalar_v<T>
-    template<typename U> requires std::is_convertible_v<U, T>
+    template<std::convertible_to<T> U>
     constexpr Vector<2, T>& Vector<2, T>::operator=(const Vector<2, U>& vec)
     {
         this->x = static_cast<T>(vec.x);
@@ -63,7 +65,8 @@ namespace Sirius
     }
 
     template<typename T> requires std::is_scalar_v<T>
-    constexpr Vector<2, T>& Vector<2, T>::operator*=(T scalar)
+    template<std::convertible_to<T> Ts>
+    constexpr Vector<2, T>& Vector<2, T>::operator*=(Ts scalar)
     {
         x *= scalar;
         y *= scalar;
@@ -72,7 +75,8 @@ namespace Sirius
     }
 
     template<typename T> requires std::is_scalar_v<T>
-    constexpr Vector<2, T>& Vector<2, T>::operator/=(T scalar)
+    template<std::convertible_to<T> Ts>
+    constexpr Vector<2, T>& Vector<2, T>::operator/=(Ts scalar)
     {
         x /= scalar;
         y /= scalar;
@@ -120,22 +124,22 @@ namespace Sirius
         return { v1.x - v2.x, v1.y - v2.y };
     }
 
-    template<typename T>
-    constexpr Vector<2, T> operator*(const Vector<2, T>& vec, T scalar)
+    template<typename T, std::convertible_to<T> Ts>
+    constexpr Vector<2, T> operator*(const Vector<2, T>& vec, Ts scalar)
     {
         return { vec.x * scalar, vec.y * scalar };
+    }
+
+    template<typename T, std::convertible_to<T> Ts>
+    constexpr Vector<2, T> operator/(const Vector<2, T>& vec, T scalar)
+    {
+        return Vector<2, T>(vec.x / scalar, vec.y / scalar);
     }
 
     template<typename T>
     constexpr Vector<2, T> operator*(const Vector<2, T>& v1, const Vector<2, T>& v2)
     {
         return { v1.x * v2.x, v1.y * v2.y };
-    }
-
-    template<typename T>
-    constexpr Vector<2, T> operator/(const Vector<2, T>& vec, T scalar)
-    {
-        return Vector<2, T>(vec.x / scalar, vec.y / scalar);
     }
 }
 

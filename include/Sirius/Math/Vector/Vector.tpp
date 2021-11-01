@@ -6,7 +6,8 @@
 namespace Sirius
 {
     template<unsigned dim, typename T> requires std::is_scalar_v<T>
-    constexpr Vector<dim, T>::Vector(T scalar)
+    template<std::convertible_to<T> Ts>
+    constexpr Vector<dim, T>::Vector(Ts scalar)
     {
         for (auto& val: vals)
         {
@@ -103,7 +104,8 @@ namespace Sirius
     }
 
     template<unsigned dim, typename T> requires std::is_scalar_v<T>
-    constexpr Vector<dim, T>& Vector<dim, T>::operator*=(T scalar)
+    template<std::convertible_to<T> Ts>
+    constexpr Vector<dim, T>& Vector<dim, T>::operator*=(Ts scalar)
     {
         for (auto& val: vals)
         {
@@ -114,7 +116,8 @@ namespace Sirius
     }
 
     template<unsigned dim, typename T> requires std::is_scalar_v<T>
-    constexpr Vector<dim, T>& Vector<dim, T>::operator/=(T scalar)
+    template<std::convertible_to<T> Ts>
+    constexpr Vector<dim, T>& Vector<dim, T>::operator/=(Ts scalar)
     {
         for (auto& val: vals)
         {
@@ -190,8 +193,8 @@ namespace Sirius
         return result;
     }
 
-    template<unsigned dim, typename T>
-    constexpr Vector<dim, T> operator*(const Vector<dim, T>& vec, T scalar)
+    template<unsigned dim, typename T, std::convertible_to<T> Ts>
+    constexpr Vector<dim, T> operator*(const Vector<dim, T>& vec, Ts scalar)
     {
         Vector<dim, T> result {};
 
@@ -203,8 +206,8 @@ namespace Sirius
         return result;
     }
 
-    template<unsigned dim, typename T>
-    constexpr Vector<dim, T> operator/(const Vector<dim, T>& vec, T scalar)
+    template<unsigned dim, typename T, std::convertible_to<T> Ts>
+    constexpr Vector<dim, T> operator/(const Vector<dim, T>& vec, Ts scalar)
     {
         Vector<dim, T> result {};
 

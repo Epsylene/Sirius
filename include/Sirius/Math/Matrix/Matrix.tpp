@@ -4,7 +4,8 @@
 namespace Sirius
 {
     template<unsigned int dim, typename T> requires std::is_scalar_v<T>
-    constexpr Matrix<dim, T>::Matrix(T val)
+    template<std::convertible_to<T> Ts>
+    constexpr Matrix<dim, T>::Matrix(Ts val)
     {
         for (int i = 0; i < dim; ++i)
         {
@@ -110,7 +111,8 @@ namespace Sirius
     }
 
     template<unsigned dim, typename T> requires std::is_scalar_v<T>
-    constexpr Matrix<dim, T>& Matrix<dim, T>::operator*=(T scalar)
+    template<std::convertible_to<T> Ts>
+    constexpr Matrix<dim, T>& Matrix<dim, T>::operator*=(Ts scalar)
     {
         for (int i = 0; i < dim; ++i)
         {
@@ -127,7 +129,8 @@ namespace Sirius
     }
 
     template<unsigned dim, typename T> requires std::is_scalar_v<T>
-    constexpr Matrix<dim, T>& Matrix<dim, T>::operator/=(T scalar)
+    template<std::convertible_to<T> Ts>
+    constexpr Matrix<dim, T>& Matrix<dim, T>::operator/=(Ts scalar)
     {
         for (int i = 0; i < dim; ++i)
         {

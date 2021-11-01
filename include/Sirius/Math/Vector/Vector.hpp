@@ -25,7 +25,8 @@ namespace Sirius
             //////////////////////////////////////////
             /// @brief Construct a vector with all its 
             ///     coefficients set to `scalar`
-            constexpr explicit Vector(T scalar);
+            template<std::convertible_to<T> Ts>
+            constexpr explicit Vector(Ts scalar);
 
             /////////////////////////////////////////
             /// @brief Construct a vector from the 
@@ -74,11 +75,13 @@ namespace Sirius
 
             //////////////////////////////////////
             /// @brief Unary vector scalar product
-            constexpr Vector<dim, T>& operator*=(T scalar);
+            template<std::convertible_to<T> Ts>
+            constexpr Vector<dim, T>& operator*=(Ts scalar);
 
             ///////////////////////////////////////
             /// @brief Unary vector scalar division
-            constexpr Vector<dim, T>& operator/=(T scalar);
+            template<std::convertible_to<T> Ts>
+            constexpr Vector<dim, T>& operator/=(Ts scalar);
 
             /////////////////////////////////////////////////////
             /// @brief Unary vector coefficient-wise product
@@ -110,11 +113,13 @@ namespace Sirius
     
     ///////////////////////////////////////
     /// @brief Binary vector scalar product
-    template<unsigned dim, typename T> constexpr Vector<dim, T> operator*(const Vector<dim, T>& vec, T scalar);
+    template<unsigned dim, typename T, std::convertible_to<T> Ts>
+    constexpr Vector<dim, T> operator*(const Vector<dim, T>& vec, Ts scalar);
     
     ////////////////////////////////////////
     /// @brief Binary vector scalar division
-    template<unsigned dim, typename T> constexpr Vector<dim, T> operator/(const Vector<dim, T>& vec, T scalar);
+    template<unsigned dim, typename T, std::convertible_to<T> Ts>
+    constexpr Vector<dim, T> operator/(const Vector<dim, T>& vec, Ts scalar);
 
     //////////////////////////////////////////////////////
     /// @brief Binary vector coefficient-wise product

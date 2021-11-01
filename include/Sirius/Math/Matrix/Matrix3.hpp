@@ -15,7 +15,8 @@ namespace Sirius
     
     ///////////////////////////////////////////////////////
     /// @brief Binary 3-dimensional matrices scalar product
-    template<typename T> constexpr Matrix<3, T> operator*(const Matrix<3, T>& mat, T scalar);
+    template<typename T, std::convertible_to<T> Ts>
+    constexpr Matrix<3, T> operator*(const Matrix<3, T>& mat, Ts scalar);
     
     ////////////////////////////////////////////////
     /// @brief Binary 3-dimensional matrices product

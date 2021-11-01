@@ -142,13 +142,13 @@ namespace Sirius
 
         // Move around
         if(Input::isKeyPressed(SRS_KEY_W))
-            pos += dir * movSpeed * (float)dt;
+            pos += dir * movSpeed * dt;
         if(Input::isKeyPressed(SRS_KEY_A))
-            pos -= normalize(cross(dir, up)) * movSpeed * (float)dt;
+            pos -= normalize(cross(dir, up)) * movSpeed * dt;
         if(Input::isKeyPressed(SRS_KEY_S))
-            pos -= dir * movSpeed * (float)dt;
+            pos -= dir * movSpeed * dt;
         if(Input::isKeyPressed(SRS_KEY_D))
-            pos += normalize(cross(dir, up)) * movSpeed * (float)dt;
+            pos += normalize(cross(dir, up)) * movSpeed * dt;
 
         // Move up and down
         if(Input::isKeyPressed(SRS_KEY_R))

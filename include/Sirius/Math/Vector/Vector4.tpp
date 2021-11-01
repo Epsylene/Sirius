@@ -4,11 +4,13 @@
 namespace Sirius
 {
     template<typename T> requires std::is_scalar_v<T>
-    constexpr Vector<4, T>::Vector(T scalar): x(scalar), y(scalar), z(scalar), w(scalar)
+    template<std::convertible_to<T> Ts>
+    constexpr Vector<4, T>::Vector(Ts scalar): x(scalar), y(scalar), z(scalar), w(scalar)
     {}
 
     template<typename T> requires std::is_scalar_v<T>
-    constexpr Vector<4, T>::Vector(T x, T y, T z, T w): x(x), y(y), z(z), w(w)
+    template<std::convertible_to<T> Ts>
+    constexpr Vector<4, T>::Vector(Ts x, Ts y, Ts z, Ts w): x(x), y(y), z(z), w(w)
     {}
 
     template<typename T> requires std::is_scalar_v<T>
@@ -22,7 +24,7 @@ namespace Sirius
     {}
 
     template<typename T> requires std::is_scalar_v<T>
-    template<typename U> requires std::is_convertible_v<U, T>
+    template<std::convertible_to<T> U>
     constexpr Vector<4, T>& Vector<4, T>::operator=(const Vector<4, U>& vec)
     {
         this->x = static_cast<T>(vec.x);
@@ -82,7 +84,8 @@ namespace Sirius
     }
 
     template<typename T> requires std::is_scalar_v<T>
-    constexpr Vector<4, T>& Vector<4, T>::operator*=(T scalar)
+    template<std::convertible_to<T> Ts>
+    constexpr Vector<4, T>& Vector<4, T>::operator*=(Ts scalar)
     {
         x *= scalar;
         y *= scalar;
@@ -93,7 +96,8 @@ namespace Sirius
     }
 
     template<typename T> requires std::is_scalar_v<T>
-    constexpr Vector<4, T>& Vector<4, T>::operator/=(T scalar)
+    template<std::convertible_to<T> Ts>
+    constexpr Vector<4, T>& Vector<4, T>::operator/=(Ts scalar)
     {
         x /= scalar;
         y /= scalar;
@@ -136,12 +140,14 @@ namespace Sirius
     }
 
     template<typename T> requires std::is_scalar_v<T>
-    constexpr Vector<4, T>::Vector(const Vector<2, T>& vec, T z, T w):
+    template<std::convertible_to<T> Ts>
+    constexpr Vector<4, T>::Vector(const Vector<2, T>& vec, Ts z, Ts w):
         Vector(vec.x, vec.y, z, w)
     {}
 
     template<typename T> requires std::is_scalar_v<T>
-    constexpr Vector<4, T>::Vector(const Vector<3, T>& vec, T w):
+    template<std::convertible_to<T> Ts>
+    constexpr Vector<4, T>::Vector(const Vector<3, T>& vec, Ts w):
         Vector(vec.x, vec.y, vec.z, w)
     {}
 
@@ -157,22 +163,22 @@ namespace Sirius
         return { v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w };
     }
 
-    template<typename T>
-    constexpr Vector<4, T> operator*(const Vector<4, T>& vec, T scalar)
+    template<typename T, std::convertible_to<T> Ts>
+    constexpr Vector<4, T> operator*(const Vector<4, T>& vec, Ts scalar)
     {
         return { vec.x * scalar, vec.y * scalar, vec.z * scalar, vec.w * scalar };
+    }
+
+    template<typename T, std::convertible_to<T> Ts>
+    constexpr Vector<4, T> operator/(const Vector<4, T>& vec, Ts scalar)
+    {
+        return Vector<4, T>(vec.x / scalar, vec.y / scalar, vec.z / scalar, vec.w / scalar);
     }
 
     template<typename T>
     constexpr Vector<4, T> operator*(const Vector<4, T>& v1, const Vector<4, T>& v2)
     {
         return { v1.x * v2.x, v1.y * v2.y, v1.z * v2.z, v1.w * v2.w };
-    }
-
-    template<typename T>
-    constexpr Vector<4, T> operator/(const Vector<4, T>& vec, T scalar)
-    {
-        return Vector<4, T>(vec.x / scalar, vec.y / scalar, vec.z / scalar, vec.w / scalar);
     }
 }
 

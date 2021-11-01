@@ -15,8 +15,8 @@ namespace Sirius
         return Matrix<2, T>(mat1[0] - mat2[0], mat1[1] - mat2[1]);
     }
 
-    template<typename T>
-    constexpr Matrix<2, T> operator*(const Matrix<2, T>& mat, T scalar)
+    template<typename T, std::convertible_to<T> Ts>
+    constexpr Matrix<2, T> operator*(const Matrix<2, T>& mat, Ts scalar)
     {
         return { mat[0] * scalar, mat[1] * scalar };
     }

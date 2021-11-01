@@ -15,7 +15,8 @@ namespace Sirius
     
     ///////////////////////////////////////////////////////
     /// @brief Binary 4-dimensional matrices scalar product
-    template<typename T> constexpr Matrix<4, T> operator*(const Matrix<4, T>& mat, T scalar);
+    template<typename T, std::convertible_to<T> Ts>
+    constexpr Matrix<4, T> operator*(const Matrix<4, T>& mat, Ts scalar);
     
     ////////////////////////////////////////////////
     /// @brief Binary 4-dimensional matrices product

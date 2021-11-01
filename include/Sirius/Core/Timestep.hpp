@@ -11,12 +11,12 @@ namespace Sirius
 
         public:
 
-            Timestep(float time = 0.f): time(time)
+            constexpr Timestep(float time = 0.f): time(time)
             {}
 
             float getSeconds() const { return time; }
             float getMilliSeconds() const { return time * 1000.f; }
 
-            operator float() const { return time; }
+            constexpr operator float() const { return time; }
     };
 }
