@@ -105,42 +105,6 @@ namespace Sirius
     {
         return !(rhs == *this);
     }
-
-    template<typename T> requires std::is_scalar_v<T>
-    constexpr Vector<2, T> Vector<2, T>::operator-()
-    {
-        return { x ? -x : 0, y ? -y : 0 };
-    }
-
-    template<typename T>
-    constexpr Vector<2, T> operator+(const Vector<2, T>& v1, const Vector<2, T>& v2)
-    {
-        return { v1.x + v2.x, v1.y + v2.y };
-    }
-
-    template<typename T>
-    constexpr Vector<2, T> operator-(const Vector<2, T>& v1, const Vector<2, T>& v2)
-    {
-        return { v1.x - v2.x, v1.y - v2.y };
-    }
-
-    template<typename T, std::convertible_to<T> Ts>
-    constexpr Vector<2, T> operator*(const Vector<2, T>& vec, Ts scalar)
-    {
-        return { vec.x * scalar, vec.y * scalar };
-    }
-
-    template<typename T, std::convertible_to<T> Ts>
-    constexpr Vector<2, T> operator/(const Vector<2, T>& vec, T scalar)
-    {
-        return Vector<2, T>(vec.x / scalar, vec.y / scalar);
-    }
-
-    template<typename T>
-    constexpr Vector<2, T> operator*(const Vector<2, T>& v1, const Vector<2, T>& v2)
-    {
-        return { v1.x * v2.x, v1.y * v2.y };
-    }
 }
 
 template <typename T>

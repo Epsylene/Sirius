@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <Sirius/Renderer/Objects/Skybox.hpp>
+#include "Sirius/Renderer/Objects/Skybox.hpp"
 #include "Sirius/Math/Vector/Vector.hpp"
 #include "Sirius/Renderer/Objects/CameraController.hpp"
 #include "Sirius/Renderer/Objects/Model.hpp"

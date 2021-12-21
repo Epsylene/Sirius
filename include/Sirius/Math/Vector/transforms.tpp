@@ -48,7 +48,7 @@ namespace Sirius
     template<unsigned dim, typename T> requires std::is_floating_point_v<T>
     constexpr Vector<dim, T> normalize(const Vector<dim, T>& vec)
     {
-        return vec / std::sqrt(dot(vec, vec));
+        return vec / static_cast<T>(std::sqrt(dot(vec, vec)));
     }
 
     template<typename T>

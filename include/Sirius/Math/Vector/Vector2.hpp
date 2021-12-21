@@ -88,31 +88,6 @@ namespace Sirius
         bool operator!=(const Vector<2, T>& rhs) const;
     };
 
-    /////////////////////////////
-    /// @brief Binary vectors sum
-    template<typename T> constexpr Vector<2, T> operator+(const Vector<2, T>& v1, const Vector<2, T>& v2);
-    
-    ////////////////////////////////////
-    /// @brief Binary vectors difference
-    template<typename T> constexpr Vector<2, T> operator-(const Vector<2, T>& v1, const Vector<2, T>& v2);
-    
-    ///////////////////////////////////////
-    /// @brief Binary vector scalar product
-    template<typename T, std::convertible_to<T> Ts>
-    constexpr Vector<2, T> operator*(const Vector<2, T>& vec, Ts scalar);
-
-    ////////////////////////////////////////
-    /// @brief Binary vector scalar division
-    template<typename T, std::convertible_to<T> Ts>
-    constexpr Vector<2, T> operator/(const Vector<2, T>& vec, T scalar);
-    
-    //////////////////////////////////////////////////////
-    /// @brief Binary vector coefficient-wise product
-    ///
-    /// This is only provided for the sake of convenience,
-    /// in dot product functions and the like.
-    template<typename T> constexpr Vector<2, T> operator*(const Vector<2, T>& v1, const Vector<2, T>& v2);
-
     using Vector2i = Vector<2, int>;
     using Vector2f = Vector<2, float>;
     using Vector2d = Vector<2, double>;

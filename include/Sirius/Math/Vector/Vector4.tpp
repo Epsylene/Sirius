@@ -150,36 +150,6 @@ namespace Sirius
     constexpr Vector<4, T>::Vector(const Vector<3, T>& vec, Ts w):
         Vector(vec.x, vec.y, vec.z, w)
     {}
-
-    template<typename T>
-    constexpr Vector<4, T> operator+(const Vector<4, T>& v1, const Vector<4, T>& v2)
-    {
-        return { v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w + v2.w };
-    }
-
-    template<typename T>
-    constexpr Vector<4, T> operator-(const Vector<4, T>& v1, const Vector<4, T>& v2)
-    {
-        return { v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w };
-    }
-
-    template<typename T, std::convertible_to<T> Ts>
-    constexpr Vector<4, T> operator*(const Vector<4, T>& vec, Ts scalar)
-    {
-        return { vec.x * scalar, vec.y * scalar, vec.z * scalar, vec.w * scalar };
-    }
-
-    template<typename T, std::convertible_to<T> Ts>
-    constexpr Vector<4, T> operator/(const Vector<4, T>& vec, Ts scalar)
-    {
-        return Vector<4, T>(vec.x / scalar, vec.y / scalar, vec.z / scalar, vec.w / scalar);
-    }
-
-    template<typename T>
-    constexpr Vector<4, T> operator*(const Vector<4, T>& v1, const Vector<4, T>& v2)
-    {
-        return { v1.x * v2.x, v1.y * v2.y, v1.z * v2.z, v1.w * v2.w };
-    }
 }
 
 template <typename T>

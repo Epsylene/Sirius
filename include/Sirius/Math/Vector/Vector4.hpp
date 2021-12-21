@@ -32,13 +32,13 @@ namespace Sirius
         /// @brief Construct a 4d vector from a 2d
         ///     vector and two scalars
         template<std::convertible_to<T> Ts>
-        constexpr Vector(const Vector<2, T>& vec, Ts z, Ts w);
+        constexpr Vector(const Vector<2, T>& vec, Ts z = 0, Ts w = 0);
 
         //////////////////////////////////////////
         /// @brief Construct a 4d vector from a 3d
         ///     vector and a scalar
         template<std::convertible_to<T> Ts>
-        constexpr Vector(const Vector<3, T>& vec, Ts w);
+        constexpr Vector(const Vector<3, T>& vec, Ts w = 0);
 
         constexpr Vector(const Vector& vec) = default;
 
@@ -108,32 +108,6 @@ namespace Sirius
         /// @brief Vector difference operator
         bool operator!=(const Vector<4, T>& rhs) const;
     };
-
-
-    /////////////////////////////
-    /// @brief Binary vectors sum
-    template<typename T> constexpr Vector<4, T> operator+(const Vector<4, T>& v1, const Vector<4, T>& v2);
-    
-    ////////////////////////////////////
-    /// @brief Binary vectors difference
-    template<typename T> constexpr Vector<4, T> operator-(const Vector<4, T>& v1, const Vector<4, T>& v2);
-    
-    ///////////////////////////////////////
-    /// @brief Binary vector scalar product
-    template<typename T, std::convertible_to<T> Ts>
-    constexpr Vector<4, T> operator*(const Vector<4, T>& vec, Ts scalar);
-    
-    ////////////////////////////////////////
-    /// @brief Binary vector scalar division
-    template<typename T, std::convertible_to<T> Ts>
-    constexpr Vector<4, T> operator/(const Vector<4, T>& vec, Ts scalar);
-
-    //////////////////////////////////////////////////////
-    /// @brief Binary vector coefficient-wise product
-    ///
-    /// This is only provided for the sake of convenience,
-    /// in dot product functions and the like.
-    template<typename T> constexpr Vector<4, T> operator*(const Vector<4, T>& v1, const Vector<4, T>& v2);
 
     using Vector4i = Vector<4, int>;
     using Vector4f = Vector<4, float>;
