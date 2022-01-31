@@ -2,6 +2,10 @@
 #pragma once
 
 #include <iostream>
+#include <filesystem>
+#include <string>
+#include <sstream>
+#include <fstream>
 
 #include <functional>
 #include <utility>
@@ -14,9 +18,5 @@
 #include <array>
 #include <map>
 #include <unordered_map>
-
-#include <string>
-#include <sstream>
-#include <fstream>
 
 #include "Sirius/Core/Log.hpp"

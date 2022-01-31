@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <filesystem>
+
 namespace Sirius
 {
     enum class TextureType: uint8_t
@@ -16,15 +18,14 @@ namespace Sirius
 
             uint32_t textureID;
             TextureType type;
-            std::string path;
+            std::filesystem::path path {}; // @TODO: change these to std::filesystem::path
             uint32_t width, height;
 
             Texture();
+
             Texture(const std::string& path, const TextureType& type);
 
-            virtual ~Texture() = default;
-
-            virtual TextureType getType() const;
+            ~Texture() = default;
 
             virtual void bind(uint32_t slot = 0) const = 0;
     };
@@ -37,7 +38,7 @@ namespace Sirius
 
             //////////////////////////////////////////////
             /// @brief Creates a texture with given width
-            ///     and height, but no image scene3DData
+            ///     and height, but no image data
             ///
             /// This is useful when creating a framebuffer
             /// object. The texture has immutable storage.
@@ -51,7 +52,7 @@ namespace Sirius
 
             //////////////////////////////
             /// @brief Deletes the texture
-            virtual ~Texture2D() override;
+            ~Texture2D();
 
             /////////////////////////////////////
             /// @brief Bind the texture to OpenGL
@@ -67,8 +68,6 @@ namespace Sirius
     class Texture3D: public Texture
     {
         public:
-
-            uint32_t width, height;
 
             Texture3D(const std::unordered_map<CubeFace, std::string>& faces, TextureType type);
 

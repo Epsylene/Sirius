@@ -10,11 +10,6 @@ namespace Sirius
 {
     // -------------------------  TEXTURE  -------------------------
 
-    TextureType Texture::getType() const
-    {
-        return type;
-    }
-
     Texture::Texture(const std::string& path, const TextureType& type):
         path(path), type(type)
     {}
@@ -77,8 +72,8 @@ namespace Sirius
         glTextureParameteri(textureID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
         // Specify the texture sub-image that will be used, from some pixel
-        //  scene3DData the format (memory layout) of which is specified, along
-        //  with a type. The pixel scene3DData will be converted from 'dataformat'
+        //  data the format (memory layout) of which is specified, along
+        //  with a type. The pixel data will be converted from 'dataformat'
         //  to 'internalformat' in order to be used by OpenGL.
         glTextureSubImage2D(textureID, 0, 0, 0, width, height, dataFormat, GL_UNSIGNED_BYTE, data);
 
@@ -88,7 +83,6 @@ namespace Sirius
 
     Texture2D::~Texture2D()
     {
-        glDeleteTextures(1, &textureID);
     }
 
     void Texture2D::bind(uint32_t slot) const
@@ -138,7 +132,6 @@ namespace Sirius
 
     Texture3D::~Texture3D()
     {
-        glDeleteTextures(1, &textureID);
     }
 
     void Texture3D::bind(uint32_t slot) const

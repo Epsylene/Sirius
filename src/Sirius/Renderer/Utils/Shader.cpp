@@ -171,11 +171,6 @@ namespace Sirius
         }
     }
 
-    const std::string& Shader::getName() const
-    {
-        return name;
-    }
-
     void Shader::bind() const
     {
         glUseProgram(shaderID);
@@ -243,7 +238,7 @@ namespace Sirius
 
     void ShaderLibrary::add(const Ref<Shader>& shader)
     {
-        auto& name = shader->getName();
+        auto& name = shader->name;
 
         if(shaders.find(name) != shaders.end())
             Log::coreError("Shader '{0}' already exists !", name);

@@ -93,7 +93,7 @@ namespace Sirius
             aiString texName;
             mat->GetTexture(aiType, i, &texName);
 
-            std::string texPath = path.substr(0, path.find_last_of('/')) + "/" + texName.C_Str();
+            std::string texPath = path.parent_path().generic_string() + "/" + texName.C_Str();
 
             if(texLoaded.empty())
                 texLoaded.emplace_back(std::make_shared<Texture2D>(texPath, type));

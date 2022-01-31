@@ -33,6 +33,13 @@ namespace Sirius
         camera = std::make_shared<Camera2D>(-aspect * zoom, aspect * zoom, -zoom, zoom);
     }
 
+    CameraController2D::CameraController2D(float left, float right, float bottom, float top)
+    {
+        enableRotation = true;
+        aspect = (top - bottom) / (left - right);
+        camera = std::make_shared<Camera2D>(left, right, bottom, top);
+    }
+
     bool CameraController2D::onMouseScrolled(MouseScrolledEvent& event)
     {
         auto zoom = 1.f/this->zoom;

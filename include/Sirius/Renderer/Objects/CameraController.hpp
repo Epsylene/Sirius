@@ -88,6 +88,8 @@ namespace Sirius
             /// @param enableRotation Can the camera be rotated ?
             CameraController2D(float aspect, bool enableRotation);
 
+            CameraController2D(float left, float right, float bottom, float top);
+
             /////////////////////////////////////////////////////
             /// @brief Updates the controller
             ///

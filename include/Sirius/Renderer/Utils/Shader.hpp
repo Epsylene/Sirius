@@ -18,7 +18,6 @@ namespace Sirius
         private:
 
             uint32_t shaderID;
-            std::string name;
 
             ///////////////////////////////////////////////////
             /// @brief Reads the file in *filepath* and returns
@@ -35,6 +34,8 @@ namespace Sirius
             void compile(const std::unordered_map<GLenum, std::string>& shaderSources);
 
         public:
+
+            std::string name;
 
             ///////////////////////////////////////////////////////////
             /// @brief Create a shader from the GLSL file at *filepath*
@@ -53,10 +54,6 @@ namespace Sirius
             ///
             /// Calls glDeleteProgram() on 'textureID`.
             virtual ~Shader();
-
-            ////////////////////////////////
-            /// @brief Get the shader's name
-            const std::string& getName() const;
 
             //////////////////////////////////
             /// @brief Bind the shader program

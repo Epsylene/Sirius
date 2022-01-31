@@ -50,7 +50,7 @@ namespace Sirius
         public:
 
             std::vector<Mesh> meshes;
-            std::string path;
+            std::filesystem::path path;
 
             Model() = default;
 
