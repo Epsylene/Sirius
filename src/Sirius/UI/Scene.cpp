@@ -62,11 +62,11 @@ namespace Sirius
 
         if(!properties.render2D)
         {
-            for (auto& model: sceneData.models)
-                Renderer3D::drawModel(model, DrawMode::TEXTURE);
-
             if(!properties.wireframe)
                 Renderer3D::drawSkybox();
+
+            for (auto& model: sceneData.models)
+                Renderer3D::drawModel(model, DrawMode::TEXTURE);
         }
 
         Renderer2D::endScene();

@@ -106,9 +106,9 @@ namespace Sirius
         RenderCommand::setDepthTest(false);
         RenderCommand::setClearColor(Color::White);
         RenderCommand::clear(COLOR_BUFFER);
-        Renderer::setPostProcessing(Scene::properties.ppFlag);
 
         sceneData->postRenderFBO->bind();
+        Renderer::setPostProcessing(Scene::properties.ppFlag);
         applyPostProcessing(sceneData->renderFBO);
         sceneData->postRenderFBO->unbind();
     }

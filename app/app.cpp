@@ -20,9 +20,8 @@ class ExampleLayer: public Sirius::Layer
 
         void onUpdate(Sirius::Timestep dt) override
         {
-
-            Sirius::Renderer2D::drawCircle(pos, {0.5f, 0.5f}, Sirius::Color::Red);
-            Sirius::Renderer2D::drawCircle({}, {0.1f, 0.1f}, Sirius::Color::Black);
+//            Sirius::Renderer2D::drawCircle(pos, {0.5f, 0.5f}, Sirius::Color::Red);
+//            Sirius::Renderer2D::drawCircle({}, {0.1f, 0.1f}, Sirius::Color::Black);
         }
 
         void onImGuiRender() override

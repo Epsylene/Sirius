@@ -72,6 +72,9 @@ namespace Sirius
         Renderer::sceneData->cameraData->uploadFloat3("cameraPos", camera.getPosition());
 
         data->shaderLib["refraction"]->uploadUniformFloat3("u_otherCameraPos", camera.getPosition());
+        data->shaderLib["skybox"]->bind();
+        data->shaderLib["skybox"]->uploadUniformMat4("u_view", Mat4(Mat3(camera.getViewAndProjMatrices().first)));
+        data->shaderLib["skybox"]->uploadUniformMat4("u_proj", camera.getViewAndProjMatrices().second);
     }
 
     void Renderer3D::endScene()
@@ -239,6 +242,7 @@ namespace Sirius
     void Renderer3D::drawSkybox()
     {
         RenderCommand::setFaceCulling(false);
+        RenderCommand::setDepthTest(false);
 
         data->shaderLib["skybox"]->bind();
         data->shaderLib["skybox"]->uploadUniformMat4("u_transform", scale(100.f));
@@ -247,6 +251,7 @@ namespace Sirius
         Scene::sceneData.skybox->cube.meshes.begin()->vertexArray->bind();
         RenderCommand::drawIndexed(Scene::sceneData.skybox->cube.meshes.begin()->vertexArray);
 
+        RenderCommand::setDepthTest(true);
         RenderCommand::setFaceCulling(true);
     }
 }

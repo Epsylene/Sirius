@@ -18,7 +18,7 @@ namespace Sirius
 
             uint32_t textureID;
             TextureType type;
-            std::filesystem::path path {}; // @TODO: change these to std::filesystem::path
+            std::filesystem::path path {};
             uint32_t width, height;
 
             Texture();

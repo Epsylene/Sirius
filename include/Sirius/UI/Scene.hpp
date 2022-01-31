@@ -12,7 +12,7 @@ namespace Sirius
     struct SceneProperties
     {
         bool active;
-        bool render2D = true;
+        bool render2D = false;
         Color background;
         bool wireframe;
         PostProcessingFlags ppFlag;
