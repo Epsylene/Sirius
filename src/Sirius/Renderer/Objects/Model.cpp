@@ -16,10 +16,10 @@ namespace Sirius
         vertexArray = std::make_shared<VertexArray>(vb, ib);
    }
 
-    Model::Model(const std::string& filepath): path(filepath)
+    Model::Model(const std::filesystem::path& filepath): path(filepath)
     {
         Assimp::Importer importer;
-        const aiScene* scene = importer.ReadFile(filepath, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenNormals | aiProcess_JoinIdenticalVertices);
+        const aiScene* scene = importer.ReadFile(filepath.string(), aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenNormals | aiProcess_JoinIdenticalVertices);
 
         SRS_CORE_ASSERT(scene && !(scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE), "Assimp error : " + std::string(importer.GetErrorString()));
 

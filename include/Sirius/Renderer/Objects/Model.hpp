@@ -59,6 +59,6 @@ namespace Sirius
             ///
             /// Textures are automatically retrieved. Their filepaths
             /// are expected to be relative to the model's file.
-            explicit Model(const std::string& filepath);
+            explicit Model(const std::filesystem::path& filepath);
     };
 }

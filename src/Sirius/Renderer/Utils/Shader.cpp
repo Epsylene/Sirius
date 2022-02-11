@@ -13,7 +13,7 @@ namespace Sirius
         return GL_INVALID_ENUM;
     }
 
-    Shader::Shader(const std::string& filepath)
+    Shader::Shader(const std::filesystem::path& filepath)
     {
         // Read the source file, extract the shader sources and compile them
         std::string source = readFile(filepath);
@@ -21,12 +21,9 @@ namespace Sirius
         compile(shaderSources);
 
         // Extract the shader's name from the file's name
-        auto lastSlash = filepath.find_last_of("/\\");
-        lastSlash = (lastSlash == std::string::npos) ? 0 : lastSlash + 1;
-        auto lastDot = filepath.rfind('.');
-        auto count = (lastDot == std::string::npos) ? filepath.size() - lastSlash : lastDot - lastSlash;
-
-        this->name = filepath.substr(lastSlash, count);
+        auto filename = filepath.filename().string();
+        this->name = filename.substr(0, filename.find_last_of('.'));
+        Log::coreTrace(name);
     }
 
     Shader::Shader(const std::string& name, const std::string& vertexSrc,
@@ -44,9 +41,9 @@ namespace Sirius
         glDeleteProgram(shaderID);
     }
 
-    std::string path;
+    std::filesystem::path path;
 
-    std::string Shader::readFile(const std::string& filepath)
+    std::string Shader::readFile(const std::filesystem::path& filepath)
     {
         std::string result;
         path = filepath;
@@ -131,7 +128,7 @@ namespace Sirius
 
                 glDeleteShader(shader);
 
-                Log::coreError("Shader {} at \"" + path + "\" compilation failure !", type);
+                Log::coreError("Shader {} at \"" + path.string() + "\" compilation failure !", type);
                 Log::coreError("{}", infoLog.data());
                 return;
             }
@@ -255,7 +252,7 @@ namespace Sirius
         shaders[name] = shader;
     }
 
-    Ref<Shader> ShaderLibrary::load(const std::string& filepath)
+    Ref<Shader> ShaderLibrary::load(const std::filesystem::path& filepath)
     {
         auto shader = std::make_shared<Shader>(filepath);
         add(shader);
@@ -264,7 +261,7 @@ namespace Sirius
     }
 
     Ref<Shader>
-    ShaderLibrary::load(const std::string& name, const std::string& filepath)
+    ShaderLibrary::load(const std::string& name, const std::filesystem::path& filepath)
     {
         auto shader = std::make_shared<Shader>(filepath);
         add(name, shader);
