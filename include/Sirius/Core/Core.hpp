@@ -4,8 +4,12 @@
 #include "srspch.hpp"
 #include "magic_enum.hpp"
 
-#define SRS_ASSERT(x, ...) { if(!(x)) { SRS_ERROR("Assertion failed: {0}", __VA_ARGS__); } }
-#define SRS_CORE_ASSERT(x, ...) { if(!(x)) { SRS_CORE_ERROR("Assertion failed: {0}", __VA_ARGS__); } }
+#include "Log.hpp"
+
+//#define SRS_CORE_ASSERT(x, ...) { if(!(x)) { Log::error(LogChannel::CORE, "Assertion failed: {0}", __VA_ARGS__); } }
+#define SRS_CORE_ASSERT(x, ...) if(!(x)) {}
+
+namespace fs = std::filesystem;
 
 namespace Sirius
 {

@@ -1,7 +1,8 @@
-cmake-build-debug
+cmake-build-trace
 cmake-build-release
 .idea
 .vscode
 .cache
 build
 bin
+app/logs

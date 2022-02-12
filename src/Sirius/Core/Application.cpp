@@ -5,12 +5,12 @@ namespace Sirius
 {
     Application* Application::instance = nullptr;
 
-    Application::Application()
+    Application::Application(const fs::path& path)
     {
         SRS_CORE_ASSERT(!instance, "Application already exists")
         instance = this;
 
-        Log::init();
+        Log::init(path);
 
         window = std::make_unique<Window>();
         window->setEventCallback([this](Event& event) { onEvent(event); });

@@ -23,7 +23,7 @@ namespace Sirius
         // Extract the shader's name from the file's name
         auto filename = filepath.filename().string();
         this->name = filename.substr(0, filename.find_last_of('.'));
-        Log::coreTrace(name);
+        Log::trace(LogChannel::CORE, name);
     }
 
     Shader::Shader(const std::string& name, const std::string& vertexSrc,
@@ -64,7 +64,7 @@ namespace Sirius
         }
         else
         {
-            Log::coreError("Could not open file '{0}'", filepath);
+            Log::error(LogChannel::CORE, "Could not open file '{0}'", filepath.string());
         }
 
         return result;
@@ -128,8 +128,8 @@ namespace Sirius
 
                 glDeleteShader(shader);
 
-                Log::coreError("Shader {} at \"" + path.string() + "\" compilation failure !", type);
-                Log::coreError("{}", infoLog.data());
+                Log::error(LogChannel::CORE, "Shader {} at \"" + path.string() + "\" compilation failure !", type);
+                Log::error(LogChannel::CORE, "{}", infoLog.data());
                 return;
             }
 
@@ -155,8 +155,8 @@ namespace Sirius
             for (auto& id: glShaderIDs)
                 glDeleteShader(id);
 
-            Log::coreError("{0}", infoLog.data());
-            Log::coreError("OpenGLShader link failure !");
+            Log::error(LogChannel::CORE, "{0}", infoLog.data());
+            Log::error(LogChannel::CORE, "OpenGLShader link failure !");
 
             return;
         }
@@ -238,7 +238,7 @@ namespace Sirius
         auto& name = shader->name;
 
         if(shaders.find(name) != shaders.end())
-            Log::coreError("Shader '{0}' already exists !", name);
+            Log::error(LogChannel::CORE, "Shader '{0}' already exists !", name);
 
         shaders[name] = shader;
     }
@@ -247,7 +247,7 @@ namespace Sirius
                             const Ref<Shader>& shader)
     {
         if(shaders.find(name) != shaders.end())
-            Log::coreError("Shader '{0}' already exists !", name);
+            Log::error(LogChannel::CORE, "Shader '{0}' already exists !", name);
 
         shaders[name] = shader;
     }
@@ -272,7 +272,7 @@ namespace Sirius
     Ref <Shader>& ShaderLibrary::operator[](const std::string& name)
     {
         if(shaders.find(name) == shaders.end())
-            Log::coreError("Shader '{0}' not found !", name);
+            Log::error(LogChannel::CORE, "Shader '{0}' not found !", name);
 
         return shaders[name];
     }

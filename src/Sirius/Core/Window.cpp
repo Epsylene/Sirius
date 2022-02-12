@@ -14,7 +14,7 @@ namespace Sirius
 
     static void glfwErrorCallback(int error, const char* description)
     {
-        SRS_CORE_ERROR("GLFW error ({0}): {1}", error, description);
+        Log::error(LogChannel::CORE, "GLFW error ({0}): {1}", error, description);
     }
 
     Window::Window(const WindowProps& wp)
@@ -25,7 +25,7 @@ namespace Sirius
         windowData.width = wp.width;
         windowData.height = wp.height;
 
-        Log::coreInfo("Creating window {0} ({1}x{2})", wp.title, wp.width, wp.height);
+        Log::info(LogChannel::CORE, "Creating window {0} ({1}x{2})", wp.title, wp.width, wp.height);
 
         // GLFW initialization check
 
