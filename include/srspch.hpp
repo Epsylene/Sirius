@@ -19,4 +19,4 @@
 #include <map>
 #include <unordered_map>
 
-#include "Sirius/Core/Log.hpp"
+#include "Sirius/Core/Logger/Log.hpp"

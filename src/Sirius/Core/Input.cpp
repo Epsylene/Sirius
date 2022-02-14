@@ -1,5 +1,5 @@
 
-#include "Sirius/Core/Input.hpp"
+#include "Sirius/Core/Input/Input.hpp"
 #include "Sirius/Core/Application.hpp"
 
 namespace Sirius

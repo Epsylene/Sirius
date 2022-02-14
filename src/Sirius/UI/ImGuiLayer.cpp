@@ -1,7 +1,7 @@
 
 #include "Sirius/UI/ImGuiLayer.hpp"
 
-#include "Sirius/Core/Input.hpp"
+#include "Sirius/Core/Input/Input.hpp"
 #include "Sirius/Renderer/Renderer3D.hpp"
 
 namespace Sirius

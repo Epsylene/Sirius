@@ -5,7 +5,7 @@
 //  applications only.
 
 #include <Sirius/Core/Application.hpp>
-#include <Sirius/Core/Log.hpp>
+#include "Sirius/Core/Logger/Log.hpp"
 
 #include <Sirius/UI/Scene.hpp>
 #include <Sirius/Core/Layer.hpp>
@@ -13,9 +13,9 @@
 
 #include <Sirius/Core/Timestep.hpp>
 
-#include <Sirius/Core/Input.hpp>
-#include <Sirius/Core/KeyCodes.h>
-#include <Sirius/Core/MouseButtonCodes.h>
+#include "Sirius/Core/Input/Input.hpp"
+#include "Sirius/Core/Input/KeyCodes.h"
+#include "Sirius/Core/Input/MouseButtonCodes.h"
 
 #include <Sirius/Math/Math.hpp>
 

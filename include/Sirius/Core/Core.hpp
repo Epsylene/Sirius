@@ -4,7 +4,7 @@
 #include "srspch.hpp"
 #include "magic_enum.hpp"
 
-#include "Log.hpp"
+#include "Logger/Log.hpp"
 
 //#define SRS_CORE_ASSERT(x, ...) { if(!(x)) { Log::error(LogChannel::CORE, "Assertion failed: {0}", __VA_ARGS__); } }
 #define SRS_CORE_ASSERT(x, ...) if(!(x)) {}

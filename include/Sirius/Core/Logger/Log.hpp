@@ -6,8 +6,8 @@
 
 #include "srspch.hpp"
 
-#include "Core.hpp"
-#include "Application.hpp"
+#include "../Core.hpp"
+#include "../Application.hpp"
 
 namespace Sirius
 {

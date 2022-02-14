@@ -2,7 +2,6 @@
 #include "Sirius/UI/Scene.hpp"
 
 #include "Sirius/Core/Application.hpp"
-#include "Sirius/Core/Input.hpp"
 #include "Sirius/Renderer/Renderer2D.hpp"
 #include "Sirius/Renderer/Renderer3D.hpp"
 

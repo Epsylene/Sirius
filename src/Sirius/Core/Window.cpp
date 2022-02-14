@@ -6,7 +6,7 @@
 #include "Sirius/Events/KeyEvent.hpp"
 #include "Sirius/Events/MouseEvent.hpp"
 
-#include "Sirius/Core/Log.hpp"
+#include "Sirius/Core/Logger/Log.hpp"
 
 namespace Sirius
 {

@@ -6,8 +6,8 @@
 #include "Sirius/Renderer/Utils/Shader.hpp"
 #include "Sirius/Renderer/Objects/PrefabMeshes.hpp"
 
-#include "Sirius/Core/Input.hpp"
-#include "Sirius/Core/MouseButtonCodes.h"
+#include "Sirius/Core/Input/Input.hpp"
+#include "Sirius/Core/Input/MouseButtonCodes.h"
 
 namespace Sirius
 {
