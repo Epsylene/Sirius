@@ -2,9 +2,12 @@
 #pragma once
 
 #include <fmt/os.h>
+#include <fmt/chrono.h>
 
 #include "srspch.hpp"
+
 #include "Core.hpp"
+#include "Application.hpp"
 
 namespace Sirius
 {
@@ -18,6 +21,12 @@ namespace Sirius
         TRACE, INFO, WARN, ERR
     };
 
+    struct File
+    {
+        std::ofstream stream;
+        const std::string name;
+    };
+
     //////////////////////////////////////////////
     /// @brief Log utility class
     ///
@@ -25,9 +34,13 @@ namespace Sirius
     /// the library and the client.
     class Log
     {
+        private:
+
+            static File logFile;
+
         public:
 
-            static void init(const fs::path& path);
+            static void init();
 
             template<typename... Ts>
             static void log(LogLevel level, LogChannel channel, std::string_view message, Ts&&... args);

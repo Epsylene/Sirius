@@ -22,7 +22,7 @@ namespace Sirius
             ///////////////////////////////////////////////////
             /// @brief Reads the file in *filepath* and returns
             ///     the result
-            std::string readFile(const std::filesystem::path& filepath);
+            std::string readFile(const fs::path& filepath);
 
             /////////////////////////////////////////////////////////
             /// @brief Extracts the shaders sources from the file and
@@ -39,7 +39,7 @@ namespace Sirius
 
             ///////////////////////////////////////////////////////////
             /// @brief Create a shader from the GLSL file at *filepath*
-            explicit Shader(const std::filesystem::path& filepath);
+            explicit Shader(const fs::path& filepath);
 
             ////////////////////////////////////////////////////////////
             /// @brief Create a shader from a vertex and fragment source
@@ -119,12 +119,12 @@ namespace Sirius
 
             /////////////////////////////////////////////////////////////////
             /// @brief Create and add a shader from *filepath* to the library
-            Ref<Shader> load(const std::filesystem::path& filepath);
+            Ref<Shader> load(const fs::path& filepath);
 
             ////////////////////////////////////////////////////////////////
             /// @brief Create and add a shader from *filepath* with a custom
             ///     name to the library
-            Ref<Shader> load(const std::string& name, const std::filesystem::path& filepath);
+            Ref<Shader> load(const std::string& name, const fs::path& filepath);
 
             //////////////////////////////////////////////////
             /// @brief Get a reference to the shader at *name*

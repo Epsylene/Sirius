@@ -50,7 +50,7 @@ namespace Sirius
         public:
 
             std::vector<Mesh> meshes;
-            std::filesystem::path path;
+            fs::path path;
 
             Model() = default;
 
@@ -59,6 +59,6 @@ namespace Sirius
             ///
             /// Textures are automatically retrieved. Their filepaths
             /// are expected to be relative to the model's file.
-            explicit Model(const std::filesystem::path& filepath);
+            explicit Model(const fs::path& filepath);
     };
 }

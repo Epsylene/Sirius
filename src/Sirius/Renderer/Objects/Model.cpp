@@ -16,7 +16,7 @@ namespace Sirius
         vertexArray = std::make_shared<VertexArray>(vb, ib);
    }
 
-    Model::Model(const std::filesystem::path& filepath): path(filepath)
+    Model::Model(const fs::path& filepath): path(filepath)
     {
         Assimp::Importer importer;
         const aiScene* scene = importer.ReadFile(filepath.string(), aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenNormals | aiProcess_JoinIdenticalVertices);

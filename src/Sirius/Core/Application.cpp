@@ -4,13 +4,15 @@
 namespace Sirius
 {
     Application* Application::instance = nullptr;
+    fs::path Application::appPath {};
 
     Application::Application(const fs::path& path)
     {
         SRS_CORE_ASSERT(!instance, "Application already exists")
         instance = this;
 
-        Log::init(path);
+        appPath = path.has_extension() ? path.parent_path() : path;
+        Log::init();
 
         window = std::make_unique<Window>();
         window->setEventCallback([this](Event& event) { onEvent(event); });

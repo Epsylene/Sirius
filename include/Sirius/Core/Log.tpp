@@ -1,27 +1,16 @@
 
-#include "Sirius/Core/Log.hpp"
-
-#include <fmt/color.h>
+#include "Log.hpp"
 
 namespace Sirius
 {
-    static Scope<fmt::ostream> logFile;
+    File Log::logFile {{}, fmt::format("log_{:%d.%m.%Y-%H.%M.%S}.txt", std::chrono::system_clock::now())};
 
-    void Log::init(const fs::path& path)
+    void Log::init()
     {
-        auto dirPath = path.has_extension() ? path.parent_path() : path;
-        fs::create_directories(dirPath.parent_path()/"logs");
+        fs::create_directories(Application::appPath/"logs");
 
-        using namespace std::chrono;
-
-        auto now = system_clock::now();
-        auto ms = duration_cast<milliseconds>(now.time_since_epoch()) % 1000;
-        auto timer = system_clock::to_time_t(now);
-        auto bt = std::localtime(&timer);
-
-        std::ostringstream oss;
-        oss << std::put_time(bt, "log_%d.%m.%Y-%H.%M.%S.txt");
-        logFile = std::make_unique<fmt::ostream>(fmt::output_file((dirPath/"logs"/oss.str()).string()));
+        auto name = fmt::format("log_{:%d.%m.%Y-%H.%M.%S}.txt", std::chrono::system_clock::now());
+        logFile.stream.open(Application::appPath/"logs"/name);
     }
 
     template<typename... Ts>
@@ -32,38 +21,34 @@ namespace Sirius
 
         auto now = system_clock::now();
         auto ms = duration_cast<milliseconds>(now.time_since_epoch()) % 1000;
-        auto timer = system_clock::to_time_t(now);
-        auto bt = std::localtime(&timer);
 
-        std::ostringstream oss;
-        oss << std::put_time(bt, "[%d-%m-%Y %H:%M:%S");
-        oss << "." << std::setfill('0') << std::setw(3) << ms.count() << "] ";
-        oss << "[" << magic_enum::enum_name(channel) << "] ";
-
-        auto logMsg = oss.str() + std::string(message);
-
-        // @todo: fix printing to files and multiple log levels outputs
+        auto logMsg = fmt::format("[{:%d-%m-%Y %H:%M:%S}.{}] [{}] ", now, ms.count(), magic_enum::enum_name(channel)) + std::string(message);
 
         switch (level)
         {
             case LogLevel::TRACE:
                 fmt::vprint(logMsg + "\n", fmt::make_format_args(std::forward<Ts>(args)...));
-//                fmt::vprint(logFile, logMsg + "\n", fmt::make_format_args(std::forward<Ts>(args)...));
+                break;
 
             case LogLevel::INFO:
                 fmt::vprint("\033[32m" + logMsg + "\033[0m\n", fmt::make_format_args(std::forward<Ts>(args)...));
-//                fmt::vprint(logFile, fmt::fg(fmt::color::green), logMsg + "\n", fmt::make_format_args(std::forward<Ts>(args)...));
+                break;
 
             case LogLevel::WARN:
                 fmt::vprint("\033[33m" + logMsg + "\033[0m\n", fmt::make_format_args(std::forward<Ts>(args)...));
-//                fmt::vprint(logFile, fmt::fg(fmt::color::green), logMsg + "\n", fmt::make_format_args(std::forward<Ts>(args)...));
+                break;
 
             case LogLevel::ERR:
                 fmt::vprint("\033[31m" + logMsg + "\033[0m\n", fmt::make_format_args(std::forward<Ts>(args)...));
-//                fmt::vprint(logFile, fmt::fg(fmt::color::green), logMsg + "\n", fmt::make_format_args(std::forward<Ts>(args)...));
+                break;
         }
 
-//        logFile->close();
+        if(level != LogLevel::TRACE)
+        {
+            logFile.stream.open(Application::appPath/"logs"/logFile.name, std::ios::out | std::ios::app);
+            logFile.stream << "(" << magic_enum::enum_name(level) << ") " << logMsg << "\n";
+            logFile.stream.close();
+        }
     }
 
     template<typename... Ts>

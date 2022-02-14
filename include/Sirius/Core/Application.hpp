@@ -44,6 +44,8 @@ namespace Sirius
 
         public:
 
+            static fs::path appPath;
+
             /////////////////////////////////////////
             /// @brief Default constructor
             ///
