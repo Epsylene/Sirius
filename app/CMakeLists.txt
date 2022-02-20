@@ -1,0 +1,47 @@
+
+cmake_minimum_required(VERSION 3.17)
+project(App VERSION 0.1.0)
+
+add_definitions(-DGLFW_INCLUDE_NONE)
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})
+
+add_executable(Sirius_app app.cpp)
+target_link_libraries(Sirius_app Sirius)
+target_include_directories(Sirius_app PUBLIC ${SIRIUS_INCLUDE_DIRS})
+
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Wall -Og")
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(CMAKE_CXX_FLAGS_RELEASE_INIT "-Wall -O3")
+endif()
+
+set(SIRIUS_BIN_DIR ${CMAKE_SOURCE_DIR}/Sirius/bin/${CMAKE_BUILD_TYPE})
+
+add_custom_command(
+        TARGET Sirius_app POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${SIRIUS_BIN_DIR}/libassimp.dll
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libassimp.dll
+)
+
+add_custom_command(
+        TARGET Sirius_app POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${SIRIUS_BIN_DIR}/glfw3d.dll
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/glfw3d.dll
+)
+
+add_custom_command(
+        TARGET Sirius_app POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${SIRIUS_BIN_DIR}/libfmtd.dll
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libfmtd.dll
+)
+
+add_custom_command(
+        TARGET Sirius_app POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${SIRIUS_BIN_DIR}/libSiriusd.dll
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libSiriusd.dll
+)

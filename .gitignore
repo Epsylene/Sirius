@@ -4,5 +4,5 @@ cmake-build-release
 .vscode
 .cache
 build
-bin
+/bin
 app/logs

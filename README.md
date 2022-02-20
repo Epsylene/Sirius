@@ -91,12 +91,12 @@ following lines to your CMakeLists.txt :
 add_definitions(-DGLFW_INCLUDE_NONE)
 
 include_directories(Sirius/include)
-include_directories(Sirius/vendor/spdlog/include/)
-include_directories(Sirius/vendor/imgui/)
-include_directories(Sirius/vendor/glfw/include/)
-include_directories(Sirius/vendor/glad/include/)
-include_directories(Sirius/vendor/stb_image)
-include_directories(vendor/assimp/include)
+include_directories(Sirius/lib/spdlog/include/)
+include_directories(Sirius/lib/imgui/)
+include_directories(Sirius/lib/glfw/include/)
+include_directories(Sirius/lib/glad/include/)
+include_directories(Sirius/lib/stb_image)
+include_directories(lib/assimp/include)
 ```
 
 Change the `add_executable()` part so
