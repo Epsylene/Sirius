@@ -4,7 +4,7 @@ project(App)
 
 add_definitions(-DGLFW_INCLUDE_NONE)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})
 
 add_executable(Sirius_app app.cpp)
 target_link_libraries(Sirius_app Sirius)
@@ -16,7 +16,7 @@ elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
     set(CMAKE_CXX_FLAGS_RELEASE_INIT "-Wall -O3")
 endif()
 
-set(SIRIUS_BIN_DIR ${CMAKE_SOURCE_DIR}/Sirius/bin/${CMAKE_BUILD_TYPE})
+set(SIRIUS_BIN_DIR ${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})
 
 add_custom_command(
         TARGET Sirius_app POST_BUILD

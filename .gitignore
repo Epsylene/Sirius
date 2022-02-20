@@ -1,5 +1,6 @@
-cmake-build-trace
+cmake-build-debug
 cmake-build-release
+CMakeFiles
 .idea
 .vscode
 .cache
