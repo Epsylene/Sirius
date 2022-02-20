@@ -26,8 +26,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Sirius library and dependencies
 # ----------------------------------------------------
 
-add_subdirectory(lib/fmt)
-add_subdirectory(lib/glfw)
+add_subdirectory(lib/fmt EXCLUDE_FROM_ALL)
+add_subdirectory(lib/glfw EXCLUDE_FROM_ALL)
 
 # Assimp #
 set(CMAKE_PREFIX_PATH lib/assimp/lib/cmake/assimp-5.0/)
@@ -64,10 +64,21 @@ add_custom_command(
 target_precompile_headers(Sirius PUBLIC src/srspch.hpp)
 
 # ----------------------------------------------------
-# Sirius include directories and defintions
+# Sirius include directories and definitions
 # ----------------------------------------------------
 
 add_definitions(-DGLFW_INCLUDE_NONE)
 
 set(SIRIUS_INCLUDE_DIRS src lib/fmt/include lib/imgui/ lib/glfw/include/ lib/glad/include/ lib/stb_image lib/assimp/include lib/magic_enum)
 target_include_directories(Sirius PUBLIC ${SIRIUS_INCLUDE_DIRS})
+
+# ----------------------------------------------------
+# Install Sirius and its dependencies
+# ----------------------------------------------------
+
+install(TARGETS Sirius DESTINATION lib)
+install(DIRECTORY src/ DESTINATION include
+        FILES_MATCHING PATTERN "*.hpp" PATTERN "*.h")
+
+# Dependencies #
+install(FILES bin/${CMAKE_BUILD_TYPE}/libAssimp.dll DESTINATION lib/)

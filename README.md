@@ -37,7 +37,7 @@ Then, you will have to download the library
 sources. You can click on the **Code** button
 on the upper-right corner and either download
 the repository's ZIP file, or clone
-it with the command :
+it with the command:
 
 ```shell
 git clone https://github.com/Epsylene/Sirius.git
@@ -48,10 +48,10 @@ the configuration files for your compiler,
 as well as the installation prefix for the
 library files. You can do it with the CMake
 GUI, or via the CLI. In the last case, the
-command looks like this :
+command looks like this:
 
 ```shell
-cmake -G "GENERATOR" -DCMAKE_INSTALL_PREFIX="LIBRARY_PATH" SOURCE_DIR
+cmake -G "GENERATOR" SOURCE_DIR
 ```
 
 You have :
@@ -61,58 +61,43 @@ You have :
   MinGW or MinGW-w64, use "MinGW Makefiles";
   if you are using Visual Studio, you can search for 
   your version's CMake generator, but it should be the
-  one chosen by default)
-  
-* LIBRARY_PATH : the path where you want
-  to install the library. Make sure it 
-  already exists, CMake will not create
-  the folder for you !
-  
+  one chosen by default);
+
 * SOURCE_DIR : the path of the cloned
   repository's folder.
-  
-After that, the last thing you have to 
-do is running this command :
+
+After that, the last thing you have to do is to run this
+command:
 
 ```shell
-mingw32-make & mingw32-make install
+cmake --install GEN_DIR --prefix INSTALL_DIR
 ```
 
-If you got no errors, then, congratulations ! You have succesfuly 
-installed the library.
+Where:
+* GEN_DIR is the place where you generated the project (there should be a file named *cmake_install.cmake* in there);
+
+* INSTALL_DIR is the place you wish to install the library to.
+
+If you got no errors, then, congratulations ! You have succesfuly installed the library.
 
 ### Linking the library
 
 All you need is in the library install path.
 Copy-paste it into your project, and add the
-following lines to your CMakeLists.txt :
+following lines to your CMakeLists.txt:
 
 ```cmake
 add_definitions(-DGLFW_INCLUDE_NONE)
 
-include_directories(Sirius/include)
-include_directories(Sirius/lib/spdlog/include/)
-include_directories(Sirius/lib/imgui/)
-include_directories(Sirius/lib/glfw/include/)
-include_directories(Sirius/lib/glad/include/)
-include_directories(Sirius/lib/stb_image)
-include_directories(lib/assimp/include)
+add_subdirectory(lib/Sirius)
+
+target_link_libraries(${YOUR_TARGET} Sirius)
+target_include_directories(${YOUR_TARGET} PUBLIC ${SIRIUS_INCLUDE_DIRS})
 ```
 
-Change the `add_executable()` part so
-it looks like this :
-
-```cmake
-link_directories(${CMAKE_SOURCE_DIR}/build)
-add_executable(test app.cpp)
-target_link_libraries(test PUBLIC Sirius)
-```
-
-Finally, go to *"Sirius/lib"*, *"Sirius/vendor/glfw/bin"* and *"Sirius/vendor/assimp/bin"*, grab
-the *libSirius.dll*, *glfw3.dll* and *libassimp.dll*, and paste them next to
-your executable. Everything should work now : you can verify
-it with the *test* folder in the library source directory, which
-should create an app looking like the header image.
+Finally, go to *"Sirius/bin"*, grab the *libSirius.dll*, *libassimp.dll* files, and paste them next to
+your executable (or copy them with the CMake copy functions
+that you can find in the example *app/CMakeLists.txt*).
 
 ## Credits
 
@@ -129,4 +114,4 @@ and objects I wanted to implement. Make sure to go check both !
 
 Sirius uses OpenGL, [glad](https://glad.dav1d.de/), [GLFW](https://www.glfw.org/),
 [Assimp](https://www.assimp.org/), [Dear ImGui](https://github.com/ocornut/imgui) 
-and [spdlog](https://github.com/gabime/spdlog).
+and [fmt](https://github.com/fmtlib/fmt).

@@ -1,6 +1,7 @@
 
 #include <Sirius.hpp>
-#include "../Sirius/src/Sirius/Core/EntryPoint.hpp"
+
+#include "Sirius/Core/EntryPoint.hpp"
 
 class ExampleLayer: public Sirius::Layer
 {

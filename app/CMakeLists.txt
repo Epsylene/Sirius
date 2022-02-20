@@ -1,6 +1,6 @@
 
 cmake_minimum_required(VERSION 3.17)
-project(App VERSION 0.1.0)
+project(App)
 
 add_definitions(-DGLFW_INCLUDE_NONE)
 
@@ -25,23 +25,32 @@ add_custom_command(
         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libassimp.dll
 )
 
-add_custom_command(
-        TARGET Sirius_app POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-        ${SIRIUS_BIN_DIR}/glfw3d.dll
-        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/glfw3d.dll
-)
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_custom_command(
+            TARGET Sirius_app POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy
+            ${SIRIUS_BIN_DIR}/libfmtd.dll
+            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libfmtd.dll
+    )
 
-add_custom_command(
-        TARGET Sirius_app POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-        ${SIRIUS_BIN_DIR}/libfmtd.dll
-        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libfmtd.dll
-)
+    add_custom_command(
+            TARGET Sirius_app POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy
+            ${SIRIUS_BIN_DIR}/glfw3d.dll
+            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/glfw3d.dll
+    )
 
-add_custom_command(
-        TARGET Sirius_app POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-        ${SIRIUS_BIN_DIR}/libSiriusd.dll
-        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libSiriusd.dll
-)
+    add_custom_command(
+            TARGET Sirius_app POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy
+            ${SIRIUS_BIN_DIR}/libSiriusd.dll
+            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libSiriusd.dll
+    )
+else()
+    add_custom_command(
+            TARGET Sirius_app POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy
+            ${SIRIUS_BIN_DIR}/libSirius.dll
+            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libSirius.dll
+    )
+endif()
