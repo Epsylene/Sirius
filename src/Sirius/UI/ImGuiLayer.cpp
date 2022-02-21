@@ -5,9 +5,7 @@
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
 
-#include "../Core/Layer.hpp"
-#include "../Core/Application.hpp"
-#include "../Renderer/Objects/Model.hpp"
+#include "Sirius/Core/Application.hpp"
 #include "Scene.hpp"
 #include "Panels.hpp"
 

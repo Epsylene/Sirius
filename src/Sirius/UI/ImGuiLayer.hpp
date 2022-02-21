@@ -3,10 +3,10 @@
 
 #include "srspch.hpp"
 
+#include "Sirius/Core/Layer.hpp"
+
 namespace Sirius
 {
-    class Application;
-
     class ImGuiLayer: public Layer
     {
         public:

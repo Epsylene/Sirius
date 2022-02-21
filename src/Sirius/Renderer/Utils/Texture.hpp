@@ -1,7 +1,8 @@
 
 #pragma once
 
-#include <filesystem>
+#include "srspch.hpp"
+#include "Sirius/Core/Core.hpp"
 
 namespace Sirius
 {

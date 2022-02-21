@@ -1,6 +1,8 @@
 
 #include "Shader.hpp"
 
+#include "Sirius/Core/Core.hpp"
+
 namespace Sirius
 {
     static GLenum shaderTypeFromString(const std::string& type)
@@ -259,8 +261,7 @@ namespace Sirius
         return shader;
     }
 
-    Ref<Shader>
-    ShaderLibrary::load(const std::string& name, const fs::path& filepath)
+    Ref<Shader> ShaderLibrary::load(const std::string& name, const fs::path& filepath)
     {
         auto shader = std::make_shared<Shader>(filepath);
         add(name, shader);

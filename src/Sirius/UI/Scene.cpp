@@ -19,13 +19,14 @@ namespace Sirius
         sceneData.controller2D = std::make_shared<CameraController2D>();
         sceneData.controller3D = std::make_shared<CameraController3D>();
 
+        std::string skyboxPath = Sirius::libPath.string() + "/res/skybox/";
         std::unordered_map<Sirius::CubeFace, std::string> skybox =
-                {{Sirius::CubeFace::RIGHT, "../../app/res/textures/skybox/right.jpg"},
-                 {Sirius::CubeFace::LEFT, "../../app/res/textures/skybox/left.jpg"},
-                 {Sirius::CubeFace::BOTTOM, "../../app/res/textures/skybox/bottom.jpg"},
-                 {Sirius::CubeFace::TOP, "../../app/res/textures/skybox/top.jpg"},
-                 {Sirius::CubeFace::BACK, "../../app/res/textures/skybox/back.jpg"},
-                 {Sirius::CubeFace::FRONT, "../../app/res/textures/skybox/front.jpg"}};
+                {{Sirius::CubeFace::RIGHT, skyboxPath + "right.jpg"},
+                 {Sirius::CubeFace::LEFT, skyboxPath + "left.jpg"},
+                 {Sirius::CubeFace::BOTTOM, skyboxPath + "bottom.jpg"},
+                 {Sirius::CubeFace::TOP, skyboxPath + "top.jpg"},
+                 {Sirius::CubeFace::BACK, skyboxPath + "back.jpg"},
+                 {Sirius::CubeFace::FRONT, skyboxPath + "front.jpg"}};
 
         sceneData.skybox = std::make_shared<Skybox>(skybox);
     }

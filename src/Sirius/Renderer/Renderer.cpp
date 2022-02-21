@@ -50,7 +50,7 @@ namespace Sirius
 
         sceneData->renderQuad = std::make_shared<VertexArray>(vb, ib);
 
-        sceneData->postprocess = std::make_shared<Shader>("../../app/res/shaders/postprocess.glsl");
+        sceneData->postprocess = std::make_shared<Shader>(Sirius::libPath.string() + "/res/shaders/postprocess.glsl");
     }
 
     void Renderer::applyPostProcessing(const Scope<FrameBuffer>& frameBuffer,

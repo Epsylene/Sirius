@@ -18,5 +18,3 @@
 #include <array>
 #include <map>
 #include <unordered_map>
-
-#include "Sirius/Core/Logger/Log.hpp"

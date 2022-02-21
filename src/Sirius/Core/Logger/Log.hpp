@@ -1,13 +1,7 @@
 
 #pragma once
 
-#include "fmt/os.h"
-#include "fmt/chrono.h"
-
 #include "srspch.hpp"
-
-#include "../Core.hpp"
-#include "../Application.hpp"
 
 namespace Sirius
 {

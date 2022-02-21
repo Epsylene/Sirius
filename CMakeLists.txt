@@ -68,6 +68,7 @@ target_precompile_headers(Sirius PUBLIC src/srspch.hpp)
 # ----------------------------------------------------
 
 add_definitions(-DGLFW_INCLUDE_NONE)
+add_compile_definitions(SRS_LIB_DIR=${CMAKE_CURRENT_SOURCE_DIR})
 
 set(SIRIUS_INCLUDE_DIRS src lib/fmt/include lib/imgui/ lib/glfw/include/ lib/glad/include/ lib/stb_image lib/assimp/include lib/magic_enum)
 target_include_directories(Sirius PUBLIC ${SIRIUS_INCLUDE_DIRS})

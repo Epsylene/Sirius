@@ -2,7 +2,6 @@
 #pragma once
 
 #include "srspch.hpp"
-#include "Core.hpp"
 
 #include "Window.hpp"
 #include "Sirius/Events/Event.hpp"
@@ -13,11 +12,11 @@
 #include "LayerStack.hpp"
 #include "../UI/ImGuiLayer.hpp"
 
-#include "../Renderer/Utils/Buffer.hpp"
-#include "../Renderer/Utils/VertexArray.hpp"
-#include "../Renderer/Utils/Shader.hpp"
-#include "../Renderer/Renderer.hpp"
-#include "../Renderer/RenderCommand.hpp"
+#include "Sirius/Renderer/Utils/Buffer.hpp"
+#include "Sirius/Renderer/Utils/VertexArray.hpp"
+#include "Sirius/Renderer/Utils/Shader.hpp"
+#include "Sirius/Renderer/Renderer.hpp"
+#include "Sirius/Renderer/RenderCommand.hpp"
 
 namespace Sirius
 {
@@ -41,8 +40,6 @@ namespace Sirius
             Ref<ImGuiLayer> imGuiLayer;
 
         public:
-
-            static fs::path appPath;
 
             /////////////////////////////////////////
             /// @brief Default constructor

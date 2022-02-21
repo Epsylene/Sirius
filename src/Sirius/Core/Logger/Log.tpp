@@ -1,16 +1,24 @@
 
 #include "Log.hpp"
 
+#include <fmt/os.h>
+#include <fmt/chrono.h>
+
+namespace fs = std::filesystem;
+
+#define macro_str(a) #a
+#define xmacro_str(a) macro_str(a)
+
 namespace Sirius
 {
     File Log::logFile {{}, fmt::format("log_{:%d.%m.%Y-%H.%M.%S}.txt", std::chrono::system_clock::now())};
 
     void Log::init()
     {
-        fs::create_directories(Application::appPath/"logs");
-
-        auto name = fmt::format("log_{:%d.%m.%Y-%H.%M.%S}.txt", std::chrono::system_clock::now());
-        logFile.stream.open(Application::appPath/"logs"/name);
+//        fs::create_directories("logs");
+//
+//        auto name = fmt::format("log_{:%d.%m.%Y-%H.%M.%S}.txt", std::chrono::system_clock::now());
+//        logFile.stream.open(fs::path("logs")/name);
     }
 
     template<typename... Ts>
@@ -45,7 +53,7 @@ namespace Sirius
 
         if(level != LogLevel::TRACE)
         {
-            logFile.stream.open(Application::appPath/"logs"/logFile.name, std::ios::out | std::ios::app);
+            logFile.stream.open(fs::path("logs")/logFile.name, std::ios::out | std::ios::app);
             logFile.stream << "(" << magic_enum::enum_name(level) << ") " << logMsg << "\n";
             logFile.stream.close();
         }

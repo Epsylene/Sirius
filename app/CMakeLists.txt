@@ -8,6 +8,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin/${CMAKE_BUILD
 
 add_executable(Sirius_app app.cpp)
 target_link_libraries(Sirius_app Sirius)
+target_compile_definitions(Sirius PUBLIC -DSRS_APP_DIR=${CMAKE_SOURCE_DIR})
 target_include_directories(Sirius_app PUBLIC ${SIRIUS_INCLUDE_DIRS})
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")

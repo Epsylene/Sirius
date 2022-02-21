@@ -1,6 +1,8 @@
 
 #include "Vector.hpp"
 
+#include <fmt/ostream.h>
+
 namespace Sirius
 {
     template<unsigned dim, typename T> requires std::is_scalar_v<T>

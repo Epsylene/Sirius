@@ -37,13 +37,15 @@ namespace Sirius
 
         data->emissionCube = std::make_shared<Cube>();
 
-        data->shaderLib.load("../../app/res/shaders/flat_color.glsl");
-        data->shaderLib.load("../../app/res/shaders/emission.glsl");
-        data->shaderLib.load("../../app/res/shaders/texture.glsl");
-        data->shaderLib.load("../../app/res/shaders/flat_texture.glsl");
-        data->shaderLib.load("../../app/res/shaders/skybox.glsl");
-        data->shaderLib.load("../../app/res/shaders/reflection.glsl");
-        data->shaderLib.load("../../app/res/shaders/refraction.glsl");
+        std::string shadersPath = Sirius::libPath.string() + "/res/shaders/";
+
+        data->shaderLib.load(shadersPath + "flat_color.glsl");
+        data->shaderLib.load(shadersPath + "emission.glsl");
+        data->shaderLib.load(shadersPath + "texture.glsl");
+        data->shaderLib.load(shadersPath + "flat_texture.glsl");
+        data->shaderLib.load(shadersPath + "skybox.glsl");
+        data->shaderLib.load(shadersPath + "reflection.glsl");
+        data->shaderLib.load(shadersPath + "refraction.glsl");
 
         BufferLayout layout = {{{DataType::Float3, DataType::Float3, DataType::Float3}, "dirLight"}};
         data->dirLightData = std::make_shared<UniformBuffer>(layout, 1);

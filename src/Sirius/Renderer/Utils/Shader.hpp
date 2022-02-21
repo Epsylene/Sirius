@@ -6,6 +6,9 @@
 #include "Texture.hpp"
 
 #include "srspch.hpp"
+#include "Sirius/Core/Core.hpp"
+
+#include <glad/glad.h>
 
 namespace Sirius
 {

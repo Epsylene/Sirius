@@ -6,7 +6,8 @@
 #include "Sirius/Events/MouseEvent.hpp"
 #include "Sirius/Events/ApplicationEvent.hpp"
 
-#include "../../Core/Timestep.hpp"
+#include "Sirius/Core/Timestep.hpp"
+#include "Sirius/Core/Core.hpp"
 
 namespace Sirius
 {

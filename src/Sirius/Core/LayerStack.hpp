@@ -2,6 +2,8 @@
 #pragma once
 
 #include "srspch.hpp"
+#include "Sirius/Core/Core.hpp"
+
 #include "Layer.hpp"
 
 namespace Sirius
