@@ -8,8 +8,7 @@
 
 namespace fs = std::filesystem;
 
-//#define SRS_CORE_ASSERT(x, ...) { if(!(x)) { Log::error(LogChannel::CORE, "Assertion failed: {0}", __VA_ARGS__); } }
-#define SRS_CORE_ASSERT(x, ...) if(!(x)) {}
+#define SRS_CORE_ASSERT(x, ...) { if(!(x)) { Log::error(LogChannel::CORE, "Assertion failed: {0}", __VA_ARGS__); } }
 
 #define macro_str(a) #a
 #define xmacro_str(a) macro_str(a)

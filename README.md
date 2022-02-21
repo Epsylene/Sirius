@@ -92,6 +92,7 @@ add_definitions(-DGLFW_INCLUDE_NONE)
 add_subdirectory(lib/Sirius)
 
 target_link_libraries(${YOUR_TARGET} Sirius)
+target_compile_definitions(Sirius PUBLIC -DSRS_APP_DIR=${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(${YOUR_TARGET} PUBLIC ${SIRIUS_INCLUDE_DIRS})
 ```
 
