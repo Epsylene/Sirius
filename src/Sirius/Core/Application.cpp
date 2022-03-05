@@ -5,7 +5,7 @@ namespace Sirius
 {
     Application* Application::instance = nullptr;
 
-    Application::Application(const fs::path& path)
+    Application::Application()
     {
         SRS_CORE_ASSERT(!instance, "Application already exists")
         instance = this;

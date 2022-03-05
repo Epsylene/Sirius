@@ -3,6 +3,8 @@
 
 #include "srspch.hpp"
 
+#include <fmt/os.h>
+
 namespace Sirius
 {
     /////////////////////////////////////////////////

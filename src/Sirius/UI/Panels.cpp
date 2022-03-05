@@ -19,11 +19,11 @@ namespace Sirius
     {
         meshBrowser.SetTitle("Open mesh");
         meshBrowser.SetTypeFilters({".fbx", ".obj"});
-        meshBrowser.SetPwd("../../app/res/meshes");
+        meshBrowser.SetPwd(Sirius::appPath/"res/meshes");
 
         skyboxBrowser.SetTitle("Open skybox");
         skyboxBrowser.SetTypeFilters({".png", ".jpg"});
-        skyboxBrowser.SetPwd("../../app/res/textures");
+        skyboxBrowser.SetPwd(Sirius::appPath/"res/textures");
 
         constexpr auto& flags = magic_enum::enum_names<PostProcessingFlags>();
         for (auto& flag: flags)
@@ -79,8 +79,7 @@ namespace Sirius
         meshBrowser.Display();
         if(meshBrowser.HasSelected())
         {
-            auto filePath = meshBrowser.GetSelected().string();
-            std::ranges::replace(filePath, '\\', '/');
+            fs::path filePath { meshBrowser.GetSelected().string() };
             Scene::sceneData.models.emplace_back(std::make_shared<Model>(filePath));
 
             meshBrowser.ClearSelected();

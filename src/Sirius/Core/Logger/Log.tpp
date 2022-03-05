@@ -3,6 +3,7 @@
 
 #include <fmt/os.h>
 #include <fmt/chrono.h>
+#include <fmt/color.h>
 
 namespace fs = std::filesystem;
 
@@ -29,11 +30,11 @@ namespace Sirius
     void Log::log(LogLevel level, LogChannel channel, std::string_view message,
                   Ts&&... args)
     {
-        using namespace std::chrono;
-
         std::string logMsg;
         if(verbose)
         {
+            using namespace std::chrono;
+
             auto now = system_clock::now();
             auto ms = duration_cast<milliseconds>(now.time_since_epoch()) % 1000;
 
@@ -47,26 +48,26 @@ namespace Sirius
         switch (level)
         {
             case LogLevel::TRACE:
-                fmt::vprint(logMsg + "\n", fmt::make_format_args(std::forward<Ts>(args)...));
+                fmt::print(fmt::runtime(logMsg + "\n"), std::forward<Ts>(args)...);
                 break;
 
             case LogLevel::INFO:
-                fmt::vprint("\033[32m" + logMsg + "\033[0m\n", fmt::make_format_args(std::forward<Ts>(args)...));
+                fmt::print(fmt::fg(fmt::color::green), logMsg + "\n", std::forward<Ts>(args)...);
                 break;
 
             case LogLevel::WARN:
-                fmt::vprint("\033[33m" + logMsg + "\033[0m\n", fmt::make_format_args(std::forward<Ts>(args)...));
+                fmt::print(fmt::fg(fmt::color::yellow), logMsg + "\n", std::forward<Ts>(args)...);
                 break;
 
             case LogLevel::ERR:
-                fmt::vprint("\033[31m" + logMsg + "\033[0m\n", fmt::make_format_args(std::forward<Ts>(args)...));
+                fmt::print(fmt::fg(fmt::color::red), logMsg + "\n", std::forward<Ts>(args)...);
                 break;
         }
 
         if(level != LogLevel::TRACE || verbose)
         {
             logFile.stream.open(std::string(xmacro_str(SRS_APP_DIR)) + "/logs/" + logFile.name, std::ios::out | std::ios::app);
-            logFile.stream << "(" << magic_enum::enum_name(level) << ") " << fmt::vformat(logMsg, fmt::make_format_args(std::forward<Ts>(args)...)) << "\n";
+            logFile.stream << "(" << magic_enum::enum_name(level) << ") " << fmt::format(fmt::runtime(logMsg), std::forward<Ts>(args)...) << "\n";
             logFile.stream.close();
         }
     }
@@ -115,3 +116,18 @@ namespace Sirius
         log(LogLevel::ERR, channel, message, std::forward<Ts>(args)...);
     }
 }
+
+template <>
+struct fmt::formatter<std::filesystem::path>
+{
+    constexpr auto parse(format_parse_context& ctx)
+    {
+        return ctx.end();
+    }
+
+    template <typename Context>
+    auto format(const std::filesystem::path& path, Context& ctx)
+    {
+        return format_to(ctx.out(), fmt::runtime(path.string()));
+    }
+};

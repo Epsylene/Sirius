@@ -242,6 +242,7 @@ namespace Sirius
             Log::error(LogChannel::CORE, "Shader '{0}' already exists !", name);
 
         shaders[name] = shader;
+        Log::trace(LogChannel::CORE, "Added shader {}", name);
     }
 
     void ShaderLibrary::add(const std::string& name,
@@ -251,6 +252,7 @@ namespace Sirius
             Log::error(LogChannel::CORE, "Shader '{0}' already exists !", name);
 
         shaders[name] = shader;
+        Log::trace(LogChannel::CORE, "Added shader {}", name);
     }
 
     Ref<Shader> ShaderLibrary::load(const fs::path& filepath)

@@ -46,7 +46,7 @@ namespace Sirius
             ///
             /// A single window is created, where the
             /// simulation lives.
-            Application(const fs::path& path);
+            Application();
 
             //////////////////////////////////////////////////
             /// @brief Application getter

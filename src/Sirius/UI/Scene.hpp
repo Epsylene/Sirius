@@ -54,6 +54,8 @@ namespace Sirius
             /// on an ImGui::Image().
             static void render();
 
+            static const Camera& getCamera();
+
             ///////////////////////////
             /// @brief Update the scene
             static void onUpdate(Timestep dt);
