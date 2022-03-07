@@ -41,6 +41,7 @@ it with the following commands:
 
 ```shell
 git clone https://github.com/Epsylene/Sirius.git
+cd Sirius
 git submodule init
 git submodule update
 ```
