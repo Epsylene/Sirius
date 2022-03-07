@@ -13,7 +13,7 @@ namespace Sirius
 {
     enum class DrawMode
     {
-        TEXTURE, REFLECTION, REFRACTION
+        TEXTURE, REFLECTION, REFRACTION, EMISSION
     };
 
     ////////////////////////////

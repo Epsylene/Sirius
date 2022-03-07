@@ -66,18 +66,10 @@ namespace Sirius
                 Renderer3D::drawSkybox();
 
             for (auto& model: sceneData.models)
-                Renderer3D::drawModel(model, DrawMode::REFRACTION);
+                Renderer3D::drawModel(model, DrawMode::TEXTURE);
         }
 
         Renderer2D::endScene();
         Renderer3D::endScene();
-    }
-
-    const Camera& Scene::getCamera()
-    {
-        if(properties.render2D)
-            return sceneData.controller2D->getCamera();
-
-        return sceneData.controller3D->getCamera();
     }
 }

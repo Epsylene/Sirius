@@ -79,7 +79,7 @@ namespace Sirius
         generateQuadVA();
         generateCircleVA();
 
-        data->shaderLib.load(Sirius::libPath.string() + "/res/shaders/emission.glsl");
+        data->shaderLib.load(Sirius::libPath/"res/shaders/emission.glsl");
     }
 
     void Renderer2D::shutdown()

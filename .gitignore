@@ -7,4 +7,5 @@ CMakeFiles
 build
 /bin
 app/logs
-app/bin/
+app/bin
+.cmake

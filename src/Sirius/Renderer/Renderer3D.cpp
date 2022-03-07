@@ -37,15 +37,15 @@ namespace Sirius
 
         data->emissionCube = std::make_shared<Cube>();
 
-        std::string shadersPath = Sirius::libPath.string() + "/res/shaders/";
+        auto shadersPath = Sirius::libPath/"res/shaders";
 
-        data->shaderLib.load(shadersPath + "flat_color.glsl");
-        data->shaderLib.load(shadersPath + "emission.glsl");
-        data->shaderLib.load(shadersPath + "texture.glsl");
-        data->shaderLib.load(shadersPath + "flat_texture.glsl");
-        data->shaderLib.load(shadersPath + "skybox.glsl");
-        data->shaderLib.load(shadersPath + "reflection.glsl");
-        data->shaderLib.load(shadersPath + "refraction.glsl");
+        data->shaderLib.load(shadersPath/"flat_color.glsl");
+        data->shaderLib.load(shadersPath/"emission.glsl");
+        data->shaderLib.load(shadersPath/"texture.glsl");
+        data->shaderLib.load(shadersPath/"flat_texture.glsl");
+        data->shaderLib.load(shadersPath/"skybox.glsl");
+        data->shaderLib.load(shadersPath/"reflection.glsl");
+        data->shaderLib.load(shadersPath/"refraction.glsl");
 
         BufferLayout layout = {{{DataType::Float3, DataType::Float3, DataType::Float3}, "dirLight"}};
         data->dirLightData = std::make_shared<UniformBuffer>(layout, 1);
@@ -207,6 +207,12 @@ namespace Sirius
 
             Scene::sceneData.skybox->texture.bind(0);
             refractionShader->uploadUniformInt("u_skybox", 0);
+        }
+        else if(mode == DrawMode::EMISSION)
+        {
+            auto& emissionShader = data->shaderLib["emission"];
+            emissionShader->bind();
+            emissionShader->uploadUniformFloat3("u_color", Color::Red);
         }
 
         auto& emissionShader = data->shaderLib["emission"];
