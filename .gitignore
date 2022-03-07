@@ -4,8 +4,8 @@ CMakeFiles
 .idea
 .vscode
 .cache
+.cmake
 build
 /bin
-app/logs
-app/bin
-.cmake
+/app/logs
+/app/bin
