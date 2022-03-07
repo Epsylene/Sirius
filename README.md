@@ -37,10 +37,12 @@ Then, you will have to download the library
 sources. You can click on the **Code** button
 on the upper-right corner and either download
 the repository's ZIP file, or clone
-it with the command:
+it with the following commands:
 
 ```shell
 git clone https://github.com/Epsylene/Sirius.git
+git submodule init
+git submodule update
 ```
 
 Then you have to tell CMake to generate
@@ -51,32 +53,29 @@ GUI, or via the CLI. In the last case, the
 command looks like this:
 
 ```shell
-cmake -G "GENERATOR" SOURCE_DIR
+cmake -G "GENERATOR" SOURCE_DIR -DCMAKE_PREFIX_PATH="GEN_DIR"
 ```
 
-You have :
-* GENERATOR : determines for which
+You have:
+* GENERATOR: determines for which
   compiler the makefiles are going to be 
   generated (on Windows, if you are using
-  MinGW or MinGW-w64, use "MinGW Makefiles";
+  MinGW or MinGW-w64, type "MinGW Makefiles";
   if you are using Visual Studio, you can search for 
   your version's CMake generator, but it should be the
   one chosen by default);
 
-* SOURCE_DIR : the path of the cloned
-  repository's folder.
+* SOURCE_DIR: the path of the cloned
+  repository's folder;
+
+* GEN_DIR: the directory where you want to generate your build files.
 
 After that, the last thing you have to do is to run this
 command:
 
 ```shell
-cmake --install GEN_DIR --prefix INSTALL_DIR
+make & make install
 ```
-
-Where:
-* GEN_DIR is the place where you generated the project (there should be a file named *cmake_install.cmake* in there);
-
-* INSTALL_DIR is the place you wish to install the library to.
 
 If you got no errors, then, congratulations ! You have succesfuly installed the library.
 
