@@ -218,32 +218,33 @@ namespace Sirius
         auto& emissionShader = data->shaderLib["emission"];
         for (auto& mesh: model->meshes)
         {
-            if(Input::isMouseButtonPressed(SRS_MOUSE_BUTTON_1) && outline && Scene::properties.active)
-            {
-                glStencilFunc(GL_ALWAYS, 1, 0xFF);
-                glStencilMask(0xFF);
-
-                mesh.vertexArray->bind();
-                RenderCommand::drawIndexed(mesh.vertexArray, Primitives::TRIANGLES);
-
-                glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-                glStencilMask(0x00);
-
-                emissionShader->bind();
-                emissionShader->uploadUniformFloat3("u_color", {0.9f, 0.56f, 0.f});
-                emissionShader->uploadUniformMat4("u_transform", translate(pos) * scale(size * 1.05f));
-
+            // @todo : rework someday
+//            if(Input::isMouseButtonPressed(SRS_MOUSE_BUTTON_1) && outline && Scene::properties.active)
+//            {
+//                glStencilFunc(GL_ALWAYS, 1, 0xFF);
+//                glStencilMask(0xFF);
+//
+//                mesh.vertexArray->bind();
+//                RenderCommand::drawIndexed(mesh.vertexArray, Primitives::TRIANGLES);
+//
+//                glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+//                glStencilMask(0x00);
+//
+//                emissionShader->bind();
+//                emissionShader->uploadUniformFloat3("u_color", {0.9f, 0.56f, 0.f});
+//                emissionShader->uploadUniformMat4("u_transform", translate(pos) * scale(size * 1.05f));
+//
+//                mesh.vertexArray->bind();
+//                RenderCommand::drawIndexed(mesh.vertexArray);
+//
+//                glStencilMask(0xFF);
+//                glStencilFunc(GL_ALWAYS, 1, 0xFF);
+//            }
+//            else
+//            {
                 mesh.vertexArray->bind();
                 RenderCommand::drawIndexed(mesh.vertexArray);
-
-                glStencilMask(0xFF);
-                glStencilFunc(GL_ALWAYS, 1, 0xFF);
-            }
-            else
-            {
-                mesh.vertexArray->bind();
-                RenderCommand::drawIndexed(mesh.vertexArray);
-            }
+//            }
         }
     }
 
