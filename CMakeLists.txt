@@ -4,7 +4,7 @@
 # ----------------------------------------------------
 
 cmake_minimum_required(VERSION 3.17)
-project(SiriusLib VERSION 0.1.0)
+project(Sirius VERSION 0.2.0)
 
 # Bin directory #
 file(MAKE_DIRECTORY bin/${CMAKE_BUILD_TYPE}/)
