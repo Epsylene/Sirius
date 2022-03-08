@@ -54,7 +54,7 @@ GUI, or via the CLI. In the last case, the
 command looks like this:
 
 ```shell
-cmake -G "GENERATOR" SOURCE_DIR -DCMAKE_PREFIX_PATH="GEN_DIR"
+cmake -G "GENERATOR" SOURCE_DIR
 ```
 
 You have:
@@ -75,8 +75,13 @@ After that, the last thing you have to do is to run this
 command:
 
 ```shell
-make & make install
+cmake --install BUILD_DIR --prefix INSTALL_DIR
 ```
+
+Where:
+* BUILD_DIR is the directory where the cmake_install.cmake file is located ;
+
+* INSTALL_DIR is the directory where you want to install the library.
 
 If you got no errors, then, congratulations ! You have succesfuly installed the library.
 
