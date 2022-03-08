@@ -54,4 +54,25 @@ else()
             ${SIRIUS_BIN_DIR}/libSirius.dll
             ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libSirius.dll
     )
+
+    add_custom_command(
+            TARGET Sirius_app POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy
+            ${SIRIUS_BIN_DIR}/libfmt.dll
+            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libfmt.dll
+    )
+
+    add_custom_command(
+            TARGET Sirius_app POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy
+            ${SIRIUS_BIN_DIR}/glfw3.dll
+            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/glfw3.dll
+    )
+
+    add_custom_command(
+            TARGET Sirius_app POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy
+            ${CMAKE_CURRENT_SOURCE_DIR}/res/imgui.ini
+            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/imgui.ini
+    )
 endif()
