@@ -70,7 +70,7 @@ namespace Sirius
     {
         public:
 
-            Texture3D(const std::unordered_map<CubeFace, std::string>& faces, TextureType type);
+            Texture3D(const std::unordered_map<CubeFace, fs::path>& faces, TextureType type);
 
             ~Texture3D();
 

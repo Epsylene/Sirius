@@ -19,11 +19,11 @@ namespace Sirius
     {
         meshBrowser.SetTitle("Open mesh");
         meshBrowser.SetTypeFilters({".fbx", ".obj"});
-        meshBrowser.SetPwd(Sirius::appPath/"res/meshes");
+        meshBrowser.SetPwd(Sirius::resPath/"meshes");
 
         skyboxBrowser.SetTitle("Open skybox");
         skyboxBrowser.SetTypeFilters({".png", ".jpg"});
-        skyboxBrowser.SetPwd(Sirius::appPath/"res/textures");
+        skyboxBrowser.SetPwd(Sirius::resPath/"textures");
 
         constexpr auto& flags = magic_enum::enum_names<PostProcessingFlags>();
         for (auto& flag: flags)
@@ -89,7 +89,7 @@ namespace Sirius
         if(skyboxBrowser.HasSelected())
         {
             auto filePaths = skyboxBrowser.GetMultiSelected();
-            std::unordered_map<CubeFace, std::string> skybox;
+            std::unordered_map<CubeFace, fs::path> skybox;
 
             for (auto& filePath: filePaths)
             {

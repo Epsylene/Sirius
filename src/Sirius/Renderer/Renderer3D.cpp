@@ -37,7 +37,7 @@ namespace Sirius
 
         data->emissionCube = std::make_shared<Cube>();
 
-        auto shadersPath = Sirius::libPath/"res/shaders";
+        auto shadersPath = Sirius::resPath/"shaders";
 
         data->shaderLib.load(shadersPath/"flat_color.glsl");
         data->shaderLib.load(shadersPath/"emission.glsl");

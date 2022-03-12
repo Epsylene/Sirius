@@ -19,8 +19,8 @@ namespace Sirius
         sceneData.controller2D = std::make_shared<CameraController2D>();
         sceneData.controller3D = std::make_shared<CameraController3D>();
 
-        std::string skyboxPath = Sirius::libPath.string() + "/res/skybox/";
-        std::unordered_map<Sirius::CubeFace, std::string> skybox =
+        auto skyboxPath = Sirius::resPath.string() + "/skybox/";
+        std::unordered_map<Sirius::CubeFace, fs::path> skybox =
                 {{Sirius::CubeFace::RIGHT, skyboxPath + "right.jpg"},
                  {Sirius::CubeFace::LEFT, skyboxPath + "left.jpg"},
                  {Sirius::CubeFace::BOTTOM, skyboxPath + "bottom.jpg"},

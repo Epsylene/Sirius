@@ -18,6 +18,7 @@ namespace Sirius
     template<typename T> using Scope = std::unique_ptr<T>;
     template<typename T> using Ref = std::shared_ptr<T>;
 
-    fs::path appPath { xmacro_str(SRS_APP_DIR) };
     fs::path libPath { xmacro_str(SRS_LIB_DIR) };
+    fs::path appPath { xmacro_str(SRS_APP_DIR) };
+    fs::path resPath { xmacro_str(SRS_RES_DIR) };
 }

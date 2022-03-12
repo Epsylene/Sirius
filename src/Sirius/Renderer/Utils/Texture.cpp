@@ -92,7 +92,7 @@ namespace Sirius
 
     // ------------------------  TEXTURE 3D  ------------------------
 
-    Texture3D::Texture3D(const std::unordered_map<CubeFace, std::string>& faces, TextureType type)
+    Texture3D::Texture3D(const std::unordered_map<CubeFace, fs::path>& faces, TextureType type)
     {
         glGenTextures(1, &textureID);
         glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
@@ -104,16 +104,16 @@ namespace Sirius
             unsigned char* data;
 
             if(face == CubeFace::TOP)
-                data = stbi_load(faces.at(CubeFace::BOTTOM).c_str(), &width, &height, &channels, 0);
+                data = stbi_load(faces.at(CubeFace::BOTTOM).string().c_str(), &width, &height, &channels, 0);
             else if(face == CubeFace::BOTTOM)
-                data = stbi_load(faces.at(CubeFace::TOP).c_str(), &width, &height, &channels, 0);
+                data = stbi_load(faces.at(CubeFace::TOP).string().c_str(), &width, &height, &channels, 0);
             else
-                data = stbi_load(texPath.c_str(), &width, &height, &channels, 0);
+                data = stbi_load(texPath.string().c_str(), &width, &height, &channels, 0);
 
             if(data)
                 glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + (int)face, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
             else
-                SRS_CORE_ASSERT(false, "Cubemap texture failed to load at path: " + texPath)
+                SRS_CORE_ASSERT(false, "Cubemap texture failed to load at path: " + texPath.string())
 
             stbi_image_free(data);
         }
