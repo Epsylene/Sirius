@@ -3,6 +3,7 @@ cmake-build-release
 CMakeFiles
 .idea
 .vscode
+.vs
 .cache
 .cmake
 build
