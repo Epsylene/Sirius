@@ -9,14 +9,10 @@
 
 ## Introduction
 
-*Sirius* is a general-purpose, 
-3D-oriented graphics library based 
-on OpenGL. It serves mainly as a 
-tool to learn graphics programming, 
-but is intended on the long term to
-be powerful and simple enough to be
-used as a graphics engine for games,
-3D rendering or physics simulations.
+*Sirius* is a general-purpose, 3D-oriented graphics library based on OpenGL. Its main focus is on 3D rendering, but there
+really can be anything interesting related to computer graphics and simulations, as I use it to learn things from
+those fields. As such, its features and structure may be (are) lacking, but I do my best to improve it and give it proper
+attention !
 
 ## Installation
 ### Getting started
