@@ -11,8 +11,6 @@ class ExampleLayer: public Sirius::Layer
 
         ExampleLayer(): Layer("Example")
         {
-            suzanne = std::make_shared<Sirius::Model>(Sirius::resPath/"meshes/suzanne/suzanne.obj");
-            Sirius::Scene::sceneData.models.emplace_back(suzanne);
         }
 
         void onUpdate(Sirius::Timestep dt) override

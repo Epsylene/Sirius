@@ -12,7 +12,11 @@ namespace Sirius
     template<typename T> requires std::is_scalar_v<T>
     struct Vector<3, T>
     {
-        T x, y, z;
+        union
+        {
+            std::array<T, 3> m;
+            struct { T x, y, z; };
+        };
 
         constexpr Vector() = default;
 

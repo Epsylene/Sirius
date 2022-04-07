@@ -3,6 +3,8 @@
 
 #include "Vector.hpp"
 
+#include <variant>
+
 namespace Sirius
 {
     /////////////////////////////////////
@@ -12,7 +14,13 @@ namespace Sirius
     template<typename T> requires std::is_scalar_v<T>
     struct Vector<2, T>
     {
-        T x, y;
+        public:
+
+        union
+        {
+            std::array<T, 2> m {};
+            struct { float x, y; };
+        };
 
         constexpr Vector() = default;
 

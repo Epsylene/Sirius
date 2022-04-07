@@ -27,23 +27,13 @@ namespace Sirius
     template<typename T> requires std::is_scalar_v<T>
     constexpr T& Vector<2, T>::operator[](unsigned int index)
     {
-        switch (index)
-        {
-            default:
-            case 0: return x;
-            case 1: return y;
-        }
+        return m[index];
     }
 
     template<typename T> requires std::is_scalar_v<T>
     constexpr const T& Vector<2, T>::operator[](unsigned int index) const
     {
-        switch (index)
-        {
-            default:
-            case 0: return x;
-            case 1: return y;
-        }
+        return m[index];
     }
 
     template<typename T> requires std::is_scalar_v<T>
