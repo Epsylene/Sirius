@@ -4,39 +4,39 @@
 // This header file is intended for use by client
 //  applications only.
 
-#include "Sirius/Core/Application.hpp"
-#include "Sirius/Core/Logger/Logger.hpp"
+#include "Core/Application.hpp"
+#include "Core/Logger/Logger.hpp"
 
-#include "Sirius/UI/Scene.hpp"
-#include "Sirius/Core/Layer.hpp"
-#include "Sirius/UI/ImGuiLayer.hpp"
+#include "Core/Layer.hpp"
+#include "UI/ImGuiLayer.hpp"
+#include "UI/Scene.hpp"
 
-#include "Sirius/Core/Timestep.hpp"
+#include "Core/Timestep.hpp"
 
-#include "Sirius/Core/Input/Input.hpp"
-#include "Sirius/Core/Input/KeyCodes.h"
-#include "Sirius/Core/Input/MouseButtonCodes.h"
+#include "Core/Input/Input.hpp"
+#include "Core/Input/KeyCodes.h"
+#include "Core/Input/MouseButtonCodes.h"
 
-#include "Sirius/Math/Math.hpp"
+#include "Math/Math.hpp"
 
 // -------------- Renderer ---------------- //
-#include "Sirius/Renderer/Utils/Buffer.hpp"
-#include "Sirius/Renderer/Utils/VertexArray.hpp"
-#include "Sirius/Renderer/Utils/Shader.hpp"
-#include "Sirius/Renderer/Utils/Texture.hpp"
-#include "Sirius/Renderer/Utils/Color.hpp"
-#include "Sirius/Renderer/Utils/Material.hpp"
+#include "Renderer/Utils/Buffer.hpp"
+#include "Renderer/Utils/VertexArray.hpp"
+#include "Renderer/Utils/Shader.hpp"
+#include "Renderer/Utils/Texture.hpp"
+#include "Renderer/Utils/Color.hpp"
+#include "Renderer/Utils/Material.hpp"
 
-#include "Sirius/Renderer/Objects/Light.hpp"
-#include "Sirius/Renderer/Objects/Model.hpp"
-#include "Sirius/Renderer/Objects/PrefabMeshes.hpp"
-#include "Sirius/Renderer/Objects/Skybox.hpp"
+#include "Renderer/Objects/Light.hpp"
+#include "Renderer/Objects/Model.hpp"
+#include "Renderer/Objects/PrefabMeshes.hpp"
+#include "Renderer/Objects/Skybox.hpp"
 
-#include "Sirius/Renderer/Objects/Camera.hpp"
-#include "Sirius/Renderer/Objects/CameraController.hpp"
+#include "Renderer/Objects/Camera.hpp"
+#include "Renderer/Objects/CameraController.hpp"
 
-#include "Sirius/Renderer/RenderCommand.hpp"
-#include "Sirius/Renderer/Renderer.hpp"
-#include "Sirius/Renderer/Renderer2D.hpp"
-#include "Sirius/Renderer/Renderer3D.hpp"
+#include "Renderer/RenderCommand.hpp"
+#include "Renderer/Renderer.hpp"
+#include "Renderer/Renderer2D.hpp"
+#include "Renderer/Renderer3D.hpp"
 // ---------------------------------------- //
