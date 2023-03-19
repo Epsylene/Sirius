@@ -25,7 +25,7 @@ namespace Sirius
         windowData.width = wp.width;
         windowData.height = wp.height;
 
-        Logger::info(LogChannel::CORE, "Creating window {0} ({1}x{2})", wp.title, wp.width, wp.height);
+        Logger::info(LogChannel::CORE, "Creating window {} ({}x{})", wp.title, wp.width, wp.height);
 
         // GLFW initialization check
 

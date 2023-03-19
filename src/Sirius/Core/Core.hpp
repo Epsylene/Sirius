@@ -2,7 +2,6 @@
 #pragma once
 
 #include "srspch.hpp"
-#include <magic_enum.hpp>
 
 #include "Sirius/Core/Logger/Logger.hpp"
 

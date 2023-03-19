@@ -7,10 +7,10 @@ namespace Sirius
 
     Application::Application()
     {
+        Logger::init();
+
         SRS_CORE_ASSERT(!instance, "Application already exists")
         instance = this;
-
-        Logger::init();
 
         window = std::make_unique<Window>();
         window->setEventCallback([this](Event& event) { onEvent(event); });

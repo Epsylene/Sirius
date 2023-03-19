@@ -129,7 +129,7 @@ namespace Sirius
 
                 glDeleteShader(shader);
 
-                Logger::error(LogChannel::CORE, "Shader {} at \"" + path.string() + "\" compilation failure !", type);
+                Logger::error(LogChannel::CORE, "Shader {} at \"{}\" compilation failure !", type, path);
                 Logger::error(LogChannel::CORE, "{}", infoLog.data());
                 return;
             }
