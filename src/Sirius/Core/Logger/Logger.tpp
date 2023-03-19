@@ -14,7 +14,9 @@ namespace Sirius
 {
     auto name = fmt::format("log_{:%d.%m.%Y-%H.%M.%S}.txt", std::chrono::system_clock::now());
     auto logs = std::string(xmacro_str(SRS_APP_DIR)) + "/logs/";
-    static auto file = fmt::output_file(logs + name);
+
+    fmt::ostream Logger::file = fmt::output_file(logs + name);
+    bool Logger::verbose = false;
 
     void Logger::init(bool verbose)
     {
