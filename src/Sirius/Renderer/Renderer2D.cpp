@@ -5,6 +5,8 @@
 #include "RenderCommand.hpp"
 #include "Renderer.hpp"
 
+#include "Sirius/Math/matrix_functions.hpp"
+
 namespace Sirius
 {
     struct Renderer2DStorage
@@ -104,7 +106,7 @@ namespace Sirius
         emissionShader->bind();
         emissionShader->uploadUniformFloat3("u_color", color);
 
-        Mat4 transform = translate({pos}) * scale({size.x, size.y, 1.f});
+        Mat4 transform = translate(Vec3{pos, 0.f}) * scale({size.x, size.y, 1.f});
         emissionShader->uploadUniformMat4("u_transform", transform);
 
         switch (shape)

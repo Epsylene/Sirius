@@ -1,5 +1,5 @@
 
-#include "Log.hpp"
+#include "Logger.hpp"
 
 #include <fmt/os.h>
 #include <fmt/chrono.h>
@@ -12,12 +12,12 @@ namespace fs = std::filesystem;
 
 namespace Sirius
 {
-    File Log::logFile {{}, fmt::format("log_{:%d.%m.%Y-%H.%M.%S}.txt", std::chrono::system_clock::now())};
-    bool Log::verbose = false;
+    File Logger::logFile {{}, fmt::format("log_{:%d.%m.%Y-%H.%M.%S}.txt", std::chrono::system_clock::now())};
+    bool Logger::verbose = false;
 
-    void Log::init(bool verbose = false)
+    void Logger::init(bool verbose = false)
     {
-        Log::verbose = verbose;
+        Logger::verbose = verbose;
 
         std::string logsPath = std::string(xmacro_str(SRS_APP_DIR)) + "/logs/";
         fs::create_directories(logsPath);
@@ -27,8 +27,8 @@ namespace Sirius
     }
 
     template<typename... Ts>
-    void Log::log(LogLevel level, LogChannel channel, std::string_view message,
-                  Ts&&... args)
+    void Logger::log(LogLevel level, LogChannel channel, std::string_view message,
+                     Ts&&... args)
     {
         std::string logMsg;
         if(verbose)
@@ -72,46 +72,46 @@ namespace Sirius
         }
     }
 
-    void Log::trace(LogChannel channel, std::string_view message)
+    void Logger::trace(LogChannel channel, std::string_view message)
     {
         trace(channel, message, "");
     }
 
-    void Log::info(LogChannel channel, std::string_view message)
+    void Logger::info(LogChannel channel, std::string_view message)
     {
         info(channel, message, "");
     }
 
-    void Log::warn(LogChannel channel, std::string_view message)
+    void Logger::warn(LogChannel channel, std::string_view message)
     {
         warn(channel, message, "");
     }
 
-    void Log::error(LogChannel channel, std::string_view message)
+    void Logger::error(LogChannel channel, std::string_view message)
     {
         error(channel, message, "");
     }
 
     template<typename... Ts>
-    void Log::trace(LogChannel channel, std::string_view message, Ts&&... args)
+    void Logger::trace(LogChannel channel, std::string_view message, Ts&&... args)
     {
         log(LogLevel::TRACE, channel, message, std::forward<Ts>(args)...);
     }
 
     template<typename... Ts>
-    void Log::info(LogChannel channel, std::string_view message, Ts&&... args)
+    void Logger::info(LogChannel channel, std::string_view message, Ts&&... args)
     {
         log(LogLevel::INFO, channel, message, std::forward<Ts>(args)...);
     }
 
     template<typename... Ts>
-    void Log::warn(LogChannel channel, std::string_view message, Ts&&... args)
+    void Logger::warn(LogChannel channel, std::string_view message, Ts&&... args)
     {
         log(LogLevel::WARN, channel, message, std::forward<Ts>(args)...);
     }
 
     template<typename... Ts>
-    void Log::error(LogChannel channel, std::string_view message, Ts&&... args)
+    void Logger::error(LogChannel channel, std::string_view message, Ts&&... args)
     {
         log(LogLevel::ERR, channel, message, std::forward<Ts>(args)...);
     }

@@ -1,6 +1,10 @@
 
 #include "Camera.hpp"
 
+#include "Sirius/Math/matrix_functions.hpp"
+#include "Sirius/Math/vector_functions.hpp"
+#include "Sirius/Math/functions.hpp"
+
 namespace Sirius
 {
     //--------------------------- CAMERA ---------------------------//
@@ -109,13 +113,13 @@ namespace Sirius
 
     void Camera3D::calculateViewProjMatrix()
     {
-        // The camera2D's direction
+        // The camera direction
         direction = { std::cos(radians(yaw)) * std::cos(radians(pitch)),
                       std::sin(radians(pitch)),
                       std::sin(radians(yaw)) * std::cos(radians(pitch)) };
         direction = normalize(direction);
 
-        // The camera2D's up vector
+        // The camera's up vector
         up = rotate({0.f, 1.f, 0.f}, direction, roll);
 
         // The lookAt() function builds a view matrix that looks

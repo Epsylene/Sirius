@@ -1,8 +1,7 @@
 
 #pragma once
 
-#include "Sirius/Math/Vector/Vector.hpp"
-#include "Sirius/Math/Matrix/Matrix.hpp"
+#include "Sirius/Math/Math.hpp"
 #include "Texture.hpp"
 
 #include "srspch.hpp"

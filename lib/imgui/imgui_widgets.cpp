@@ -4597,7 +4597,7 @@ bool ImGui::InputTextEx(const char* label, const char* hint, char* buf, int buf_
         EndGroup();
     }
 
-    // Log as text
+    // Logger as text
     if (g.LogEnabled && (!is_password || is_displaying_hint))
         LogRenderedText(&draw_pos, buf_display, buf_display_end);
 

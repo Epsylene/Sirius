@@ -9,6 +9,8 @@
 #include "Sirius/Core/Input/Input.hpp"
 #include "Sirius/Core/Input/MouseButtonCodes.h"
 
+#include "Sirius/Math/vector_functions.hpp"
+
 namespace Sirius
 {
     struct Renderer3DStorage
@@ -20,7 +22,7 @@ namespace Sirius
             Color diffuse;
             Vec4 pos;
             float attDistance;
-        } ptLights[10];
+        } ptLights[10] {};
         Ref<Cube> emissionCube;
 
         ShaderLibrary shaderLib;
@@ -93,7 +95,7 @@ namespace Sirius
             Vec4 dir;
         } dirLightStruct { dirLight.ambient,
                            dirLight.diffuse,
-                           dirLight.dir };
+                           vec4(dirLight.dir) };
 
         data->dirLightData->uploadStruct("dirLight", &dirLightStruct);
     }
@@ -121,7 +123,7 @@ namespace Sirius
         if(data->ptLightNb < 10)
         {
             data->ptLights[data->ptLightNb++] = {ptLight.ambient, ptLight.diffuse,
-                                                 ptLight.pos, ptLight.attDistance};
+                                                 vec4(ptLight.pos), ptLight.attDistance};
 
             data->ptLightsData->uploadStruct("ptLights", &data->ptLights);
         }
@@ -212,10 +214,11 @@ namespace Sirius
         {
             auto& emissionShader = data->shaderLib["emission"];
             emissionShader->bind();
+            emissionShader->uploadUniformMat4("u_transform", transform);
             emissionShader->uploadUniformFloat3("u_color", Color::Red);
         }
 
-        auto& emissionShader = data->shaderLib["emission"];
+//        auto& emissionShader = data->shaderLib["emission"];
         for (auto& mesh: model->meshes)
         {
             // @todo : rework someday

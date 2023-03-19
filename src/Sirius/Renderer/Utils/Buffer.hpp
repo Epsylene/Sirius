@@ -3,8 +3,7 @@
 
 #include "srspch.hpp"
 #include "../../Core/Core.hpp"
-#include "Sirius/Math/Vector/Vector.hpp"
-#include "Sirius/Math/Matrix/Matrix.hpp"
+#include "Sirius/Math/Math.hpp"
 #include "Color.hpp"
 #include "Texture.hpp"
 

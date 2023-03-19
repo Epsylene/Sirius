@@ -3,7 +3,7 @@
 
 #include "srspch.hpp"
 
-#include "Sirius/Math/Vector/Vector.hpp"
+#include "Sirius/Math/Math.hpp"
 
 #include "../Utils/Buffer.hpp"
 #include "../Utils/VertexArray.hpp"

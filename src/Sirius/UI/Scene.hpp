@@ -2,7 +2,7 @@
 #pragma once
 
 #include "../Renderer/Objects/Skybox.hpp"
-#include "Sirius/Math/Vector/Vector.hpp"
+#include "Sirius/Math/Math.hpp"
 #include "../Renderer/Objects/CameraController.hpp"
 #include "../Renderer/Objects/Model.hpp"
 #include "../Renderer/Renderer.hpp"

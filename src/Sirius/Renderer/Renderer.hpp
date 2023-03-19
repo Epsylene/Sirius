@@ -9,6 +9,7 @@
 #include "RenderCommand.hpp"
 
 #include "Objects/Camera.hpp"
+#include "Sirius/Math/matrix_functions.hpp"
 
 namespace Sirius
 {
@@ -58,7 +59,7 @@ namespace Sirius
             ////////////////////////////////////////////////
             /// @brief Apply the postprocessing to the given
             ///     framebuffer color buffer
-            static void applyPostProcessing(const Scope<FrameBuffer>& frameBuffer, const Matrix4f& transform = identity<4>());
+            static void applyPostProcessing(const Scope<FrameBuffer>& frameBuffer, const Mat4& transform = identity<4>());
 
             //////////////////////////////////////////////
             /// @brief Performs pre-rendering tasks

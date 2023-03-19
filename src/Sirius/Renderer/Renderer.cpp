@@ -54,7 +54,7 @@ namespace Sirius
     }
 
     void Renderer::applyPostProcessing(const Scope<FrameBuffer>& frameBuffer,
-                                       const Matrix4f& transform)
+                                       const Mat4& transform)
     {
         sceneData->postprocess->bind();
         sceneData->renderQuad->bind();

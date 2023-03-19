@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "Sirius/Math/Vector/Vector.hpp"
+#include "Sirius/Math/Math.hpp"
 #include "../Utils/Color.hpp"
 
 namespace Sirius

@@ -114,8 +114,11 @@ Joey de Vrie's [Learn OpenGL](https://learnopengl.com/)
 has been extremely useful to understand the OpenGL concepts
 and objects I wanted to implement. Make sure to go check both !
 
-Sirius uses OpenGL, [glad](https://glad.dav1d.de/), [GLFW](https://www.glfw.org/),
-[Assimp](https://www.assimp.org/), [Dear ImGui](https://github.com/ocornut/imgui),
-[stb_image](https://github.com/nothings/stb/blob/master/stb_image.h), 
-[magic_enum](https://github.com/Neargye/magic_enum) 
-and [fmt](https://github.com/fmtlib/fmt).
+Sirius uses OpenGL, [glad](https://glad.dav1d.de/),
+[GLFW](https://www.glfw.org/),
+[Assimp](https://www.assimp.org/), [Dear
+ImGui](https://github.com/ocornut/imgui),
+[stb_image](https://github.com/nothings/stb/blob/master/stb_image.h),
+[magic_enum](https://github.com/Neargye/magic_enum),
+[fmt](https://github.com/fmtlib/fmt) and
+[glm](https://github.com/g-truc/glm).

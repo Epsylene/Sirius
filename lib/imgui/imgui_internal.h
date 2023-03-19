@@ -568,7 +568,7 @@ struct ImSpanAllocator
 };
 
 // Helper: ImPool<>
-// Basic keyed storage for contiguous instances, slow/amortized insertion, O(1) indexable, O(Log N) queries by ID over a dense/hot buffer,
+// Basic keyed storage for contiguous instances, slow/amortized insertion, O(1) indexable, O(Logger N) queries by ID over a dense/hot buffer,
 // Honor constructor/destructor. Add/remove invalidate all pointers. Indexes have the same lifetime as the associated object.
 typedef int ImPoolIdx;
 template<typename T>

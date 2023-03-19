@@ -3,7 +3,7 @@
 
 #include "Utils/VertexArray.hpp"
 #include "Utils/Color.hpp"
-#include "Sirius/Math/Vector/Vector.hpp"
+#include "Sirius/Math/Math.hpp"
 
 namespace Sirius
 {

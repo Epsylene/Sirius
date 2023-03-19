@@ -5,7 +5,7 @@
 //  applications only.
 
 #include "Sirius/Core/Application.hpp"
-#include "Sirius/Core/Logger/Log.hpp"
+#include "Sirius/Core/Logger/Logger.hpp"
 
 #include "Sirius/UI/Scene.hpp"
 #include "Sirius/Core/Layer.hpp"

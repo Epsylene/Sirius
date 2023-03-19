@@ -65,7 +65,7 @@ namespace Sirius
         }
         else
         {
-            Log::error(LogChannel::CORE, "Could not open file '{0}'", filepath.string());
+            Logger::error(LogChannel::CORE, "Could not open file '{0}'", filepath.string());
         }
 
         return result;
@@ -129,8 +129,8 @@ namespace Sirius
 
                 glDeleteShader(shader);
 
-                Log::error(LogChannel::CORE, "Shader {} at \"" + path.string() + "\" compilation failure !", type);
-                Log::error(LogChannel::CORE, "{}", infoLog.data());
+                Logger::error(LogChannel::CORE, "Shader {} at \"" + path.string() + "\" compilation failure !", type);
+                Logger::error(LogChannel::CORE, "{}", infoLog.data());
                 return;
             }
 
@@ -156,8 +156,8 @@ namespace Sirius
             for (auto& id: glShaderIDs)
                 glDeleteShader(id);
 
-            Log::error(LogChannel::CORE, "{0}", infoLog.data());
-            Log::error(LogChannel::CORE, "OpenGLShader link failure !");
+            Logger::error(LogChannel::CORE, "{0}", infoLog.data());
+            Logger::error(LogChannel::CORE, "OpenGLShader link failure !");
 
             return;
         }
@@ -239,20 +239,20 @@ namespace Sirius
         auto& name = shader->name;
 
         if(shaders.find(name) != shaders.end())
-            Log::error(LogChannel::CORE, "Shader '{0}' already exists !", name);
+            Logger::error(LogChannel::CORE, "Shader '{0}' already exists !", name);
 
         shaders[name] = shader;
-        Log::trace(LogChannel::CORE, "Added shader {}", name);
+        Logger::trace(LogChannel::CORE, "Added shader {}", name);
     }
 
     void ShaderLibrary::add(const std::string& name,
                             const Ref<Shader>& shader)
     {
         if(shaders.find(name) != shaders.end())
-            Log::error(LogChannel::CORE, "Shader '{0}' already exists !", name);
+            Logger::error(LogChannel::CORE, "Shader '{0}' already exists !", name);
 
         shaders[name] = shader;
-        Log::trace(LogChannel::CORE, "Added shader {}", name);
+        Logger::trace(LogChannel::CORE, "Added shader {}", name);
     }
 
     Ref<Shader> ShaderLibrary::load(const fs::path& filepath)
@@ -274,7 +274,7 @@ namespace Sirius
     Ref <Shader>& ShaderLibrary::operator[](const std::string& name)
     {
         if(shaders.find(name) == shaders.end())
-            Log::error(LogChannel::CORE, "Shader '{0}' not found !", name);
+            Logger::error(LogChannel::CORE, "Shader '{0}' not found !", name);
 
         return shaders[name];
     }

@@ -17,7 +17,7 @@ namespace Sirius
     };
 
     /////////////////////////////////////////
-    /// @brief Log message level
+    /// @brief Logger message level
     ///
     /// Use TRACE for debug purposes and INFO, WARN,
     /// ERR as suited.
@@ -36,11 +36,11 @@ namespace Sirius
     };
 
     //////////////////////////////////////////////
-    /// @brief Log utility class
+    /// @brief Logger utility class
     ///
     /// Provides an interface to log messages from
     /// the engine and the client.
-    class Log
+    class Logger
     {
         private:
 
@@ -61,7 +61,7 @@ namespace Sirius
             //////////////////////////////////////////////
             /// @brief Generic log function
             ///
-            /// Provided, but using Log::trace() and co is
+            /// Provided, but using Logger::trace() and co is
             /// preferable.
             template<typename... Ts>
             static void log(LogLevel level, LogChannel channel, std::string_view message, Ts&&... args);

@@ -26,7 +26,7 @@ namespace Sirius
         if(scene)
             processNode(scene, scene->mRootNode);
 
-        Log::trace(LogChannel::SCENE, "Succesfuly imported {}", filepath.filename());
+        Logger::trace(LogChannel::SCENE, "Succesfuly imported {}", filepath.filename());
     }
 
     void Model::processNode(const aiScene* scene, aiNode* node)

@@ -3,7 +3,8 @@
 
 #include "srspch.hpp"
 
-#include "Sirius/Math/Vector/Vector.hpp"
+#include "Sirius/Core/Core.hpp"
+#include "Sirius/Math/Math.hpp"
 
 namespace Sirius
 {
@@ -18,7 +19,7 @@ namespace Sirius
     {
         public:
 
-            static std::unique_ptr<Input> instance;
+            static Scope<Input> instance;
 
             ///////////////////////////////
             /// @brief Is the key pressed ?

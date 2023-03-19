@@ -6,7 +6,7 @@
 #include "Sirius/Events/KeyEvent.hpp"
 #include "Sirius/Events/MouseEvent.hpp"
 
-#include "Sirius/Core/Logger/Log.hpp"
+#include "Sirius/Core/Logger/Logger.hpp"
 
 namespace Sirius
 {
@@ -14,7 +14,7 @@ namespace Sirius
 
     static void glfwErrorCallback(int error, const char* description)
     {
-        Log::error(LogChannel::CORE, "GLFW error ({0}): {1}", error, description);
+        Logger::error(LogChannel::CORE, "GLFW error ({0}): {1}", error, description);
     }
 
     Window::Window(const WindowProps& wp)
@@ -25,7 +25,7 @@ namespace Sirius
         windowData.width = wp.width;
         windowData.height = wp.height;
 
-        Log::info(LogChannel::CORE, "Creating window {0} ({1}x{2})", wp.title, wp.width, wp.height);
+        Logger::info(LogChannel::CORE, "Creating window {0} ({1}x{2})", wp.title, wp.width, wp.height);
 
         // GLFW initialization check
 

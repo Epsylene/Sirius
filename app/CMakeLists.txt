@@ -44,8 +44,15 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_custom_command(
             TARGET Sirius_app POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy
-            ${SIRIUS_BIN_DIR}/libSiriusd.dll
-            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libSiriusd.dll
+            ${SIRIUS_BIN_DIR}/libSirius.dll
+            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libSirius.dll
+    )
+
+    add_custom_command(
+            TARGET Sirius_app POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy
+            ${CMAKE_CURRENT_SOURCE_DIR}/res/imgui.ini
+            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/imgui.ini
     )
 else()
     add_custom_command(

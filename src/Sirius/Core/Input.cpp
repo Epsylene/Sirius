@@ -4,7 +4,7 @@
 
 namespace Sirius
 {
-    std::unique_ptr<Input> Input::instance = std::make_unique<Input>();
+    Scope<Input> Input::instance = std::make_unique<Input>();
 
     bool Input::isKeyPressed(int keyCode)
     {

@@ -57,7 +57,7 @@ Index of this file:
 // [SECTION] Style Editor / ShowStyleEditor()
 // [SECTION] Example App: Main Menu Bar / ShowExampleAppMainMenuBar()
 // [SECTION] Example App: Debug Console / ShowExampleAppConsole()
-// [SECTION] Example App: Debug Log / ShowExampleAppLog()
+// [SECTION] Example App: Debug Logger / ShowExampleAppLog()
 // [SECTION] Example App: Simple Layout / ShowExampleAppLayout()
 // [SECTION] Example App: Property Editor / ShowExampleAppPropertyEditor()
 // [SECTION] Example App: Long Text / ShowExampleAppLongText()
@@ -365,7 +365,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
         {
             ImGui::MenuItem("Main menu bar", NULL, &show_app_main_menu_bar);
             ImGui::MenuItem("Console", NULL, &show_app_console);
-            ImGui::MenuItem("Log", NULL, &show_app_log);
+            ImGui::MenuItem("Logger", NULL, &show_app_log);
             ImGui::MenuItem("Simple layout", NULL, &show_app_layout);
             ImGui::MenuItem("Property editor", NULL, &show_app_property_editor);
             ImGui::MenuItem("Long text display", NULL, &show_app_long_text);
@@ -518,7 +518,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
             HelpMarker(
                 "The logging API redirects all text output so you can easily capture the content of "
                 "a window or a block. Tree nodes can be automatically expanded.\n"
-                "Try opening any of the contents below in this window and then click one of the \"Log To\" button.");
+                "Try opening any of the contents below in this window and then click one of the \"Logger To\" button.");
             ImGui::LogButtons();
 
             HelpMarker("You can also call ImGui::LogText() to output directly to the log without a visual output.");
@@ -6570,7 +6570,7 @@ static void ShowExampleAppConsole(bool* p_open)
 }
 
 //-----------------------------------------------------------------------------
-// [SECTION] Example App: Debug Log / ShowExampleAppLog()
+// [SECTION] Example App: Debug Logger / ShowExampleAppLog()
 //-----------------------------------------------------------------------------
 
 // Usage:
@@ -6706,7 +6706,7 @@ static void ShowExampleAppLog(bool* p_open)
     // We take advantage of a rarely used feature: multiple calls to Begin()/End() are appending to the _same_ window.
     // Most of the contents of the window will be added by the log.Draw() call.
     ImGui::SetNextWindowSize(ImVec2(500, 400), ImGuiCond_FirstUseEver);
-    ImGui::Begin("Example: Log", p_open);
+    ImGui::Begin("Example: Logger", p_open);
     if (ImGui::SmallButton("[Debug] Add 5 entries"))
     {
         static int counter = 0;
@@ -6723,8 +6723,8 @@ static void ShowExampleAppLog(bool* p_open)
     }
     ImGui::End();
 
-    // Actually call in the regular Log helper (which will Begin() into the same window as we just did)
-    log.Draw("Example: Log", p_open);
+    // Actually call in the regular Logger helper (which will Begin() into the same window as we just did)
+    log.Draw("Example: Logger", p_open);
 }
 
 //-----------------------------------------------------------------------------
@@ -6905,7 +6905,7 @@ static void ShowExampleAppLongText(bool* p_open)
             log.appendf("%i The quick brown fox jumps over the lazy dog\n", lines + i);
         lines += 1000;
     }
-    ImGui::BeginChild("Log");
+    ImGui::BeginChild("Logger");
     switch (test_type)
     {
     case 0:
