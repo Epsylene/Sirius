@@ -5,12 +5,12 @@ namespace Sirius
 {
     Mat4 translate(const Vec3& offset)
     {
-        return glm::translate(Mat4{}, offset);
+        return glm::translate(Mat4{1.f}, offset);
     }
 
     Mat4 rotate(const Vec3& axis, float angle)
     {
-        return glm::rotate(Mat4{}, angle, axis);
+        return glm::rotate(Mat4{1.f}, angle, axis);
     }
 
     Mat4 ortho(float left, float right, float bottom, float top, float near, float far)
@@ -25,7 +25,7 @@ namespace Sirius
 
     Mat4 scale(float factor)
     {
-        return glm::scale(Mat4{}, Vec3{factor});
+        return glm::scale(Mat4{1.f}, Vec3{factor});
     }
 
     Mat4 scale(const Vec3& factor)
