@@ -22,7 +22,6 @@ namespace Sirius
 {
     class ImGuiLayer;
 
-    //////////////////////////////////////////////////////////////////
     /// @brief Application class
     /// 
     /// This is the main class, where the application loop is located.
@@ -41,21 +40,18 @@ namespace Sirius
 
         public:
 
-            /////////////////////////////////////////
             /// @brief Default constructor
             ///
             /// A single window is created, where the
             /// simulation lives.
             Application();
 
-            //////////////////////////////////////////////////
             /// @brief Application getter
             /// 
             /// There is only one Application object per
             /// application, accessed with this getter.
             inline static Application& get() { return *instance; }
 
-            ///////////////////////////////////////////////
             /// @brief Application window getter
             /// 
             /// Each simulation has a single window,
@@ -64,32 +60,26 @@ namespace Sirius
             /// @see Window class
             inline Window& getWindow() const { return *window; };
 
-            /////////////////////////////////////////
             /// @brief Is called when an event occurs
             /// @see Event class
             void onEvent(Event& event);
 
-            ///////////////////////////////////
             /// @brief Push a new window layer
             /// @see Layer class
             void pushLayer(const Ref<Layer>& layer);
 
-            ////////////////////////////////////
             /// @brief Push a new window overlay
             /// @see Layer class
             void pushOverlay(const Ref<Layer>& overlay);
 
-            //////////////////////////////////////////////
             /// @brief Is called when the window is closed
             /// @return True
             bool onWindowClose(WindowCloseEvent& event);
 
-            ///////////////////////////////////////////////
             /// @brief Is called when the window is resized
             /// @return False
             bool onWindowResize(WindowResizeEvent& event);
 
-            ///////////////////////////////////////////////////////////
             /// @brief Main application loop
             /// @see onUpdate()
             void run();

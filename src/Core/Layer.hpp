@@ -8,7 +8,6 @@
 
 namespace Sirius
 {
-    ///////////////////////////////////////////////////////////////
     /// @brief Window layer class
     ///
     /// Provides functions to update a layer and set an event
@@ -24,31 +23,24 @@ namespace Sirius
 
         public:
 
-            ///////////////////////////////////////
             /// @brief Create a layer called `name`
             explicit Layer(const std::string& name = "Layer");
 
-            ////////////////////////////////////
             /// @brief Attach function callback.
             virtual void onAttach() {}
 
-            ////////////////////////////////////
             /// @brief Detach function callback.
             virtual void onDetach() {}
 
-            ////////////////////////////
             /// @brief Update the layer.
             virtual void onUpdate(Timestep dt) {}
 
-            /////////////////////////////////////////////
             /// @brief Function callback on ImGui render.
             virtual void onImGuiRender() {}
 
-            ///////////////////////////////////
             /// @brief Event function callback.
             virtual void onEvent(Event& event) {}
 
-            //////////////////////////////
             /// @brief Get the layer name.
             const std::string& getName() const { return debugName; }
     };

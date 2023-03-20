@@ -6,14 +6,12 @@
 
 namespace Sirius
 {
-    /////////////////////////
     /// @brief Material class
     struct Material
     {
         Ref<Texture2D> diffuseMap, specularMap;
         float shininess;
 
-        ///////////////////////////////////////////////////////////
         /// @brief Create a flat-colored material
         ///
         /// @param diffuseMap The material's color
@@ -22,7 +20,6 @@ namespace Sirius
         ///     reflected by the material.
         explicit Material(const Ref<Texture2D>& diffuseMap, float shininess = 32.f);
 
-        ////////////////////////////////////////////////////////////
         /// @brief Create a flat-colored material
         ///
         /// @param ambient The world's light color

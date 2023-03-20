@@ -7,7 +7,6 @@
 
 namespace Sirius
 {
-    /////////////////////////////////////////////////////////
     /// @brief Rendering context abstraction class
     ///
     /// This class serves to set up the OpenGL rendering
@@ -20,7 +19,6 @@ namespace Sirius
 
         public:
 
-            //////////////////////////////////////////////////////
             /// @brief Sets up the OpenGL's context
             ///
             /// The passed window and GLAD are bound to GLFW,
@@ -29,7 +27,6 @@ namespace Sirius
             /// @param window The window on which to render
             RenderContext(GLFWwindow* window);
 
-            /////////////////////////////////////////
             /// @brief Swap the GPU buffers
             void swapBuffers();
     };

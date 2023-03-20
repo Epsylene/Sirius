@@ -6,7 +6,6 @@
 
 namespace Sirius
 {
-    /////////////////////////////////////////////////
     /// @brief "Properties" panel class
     ///
     /// This class handles the "Properties" panel,
@@ -19,11 +18,9 @@ namespace Sirius
             static ImGui::FileBrowser meshBrowser;
             static ImGui::FileBrowser skyboxBrowser;
 
-            ///////////////////////////////
             /// @brief Initialize the panel
             static void init();
 
-            ///////////////////////////
             /// @brief Render the panel
             static void render();
     };

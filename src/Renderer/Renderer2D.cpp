@@ -23,8 +23,8 @@ namespace Sirius
     {
         float quadVtx[] = { -1.f,  1.f,  0.f, 1.f,
                             -1.f, -1.f,  0.f, 0.f,
-                            1.f,  1.f,  1.f, 1.f,
-                            1.f, -1.f,  1.f, 0.f };
+                             1.f,  1.f,  1.f, 1.f,
+                             1.f, -1.f,  1.f, 0.f };
         std::vector<uint32_t> quadIdx = {0, 1, 2, 2, 1, 3};
 
         auto vb = std::make_shared<VertexBuffer>(quadVtx, sizeof(quadVtx));

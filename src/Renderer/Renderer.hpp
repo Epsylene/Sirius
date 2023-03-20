@@ -25,7 +25,6 @@ namespace Sirius
         static const Mat3 Blur;
     };
 
-    /////////////////////////////////////////////
     /// @brief Global renderer class
     ///
     /// This class provides a number of functions
@@ -48,20 +47,16 @@ namespace Sirius
 
             static Scope<SceneData> sceneData;
 
-            /////////////////////////////////////////
             /// @brief Initialize the global renderer
             static void init();
 
-            ///////////////////////////////////////
             /// @brief Set the postprocessing flags
             static void setPostProcessing(PostProcessingFlags flags);
 
-            ////////////////////////////////////////////////
             /// @brief Apply the postprocessing to the given
             ///     framebuffer color buffer
             static void applyPostProcessing(const Scope<FrameBuffer>& frameBuffer, const Mat4& transform = identity<4>());
 
-            //////////////////////////////////////////////
             /// @brief Performs pre-rendering tasks
             ///
             /// Binds the render FBO, activates the depth
@@ -69,7 +64,6 @@ namespace Sirius
             /// background color.
             static void preRender();
 
-            /////////////////////////////////////////////////
             /// @brief Performs post-rendering tasks
             ///
             /// Applies the postprocessing on the render FBO,

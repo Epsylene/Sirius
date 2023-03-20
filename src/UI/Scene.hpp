@@ -27,7 +27,6 @@ namespace Sirius
         Ref<Skybox> skybox;
     };
 
-    ////////////////////////////////////////////
     /// @brief "Scene" panel class
     ///
     /// This is a static class representing the
@@ -43,18 +42,15 @@ namespace Sirius
 
             Scene() = delete;
 
-            ////////////////////////////////
             /// @brief Initialize the scene
             static void init();
 
-            ////////////////////////////////////////
             /// @brief Render the ImGui scene panel
             ///
             /// The rendered color buffer is applied
             /// on an ImGui::Image().
             static void render();
 
-            ///////////////////////////
             /// @brief Update the scene
             static void onUpdate(Timestep dt);
     };

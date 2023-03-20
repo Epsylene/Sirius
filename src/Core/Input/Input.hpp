@@ -8,7 +8,6 @@
 
 namespace Sirius
 {
-    /////////////////////////////////////////////////////
     /// @brief Input class
     /// 
     /// This class handles all key and mouse inputs;
@@ -21,31 +20,24 @@ namespace Sirius
 
             static Scope<Input> instance;
 
-            ///////////////////////////////
             /// @brief Is the key pressed ?
             static bool isKeyPressed(int keyCode);
 
-            ////////////////////////////////////////
             /// @brief Is the mouse button pressed ?
             static bool isMouseButtonPressed(int button);
 
-            ///////////////////////////////////
             /// @brief Get the mouse X position
             static float getMouseX();
 
-            ///////////////////////////////////
             /// @brief Get the mouse Y position
             static float getMouseY();
 
-            ////////////////////////////////////////////////////////
             /// @brief Get the mouse position, in window coordinates
             static Vec2 getMousePos();
 
-            ////////////////////////////////////////////////////////
             /// @brief Get the mouse position, in screen coordinates
             static Vec2 getMouseScreenPos();
 
-            ////////////////////////////////////////////////////////
             /// @brief Check whether the mouse is in a certain area
             ///
             /// The area is defined by the rectangle that has `p0`

@@ -17,9 +17,8 @@ namespace Sirius
     {
         private:
 
-            ///////////////////////////////////////////////
-            /// @brief Helper class: a model is formed of a
-            /// mesh or collection of meshes.
+            /// @brief Helper class: a model is formed of a mesh
+            /// or collection of meshes.
             class Mesh
             {
                 public:
@@ -32,12 +31,12 @@ namespace Sirius
 
                     Mesh() = default;
 
-                    ////////////////////////////////////////////////////
                     /// @brief A mesh is constructed from the vertices,
                     ///     indices and textures
                     ///
-                    /// A vertex array is created from the mesh vertices
-                    /// and indices, but not bound.
+                    /// @details A vertex array is created from
+                    /// the mesh vertices and indices, but not
+                    /// bound.
                     Mesh(const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices, std::vector<Ref<Texture2D>>& textures);
             };
 
@@ -54,11 +53,11 @@ namespace Sirius
 
             Model() = default;
 
-            /////////////////////////////////////////////////////////
             /// @brief Creates a model from a file at `filepath`
             ///
-            /// Textures are automatically retrieved. Their filepaths
-            /// are expected to be relative to the model's file.
+            /// Textures are automatically retrieved. Their
+            /// filepaths are expected to be relative to the
+            /// model's file.
             explicit Model(const fs::path& filepath);
     };
 }

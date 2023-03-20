@@ -8,7 +8,6 @@
 
 namespace Sirius
 {
-    ////////////////////////////////////////////////////////////////
     /// @brief Window layers and overlays system class
     ///
     /// This class provides functions to push and pop *layers*
@@ -31,22 +30,18 @@ namespace Sirius
 
         public:
 
-            ///////////////////////////////
             /// @brief Push a window layer.
             /// @see Layer class
             void pushLayer(Ref<Layer> layer);
 
-            //////////////////////////////
             /// @brief Pop a window layer.
             /// @see Layer class
             void popLayer(Ref<Layer> layer);
 
-            ///////////////////////////////
             /// @brief Push a window layer.
             /// @see Layer class
             void pushOverlay(Ref<Layer> overlay);
 
-            ////////////////////////////////
             /// @brief Pop a window overlay.
             /// @see Layer class
             void popOverlay(Ref<Layer> overlay);

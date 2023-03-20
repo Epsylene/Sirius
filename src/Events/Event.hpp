@@ -21,7 +21,6 @@ namespace Sirius
             MouseScrolled
     };
 
-///////////////////////////////////////////////////////////////
 /// @brief Macro that defines three functions to be defined in
 ///     each Event subclass:
 ///     - getStaticType() (the static type itself; for type comparison)
@@ -31,7 +30,6 @@ namespace Sirius
                                virtual EventType getEventType() const override { return getStaticType(); } \
                                virtual const char* getEventName() const override { return #type; }
 
-    //////////////////////////////////////////////////////////
     /// @brief Event parent class
     ///
     /// Each event class stems from this abstract class, which
@@ -45,27 +43,24 @@ namespace Sirius
 
             bool handled = false;
 
-            /////////////////////////////////////
             /// @brief Get an object's event type
             virtual EventType getEventType() const = 0;
 
-            /////////////////////////////
             /// @brief Get the event name
             virtual const char* getEventName() const = 0;
 
-            ////////////////////////////////////////////////////////
             /// @brief Get the event name
-            /// @details The difference between getEventName() and
-            ///     toString() is that getEventName() always returns
-            ///     the event name (which is the event type) and
-            ///     nothing else; toString() returns the event name
-            ///     by default but can be redefined to print more
-            ///     information about the event.
-            /// @return A string of the event name
+            ///
+            /// @details The difference between getEventName()
+            /// and toString() is that getEventName() always
+            /// returns the event name (which is the event type)
+            /// and only the event name, while toString()
+            /// returns the event name by default but can be
+            /// redefined to print more information about the
+            /// event.
             virtual std::string toString() const { return getEventName(); }
     };
 
-    /////////////////////////////////////////////////////////
     /// @brief Event dispatcher class
     ///
     /// Takes in events and provides a dispatch() function to
@@ -82,7 +77,6 @@ namespace Sirius
 
         public:
 
-            ///////////////////////////////////////////////////////////////
             /// @brief Default constructor
             ///
             /// The constructor will take in a reference to an event
@@ -100,7 +94,6 @@ namespace Sirius
             /// @see dispatch()
             EventDispatcher(Event& event): event(event) {}
 
-            ///////////////////////////////////////////////////////////////
             /// @brief Dispatcher function for the events
             /// @details This function takes in an event function
             ///     (a bool returning a reference to the template
@@ -124,9 +117,4 @@ namespace Sirius
                 return false;
             }
     };
-
-    inline std::ostream& operator<<(std::ostream& os, const Event& event)
-    {
-        return os << event.toString();
-    }
 }
