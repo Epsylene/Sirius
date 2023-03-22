@@ -8,7 +8,7 @@ namespace Sirius
 {
     /// @brief Generic light class
     ///
-    /// The light object defined by this class
+    /// @details The light object defined by this class
     /// only has color properties.
     struct Light
     {
@@ -20,14 +20,14 @@ namespace Sirius
         /// @brief Create a generic light of `diffuse` color
         ///     and white ambient and specular components
         ///
-        /// The diffuse color is the light's color, ambient is
+        /// @details The diffuse color is the light's color, ambient is
         /// the world's color, and specular the light's color upon
         /// reflection.
         explicit Light(const Color& diffuse);
 
         /// @brief Create a generic light of given components
         ///
-        /// The diffuse color is the light's color, ambient is
+        /// @details The diffuse color is the light's color, ambient is
         /// the world's color, and specular the light's color upon
         /// reflection.
         Light(const Color& ambient, const Color& diffuse);
@@ -35,7 +35,7 @@ namespace Sirius
 
     /// @brief Point light class
     ///
-    /// This defines bulb-like object light, that has a color, a
+    /// @details This defines bulb-like object light, that has a color, a
     /// position, and an attenuation distance.
     struct PointLight: public Light
     {

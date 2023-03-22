@@ -72,22 +72,14 @@ namespace Sirius
 
         public:
 
-            /// @brief Add an existing shader to the library
+            /// Add an existing shader to the library
             void add(const Ref<Shader>& shader);
-
-            /// @brief Add an existing shader with a custom name
-            /// to the library
             void add(const std::string& name, const Ref<Shader>& shader);
 
-            /// @brief Create and add a shader from `filepath`
-            /// to the library
+            /// Create and add a shader
             Ref<Shader> load(const fs::path& filepath);
-
-            /// @brief Create and add a shader from `filepath`
-            /// with a custom name to the library
             Ref<Shader> load(const std::string& name, const fs::path& filepath);
 
-            /// @brief Get a reference to the shader `name`
             Ref<Shader>& operator[](const std::string& name);
 
             std::unordered_map<std::string, Ref<Shader>>::iterator begin() { return shaders.begin(); }
