@@ -7,8 +7,6 @@ namespace Sirius
 
     Application::Application()
     {
-        Logger::init();
-
         SRS_CORE_ASSERT(!instance, "Application already exists")
         instance = this;
 
@@ -18,7 +16,7 @@ namespace Sirius
         Renderer::init();
 
         imGuiLayer = std::make_shared<ImGuiLayer>();
-        pushOverlay(imGuiLayer);
+        pushLayer(imGuiLayer);
     }
 
     void Application::pushLayer(const Ref<Layer>& layer)
