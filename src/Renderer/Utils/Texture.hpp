@@ -22,8 +22,7 @@ namespace Sirius
             uint32_t width, height;
 
             Texture();
-
-            Texture(const std::string& path, const TextureType& type);
+            Texture(const fs::path& path, const TextureType& type);
 
             ~Texture() = default;
 
@@ -45,7 +44,7 @@ namespace Sirius
             /// @brief Creates a new texture from the file at `path`
             ///
             /// The texture has immutable storage.
-            Texture2D(const std::string& path, const TextureType& type);
+            Texture2D(const fs::path& path, const TextureType& type);
 
             /// @brief Deletes the texture
             ~Texture2D();

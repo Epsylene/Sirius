@@ -40,12 +40,6 @@ namespace Sirius
                     Mesh(const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices, std::vector<Ref<Texture2D>>& textures);
             };
 
-            std::vector<Ref<Texture2D>> texLoaded;
-
-            void processNode(const aiScene* scene, aiNode* node);
-            void processMesh(const aiScene* scene, aiMesh* mesh);
-            void loadMaterialTextures(aiMaterial* mat, aiTextureType aiType, TextureType type);
-
         public:
 
             std::vector<Mesh> meshes;

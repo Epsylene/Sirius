@@ -10,7 +10,7 @@ namespace Sirius
 {
     // -------------------------  TEXTURE  -------------------------
 
-    Texture::Texture(const std::string& path, const TextureType& type):
+    Texture::Texture(const fs::path& path, const TextureType& type):
         path(path), type(type)
     {}
 
@@ -33,12 +33,12 @@ namespace Sirius
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 
-    Texture2D::Texture2D(const std::string& path, const TextureType& type):
+    Texture2D::Texture2D(const fs::path& path, const TextureType& type):
         Texture(path, type)
     {
         int width, height, channels;
         stbi_set_flip_vertically_on_load(1);
-        stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+        stbi_uc* data = stbi_load(path.string().c_str(), &width, &height, &channels, 0);
 
         this->width = width;
         this->height = height;
@@ -55,7 +55,7 @@ namespace Sirius
             dataFormat = GL_RGBA;
         }
 
-        SRS_CORE_ASSERT(internalFormat & dataFormat, "Texture at path \"" + path + "\" : format not supported or texture not found.");
+        SRS_CORE_ASSERT(internalFormat & dataFormat, "Texture at path \"" + path.string() + "\" : format not supported or texture not found.");
 
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 

@@ -9,16 +9,12 @@ class ExampleLayer: public Layer
 {
     public:
 
-        Ref<Model> suzanne;
-
         ExampleLayer(): Layer("Example")
         {
-            suzanne = std::make_shared<Model>(resPath/"meshes/suzanne/suzanne.obj");
         }
 
         void onUpdate(Sirius::Timestep dt) override
         {
-            Renderer3D::drawModel(suzanne, DrawMode::REFLECTION);
         }
 
         void onImGuiRender() override
