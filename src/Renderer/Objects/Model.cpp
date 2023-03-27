@@ -45,8 +45,11 @@ namespace Sirius
 
         auto diffuse = filepath.parent_path()/result.materials[0].diffuse_texname;
         auto specular = filepath.parent_path()/result.materials[0].specular_texname;
-        textures.emplace_back(std::make_shared<Texture2D>(diffuse, TextureType::Diffuse));
-        textures.emplace_back(std::make_shared<Texture2D>(specular, TextureType::Specular));
+        if(diffuse.has_filename() && specular.has_filename())
+        {
+            textures.emplace_back(std::make_shared<Texture2D>(diffuse, TextureType::Diffuse));
+            textures.emplace_back(std::make_shared<Texture2D>(specular, TextureType::Specular));
+        }
 
         meshes.emplace_back(vertices, indices, textures);
 

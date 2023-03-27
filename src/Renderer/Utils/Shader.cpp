@@ -75,13 +75,14 @@ namespace Sirius
     {
         std::unordered_map<GLenum, std::string> shaderSources;
 
-        const char* token = "#type";
-        size_t tokenLength = strlen(token);
+        // Place the cursor at the first "#type" token occurence
+        std::string token = "#type";
+        size_t tokenLength = token.length();
         size_t pos = source.find(token);
 
         while (pos != std::string::npos)
         {
-            // Place the cursor at the "vertex" or "fragment" word
+            // Place the cursor at the shader type marker word
             size_t begin = pos + tokenLength + 1;
             size_t eol = source.find_first_of("\r\n", pos);
             SRS_CORE_ASSERT(eol != std::string::npos, "Error");
