@@ -1,6 +1,8 @@
 
 #include "matrix_functions.hpp"
 
+#include "Core/Core.hpp"
+
 namespace Sirius
 {
     Mat4 translate(const Vec3& offset)

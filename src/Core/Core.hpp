@@ -2,8 +2,10 @@
 #pragma once
 
 #include "srspch.hpp"
-
 #include "Core/Logger/Logger.hpp"
+
+#undef near
+#undef far
 
 namespace fs = std::filesystem;
 

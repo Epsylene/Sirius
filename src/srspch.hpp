@@ -31,5 +31,5 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <fmt/os.h>
-
 #include <magic_enum.hpp>
+#include <rapidobj/rapidobj.hpp>

@@ -19,28 +19,7 @@ endif()
 
 set(SIRIUS_BIN_DIR ${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})
 
-add_custom_command(
-        TARGET Sirius_app POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-        ${SIRIUS_BIN_DIR}/libassimp.dll
-        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libassimp.dll
-)
-
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    add_custom_command(
-            TARGET Sirius_app POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy
-            ${SIRIUS_BIN_DIR}/libfmtd.dll
-            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libfmtd.dll
-    )
-
-    add_custom_command(
-            TARGET Sirius_app POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy
-            ${SIRIUS_BIN_DIR}/glfw3d.dll
-            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/glfw3d.dll
-    )
-
     add_custom_command(
             TARGET Sirius_app POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy
