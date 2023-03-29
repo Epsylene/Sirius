@@ -37,6 +37,7 @@ namespace Sirius
         sceneData->renderFBO = std::make_unique<FrameBuffer>(window.getWidth(), window.getHeight());
         sceneData->postRenderFBO = std::make_unique<FrameBuffer>(window.getWidth(), window.getHeight());
 
+        // Postprocessing quad setup
         float vertices[] = { -1.f,  1.f,  0.f, 1.f,
                              -1.f, -1.f,  0.f, 0.f,
                               1.f,  1.f,  1.f, 1.f,

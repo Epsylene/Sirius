@@ -9,8 +9,6 @@
 #include "Renderer/Utils/VertexArray.hpp"
 #include "Renderer/Utils/Texture.hpp"
 
-#include <assimp/scene.h>
-
 namespace Sirius
 {
     class Model

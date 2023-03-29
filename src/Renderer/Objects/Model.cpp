@@ -1,10 +1,7 @@
 
 #include "Model.hpp"
 
-#include <assimp/Importer.hpp>
-#include <assimp/postprocess.h>
-
-#include <rapidobj/rapidobj.hpp>
+#include "srspch.hpp"
 
 namespace Sirius
 {

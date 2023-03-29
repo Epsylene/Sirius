@@ -7,9 +7,8 @@
 #include "Renderer/Objects/PrefabMeshes.hpp"
 
 #include "Core/Input/Input.hpp"
-#include "Core/Input/MouseButtonCodes.h"
-
 #include "Math/vector_functions.hpp"
+#include "Core/Input/MouseButtonCodes.h"
 
 namespace Sirius
 {
@@ -40,7 +39,6 @@ namespace Sirius
         data->emissionCube = std::make_shared<Cube>();
 
         auto shadersPath = Sirius::resPath/"shaders";
-
         data->shaderLib.load(shadersPath/"flat_color.glsl");
         data->shaderLib.load(shadersPath/"emission.glsl");
         data->shaderLib.load(shadersPath/"texture.glsl");
@@ -48,6 +46,7 @@ namespace Sirius
         data->shaderLib.load(shadersPath/"skybox.glsl");
         data->shaderLib.load(shadersPath/"reflection.glsl");
         data->shaderLib.load(shadersPath/"refraction.glsl");
+        data->shaderLib.load(shadersPath/"normals.glsl");
 
         BufferLayout layout = {{{DataType::Float3, DataType::Float3, DataType::Float3}, "dirLight"}};
         data->dirLightData = std::make_shared<UniformBuffer>(layout, 1);
@@ -75,7 +74,14 @@ namespace Sirius
         Renderer::sceneData->cameraData->uploadFloat3("viewDir", camera.getDirection());
         Renderer::sceneData->cameraData->uploadFloat3("cameraPos", camera.getPosition());
 
+        data->shaderLib["normals"]->bind();
+        const auto& [view, proj] = camera.getViewAndProjMatrices();
+        data->shaderLib["normals"]->uploadUniformMat4("u_view", view);
+        data->shaderLib["normals"]->uploadUniformMat4("u_proj", proj);
+
+        data->shaderLib["refraction"]->bind();
         data->shaderLib["refraction"]->uploadUniformFloat3("u_otherCameraPos", camera.getPosition());
+
         data->shaderLib["skybox"]->bind();
         data->shaderLib["skybox"]->uploadUniformMat4("u_view", Mat4(Mat3(camera.getViewAndProjMatrices().first)));
         data->shaderLib["skybox"]->uploadUniformMat4("u_proj", camera.getViewAndProjMatrices().second);
@@ -215,7 +221,7 @@ namespace Sirius
             auto& emissionShader = data->shaderLib["emission"];
             emissionShader->bind();
             emissionShader->uploadUniformMat4("u_transform", transform);
-            emissionShader->uploadUniformFloat3("u_color", Color::Red);
+            emissionShader->uploadUniformFloat3("u_color", Color::White);
         }
 
 //        auto& emissionShader = data->shaderLib["emission"];
@@ -246,7 +252,14 @@ namespace Sirius
 //            else
 //            {
                 mesh.vertexArray->bind();
-                RenderCommand::drawIndexed(mesh.vertexArray);
+                RenderCommand::drawIndexed(mesh.vertexArray, Primitives::TRIANGLES);
+                if(Input::isMouseButtonPressed(SRS_MOUSE_BUTTON_1) && Scene::properties.active)
+                {
+                    data->shaderLib["normals"]->bind();
+                    data->shaderLib["normals"]->uploadUniformMat4("u_transform", transform);
+                    mesh.vertexArray->bind();
+                    RenderCommand::drawIndexed(mesh.vertexArray, Primitives::TRIANGLES);
+                }
 //            }
         }
     }

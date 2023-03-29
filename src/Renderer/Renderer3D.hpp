@@ -22,6 +22,9 @@ namespace Sirius
         public:
 
             /// @brief Initialize the 3D renderer
+            ///
+            /// @details Creates the renderer storage, loads the
+            /// shaders and sets up the light types.
             static void init();
 
             /// @brief Shutdown the 3D renderer

@@ -1,6 +1,8 @@
 
 #include "Camera.hpp"
 
+#include "Core/Core.hpp"
+
 #include "Math/matrix_functions.hpp"
 #include "Math/vector_functions.hpp"
 #include "Math/functions.hpp"
@@ -34,9 +36,9 @@ namespace Sirius
         return viewProjMatrix;
     }
 
-    std::pair<Mat4, Mat4> Camera::getViewAndProjMatrices() const
+    std::pair<const Mat4&, const Mat4&> Camera::getViewAndProjMatrices() const
     {
-        return { viewMatrix, projMatrix };
+        return {viewMatrix, projMatrix};
     }
 
     //-------------------------- 2D CAMERA --------------------------//

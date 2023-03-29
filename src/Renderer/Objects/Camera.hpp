@@ -39,7 +39,7 @@ namespace Sirius
             /// @brief Get the OpenGL view-projection matrix
             virtual const Mat4& getViewProjMatrix() const;
 
-            virtual std::pair<Mat4, Mat4> getViewAndProjMatrices() const;
+            virtual std::pair<const Mat4&, const Mat4&> getViewAndProjMatrices() const;
     };
 
     /// @brief Orthographic 2D camera object class
